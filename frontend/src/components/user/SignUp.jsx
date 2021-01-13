@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../../_actions/userAction";
 import { Link, withRouter } from "react-router-dom";
 
 function SignUp(props) {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const [ConfirmPassword, setConfirmPassword] = useState("");
+  const dispatch = useDispatch();
 
   const onEmailHandler = (e) => {
     setEmail(e.currentTarget.value);
@@ -17,6 +20,17 @@ function SignUp(props) {
   };
   const onSubmitHandler = (e) => {
     e.preventDefault();
+    if (Password === ConfirmPassword) {
+      let body = {
+        email: Email,
+        password: Password,
+      };
+      dispatch(registerUser(body)).then((res) => {
+        alert("회원가입 성공!!");
+      });
+    } else {
+      alert("비밀번호 노일치!!");
+    }
   };
   return (
     <section className="login">
