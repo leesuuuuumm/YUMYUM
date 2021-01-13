@@ -1,9 +1,10 @@
 import './assets/App.css';
-import Login from './views/user/Login';
-import SignUp from './views/user/SignUp';
+import Login from './components/user/Login';
+import SignUp from './components/user/SignUp';
 import NotFound from './components/NotFound';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
-import ResetPassword from './views/user/ResetPassword';
+import ResetPassword from './components/user/ResetPassword';
+
 
 function App() {
 
