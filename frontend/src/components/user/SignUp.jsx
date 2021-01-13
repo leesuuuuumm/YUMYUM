@@ -1,0 +1,70 @@
+import React, { useState } from "react";
+import { Link, withRouter } from "react-router-dom";
+
+function SignUp(props) {
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
+  const [ConfirmPassword, setConfirmPassword] = useState("");
+
+  const onEmailHandler = (e) => {
+    setEmail(e.currentTarget.value);
+  };
+  const onPasswordHandler = (e) => {
+    setPassword(e.currentTarget.value);
+  };
+  const onConfirmPasswordHandler = (e) => {
+    setConfirmPassword(e.currentTarget.value);
+  };
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+  };
+  return (
+    <section className="login">
+      <div className="userContainer">
+        <p className="userAppTitle">
+          당신의
+          <br />
+          눈동자에 cheers...
+        </p>
+        <p className="userTitle">
+          회원 서비스 이용을 위해 회원가입을 해주세요.
+        </p>
+        <form onSubmit={onSubmitHandler}>
+          <input
+            type="email"
+            value={Email}
+            onChange={onEmailHandler}
+            autoFocus
+            required
+            placeholder="이메일"
+          />
+          {/* <p className="errorMsg">이메일 형식을 확인하세요</p> */}
+          <input
+            type="password"
+            value={Password}
+            onChange={onPasswordHandler}
+            required
+            placeholder="비밀번호"
+          />
+          <input
+            type="password"
+            value={ConfirmPassword}
+            onChange={onConfirmPasswordHandler}
+            required
+            placeholder="비밀번호확인"
+          />
+          <div className="userLink">
+            <Link to="/" className="userLink">
+              이미 계정이 있으신가요?
+            </Link>
+          </div>
+          <div className="btnContainer">
+            <button type="submit">회원가입하기</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  );
+}
+
+export default withRouter(SignUp);
