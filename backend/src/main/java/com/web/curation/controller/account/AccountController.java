@@ -1,6 +1,5 @@
 package com.web.curation.controller.account;
 
-
 import java.util.Map;
 import java.time.LocalDateTime;
 import javax.validation.Valid;
@@ -28,6 +27,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
         @ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
         @ApiResponse(code = 404, message = "Not Found", response = BasicResponse.class),
@@ -44,13 +48,15 @@ public class AccountController {
     @ApiOperation(value = "로그인")
     
     public Object login(
-		@RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(아이디, 비밀번호).", required = true) Map<String, String> user) {
-		String email = user.get("email");
-		String password = user.get("password");
-        return userDao.findUserByEmailAndPassword(email, password).isPresent() ? 
-        		makeResponse(true, "success", HttpStatus.OK) : 
-        		makeResponse(false, "mismatch", HttpStatus.NO_CONTENT);
+		@RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(아이디, 비밀번호).", required = true) Map<String, String> user) 
+				throws JsonProcessingException {
+    	User curUser = userDao.getUserByEmail(user.get("email"));
+		String result = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(curUser);
 
+		// 로그인 했을 때 유저 정보(이메일, 닉네임) 보내주기
+        return userDao.findUserByEmailAndPassword(user.get("email"), user.get("password")).isPresent() ? 
+        		makeResponse(true, result, HttpStatus.OK) : 
+        		makeResponse(false, "mismatch", HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("/account/user")
@@ -63,13 +69,13 @@ public class AccountController {
     	String nickname = request.getNickname().trim();
     	String password = request.getPassword().trim();
     	
-//    	이메일, 별명, 패스워드 비어있는지 확인
+		// 이메일, 별명, 패스워드 비어있는지 확인
     	if ("".equals(email) || "".equals(nickname) || "".equals(password)) 
     		return makeResponse(false, "data is blank", HttpStatus.BAD_REQUEST);
-//    	이메일 중복 체크
+		// 이메일 중복 체크
     	if (userDao.getUserByEmail(email) != null) 
     		return makeResponse(false, "this email exists", HttpStatus.BAD_REQUEST);
-//    	별명 체크
+		// 별명 체크
     	if (userDao.getUserByNickname(nickname) != null)
     		return makeResponse(false, "this nickname exists", HttpStatus.BAD_REQUEST);
     	
@@ -91,7 +97,7 @@ public class AccountController {
     	String password = request.getPassword().trim();
     	String newPassword = request.getNewPassword().trim();
     	
-//    	비밀번호랑 User의 비밀번호와 같은지 확인
+		// 비밀번호랑 User의 비밀번호와 같은지 확인
     	if (!password.equals(curUser.getPassword())) {
     		return makeResponse(false, "password is not match", HttpStatus.BAD_REQUEST);
     	} else {
@@ -116,8 +122,9 @@ public class AccountController {
 
     
     private ResponseEntity<BasicResponse> makeResponse(boolean status, String data, HttpStatus httpStatus) {
-    	final BasicResponse result = new BasicResponse(status, data);
+    	final BasicResponse result = new BasicResponse();
+    	result.status = status;
+    	result.data = data;
     	return new ResponseEntity<>(result, httpStatus);
-    }
-
+	}
 }

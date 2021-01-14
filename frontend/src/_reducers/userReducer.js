@@ -1,4 +1,4 @@
-import { REGISTER_USER, LOGIN_USER } from "../_actions/types";
+import { REGISTER_USER, LOGIN_USER, RESETPASSWORD_USER } from "../_actions/types";
 
 
 const userReducer = function(state = {}, action) {
@@ -8,6 +8,8 @@ const userReducer = function(state = {}, action) {
             return { ...state, success: payload };
         case LOGIN_USER:
             return { ...state, loginSuccess: payload };
+        case RESETPASSWORD_USER:
+            return { ...state, passwordSuccess: payload };
         default:
             return state;
     }

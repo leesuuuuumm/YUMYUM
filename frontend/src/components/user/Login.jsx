@@ -25,8 +25,13 @@ function Login(props) {
     };
     dispatch(loginUser(body))
       .then((res) => {
-        if (res.payload.data === "success") {
+        // console.log("login dispatch", res.payload.object);
+        const obj = JSON.parse(res.payload.object);
+        console.log("login ojb", obj);
+        if (res.payload.object) {
           alert("로그인 성공!");
+
+          localStorage.setItem("loggedInfo", JSON.stringify(obj));
           props.history.push("/home");
         } else {
           alert("로그인 실패");
@@ -64,7 +69,7 @@ function Login(props) {
             placeholder="비밀번호"
           />
           <div className="userLink">
-            <Link to="/user/resetpassword" className="userLink">
+            <Link to="/user/password" className="userLink">
               비밀번호 찾기
             </Link>{" "}
             |{" "}
