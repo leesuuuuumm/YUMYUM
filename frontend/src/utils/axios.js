@@ -10,7 +10,7 @@ export const request = (method, url, data) => {
         data,
     })
     .then((res) => {
-        console.log('axios응답!!!!', res.data)
+        console.log('axios응답', res.data)
         return res.data
     })
     .catch((error) => {

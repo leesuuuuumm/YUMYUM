@@ -8,6 +8,7 @@ function ResetPassword(props) {
   const [NewPassword, setNewPassword] = useState("");
   const [ConfirmPassword, setConfirmPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [checkPwdError, setCheckPwdError] = useState(false);
 
   // redux store에 설정된 action에 대한 dispatch를 연결하는 훅
   const dispatch = useDispatch();
@@ -20,9 +21,15 @@ function ResetPassword(props) {
   };
   const onConfirmPasswordHandler = (e) => {
     setConfirmPassword(e.currentTarget.value);
+    if (e.currentTarget.value === NewPassword) {
+      setCheckPwdError(false);
+    } else {
+      setCheckPwdError(true);
+    }
   };
 
-  // 중요!!!!!
+  // 중요!!!
+  // 함수형 컴포넌트에서 componentDidMount와 같은 함수
   useEffect(() => {
     const loggedInfo = localStorage.getItem("loggedInfo");
 
@@ -90,6 +97,13 @@ function ResetPassword(props) {
             required
             placeholder="비밀번호를 한번 더 입력하세요"
           />
+          {checkPwdError ? (
+            <div>
+              <p className="errorMsg">비밀번호가 일치하지 않습니다</p>
+            </div>
+          ) : (
+            <div></div>
+          )}
           {/* <p className="errorMsg">이메일 형식을 확인하세요</p> */}
 
           <div className="btnContainer">
