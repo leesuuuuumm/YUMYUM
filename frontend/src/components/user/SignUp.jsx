@@ -5,12 +5,16 @@ import { Link, withRouter } from "react-router-dom";
 
 function SignUp(props) {
   const [Email, setEmail] = useState("");
+  const [Nickname, setNickname] = useState("");
   const [Password, setPassword] = useState("");
   const [ConfirmPassword, setConfirmPassword] = useState("");
   const dispatch = useDispatch();
 
   const onEmailHandler = (e) => {
     setEmail(e.currentTarget.value);
+  };
+  const onNicknameHandler = (e) => {
+    setNickname(e.currentTarget.value);
   };
   const onPasswordHandler = (e) => {
     setPassword(e.currentTarget.value);
@@ -22,12 +26,17 @@ function SignUp(props) {
     e.preventDefault();
     if (Password === ConfirmPassword) {
       let body = {
+        nickname: Nickname,
         email: Email,
         password: Password,
       };
-      dispatch(registerUser(body)).then((res) => {
-        alert("회원가입 성공!!");
-      });
+      dispatch(registerUser(body))
+        .then((res) => {
+          alert("회원가입 성공!!");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
       alert("비밀번호 노일치!!");
     }
@@ -45,11 +54,21 @@ function SignUp(props) {
         </p>
         <form onSubmit={onSubmitHandler}>
           <input
+            type="nickname"
+            value={Nickname}
+            onChange={onNicknameHandler}
+            autoFocus
+            required
+            autoCapitalize="off"
+            placeholder="닉네임"
+          />
+          <input
             type="email"
             value={Email}
             onChange={onEmailHandler}
             autoFocus
             required
+            autoCapitalize="off"
             placeholder="이메일"
           />
           {/* <p className="errorMsg">이메일 형식을 확인하세요</p> */}

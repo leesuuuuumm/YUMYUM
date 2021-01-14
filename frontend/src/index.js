@@ -16,6 +16,7 @@ const createStoreWidthMiddleware = applyMiddleware(
 
 ReactDOM.render(
   <React.StrictMode>
+    {/* // 스토어 데이터 공급자 */}
     <Provider 
       store = {createStoreWidthMiddleware(
         // 리듀서

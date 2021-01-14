@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 // import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../_actions/userAction";
 
 function Login(props) {
   const hasAccount = true;
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
+  const dispatch = useDispatch();
 
   const onEmailHandler = (e) => {
     setEmail(e.currentTarget.value);
@@ -15,6 +18,22 @@ function Login(props) {
   };
   const onSubmitHandler = (e) => {
     e.preventDefault();
+    const body = {
+      email: Email,
+      password: Password,
+    };
+    dispatch(loginUser(body))
+      .then((res) => {
+        console.log(res);
+        if (res.payload.loginSuccess) {
+          console.log("hihi");
+        } else {
+          alert(res.payload.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <section className="login">
@@ -32,6 +51,7 @@ function Login(props) {
             onChange={onEmailHandler}
             autoFocus
             required
+            autoCapitalize="off"
             placeholder="이메일"
           />
           {/* <p className="errorMsg">이메일 형식을 확인하세요</p> */}

@@ -61,6 +61,7 @@ button {
 }
 
 .login .userContainer input {
+  color: white;
   width: 100%;
   outline: 0;
   border-width: 0 0 1px;
