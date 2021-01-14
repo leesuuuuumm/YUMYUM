@@ -8,6 +8,7 @@ function Login(props) {
   const hasAccount = true;
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
+  // redux store에 설정된 action에 대한 dispatch를 연결하는 훅
   const dispatch = useDispatch();
 
   const onEmailHandler = (e) => {
@@ -24,11 +25,11 @@ function Login(props) {
     };
     dispatch(loginUser(body))
       .then((res) => {
-        console.log(res);
-        if (res.payload.loginSuccess) {
-          console.log("hihi");
+        if (res.payload.data === "success") {
+          alert("로그인 성공!");
+          props.history.push("/home");
         } else {
-          alert(res.payload.message);
+          alert("로그인 실패");
         }
       })
       .catch((err) => {

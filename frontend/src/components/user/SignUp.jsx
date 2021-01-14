@@ -4,10 +4,12 @@ import { registerUser } from "../../_actions/userAction";
 import { Link, withRouter } from "react-router-dom";
 
 function SignUp(props) {
+  // useState로 현재 state와 state를 변경하는 함수 지정
   const [Email, setEmail] = useState("");
   const [Nickname, setNickname] = useState("");
   const [Password, setPassword] = useState("");
   const [ConfirmPassword, setConfirmPassword] = useState("");
+  // redux store에 설정된 action에 대한 dispatch를 연결하는 훅
   const dispatch = useDispatch();
 
   const onEmailHandler = (e) => {
@@ -26,15 +28,22 @@ function SignUp(props) {
     e.preventDefault();
     if (Password === ConfirmPassword) {
       let body = {
-        nickname: Nickname,
         email: Email,
+        nickname: Nickname,
         password: Password,
       };
       dispatch(registerUser(body))
         .then((res) => {
-          alert("회원가입 성공!!");
+          console.log(res);
+          if (res.payload.data === "success") {
+            alert("회원가입 성공!");
+            props.history.push("/");
+          } else {
+            alert("회원가입 실패");
+          }
         })
         .catch((err) => {
+          console.log("회원가입 실패 에러");
           console.log(err);
         });
     } else {
@@ -87,7 +96,7 @@ function SignUp(props) {
             placeholder="비밀번호확인"
           />
           <div className="userLink">
-            <Link to="/" className="userLink">
+            <Link to="/login" className="userLink">
               이미 계정이 있으신가요?
             </Link>
           </div>
