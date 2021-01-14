@@ -35,9 +35,9 @@ function SignUp(props) {
       dispatch(registerUser(body))
         .then((res) => {
           console.log(res);
-          if (res.payload.data === "success") {
+          if (res.payload) {
             alert("회원가입 성공!");
-            props.history.push("/");
+            props.history.push("/user/complete");
           } else {
             alert("회원가입 실패");
           }
@@ -96,7 +96,7 @@ function SignUp(props) {
             placeholder="비밀번호확인"
           />
           <div className="userLink">
-            <Link to="/login" className="userLink">
+            <Link to="/" className="userLink">
               이미 계정이 있으신가요?
             </Link>
           </div>

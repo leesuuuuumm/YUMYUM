@@ -1,19 +1,29 @@
+import { Link } from "react-router-dom";
+
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
-import { connect } from "react-redux";
 
-function MainPage(props) {
-  const onClickHandler = () => {};
+class MainPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { nickname: "" };
+  }
 
-  return (
-    <div>
-      <h2>메인 페이지</h2>
-      <Link to="/user/resetpassword" className="userLink">
-        비밀번호 바꾸기
-      </Link>
-      <button onClick={onClickHandler}>로그아웃</button>
-    </div>
-  );
+  componentDidMount() {
+    const loggedInfo = JSON.parse(localStorage.getItem("loggedInfo"));
+    this.setState({ nickname: loggedInfo.nickname });
+  }
+  render() {
+    return (
+      <div>
+        <h2>Hello, {this.state.nickname}</h2>
+
+        <Link to="/user/resetpassword" className="userLink">
+          비밀번호 바꾸기
+        </Link>
+        <button>로그아웃</button>
+      </div>
+    );
+  }
 }
 
-export default withRouter(MainPage);
+export default MainPage;
