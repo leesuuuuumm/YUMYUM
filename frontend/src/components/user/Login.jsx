@@ -69,24 +69,27 @@ function Login(props) {
             placeholder="비밀번호"
           />
           <div className="userLink">
-            <Link to="/user/password" className="userLink">
-              비밀번호 찾기
-            </Link>{" "}
-            |{" "}
+            {/* <Link to="/user/password" className="userLink"> */}
+            비밀번호 찾기
+            {/* </Link> */} |{" "}
             <Link to="/user/join" className="userLink">
               회원가입
             </Link>
           </div>
           <div className="btnContainer">
-            {hasAccount ? (
-              <div>
+            <div>
+              {Email && Password ? (
                 <button type="submit">로그인하기</button>
-              </div>
-            ) : (
-              <div>
-                <button>Login Gray</button>
-              </div>
-            )}
+              ) : (
+                <div></div>
+              )}
+              {/* <button
+                type="submit"
+                className={Email && Password ? "successButton" : "failButton"}
+              >
+                로그인하기
+              </button> */}
+            </div>
           </div>
         </form>
       </div>
