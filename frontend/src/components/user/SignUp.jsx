@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../_actions/userAction";
 import { Link, withRouter } from "react-router-dom";
+import { chkEmail, chkPassword } from "../../utils/validator";
 
 function SignUp(props) {
   // useState로 현재 state와 state를 변경하는 함수 지정
@@ -9,20 +10,39 @@ function SignUp(props) {
   const [Nickname, setNickname] = useState("");
   const [Password, setPassword] = useState("");
   const [ConfirmPassword, setConfirmPassword] = useState("");
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [checkPwdError, setCheckPwdError] = useState(false);
+
   // redux store에 설정된 action에 대한 dispatch를 연결하는 훅
   const dispatch = useDispatch();
 
   const onEmailHandler = (e) => {
     setEmail(e.currentTarget.value);
+    if (!chkEmail(e.currentTarget.value)) {
+      setEmailError(true);
+    } else {
+      setEmailError(false);
+    }
   };
   const onNicknameHandler = (e) => {
     setNickname(e.currentTarget.value);
   };
   const onPasswordHandler = (e) => {
     setPassword(e.currentTarget.value);
+    if (!chkPassword(e.currentTarget.value)) {
+      setPasswordError(true);
+    } else {
+      setPasswordError(false);
+    }
   };
   const onConfirmPasswordHandler = (e) => {
     setConfirmPassword(e.currentTarget.value);
+    if (e.currentTarget.value === Password) {
+      setCheckPwdError(false);
+    } else {
+      setCheckPwdError(true);
+    }
   };
   const onSubmitHandler = (e) => {
     e.preventDefault();
@@ -69,7 +89,7 @@ function SignUp(props) {
             autoFocus
             required
             autoCapitalize="off"
-            placeholder="닉네임"
+            placeholder="닉네임(8글자 이하)"
           />
           <input
             type="email"
@@ -80,7 +100,14 @@ function SignUp(props) {
             autoCapitalize="off"
             placeholder="이메일"
           />
-          {/* <p className="errorMsg">이메일 형식을 확인하세요</p> */}
+          {emailError ? (
+            <div>
+              <p className="errorMsg">이메일이 올바르지 않습니다.</p>
+            </div>
+          ) : (
+            <div></div>
+          )}
+
           <input
             type="password"
             value={Password}
@@ -88,6 +115,13 @@ function SignUp(props) {
             required
             placeholder="비밀번호"
           />
+          {passwordError ? (
+            <div>
+              <p className="errorMsg">8 ~ 10자 영문, 숫자 조합</p>
+            </div>
+          ) : (
+            <div></div>
+          )}
           <input
             type="password"
             value={ConfirmPassword}
@@ -95,6 +129,14 @@ function SignUp(props) {
             required
             placeholder="비밀번호확인"
           />
+          {checkPwdError ? (
+            <div>
+              <p className="errorMsg">비밀번호가 일치하지 않습니다</p>
+            </div>
+          ) : (
+            <div></div>
+          )}
+
           <div className="userLink">
             <Link to="/" className="userLink">
               이미 계정이 있으신가요?
