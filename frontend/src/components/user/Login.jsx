@@ -60,6 +60,7 @@ function Login(props) {
             autoCapitalize="off"
             placeholder="이메일"
           />
+          {emailError}
           {/* <p className="errorMsg">이메일 형식을 확인하세요</p> */}
           <input
             type="password"

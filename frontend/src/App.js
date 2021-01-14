@@ -1,4 +1,4 @@
-import './assets/App.css';
+import './App.css';
 import Login from './components/user/Login';
 import SignUp from './components/user/SignUp';
 import NotFound from './components/NotFound';
