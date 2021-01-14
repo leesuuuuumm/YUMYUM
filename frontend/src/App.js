@@ -1,7 +1,8 @@
 import './App.css';
 import Login from './components/user/Login';
 import SignUp from './components/user/SignUp';
-import NotFound from './components/NotFound';
+import NotFound from './components/error/NotFound';
+import ErrorPage from './components/error/ErrorPage';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import ResetPassword from './components/user/ResetPassword';
 import MainPage from './components/feed/MainPage';
@@ -20,8 +21,9 @@ function App() {
           <Route path="/user/complete" exact render={() => <SignUpComplete />}/>
           <Route path="/home" exact render={() => <MainPage />}/>
           <Route path="/user/resetpassword" exact render={() => <ResetPassword />}/>
-
+          <Route path="/error" component={ErrorPage} />
           <Route path="*" component={NotFound} />
+
 
         </Switch>
       </Router>

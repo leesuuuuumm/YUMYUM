@@ -19,6 +19,8 @@ function SignUp(props) {
 
   const onEmailHandler = (e) => {
     setEmail(e.currentTarget.value);
+    //validator에 정의한 chkEmail로 이메일 검사
+    // false라면 error를 true로 바꿈
     if (!chkEmail(e.currentTarget.value)) {
       setEmailError(true);
     } else {

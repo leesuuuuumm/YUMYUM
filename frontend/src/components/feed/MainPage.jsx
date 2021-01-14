@@ -14,14 +14,17 @@ class MainPage extends Component {
   }
   render() {
     return (
-      <div>
-        <h2>Hello, {this.state.nickname}</h2>
+      <section className="login">
+        <div className="userContainer">
+          <h2 className="userAppTitle">Hello, {this.state.nickname}</h2>
 
-        <Link to="/user/resetpassword" className="userLink">
-          비밀번호 바꾸기
-        </Link>
-        <button>로그아웃</button>
-      </div>
+          <Link to="/user/resetpassword" className="userLink">
+            비밀번호 바꾸기
+          </Link>
+
+          <button>로그아웃</button>
+        </div>
+      </section>
     );
   }
 }
