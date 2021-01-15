@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import { loginUser } from "../../_actions/userAction";
 
 function Login(props) {
-  const hasAccount = true;
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   // redux store에 설정된 action에 대한 dispatch를 연결하는 훅
@@ -26,9 +25,11 @@ function Login(props) {
     dispatch(loginUser(body))
       .then((res) => {
         // console.log("login dispatch", res.payload.object);
-        const obj = JSON.parse(res.payload.object);
+        const obj = JSON.parse(res.payload.data);
+        const status = JSON.parse(res.payload.status);
         console.log("login ojb", obj);
-        if (res.payload.object) {
+        console.log("login status", JSON.parse(res.payload.status));
+        if (status) {
           alert("로그인 성공!");
 
           localStorage.setItem("loggedInfo", JSON.stringify(obj));

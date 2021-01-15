@@ -56,8 +56,7 @@ function SignUp(props) {
       };
       dispatch(registerUser(body))
         .then((res) => {
-          console.log(res);
-          if (res.payload) {
+          if (res.payload.status) {
             alert("회원가입 성공!");
             props.history.push("/user/complete");
           } else {
