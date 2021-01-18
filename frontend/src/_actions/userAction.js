@@ -1,4 +1,4 @@
-import { REGISTER_USER, LOGIN_USER, RESETPASSWORD_USER } from './types';
+import { REGISTER_USER, LOGIN_USER, RESETPASSWORD_USER, GET_USER_INFO, UPDATE_USER_INFO } from './types';
 import { request } from "../utils/axios";
 
 const USER_URL = '/account';
@@ -20,10 +20,27 @@ export function loginUser(dataToSubmit) {
   }
 
 
-  export function resetPassword(dataToSubmit) {
-    const data = request("put", USER_URL + "/password/", dataToSubmit);
-    return {
-      type: RESETPASSWORD_USER,
-      payload: data,
-    };
+export function resetPassword(dataToSubmit) {
+  const data = request("put", USER_URL + "/password/", dataToSubmit);
+  return {
+    type: RESETPASSWORD_USER,
+    payload: data,
+  };
+}
+
+export function getUser(dataToSubmit) {
+  const email = dataToSubmit
+  const data = request("get", USER_URL +`/user/${email}`);
+  return {
+    type : GET_USER_INFO,
+    payload: data
   }
+}
+
+export function updateUser(dataToSubmit) {
+  const data = request("put", USER_URL + "/user/", dataToSubmit);
+  return {
+    type: UPDATE_USER_INFO,
+    payload: data
+  }
+}

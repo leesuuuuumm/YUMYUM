@@ -1,31 +1,58 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {withRouter} from 'react-router-dom';
+import { getUser, updateUser } from '../../_actions/userAction';
 
 function UserSetting(props) {
   const [nickname, setNickName] = useState("");
-  const [profileContent, setProfileContent] = useState("");
+  const [introduction, setIntroduction] = useState("");
+  const [email, setEmail] = useState("");
+
+  const dispatch = useDispatch();
 
   //TODO 닉네임이랑, 한줄내용을 서버에  보내주는 로직을 작성해야한다.
   useEffect(() =>{
-    const loggedInfo = localStorage.getItem("loggedInfo");
-    
-    if (loggedInfo) {
-      setNickName(JSON.parse(loggedInfo).nickname)
-    }
+    const loggedInfo = JSON.parse(localStorage.getItem("loggedInfo"));
+    const emailInfo = loggedInfo.email
+    dispatch(getUser(emailInfo))
+      .then((res)=> {
+        const userInfo = JSON.parse(res.payload.data);
+        setNickName(userInfo.nickname);
+        setEmail(userInfo.email)
+        if (userInfo.introduction === undefined) {
+          setIntroduction("");
+        } else {
+          setIntroduction(userInfo.introduction);
+        }
+    })
   },[]);
 
   const onNicknameHandler = (e) => {
     setNickName(e.target.value);
   }
 
-  const onProfileContentHandler = (e) => {
-    setProfileContent(e.target.value)
+  const onIntroductionHandler = (e) => {
+    setIntroduction(e.target.value)
   }
 
   const onSubmitHandeler = (e) => {
     e.preventDefault();
-    alert('유저정보가 변경되었습니다.');
-    
+
+    console.log(introduction)
+    const config = {
+      email : email,
+      nickname : nickname,
+      introduction : introduction,
+    }
+    dispatch((updateUser(config)))
+      .then((res) => {
+        console.log(res.data)
+        alert('유저정보가 변경되었습니다.');
+        props.history.push("/home");
+      })
+      .catch(() => {
+        alert("유저정보 변경에 실패했습니다.")
+      })
   }
 
   return (
@@ -47,8 +74,8 @@ function UserSetting(props) {
           />
           <input
             type="text"
-            onChange = {onProfileContentHandler}
-            value = {profileContent}
+            value = {introduction}
+            onChange = {onIntroductionHandler}
             required
             placeholder="한줄 소개를 써주세요."
           />
