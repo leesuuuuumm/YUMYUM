@@ -37,8 +37,6 @@ function UserSetting(props) {
 
   const onSubmitHandeler = (e) => {
     e.preventDefault();
-
-    console.log(introduction)
     const config = {
       email : email,
       nickname : nickname,
@@ -46,12 +44,17 @@ function UserSetting(props) {
     }
     dispatch((updateUser(config)))
       .then((res) => {
-        console.log(res.data)
-        alert('유저정보가 변경되었습니다.');
-        props.history.push("/home");
+        if (res.payload) {
+          console.log(res.payload)
+          alert('유저정보가 변경되었습니다.');
+          props.history.push("/home/");
+        } else {
+          alert('변경 실패');
+        }
       })
-      .catch(() => {
-        alert("유저정보 변경에 실패했습니다.")
+      .catch((err) => {
+        console.log("변경 실패");
+        console.log(err);
       })
   }
 
