@@ -14,6 +14,7 @@ import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 
@@ -35,6 +36,7 @@ public class User {
 
    
     @Column(length=50)
+    @ColumnDefault("")
     private String introduction;
 
     @Column(insertable = false, updatable = false)

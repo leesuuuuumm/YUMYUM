@@ -4,7 +4,6 @@ target/
 !**/src/main/**
 !**/src/test/**
 .DS_Store
-/backend/src/main/resources/application.properties
 ### STS ###
 .apt_generated
 .classpath
@@ -19,7 +18,8 @@ target/
 *.iws
 *.iml
 *.ipr
-
+*.properties
+backend/src/main/resources/application.properties
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
