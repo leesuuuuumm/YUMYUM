@@ -1,5 +1,6 @@
 package com.web.curation.controller.account;
 
+import java.util.List;
 import java.util.Map;
 import java.time.LocalDateTime;
 import javax.validation.Valid;
@@ -155,6 +156,25 @@ public class AccountController {
 		try {
 			System.out.println(email);
 			result = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(userDao.getUserByEmail(email));
+		} catch (JsonProcessingException e) {
+			
+			e.printStackTrace();
+		}
+		return makeResponse("200", result,null, HttpStatus.OK);
+		
+	}
+	
+	@GetMapping("/search/{nickname}")
+	@ApiOperation(value = "닉네임으로 조회")
+	public Object getNickname(@Valid @ApiParam(value="닉네임으로  조회",required=true) @PathVariable String nickname) {
+		
+		
+		String result=null;
+		try {
+			System.out.println(nickname);
+			System.out.println(userDao.findByNicknameContaining(nickname));
+			result = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(userDao.findByNicknameContaining(nickname));
+			
 		} catch (JsonProcessingException e) {
 			
 			e.printStackTrace();
