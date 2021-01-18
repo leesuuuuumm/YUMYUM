@@ -43,7 +43,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @CrossOrigin(origins = { "http://localhost:3000" })
 @RestController
-@RequestMapping("/article")
+@RequestMapping("/account")
 public class AccountController {
 
 	@Autowired
@@ -162,7 +162,6 @@ public class AccountController {
 		return makeResponse("200", result,null, HttpStatus.OK);
 		
 	}
-	
 
 
 	
