@@ -7,8 +7,12 @@ import io.swagger.annotations.ApiModelProperty;
 public class BasicResponse {
     @ApiModelProperty(value = "HttpStatusCode", position = 1)
     public String status;
-    @ApiModelProperty(value = "데이터를 담는 곳", position = 2)
+    @ApiModelProperty(value = "Message", position = 2)
+    public String message;
+    @ApiModelProperty(value = "데이터를 담는 곳", position = 3)
     public String data;
-    @ApiModelProperty(value = "object", position = 3)
+    @ApiModelProperty(value = "object", position = 4)
     public Object object;
+    
+    
 }

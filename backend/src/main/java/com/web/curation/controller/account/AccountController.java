@@ -63,9 +63,9 @@ public class AccountController {
 
 		// 로그인 했을 때 유저 정보(이메일, 닉네임) 보내주기
 		if (userDao.findUserByEmailAndPassword(user.get("email"), user.get("password")).isPresent()) {
-			return makeResponse("200", result, HttpStatus.OK);
+			return makeResponse("200", result, null,HttpStatus.OK);
 		} else {
-			return makeResponse("400", "BAD_REQUEST : mismatch", HttpStatus.BAD_REQUEST);
+			return makeResponse("400", "BAD_REQUEST : mismatch", null,HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -84,19 +84,19 @@ public class AccountController {
 
 		// 이메일 중복 체크
 		if (userDao.getUserByEmail(email) != null)
-			return makeResponse("400", "BAD_REQUEST : this email exists", HttpStatus.BAD_REQUEST);
+			return makeResponse("400", "BAD_REQUEST : this email exists", null,HttpStatus.BAD_REQUEST);
 
 		// 이메일, 별명, 패스워드 비어있는지 확인
 		if ("".equals(email) || "".equals(nickname) || "".equals(password))
-			return makeResponse("400", "BAD_REQUEST : data is blank", HttpStatus.BAD_REQUEST);
+			return makeResponse("400", "BAD_REQUEST : data is blank", null,HttpStatus.BAD_REQUEST);
 
 		// 별명 체크
 		if (userDao.getUserByNickname(nickname) != null)
-			return makeResponse("400", "BAD_REQUEST : this nickname exists", HttpStatus.BAD_REQUEST);
+			return makeResponse("400", "BAD_REQUEST : this nickname exists",null ,HttpStatus.BAD_REQUEST);
 
 		userDao.save(new User(email, password, nickname, null, LocalDateTime.now()));
 
-		return makeResponse("200", "OK : success", HttpStatus.OK);
+		return makeResponse("200", "OK : success",null ,HttpStatus.OK);
 	}
 
 	@PutMapping("/password")
@@ -107,7 +107,7 @@ public class AccountController {
 		User curUser = userDao.getUserByEmail(request.getEmail());
 
 		if (curUser == null) {
-			return makeResponse("404", "NOT_FOUND : user not found", HttpStatus.NOT_FOUND);
+			return makeResponse("404", "NOT_FOUND : user not found",null ,HttpStatus.NOT_FOUND);
 		}
 
 		String password = request.getPassword().trim();
@@ -115,11 +115,11 @@ public class AccountController {
 
 		// 비밀번호랑 User의 비밀번호와 같은지 확인
 		if (!password.equals(curUser.getPassword())) {
-			return makeResponse("400", "BAD_REQUEST : password is not match", HttpStatus.BAD_REQUEST);
+			return makeResponse("400", "BAD_REQUEST : password is not match",null, HttpStatus.BAD_REQUEST);
 		} else {
 			curUser.setPassword(newPassword);
 			userDao.save(curUser);
-			return makeResponse("200", "OK : success", HttpStatus.OK);
+			return makeResponse("200", "OK : success",null, HttpStatus.OK);
 		}
 	}
 
@@ -131,18 +131,18 @@ public class AccountController {
 		User curUser=userDao.getUserByEmail(request.getEmail());
 		
 		if(curUser==null) {
-			return makeResponse("404", "NOT_FOUND : user not found", HttpStatus.NOT_FOUND);
+			return makeResponse("404", "NOT_FOUND : user not found",null ,HttpStatus.NOT_FOUND);
 		}
 		String nickname=request.getNickname().trim();
 		String introduction=request.getIntroduction().trim();
 		
 		if(nickname.equals(curUser.getNickname())) {
-			return makeResponse("409","CONFLICT : nickname is conflict",HttpStatus.CONFLICT);
+			return makeResponse("409","CONFLICT : nickname is conflict",null,HttpStatus.CONFLICT);
 		}else {
 			curUser.setNickname(nickname);
 			curUser.setIntroduction(introduction);
 			userDao.save(curUser);
-			return makeResponse("200", "OK : success", HttpStatus.OK);
+			return makeResponse("200", "OK : success",null ,HttpStatus.OK);
 		}
 		
 	}
@@ -159,29 +159,30 @@ public class AccountController {
 			
 			e.printStackTrace();
 		}
-		return makeResponse("200", result, HttpStatus.OK);
+		return makeResponse("200", result,null, HttpStatus.OK);
 		
 	}
 	
 
 
-	//post는 객체 받아서 get은 url
+	
 	@DeleteMapping("/user")
 	@ApiOperation(value = "회원 삭제")
 	public Object deleteAccount(
 			@Valid @RequestBody @ApiParam(value = "회원정보 탈퇴 시 필요한 회원정보(이메일, 별명, 비밀번호).", required = true) SignupRequest request) {
 		User curUser = userDao.getUserByEmail(request.getEmail());
 		if (curUser == null) {
-			return makeResponse("404", "NOT_FOUND : user not found", HttpStatus.NOT_FOUND);
+			return makeResponse("404", "NOT_FOUND : user not found",null, HttpStatus.NOT_FOUND);
 		}
 		userDao.delete(curUser);
 
-		return makeResponse("200", "OK : success", HttpStatus.OK);
+		return makeResponse("200", "OK : success",null, HttpStatus.OK);
 	}
 
-	private ResponseEntity<BasicResponse> makeResponse(String status, String data, HttpStatus httpStatus) {
+	private ResponseEntity<BasicResponse> makeResponse(String status, String data,String message ,HttpStatus httpStatus) {
 		final BasicResponse result = new BasicResponse();
 		result.status = status;
+		result.message=message;
 		result.data = data;
 		return new ResponseEntity<>(result, httpStatus);
 	}
