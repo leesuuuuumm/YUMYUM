@@ -36,7 +36,6 @@ public class User {
 
    
     @Column(length=50)
-    @ColumnDefault("")
     private String introduction;
 
     @Column(insertable = false, updatable = false)
