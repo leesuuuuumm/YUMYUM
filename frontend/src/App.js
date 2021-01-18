@@ -7,6 +7,7 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import ResetPassword from './components/user/ResetPassword';
 import MainPage from './components/feed/MainPage';
 import SignUpComplete from "./components/user/SignUpComplete";
+import UserSetting from './components/user/UserSetting';
 
 
 function App() {
@@ -21,9 +22,9 @@ function App() {
           <Route path="/user/complete" exact render={() => <SignUpComplete />}/>
           <Route path="/home" exact render={() => <MainPage />}/>
           <Route path="/user/resetpassword" exact render={() => <ResetPassword />}/>
+          <Route path="/user/usersetting" exact render={()=> <UserSetting /> } />
           <Route path="/error" component={ErrorPage} />
           <Route path="*" component={NotFound} />
-
 
         </Switch>
       </Router>

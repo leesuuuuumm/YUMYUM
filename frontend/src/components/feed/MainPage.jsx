@@ -18,9 +18,12 @@ class MainPage extends Component {
         <div className="userContainer">
           <h2 className="userAppTitle">Hello, {this.state.nickname}</h2>
 
+          <Link to="/user/usersetting" className='userLink'> 유저 정보 변경 </Link>
+          
           <Link to="/user/resetpassword" className="userLink">
             비밀번호 바꾸기
           </Link>
+
 
           <button>로그아웃</button>
         </div>
