@@ -13,6 +13,4 @@ public class BasicResponse {
     public String data;
     @ApiModelProperty(value = "object", position = 4)
     public Object object;
-    
-    
 }
