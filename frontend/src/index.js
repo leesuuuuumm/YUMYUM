@@ -8,6 +8,7 @@ import promiseMiddleware from 'redux-promise';
 import reduxThunk from 'redux-thunk';
 import reportWebVitals from './reportWebVitals';
 import reducer from './_reducers';
+import SearchAppBar from './components/common/SearchAppBar';
 
 const createStoreWidthMiddleware = applyMiddleware(
   promiseMiddleware,
@@ -30,6 +31,7 @@ const createStoreWidthMiddleware = applyMiddleware(
 //   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 // )
 
+
 ReactDOM.render(
   <React.StrictMode>
     {/* // 스토어 데이터 공급자 */}
@@ -39,8 +41,9 @@ ReactDOM.render(
         reducer,
         // 개발자 도구
         window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-      )}>
+        )}>
       {/* <Provider store={this.mystore}> */}
+    <SearchAppBar />
     <App />
     </Provider>
   </React.StrictMode>,

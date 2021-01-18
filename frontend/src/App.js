@@ -9,10 +9,7 @@ import MainPage from './components/feed/MainPage';
 import SignUpComplete from "./components/user/SignUpComplete";
 import UserSetting from './components/user/UserSetting';
 
-
 function App() {
-
-
   return (
     <div className="App">
       <Router>
@@ -25,7 +22,6 @@ function App() {
           <Route path="/user/usersetting" exact render={()=> <UserSetting /> } />
           <Route path="/error" component={ErrorPage} />
           <Route path="*" component={NotFound} />
-
         </Switch>
       </Router>
       
