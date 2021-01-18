@@ -146,7 +146,7 @@ function SignUp(props) {
           <div className="btnContainer">
             {Email && Password && ConfirmPassword && Nickname ? (
               <div>
-                <button type="submit">회원가입하기</button>
+                <button className="userButton" type="submit">회원가입하기</button>
               </div>
             ) : (
               <div></div>

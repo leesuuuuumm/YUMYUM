@@ -3,6 +3,7 @@ import { Link, withRouter } from "react-router-dom";
 // import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../_actions/userAction";
+import PrimarySearchAppBar from '../common/SearchAppBar';
 
 function Login(props) {
   const [Email, setEmail] = useState("");
@@ -85,7 +86,7 @@ function Login(props) {
           <div className="btnContainer">
             <div>
               {Email && Password ? (
-                <button type="submit">로그인하기</button>
+                <button className="userButton" type="submit">로그인하기</button>
               ) : (
                 <div></div>
               )}

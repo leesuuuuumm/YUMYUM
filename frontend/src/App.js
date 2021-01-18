@@ -8,10 +8,10 @@ import ResetPassword from './components/user/ResetPassword';
 import MainPage from './components/feed/MainPage';
 import SignUpComplete from "./components/user/SignUpComplete";
 import CreateArticle from "./components/feed/CreateArticle";
+import UserSetting from './components/user/UserSetting';
+
 
 function App() {
-
-
   return (
     <div className="App">
       <Router>
@@ -22,6 +22,7 @@ function App() {
           <Route path="/profile/:email" render={() => <MainPage />}/>
           <Route path="/user/resetpassword" exact render={() => <ResetPassword />}/>
           <Route path="/feed/createarticle" exact render={() => <CreateArticle />}/>
+          <Route path="/user/usersetting" exact render={()=> <UserSetting /> } />
           <Route path="/error" component={ErrorPage} />
           <Route path="*" component={NotFound} />
         </Switch>
