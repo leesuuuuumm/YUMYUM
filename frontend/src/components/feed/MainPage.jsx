@@ -26,7 +26,7 @@ class MainPage extends Component {
           </Link>
 
 
-          <button>로그아웃</button>
+          <button className="userButton">로그아웃</button>
         </div>
       </section>
     );

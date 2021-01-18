@@ -83,7 +83,7 @@ function UserSetting(props) {
             placeholder="한줄 소개를 써주세요."
           />
           <div className="btnContainer">
-            <button type="submit">유저정보 변경하기</button>
+            <button className="userButton" type="submit">유저정보 변경하기</button>
           </div>
         </form>
       </div>
