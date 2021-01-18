@@ -27,11 +27,15 @@ import java.time.LocalDateTime;
 public class User {
     @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String nickname;
-
+    private String email;
+   
     @JsonIgnore
     private String password;
-    private String email;
+    private String nickname;
+
+   
+    @Column(length=50)
+    private String introduction;
 
     @Column(insertable = false, updatable = false)
     private LocalDateTime createDate;
