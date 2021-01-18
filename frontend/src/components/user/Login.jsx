@@ -33,7 +33,12 @@ function Login(props) {
           alert("로그인 성공!");
 
           localStorage.setItem("loggedInfo", JSON.stringify(obj));
-          props.history.push("/home");
+          console.log("히스토리")
+          console.log(props.history)
+          props.history.push({
+            pathname: `/profile/${body.email}`,
+            state: {email: body.email}
+          });
         } else {
           alert("로그인 실패");
         }
