@@ -12,8 +12,8 @@ function SignUpComplete(props) {
         </p>
         <p className="userTitle">회원 가입이 완료됐습니다!</p>
         <div className="btnContainer">
-          <button type="submit">이메일 인증하기</button>
-          <button type="submit">메일 재발송</button>
+          <button className="userButton" type="submit">이메일 인증하기</button>
+          <button className="userButton" type="submit">메일 재발송</button>
         </div>
         <div className="userLink">
           <Link to="/" className="userLink">

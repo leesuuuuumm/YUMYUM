@@ -30,9 +30,13 @@ const SearchAppBar = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <IconButton edge="start" color="inherit" aria-label="home">
-          <Home fontSize="large" />
-        </IconButton>
+        <Router>
+          <Link to='/map/infomap'>
+            <IconButton edge="start" color="inherit" aria-label="home">
+              <Home fontSize="large" />
+            </IconButton>
+          </Link>        
+        </Router>
         <List component="nav" aria-labelledby="main navigations" className={classes.navDisplayFlex}>
         {navLinks.map(({ title, path }) => (
           <Router>

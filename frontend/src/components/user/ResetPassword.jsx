@@ -52,7 +52,7 @@ function ResetPassword(props) {
           console.log(res);
           if (res.payload) {
             alert("변경 성공!");
-            props.history.push("/home/");
+            props.history.go(-1);
           } else {
             alert("변경 실패");
           }
