@@ -698,11 +698,11 @@ See also: #456, #789
 
 ### 3) 목업 (Mock-up)
 
-![image-20210120231552226](C:\Users\multicampus\AppData\Roaming\Typora\typora-user-images\image-20210120231552226.png)
+![image-20210120231552226](README.assets/image-20210120231552226.png)
 
-![image-20210120231604956](C:\Users\multicampus\AppData\Roaming\Typora\typora-user-images\image-20210120231604956.png)
+![image-20210120231604956](README.assets/image-20210120231604956.png)
 
-![image-20210120231616770](C:\Users\multicampus\AppData\Roaming\Typora\typora-user-images\image-20210120231616770.png)
+![image-20210120231616770](README.assets/image-20210120231616770.png)
 
 ### 4) DB 스키마
 
@@ -711,3 +711,4 @@ See also: #456, #789
 > 현재 기획된 서비스 내에서 필요한 스키마는 전부 구현되어있는 상황입니다.
 >
 > 프로젝트를 진행하면서 필요한 Column이 생기게 되면 새롭게 스키마를 수정해나가면서 맞춰나갈 계획입니다.
+
