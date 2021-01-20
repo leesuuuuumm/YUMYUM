@@ -1,7 +1,9 @@
 package com.web.curation.controller.account;
 
+import java.util.List;
 import java.util.Map;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import javax.validation.Valid;
 
 import com.web.curation.dao.user.UserDao;
@@ -36,10 +38,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
-		@ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
-		@ApiResponse(code = 404, message = "Not Found", response = BasicResponse.class),
-		@ApiResponse(code = 500, message = "Failure", response = BasicResponse.class) })
+//@ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
+//		@ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
+//		@ApiResponse(code = 404, message = "Not Found", response = BasicResponse.class),
+//		@ApiResponse(code = 500, message = "Failure", response = BasicResponse.class) })
 
 @CrossOrigin(origins = { "http://localhost:3000" })
 @RestController
@@ -47,67 +49,69 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class AccountController {
 
 	@Autowired
-	UserDao userDao;
+	private UserDao userDao;
 
-//    @Autowired
-//    private AccountService accountService;
-
-	@PostMapping("/login")
-	@ApiOperation(value = "로그인", notes = "아이디와 비밀번호를 받아 로그인을 합니다.")
-
-	public Object login(
-			@RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(아이디, 비밀번호).", required = true) Map<String, String> user)
-			throws JsonProcessingException {
-		User curUser = userDao.getUserByEmail(user.get("email"));
-		String result = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(curUser);
-
-		// 로그인 했을 때 유저 정보(이메일, 닉네임) 보내주기
-		if (userDao.findUserByEmailAndPassword(user.get("email"), user.get("password")).isPresent()) {
-			return makeResponse("200", result, null,HttpStatus.OK);
-		} else {
-			return makeResponse("400", "BAD_REQUEST : mismatch", null,HttpStatus.BAD_REQUEST);
-		}
-	}
-	
+	private ObjectMapper objectMapper = new ObjectMapper();
 
 
 	@PostMapping("/user")
 	@ApiOperation(value = "회원가입")
 
 	public Object signup(
-			@Valid @RequestBody @ApiParam(value = "회원가입 시 필요한 회원정보(이메일, 별명, 비밀번호).", required = true) SignupRequest request) {
+			@Valid @RequestBody @ApiParam(value = "회원가입 시 필요한 회원정보(이메일, 별명, 비밀번호).", required = true) SignupRequest request) throws JsonProcessingException {
 		// 이메일, 닉네임 중복처리 필수
 		// 회원가입단을 생성해 보세요.
 		String email = request.getEmail().trim();
 		String nickname = request.getNickname().trim();
 		String password = request.getPassword().trim();
 
+		User curUser = userDao.getUserByEmail(email);
 		// 이메일 중복 체크
 		if (userDao.getUserByEmail(email) != null)
-			return makeResponse("400", "BAD_REQUEST : this email exists", null,HttpStatus.BAD_REQUEST);
+			return makeResponse("400", null,"this email already exists", HttpStatus.BAD_REQUEST);
 
 		// 이메일, 별명, 패스워드 비어있는지 확인
 		if ("".equals(email) || "".equals(nickname) || "".equals(password))
-			return makeResponse("400", "BAD_REQUEST : data is blank", null,HttpStatus.BAD_REQUEST);
+			return makeResponse("400", null,"data is blank", HttpStatus.BAD_REQUEST);
 
 		// 별명 체크
 		if (userDao.getUserByNickname(nickname) != null)
-			return makeResponse("400", "BAD_REQUEST : this nickname exists",null ,HttpStatus.BAD_REQUEST);
+			return makeResponse("400", null, "this nickname already exists", HttpStatus.BAD_REQUEST);
 
-		userDao.save(new User(email, password, nickname, null, LocalDateTime.now()));
+		userDao.save(new User(email, password, nickname, "", LocalDateTime.now()));
 
-		return makeResponse("200", "OK : success",null ,HttpStatus.OK);
+		return makeResponse("200", convertObjToJson(curUser), "success", HttpStatus.OK);
 	}
+
+
+	@PostMapping("/login")
+	@ApiOperation(value = "로그인", notes = "아이디와 비밀번호를 받아 로그인을 합니다.")
+
+	public Object login(
+			@RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(아이디, 비밀번호).", required = true) AuthenticationRequest request)
+			throws JsonProcessingException {
+		String email = request.getEmail().trim();
+		String password = request.getPassword().trim();
+
+		Optional<User> curUser = userDao.findUserByEmailAndPassword(email, password);
+
+		// 로그인 했을 때 유저 정보(이메일, 닉네임) 보내주기
+		if (curUser.isPresent()) {
+			return makeResponse("200", convertObjToJson(userDao.getUserByEmail(email)), "success", HttpStatus.OK);
+		} else {
+			return makeResponse("400", null, "mismatch", HttpStatus.BAD_REQUEST);
+		}
+	}
+
 
 	@PutMapping("/password")
 	@ApiOperation(value = "비밀번호 변경")
 
 	public Object changePassword(
-			@Valid @RequestBody @ApiParam(value = "비밀번호 변경 시 필요한 회원정보(이메일, 기존 비밀번호, 새 비밀번호).", required = true) ChangePasswordRequest request) {
+			@Valid @RequestBody @ApiParam(value = "비밀번호 변경 시 필요한 회원정보(이메일, 기존 비밀번호, 새 비밀번호).", required = true) ChangePasswordRequest request) throws JsonProcessingException {
 		User curUser = userDao.getUserByEmail(request.getEmail());
-
 		if (curUser == null) {
-			return makeResponse("404", "NOT_FOUND : user not found",null ,HttpStatus.NOT_FOUND);
+			return makeResponse("404", null, "user not found", HttpStatus.NOT_FOUND);
 		}
 
 		String password = request.getPassword().trim();
@@ -115,74 +119,82 @@ public class AccountController {
 
 		// 비밀번호랑 User의 비밀번호와 같은지 확인
 		if (!password.equals(curUser.getPassword())) {
-			return makeResponse("400", "BAD_REQUEST : password is not match",null, HttpStatus.BAD_REQUEST);
+			return makeResponse("400", null,"password is not match", HttpStatus.BAD_REQUEST);
 		} else {
 			curUser.setPassword(newPassword);
 			userDao.save(curUser);
-			return makeResponse("200", "OK : success",null, HttpStatus.OK);
+			return makeResponse("200", convertObjToJson(curUser), "success", HttpStatus.OK);
 		}
 	}
+
 
 	@PutMapping("/user")
-	@ApiOperation(value = "회원수정")
-	public Object updateAccount(
-			@Valid @RequestBody @ApiParam(value = "회원 정보 수정(닉네임, 한줄 소개 ).", required = true) UpdateRequest request) {
-
+	@ApiOperation(value = "회원 수정")
+	public Object update(
+			@Valid @RequestBody @ApiParam(value = "회원 정보 수정(닉네임, 한줄 소개).", required = true) UpdateRequest request) throws JsonProcessingException {
 		User curUser=userDao.getUserByEmail(request.getEmail());
-		
 		if(curUser==null) {
-			return makeResponse("404", "NOT_FOUND : user not found",null ,HttpStatus.NOT_FOUND);
+			return makeResponse("404", null, "user not found", HttpStatus.NOT_FOUND);
 		}
+
 		String nickname=request.getNickname().trim();
 		String introduction=request.getIntroduction().trim();
-		
-		if(nickname.equals(curUser.getNickname())) {
-			return makeResponse("409","CONFLICT : nickname is conflict",null,HttpStatus.CONFLICT);
-		}else {
-			curUser.setNickname(nickname);
-			curUser.setIntroduction(introduction);
-			userDao.save(curUser);
-			return makeResponse("200", "OK : success",null ,HttpStatus.OK);
-		}
-		
+
+		curUser.setNickname(nickname);
+		curUser.setIntroduction(introduction);
+		userDao.save(curUser);
+		return makeResponse("200", convertObjToJson(curUser),"success" ,HttpStatus.OK);
 	}
+
+
 	@GetMapping("/user/{email}")
 	@ApiOperation(value = "회원 조회")
-	public Object getInfoAccount(@Valid @ApiParam(value="회원 정보 조회",required=true) @PathVariable String email) {
-		
-		
-		String result=null;
-		try {
-			System.out.println(email);
-			result = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(userDao.getUserByEmail(email));
-		} catch (JsonProcessingException e) {
-			
-			e.printStackTrace();
+	public Object getDetailInfo(@Valid @ApiParam(value="회원 정보 조회",required=true) @PathVariable String email) throws JsonProcessingException {
+		User curUser = userDao.getUserByEmail(email);
+		if(curUser==null) {
+			return makeResponse("404", null, "user not found", HttpStatus.NOT_FOUND);
 		}
-		return makeResponse("200", result,null, HttpStatus.OK);
-		
+
+		return makeResponse("200", convertObjToJson(curUser), "success", HttpStatus.OK);
 	}
 
 
-	
+	@GetMapping("/search/{nickname}")
+	@ApiOperation(value = "닉네임으로 검색", notes = "닉네임에 검색 키워드가 포함이 된 모든 유저 정보를 리스트로 반환합니다. \n " +
+			"검색 키워드에 해당되는 정보가 없다면 404 에러와 data에 null 값이 담깁니다.")
+	public Object searchByNickname(@Valid @ApiParam(value="닉네임으로 검색", required=true) @PathVariable String nickname) throws JsonProcessingException {
+		List<User> searchResult = userDao.findByNicknameContaining(nickname);
+		if (searchResult.size() == 0) {
+			return makeResponse("404", null, "No searchResult", HttpStatus.NOT_FOUND);
+		}
+
+		return makeResponse("200", convertObjToJson(searchResult), "success", HttpStatus.OK);
+	}
+
+
 	@DeleteMapping("/user")
 	@ApiOperation(value = "회원 삭제")
-	public Object deleteAccount(
+	public Object delete(
 			@Valid @RequestBody @ApiParam(value = "회원정보 탈퇴 시 필요한 회원정보(이메일, 별명, 비밀번호).", required = true) SignupRequest request) {
 		User curUser = userDao.getUserByEmail(request.getEmail());
 		if (curUser == null) {
-			return makeResponse("404", "NOT_FOUND : user not found",null, HttpStatus.NOT_FOUND);
+			return makeResponse("404", null, "user not found", HttpStatus.NOT_FOUND);
 		}
+
 		userDao.delete(curUser);
 
-		return makeResponse("200", "OK : success",null, HttpStatus.OK);
+		return makeResponse("200", curUser.getEmail(), "success", HttpStatus.OK);
 	}
 
-	private ResponseEntity<BasicResponse> makeResponse(String status, String data,String message ,HttpStatus httpStatus) {
+	private ResponseEntity<BasicResponse> makeResponse(String status, String data, String message, HttpStatus httpStatus) {
 		final BasicResponse result = new BasicResponse();
 		result.status = status;
 		result.message=message;
 		result.data = data;
 		return new ResponseEntity<>(result, httpStatus);
+	}
+
+	private String convertObjToJson(Object object) throws JsonProcessingException {
+		return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(object);
 	}
 }
