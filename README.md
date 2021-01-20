@@ -112,20 +112,12 @@
 2. 오늘 한 일 중에 사람들에게 보고할 만한 내용 정리
 3. 1일 1커밋 수행 (커밋 메시지 컨벤션 지킬 것)
 
+<br>
 
-
-```html
 <details>
-  <summary>접기/펼치기 버튼</summary>
-  <div markdown="1">
-    내용
-  </div>
-</details>
-```
-
-
-
-### 프론트 엔드 코딩 컨벤션
+  <summary>프론트 엔드 코딩 컨벤션 [접기/펼치기]</summary>
+  
+  ### 프론트 엔드 코딩 컨벤션
 
 #### 1. File 구조
 
@@ -317,14 +309,18 @@ PropsComponent.propTypes = {
 #### 10. 디자인 
 
 - 디자인 라이브러리를 사용할 경우, [Material-UI](https://material-ui.com/) 로 통일한다.
+</details>
 
+<br>
 
-
-### 백엔드 코딩 컨벤션
+<details>
+  <summary>백엔드 코딩 컨벤션 [접기/펼치기]</summary>
+  
+  ### 백엔드 코딩 컨벤션
 
 >  깃 커밋 메시지 컨벤션과 마찬가지로 자바 명명 규칙도 처음 보는 사람들이 읽기 쉽게끔 모두가 공유하기 쉬운 컨벤션을 가지고 이름을 지어야 한다.
 
-#### Naming (명명 규칙)
+#### 1. Naming (명명 규칙)
 
 1. 기본적으로 네이밍은 **누구나 알 수 있는 쉬운 단어**를 선택한다.
 
@@ -394,7 +390,7 @@ PropsComponent.propTypes = {
 
 
 
-#### Structure
+#### 2. Structure
 
 구조 설계에 대한 고민은 항상하기 마련이다. 좋은 설계를 위해 꾸준히 고민하고 리팩토링 작업하는 것을 지향한다.
 
@@ -417,7 +413,7 @@ PropsComponent.propTypes = {
 
 
 
-#### Programming
+#### 3. Programming
 
 1. 반복되는 코드를 작성하지 않는다.
 
@@ -461,10 +457,14 @@ PropsComponent.propTypes = {
    - if(status.isNormal()) (O) / if(!status.isAbnormal()) (X)
 
 10. 최대한 객체 타입 대신 기본 자료형을 선택하고, 생각지도 못한 Autoboxing이 발생하지 않도록 유의한다.
+</details>
 
+<br>
 
-
-### 커밋 메시지 컨벤션
+<details>
+  <summary>커밋 메시지 컨벤션 [접기/펼치기]</summary>
+  
+  ### 커밋 메시지 컨벤션
 
 #### Why ❓
 
@@ -576,6 +576,10 @@ feat : 사용자 정보 수정 구현
 Resolves: #123
 See also: #456, #789
 ```
+</details>
+
+
+
 
 
 
