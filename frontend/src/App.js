@@ -9,7 +9,7 @@ import MainPage from './components/feed/MainPage';
 import SignUpComplete from "./components/user/SignUpComplete";
 import CreateArticle from "./components/feed/CreateArticle";
 import UserSetting from './components/user/UserSetting';
-import UserSearch from './components/user/SearchUser';
+import InfoMap from './components/map/InfoMap';
 
 
 function App() {
@@ -24,12 +24,11 @@ function App() {
           <Route path="/user/resetpassword" exact render={() => <ResetPassword />}/>
           <Route path="/feed/createarticle" exact render={() => <CreateArticle />}/>
           <Route path="/user/usersetting" exact render={()=> <UserSetting /> } />
-          <Route path="/user/search" exact render={()=> <UserSearch /> } />
+          <Route path='/map/infomap' exact render={() => <InfoMap />} />
           <Route path="/error" component={ErrorPage} />
           <Route path="*" component={NotFound} />
         </Switch>
       </Router>
-      
     </div>
   );
 }

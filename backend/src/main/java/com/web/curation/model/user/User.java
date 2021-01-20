@@ -14,6 +14,7 @@ import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 
