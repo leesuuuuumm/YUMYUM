@@ -6,6 +6,9 @@ import ErrorPage from './components/error/ErrorPage';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import ResetPassword from './components/user/ResetPassword';
 import MainPage from './components/feed/MainPage';
+import CreateArticle from "./components/feed/CreateArticle";
+import Camera from "./components/feed/Camera";
+import Article from "./components/feed/Article";
 import SignUpComplete from "./components/user/SignUpComplete";
 import UserSetting from './components/user/UserSetting';
 import InfoMap from './components/map/InfoMap';
@@ -22,6 +25,9 @@ function App() {
           <Route path="/profile/:email" render={() => <MainPage />}/>
           <Route path="/user/resetpassword" exact render={() => <ResetPassword />}/>
           <Route path="/user/usersetting" exact render={()=> <UserSetting /> } />
+          <Route path="/feed/createarticle" exact render={() => <CreateArticle />}/>
+          <Route path="/feed/camera" exact render={() => <Camera />}/>
+          <Route path="/feed/article" exact render={() => <Article />}/>
           <Route path='/map/infomap' exact render={() => <InfoMap />} />
           <Route path="/error" component={ErrorPage} />
           <Route path="*" component={NotFound} />
@@ -32,4 +38,3 @@ function App() {
 }
 
 export default App;
-

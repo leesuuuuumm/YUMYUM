@@ -54,3 +54,4 @@ export function updateUser(dataToSubmit) {
     payload: data
   }
 }
+
