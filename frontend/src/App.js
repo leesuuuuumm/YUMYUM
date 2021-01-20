@@ -7,7 +7,6 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import ResetPassword from './components/user/ResetPassword';
 import MainPage from './components/feed/MainPage';
 import SignUpComplete from "./components/user/SignUpComplete";
-import CreateArticle from "./components/feed/CreateArticle";
 import UserSetting from './components/user/UserSetting';
 import InfoMap from './components/map/InfoMap';
 
@@ -22,7 +21,6 @@ function App() {
           <Route path="/user/complete" exact render={() => <SignUpComplete />}/>
           <Route path="/profile/:email" render={() => <MainPage />}/>
           <Route path="/user/resetpassword" exact render={() => <ResetPassword />}/>
-          <Route path="/feed/createarticle" exact render={() => <CreateArticle />}/>
           <Route path="/user/usersetting" exact render={()=> <UserSetting /> } />
           <Route path='/map/infomap' exact render={() => <InfoMap />} />
           <Route path="/error" component={ErrorPage} />

@@ -50,7 +50,7 @@ function MainPage(props) {
             비밀번호 바꾸기
           </Link>
         )}
-        <Link to="/feed/createarticle" className="userLink">
+        <Link to="/feed/camera" className="userLink">
           {" "}
           게시글 작성
         </Link>
