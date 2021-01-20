@@ -21,7 +21,7 @@ const useStyles = makeStyles({
 const navLinks = [
   {title : 'Home', path: '/home'},
   {title : 'Login', path: '/'},
-  {title : 'Singup', path: '/user/join'}
+  {title : 'Singup', path: '/user/join'},
 ]
 
 const SearchAppBar = () => {
