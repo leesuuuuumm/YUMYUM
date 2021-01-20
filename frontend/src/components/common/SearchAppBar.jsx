@@ -21,7 +21,7 @@ const useStyles = makeStyles({
 const navLinks = [
   {title : 'Home', path: '/home'},
   {title : 'Login', path: '/'},
-  {title : 'Singup', path: '/user/join'}
+  {title : 'Singup', path: '/user/join'},
 ]
 
 const SearchAppBar = () => {
@@ -30,9 +30,13 @@ const SearchAppBar = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <IconButton edge="start" color="inherit" aria-label="home">
-          <Home fontSize="large" />
-        </IconButton>
+        <Router>
+          <Link to='/map/infomap'>
+            <IconButton edge="start" color="inherit" aria-label="home">
+              <Home fontSize="large" />
+            </IconButton>
+          </Link>        
+        </Router>
         <List component="nav" aria-labelledby="main navigations" className={classes.navDisplayFlex}>
         {navLinks.map(({ title, path }) => (
           <Router>

@@ -3,7 +3,6 @@ import { Link, withRouter } from "react-router-dom";
 // import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../_actions/userAction";
-import PrimarySearchAppBar from '../common/SearchAppBar';
 
 function Login(props) {
   const [Email, setEmail] = useState("");
