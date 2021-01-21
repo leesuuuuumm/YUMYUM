@@ -1,18 +1,16 @@
 package com.web.curation.controller.feed;
-import java.time.LocalDateTime;
+import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.web.curation.model.feed.CreateFeedRequest;
+import com.web.curation.model.feed.DeleteFeedRequest;
+import com.web.curation.model.feed.UpdateFeedRequest;
 import com.web.curation.model.user.User;
 import com.web.curation.service.feed.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.web.curation.dao.feed.FeedDao;
 import com.web.curation.dao.user.UserDao;
@@ -21,6 +19,8 @@ import com.web.curation.model.feed.Feed;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+
+import javax.validation.Valid;
 
 @CrossOrigin(origins = { "http://localhost:3000" })
 @RestController
@@ -71,14 +71,67 @@ public class FeedController {
 		
 		return makeResponse("200", convertObjToJson(savedFeed),"success", HttpStatus.OK);
 	}
-	
-	private ResponseEntity<BasicResponse> makeResponse(String status, String data, String message, HttpStatus httpStatus) {
+
+
+	@PutMapping("")
+	@ApiOperation(value = "피드 수정")
+	public Object update(
+			@Valid @RequestBody @ApiParam(value = "게시글 정보 수정", required = true) UpdateFeedRequest request) {
+
+		Optional<Feed> curFeed = feedDao.findById(request.getId());
+
+		if(!curFeed.isPresent()) {
+			return makeResponse("404", null, "Feed Not Found", HttpStatus.NOT_FOUND);
+		}
+
+		Feed updateFeed = curFeed.get();
+
+		updateFeed.setContent(request.getContent().trim());
+		updateFeed.setScore(request.getScore());
+
+		feedDao.save(updateFeed);
+		return makeResponse("200", convertObjToJson(updateFeed), "success", HttpStatus.OK);
+	}
+
+
+	@GetMapping("/{id}")
+	@ApiOperation(value="단일 피드 조회")
+	public Object search(
+			@Valid @ApiParam(value = "id 값으로 검색", required = true) @PathVariable long id) {
+		Optional<Feed> curFeed = feedDao.findById(id);
+
+		if(!curFeed.isPresent()) {
+			return makeResponse("404", null, "No searchResult", HttpStatus.NOT_FOUND);
+		}
+
+		return makeResponse("200", convertObjToJson(curFeed.get()), "success", HttpStatus.OK);
+	}
+
+
+	@DeleteMapping("/delete")
+	@ApiOperation(value="회원 삭제")
+	public Object delete(
+			@Valid @RequestBody @ApiParam(value="게시글 삭제") DeleteFeedRequest request){
+		Optional<Feed> curFeed = feedDao.findById(request.getId());
+		if(!curFeed.isPresent()) {
+			return makeResponse("404", null, "Feed Not Found", HttpStatus.NOT_FOUND);
+		}
+		feedDao.delete(curFeed.get());
+
+
+		return makeResponse("200", convertObjToJson(curFeed.get()), "success", HttpStatus.OK);
+	}
+
+
+	private ResponseEntity<BasicResponse> makeResponse(String status, String data, String message,
+													   HttpStatus httpStatus) {
 		final BasicResponse result = new BasicResponse();
 		result.status = status;
-		result.message=message;
+		result.message = message;
 		result.data = data;
 		return new ResponseEntity<>(result, httpStatus);
 	}
+
 
 	private String convertObjToJson(Object object) {
 		try {

@@ -34,7 +34,7 @@ public class Feed extends TimeEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private Long id;
 
 	private String title;
 

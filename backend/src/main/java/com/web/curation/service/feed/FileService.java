@@ -33,7 +33,7 @@ public class FileService {
     }
 
     @Transactional
-    public File getFile(Long id) {
+    public File getFile(long id) {
         return fileDao.findById(id).get();
     }
 }

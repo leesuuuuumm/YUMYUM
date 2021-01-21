@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.web.curation.model.feed.Feed;
 
 
-public interface FeedDao extends JpaRepository<Feed, String>  {
+public interface FeedDao extends JpaRepository<Feed, Long>  {
 }
