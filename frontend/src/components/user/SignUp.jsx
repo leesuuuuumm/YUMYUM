@@ -16,7 +16,6 @@ function SignUp(props) {
 
   // redux store에 설정된 action에 대한 dispatch를 연결하는 훅
   const dispatch = useDispatch();
-
   const onEmailHandler = (e) => {
     setEmail(e.currentTarget.value);
     //validator에 정의한 chkEmail로 이메일 검사

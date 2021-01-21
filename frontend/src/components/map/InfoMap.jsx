@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react';
+import { getPosition } from '../../utils/getLocation';
 
 const {kakao} = window
 
-const InfoMap = () => {
+const InfoMap = (props) => {
   const [map, setMap] = useState(null)
+  const [info1, setInfo] = useState('')
   
   //지도를 불러오는 로직
   const createMap = () => {
@@ -40,7 +42,7 @@ const InfoMap = () => {
     // 인포윈도우를 마커위에 표시합니다 
     infowindow.open(map, marker);
     // 지도 중심좌표를 접속위치로 변경합니다
-    map.panTo(locPosition);      
+    map.panTo(locPosition);     
   };
   
   const nowLocation = () => {
@@ -76,8 +78,12 @@ const InfoMap = () => {
   // 현재 위치로 이동해서 마커를 찍어주는 함
   useEffect(() => {
     createMap();
+    // console.log(getLocation());
+    getPosition().then((res) => {
+      console.log(res)
+    })
   }, []);
-  
+
   return (
     <div>
       <div id="Mymap" style={{ width: '80vw', height: '80vh' }}></div>
