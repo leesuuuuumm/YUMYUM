@@ -15,6 +15,8 @@ import javax.persistence.Id;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -38,7 +40,10 @@ public class User {
     @Column(length=50)
     private String introduction;
 
-    @Column(insertable = false, updatable = false)
-    private LocalDateTime createDate;
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdDate;
 
+    @LastModifiedDate
+    private LocalDateTime modifiedDate;
 }

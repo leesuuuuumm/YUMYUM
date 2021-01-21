@@ -78,7 +78,7 @@ public class AccountController {
 		if (userDao.getUserByNickname(nickname) != null)
 			return makeResponse("400", null, "this nickname already exists", HttpStatus.BAD_REQUEST);
 
-		userDao.save(new User(email, password, nickname, "", LocalDateTime.now()));
+		userDao.save(new User(email, password, nickname, "", LocalDateTime.now(), LocalDateTime.now()));
 
 		return makeResponse("200", convertObjToJson(curUser), "success", HttpStatus.OK);
 	}
