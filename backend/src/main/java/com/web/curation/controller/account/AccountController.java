@@ -53,7 +53,7 @@ public class AccountController {
 
 	private ObjectMapper objectMapper = new ObjectMapper();
 
-	@PostMapping("/user")
+	@PostMapping("")
 	@ApiOperation(value = "회원가입")
 
 	public Object signup(
@@ -78,9 +78,15 @@ public class AccountController {
 		if (userDao.getUserByNickname(nickname) != null)
 			return makeResponse("400", null, "this nickname already exists", HttpStatus.BAD_REQUEST);
 
-		userDao.save(new User(email, password, nickname, "", LocalDateTime.now(), LocalDateTime.now()));
+		User user = User.builder()
+				.email(email)
+				.password(password)
+				.nickname(nickname)
+				.build();
 
-		return makeResponse("200", convertObjToJson(curUser), "success", HttpStatus.OK);
+		User savedUser = userDao.save(user);
+
+		return makeResponse("200", convertObjToJson(savedUser), "success", HttpStatus.OK);
 	}
 
 	@PostMapping("/login")
@@ -92,6 +98,9 @@ public class AccountController {
 		String password = request.getPassword().trim();
 
 		Optional<User> curUser = userDao.findUserByEmailAndPassword(email, password);
+
+		System.out.println(curUser.get().getCreatedDate());
+		System.out.println(curUser.get().getModifiedDate());
 
 		// 로그인 했을 때 유저 정보(이메일, 닉네임) 보내주기
 		if (curUser.isPresent()) {
@@ -124,7 +133,7 @@ public class AccountController {
 		}
 	}
 
-	@PutMapping("/user")
+	@PutMapping("")
 	@ApiOperation(value = "회원 수정")
 	public Object update(
 			@Valid @RequestBody @ApiParam(value = "회원 정보 수정(닉네임, 한줄 소개).", required = true) UpdateRequest request) {
@@ -142,7 +151,7 @@ public class AccountController {
 		return makeResponse("200", convertObjToJson(curUser), "success", HttpStatus.OK);
 	}
 
-	@GetMapping("/user/{email}")
+	@GetMapping("/{email}")
 	@ApiOperation(value = "회원 조회")
 	public Object getDetailInfo(@Valid @ApiParam(value = "회원 정보 조회", required = true) @PathVariable String email) {
 		User curUser = userDao.getUserByEmail(email);
@@ -166,7 +175,7 @@ public class AccountController {
 		return makeResponse("200", convertObjToJson(searchResult), "success", HttpStatus.OK);
 	}
 
-	@DeleteMapping("/user")
+	@DeleteMapping("")
 	@ApiOperation(value = "회원 삭제")
 	public Object delete(
 			@Valid @RequestBody @ApiParam(value = "회원정보 탈퇴 시 필요한 회원정보(이메일, 별명, 비밀번호).", required = true) SignupRequest request) {

@@ -1,4 +1,4 @@
-package com.web.curation.model.user;
+package com.web.curation.model.feed;
 
 import java.time.LocalDateTime;
 
@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.web.curation.model.TimeEntity;
+import com.web.curation.model.user.User;
+import lombok.Builder;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -18,42 +21,34 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Feed {
+public class Feed extends TimeEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	//@JsonIgnore
 	private String title;
-	
-	@CreationTimestamp
-	private LocalDateTime create_date;
-	
-	//@JsonIgnore
-	private String store_name;
+
+	private String storeName;
 	private String location;
 	private Integer score;
 
 	@Column(length = 200)
 	private String content;
-	
 
-	@JoinColumn(name = "FEED_USER_EMAIL",referencedColumnName="EMAIL")
-	private String user_email;
+	@ManyToOne
+	@JoinColumn(name = "USER_EMAIL")
+	private User user;
 
-
-
-	@Column(insertable = false, updatable = false)
-	
-	
-	private String image_src;
-
-
+	@Column()
+	private String imageSrc;
 }

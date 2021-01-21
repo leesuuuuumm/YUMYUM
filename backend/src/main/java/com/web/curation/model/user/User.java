@@ -2,49 +2,36 @@
 
 package com.web.curation.model.user;
 
+import com.web.curation.model.TimeEntity;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.hibernate.annotations.ColumnDefault;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 //Json 형식으로 데이터를 주고받을 때 jackson의 ObjectMapper를 자주 이용한다.
 //JsonInclude는 Json 형식의 데이터를 어떻게 만들지를 정하는 Annotation이다.
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class User {
-    @Id
+public class User extends TimeEntity {
+  @Id
   @Column(name="USER_EMAIL")
-    private String email;
-   
- 
-	@JsonIgnore
-    private String password;
-    private String nickname;
+  private String email;
 
-   
-    @Column(length=50)
-    private String introduction;
+  @JsonIgnore
+  private String password;
+  private String nickname;
 
-    @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime createdDate;
-
-    @LastModifiedDate
-    private LocalDateTime modifiedDate;
+  @Column(length=50)
+  private String introduction;
 }
