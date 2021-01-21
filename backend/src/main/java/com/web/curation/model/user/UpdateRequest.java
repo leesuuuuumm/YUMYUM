@@ -13,5 +13,6 @@ public class UpdateRequest {
     String email;
     String introduction;
     String nickname;
+	
     
 }

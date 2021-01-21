@@ -170,7 +170,6 @@ public class AccountController {
 		return makeResponse("200", convertObjToJson(searchResult), "success", HttpStatus.OK);
 	}
 
-
 	@DeleteMapping("/user")
 	@ApiOperation(value = "회원 삭제")
 	public Object delete(

@@ -27,10 +27,11 @@ import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name="USER_EMAIL")
     private String email;
    
-    @JsonIgnore
+ 
+	@JsonIgnore
     private String password;
     private String nickname;
 
@@ -40,5 +41,7 @@ public class User {
 
     @Column(insertable = false, updatable = false)
     private LocalDateTime createDate;
+    
+
 
 }
