@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -28,21 +30,29 @@ public class Feed {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@JsonIgnore
+	//@JsonIgnore
 	private String title;
+	
+	@CreationTimestamp
+	private LocalDateTime create_date;
+	
+	//@JsonIgnore
 	private String store_name;
 	private String location;
-	private int score;
-
-	@ManyToOne
-	@JoinColumn(name = "FEED_USER_EMAIL",referencedColumnName="EMAIL")
-	private String user_email;
+	private Integer score;
 
 	@Column(length = 200)
 	private String content;
+	
+
+	@JoinColumn(name = "FEED_USER_EMAIL",referencedColumnName="EMAIL")
+	private String user_email;
+
+
 
 	@Column(insertable = false, updatable = false)
-	private LocalDateTime create_date;
+	
+	
 	private String image_src;
 
 
