@@ -162,7 +162,7 @@ public class AccountController {
 		return makeResponse("200", convertObjToJson(curUser), "success", HttpStatus.OK);
 	}
 
-	@GetMapping("/search/{nickname}")
+	@GetMapping("/{nickname}")
 	@ApiOperation(value = "닉네임으로 검색", notes = "닉네임에 검색 키워드가 포함이 된 모든 유저 정보를 리스트로 반환합니다. \n "
 			+ "검색 키워드에 해당되는 정보가 없다면 404 에러와 data에 null 값이 담깁니다.")
 	public Object searchByNickname(
