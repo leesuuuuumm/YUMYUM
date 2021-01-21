@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -29,8 +30,7 @@ public class User {
     @Id
   @Column(name="USER_EMAIL")
     private String email;
-   
- 
+
 	@JsonIgnore
     private String password;
     private String nickname;
@@ -39,7 +39,7 @@ public class User {
     @Column(length=50)
     private String introduction;
 
-    @Column(insertable = false, updatable = false)
+    @CreationTimestamp
     private LocalDateTime createDate;
     
 

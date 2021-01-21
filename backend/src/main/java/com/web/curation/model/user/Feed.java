@@ -30,13 +30,12 @@ public class Feed {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	//@JsonIgnore
+	
 	private String title;
 	
 	@CreationTimestamp
 	private LocalDateTime create_date;
-	
-	//@JsonIgnore
+
 	private String store_name;
 	private String location;
 	private Integer score;
@@ -49,11 +48,10 @@ public class Feed {
 	private String user_email;
 
 
-
-	@Column(insertable = false, updatable = false)
-	
 	
 	private String image_src;
+
+
 
 
 }

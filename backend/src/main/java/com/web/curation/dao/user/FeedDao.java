@@ -7,5 +7,6 @@ import com.web.curation.model.user.Feed;
 
 public interface FeedDao extends JpaRepository<Feed, String>  {
 
-	Feed getFeedById(int id);
+	Feed getFeedById(Integer id);
+	Feed findFeedById(Integer id);
 }
