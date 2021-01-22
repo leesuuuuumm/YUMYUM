@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './assets/index.css';
+import './index.css';
 import App from './App';
 import { Provider } from 'react-redux';
 import {applyMiddleware, createStore} from 'redux';
@@ -8,7 +8,6 @@ import promiseMiddleware from 'redux-promise';
 import reduxThunk from 'redux-thunk';
 import reportWebVitals from './reportWebVitals';
 import reducer from './_reducers';
-import SearchAppBar from './components/common/SearchAppBar';
 import * as serviceWorker from './serviceWorker';
 
 const createStoreWidthMiddleware = applyMiddleware(
@@ -44,7 +43,6 @@ ReactDOM.render(
         window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
         )}>
       {/* <Provider store={this.mystore}> */}
-    {/* <SearchAppBar /> */}
     <App />
     </Provider>
   </React.StrictMode>,

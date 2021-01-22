@@ -13,6 +13,9 @@ import FlipPages from "./components/feed/FlipPages";
 import SignUpComplete from "./components/user/SignUpComplete";
 import UserSetting from './components/user/UserSetting';
 import InfoMap from './components/map/InfoMap';
+import BarkPage from './components/bark/BarkPage';
+import BottomTab from './components/common/BottomTab';
+import ReviewMap from './components/map/ReviewMap';
 
 
 function App() {
@@ -30,14 +33,16 @@ function App() {
           <Route path="/feed/camera" exact render={() => <Camera />}/>
           <Route path="/feed/article" exact render={() => <Article />}/>
           <Route path="/feed/flippages" exact render={() => <FlipPages />}/>
-          <Route path='/map/infomap' exact render={() => <InfoMap />} />
+          <Route path='/bark' exact render={() => <BarkPage />} />
+          <Route path='/map/reviewmap' exact render ={() => <ReviewMap />}/>
+          <Route path="/map/infomap" exact render={() => <InfoMap />} />
           <Route path="/error" component={ErrorPage} />
           <Route path="*" component={NotFound} />
         </Switch>
       </Router>
+      <BottomTab />
     </div>
   );
 }
 
 export default App;
-
