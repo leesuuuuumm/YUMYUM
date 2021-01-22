@@ -12,7 +12,7 @@ import Article from "./components/feed/Article";
 import SignUpComplete from "./components/user/SignUpComplete";
 import UserSetting from './components/user/UserSetting';
 import InfoMap from './components/map/InfoMap';
-import BottomTab from './components/common/BottomTab';
+import ReviewMap from './components/map/ReviewMap';
 
 
 function App() {
@@ -29,7 +29,8 @@ function App() {
           <Route path="/feed/createarticle" exact render={() => <CreateArticle />}/>
           <Route path="/feed/camera" exact render={() => <Camera />}/>
           <Route path="/feed/article" exact render={() => <Article />}/>
-          <Route path='/map/infomap' exact render={() => <InfoMap />} />
+          <Route path='/map/reviewmap' exact render ={() => <ReviewMap />}/>
+          <Route path="/map/infomap" exact render={() => <InfoMap />} />
           <Route path="/error" component={ErrorPage} />
           <Route path="*" component={NotFound} />
         </Switch>
