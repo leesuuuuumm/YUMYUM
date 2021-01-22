@@ -51,6 +51,12 @@ const ReviewMap = () => {
       map.setBounds(bounds);
     }
   };
+  
+  const setMarkers = (markers, map) => {
+    for (let i =0; i< markers.length; i++) {
+      markers[i].setMap(null)
+    }
+  };
 
   const nowLocation = () => {
     // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
