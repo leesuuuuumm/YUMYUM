@@ -1,10 +1,10 @@
-* {
+/* * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   /* min-height: 120vh; */
   font-family: "S-CoreDream-3Light";
-}
+} */
 
 .userButton {
   border: none;
@@ -197,3 +197,4 @@ h3 {
   left: 3px;
   color: #ffffff;
 }
+
