@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import girl from "../../assets/barkIcon/girl.svg";
+import girl from "../../_assets/barkIcon/girl.svg";
 import styled, { keyframes, css } from "styled-components";
 
 const BarkPage = () => {

@@ -1,6 +1,6 @@
 import { REGISTER_USER, LOGIN_USER, RESETPASSWORD_USER, LOGOUT_USER, GET_USER_INFO, UPDATE_USER_INFO } from './types';
 
-import { request } from "../utils/axios";
+import { request } from "../_utils/axios";
 
 const USER_URL = '/account';
 

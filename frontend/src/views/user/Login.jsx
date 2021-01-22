@@ -3,14 +3,13 @@ import { Link, withRouter } from "react-router-dom";
 // import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../_actions/userAction";
-import { getLocation } from "../../utils/getLocation";
 
 function Login(props) {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   // redux store에 설정된 action에 대한 dispatch를 연결하는 훅
   const dispatch = useDispatch();
-  
+
   const onEmailHandler = (e) => {
     setEmail(e.currentTarget.value);
   };
@@ -34,11 +33,11 @@ function Login(props) {
           alert("로그인 성공!");
 
           localStorage.setItem("loggedInfo", JSON.stringify(obj));
-          console.log("히스토리")
-          console.log(props.history)
+          console.log("히스토리");
+          console.log(props.history);
           props.history.push({
             pathname: `/profile/${body.email}`,
-            state: {email: body.email}
+            state: { email: body.email },
           });
         } else {
           alert("로그인 실패");
@@ -86,7 +85,9 @@ function Login(props) {
           <div className="btnContainer">
             <div>
               {Email && Password ? (
-                <button className="userButton" type="submit">로그인하기</button>
+                <button className="userButton" type="submit">
+                  로그인하기
+                </button>
               ) : (
                 <div></div>
               )}
