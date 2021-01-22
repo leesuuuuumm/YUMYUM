@@ -3,13 +3,14 @@ import { Link, withRouter } from "react-router-dom";
 // import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../_actions/userAction";
+import { getLocation } from "../../utils/getLocation";
 
 function Login(props) {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   // redux store에 설정된 action에 대한 dispatch를 연결하는 훅
   const dispatch = useDispatch();
-
+  
   const onEmailHandler = (e) => {
     setEmail(e.currentTarget.value);
   };
