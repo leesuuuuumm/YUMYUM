@@ -1,5 +1,4 @@
 import React from "react";
-import "./CSS/Article.css";
 import sample from "../../_assets/sample.mp4";
 
 function Article(props) {

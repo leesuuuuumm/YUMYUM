@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link, withRouter } from "react-router-dom";
-import "../../App.css"
 import "./CSS/Camera.css"
 import PhotoCameraRoundedIcon from "@material-ui/icons/PhotoCameraRounded";
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
@@ -46,7 +45,7 @@ function Camera() {
               <ReplayRoundedIcon id="retryIcon" color="disabled" fontSize="large"/>
             </a>
             <a id="next">
-              <Link to="/feed/flippages"> <NavigateNextIcon fontSize="large" color="disabled" /> </Link>
+              <Link to="/feed/createfeed"> <NavigateNextIcon fontSize="large" color="disabled" /> </Link>
             </a>
           </div>
         </div>

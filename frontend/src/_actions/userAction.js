@@ -5,7 +5,7 @@ import { request } from "../_utils/axios";
 const USER_URL = '/account';
 
 export function registerUser(dataToSubmit) {
-    const data = request('post', USER_URL + '/user/', dataToSubmit);
+    const data = request('post', USER_URL, dataToSubmit);
     return {
         type: REGISTER_USER,
         payload: data,
@@ -31,9 +31,7 @@ export function resetPassword(dataToSubmit) {
 
 export function getUser(dataToSubmit) {
   const email = dataToSubmit
-  const data = request("get", USER_URL + `/user/${email}`);
-  console.log("이메일 데이타")
-  console.log(data)
+  const data = request("get", USER_URL + `${email}`);
   return {
     type: GET_USER_INFO,
     payload: data,
@@ -48,7 +46,7 @@ export function logoutUser() {
 }
 
 export function updateUser(dataToSubmit) {
-  const data = request("put", USER_URL + "/user/", dataToSubmit);
+  const data = request("put", USER_URL, dataToSubmit);
   return {
     type: UPDATE_USER_INFO,
     payload: data
