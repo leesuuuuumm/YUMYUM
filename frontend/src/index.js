@@ -44,7 +44,7 @@ ReactDOM.render(
         window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
         )}>
       {/* <Provider store={this.mystore}> */}
-    <SearchAppBar />
+    {/* <SearchAppBar /> */}
     <App />
     </Provider>
   </React.StrictMode>,
