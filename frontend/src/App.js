@@ -35,6 +35,7 @@ function App() {
           <Route path="*" component={NotFound} />
         </Switch>
       </Router>
+      <BottomTab />
     </div>
   );
 }
