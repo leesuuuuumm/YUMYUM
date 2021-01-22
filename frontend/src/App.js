@@ -12,6 +12,7 @@ import Article from "./components/feed/Article";
 import SignUpComplete from "./components/user/SignUpComplete";
 import UserSetting from './components/user/UserSetting';
 import InfoMap from './components/map/InfoMap';
+import BarkPage from './components/bark/BarkPage';
 import BottomTab from './components/common/BottomTab';
 
 
@@ -30,6 +31,7 @@ function App() {
           <Route path="/feed/camera" exact render={() => <Camera />}/>
           <Route path="/feed/article" exact render={() => <Article />}/>
           <Route path='/map/infomap' exact render={() => <InfoMap />} />
+          <Route path='/bark' exact render={() => <BarkPage />} />
           <Route path="/error" component={ErrorPage} />
           <Route path="*" component={NotFound} />
         </Switch>
