@@ -5,7 +5,6 @@ const {kakao} = window
 
 const InfoMap = (props) => {
   const [map, setMap] = useState(null)
-  const [info1, setInfo] = useState('')
   
   //지도를 불러오는 로직
   const createMap = () => {
@@ -85,7 +84,7 @@ const InfoMap = (props) => {
   }, []);
 
   return (
-    <div>
+    <div className='infomap'>
       <div id="Mymap" style={{ width: '80vw', height: '80vh' }}></div>
       <div><button onClick={nowLocation}>현재위치</button></div>
     </div>

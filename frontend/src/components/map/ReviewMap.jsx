@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { displayMarkerNow } from '../../utils/map/displayMarkerNow';
 import { displayMarkerPlaces } from '../../utils/map/displayMarkerPlaces';
+import './ReviewMap.css'
+
 
 const {kakao} = window
 
@@ -80,7 +82,7 @@ const ReviewMap = () => {
   };
 
   return (
-    <div>
+    <div className="reviewmap">
       <input 
       type="text"
       placeholder = "Search"
