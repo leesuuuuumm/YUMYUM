@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../_actions/userAction";
 import { Link, withRouter } from "react-router-dom";
-import { chkEmail, chkPassword } from "../../utils/validator";
+import { chkEmail, chkPassword } from "../../_utils/validator";
 
 function SignUp(props) {
   // useState로 현재 state와 state를 변경하는 함수 지정
@@ -16,7 +16,6 @@ function SignUp(props) {
 
   // redux store에 설정된 action에 대한 dispatch를 연결하는 훅
   const dispatch = useDispatch();
-
   const onEmailHandler = (e) => {
     setEmail(e.currentTarget.value);
     //validator에 정의한 chkEmail로 이메일 검사
@@ -146,7 +145,9 @@ function SignUp(props) {
           <div className="btnContainer">
             {Email && Password && ConfirmPassword && Nickname ? (
               <div>
-                <button className="userButton" type="submit">회원가입하기</button>
+                <button className="userButton" type="submit">
+                  회원가입하기
+                </button>
               </div>
             ) : (
               <div></div>

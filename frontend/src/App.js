@@ -1,18 +1,21 @@
 import './App.css';
-import Login from './components/user/Login';
-import SignUp from './components/user/SignUp';
-import NotFound from './components/error/NotFound';
-import ErrorPage from './components/error/ErrorPage';
+import Login from './views/user/Login';
+import SignUp from './views/user/SignUp';
+import NotFound from './views/error/NotFound';
+import ErrorPage from './views/error/ErrorPage';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
-import ResetPassword from './components/user/ResetPassword';
-import MainPage from './components/feed/MainPage';
-import CreateArticle from "./components/feed/CreateArticle";
-import Camera from "./components/feed/Camera";
-import Article from "./components/feed/Article";
-import SignUpComplete from "./components/user/SignUpComplete";
-import UserSetting from './components/user/UserSetting';
-import InfoMap from './components/map/InfoMap';
-import BottomTab from './components/common/BottomTab';
+import ResetPassword from './views/user/ResetPassword';
+import MainPage from './views/feed/MainPage';
+import CreateArticle from "./views/feed/CreateArticle";
+import Camera from "./views/feed/Camera";
+import Article from "./views/feed/Article";
+import FlipPages from "./views/feed/FlipPages";
+import SignUpComplete from "./views/user/SignUpComplete";
+import UserSetting from './views/user/UserSetting';
+import InfoMap from './views/map/InfoMap';
+import BarkPage from './views/bark/BarkPage';
+import BottomTab from './views/common/BottomTab';
+import ReviewMap from './views/map/ReviewMap';
 
 
 function App() {
@@ -29,7 +32,10 @@ function App() {
           <Route path="/feed/createarticle" exact render={() => <CreateArticle />}/>
           <Route path="/feed/camera" exact render={() => <Camera />}/>
           <Route path="/feed/article" exact render={() => <Article />}/>
-          <Route path='/map/infomap' exact render={() => <InfoMap />} />
+          <Route path="/feed/flippages" exact render={() => <FlipPages />}/>
+          <Route path='/bark' exact render={() => <BarkPage />} />
+          <Route path='/map/reviewmap' exact render ={() => <ReviewMap />}/>
+          <Route path="/map/infomap" exact render={() => <InfoMap />} />
           <Route path="/error" component={ErrorPage} />
           <Route path="*" component={NotFound} />
         </Switch>

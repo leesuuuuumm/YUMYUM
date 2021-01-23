@@ -33,11 +33,11 @@ function Login(props) {
           alert("로그인 성공!");
 
           localStorage.setItem("loggedInfo", JSON.stringify(obj));
-          console.log("히스토리")
-          console.log(props.history)
+          console.log("히스토리");
+          console.log(props.history);
           props.history.push({
             pathname: `/profile/${body.email}`,
-            state: {email: body.email}
+            state: { email: body.email },
           });
         } else {
           alert("로그인 실패");
@@ -85,7 +85,9 @@ function Login(props) {
           <div className="btnContainer">
             <div>
               {Email && Password ? (
-                <button className="userButton" type="submit">로그인하기</button>
+                <button className="userButton" type="submit">
+                  로그인하기
+                </button>
               ) : (
                 <div></div>
               )}

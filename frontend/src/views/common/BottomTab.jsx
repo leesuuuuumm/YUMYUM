@@ -8,6 +8,7 @@ import CreateIcon from "@material-ui/icons/Create";
 import HomeIcon from "@material-ui/icons/Home";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
+import MoodIcon from "@material-ui/icons/Mood";
 
 const useStyles = makeStyles({
   root: {
@@ -59,6 +60,13 @@ function BottomTab() {
           component={Link}
           to="/map/infomap"
           icon={<LocationOnIcon />}
+        />
+        <BottomNavigationAction
+          label="Bark"
+          value="/bark"
+          component={Link}
+          to="/bark"
+          icon={<MoodIcon />}
         />
       </Router>
     </BottomNavigation>
