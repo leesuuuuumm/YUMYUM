@@ -11,10 +11,9 @@
 	<groupId>com.web.curation</groupId>
 	<artifactId>webcuration</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-<<<<<<< HEAD
+
 	<packaging>war</packaging>
-=======
->>>>>>> feature/feedcrud
+
 	<name>webcuration</name>
 	<description>Web curation project for Spring Boot</description>
 
