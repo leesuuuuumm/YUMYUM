@@ -2,9 +2,7 @@ package com.web.curation.controller.feed;
 import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.web.curation.model.feed.CreateFeedRequest;
-import com.web.curation.model.feed.DeleteFeedRequest;
-import com.web.curation.model.feed.UpdateFeedRequest;
+import com.web.curation.model.feed.*;
 import com.web.curation.model.user.User;
 import com.web.curation.service.feed.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +13,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.web.curation.dao.feed.FeedDao;
 import com.web.curation.dao.user.UserDao;
 import com.web.curation.model.BasicResponse;
-import com.web.curation.model.feed.Feed;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
@@ -39,7 +37,8 @@ public class FeedController {
 	@ApiOperation(value = "게시글 등록")
 
 	public Object create(
-			@RequestBody @ApiParam(value = "게시글 등록 시 필요한 정보 (음식명 , 날짜 , 식당이름, 장소 , 점수 , 내용)", required = true) CreateFeedRequest request) {
+			@RequestBody @ApiParam(value = "게시글 등록 시 필요한 정보 (음식명 , 날짜 , 식당이름, 장소 , 점수 , 내용)", required = true) CreateFeedRequest request,
+			@RequestParam("file") MultipartFile multipartFile) {
 
 		String title = request.getTitle().trim();
 		String storeName = request.getStoreName().trim();
@@ -57,6 +56,11 @@ public class FeedController {
 		if("".equals(title) || "".equals(storeName) || "".equals(location)|| score == null||"".equals(content)) {
 			return makeResponse("400",null,"data is blank",HttpStatus.BAD_REQUEST);
 		}
+
+//		fileService.upload(multipartFile);
+//		File conertedFile = fileService.convertMultipartFileToFile(multipartFile);
+//
+//		fileService.saveFile(conertedFile)
 
 		Feed feed = Feed.builder()
 				.title(title)

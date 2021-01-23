@@ -9,23 +9,32 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.swing.filechooser.FileSystemView;
 import javax.transaction.Transactional;
+import java.io.IOException;
 
 @Service
 public class FileService {
     @Autowired
     private FileDao fileDao;
 
-    public String upload(@RequestParam("file") MultipartFile file) throws Exception {
+    public String upload(MultipartFile file) {
         String rootPath = FileSystemView.getFileSystemView().getHomeDirectory().toString();
         String basePath = rootPath + "/" + "single";
 
         String filePath = basePath + "/" + file.getOriginalFilename();
 
         java.io.File destinationFile = new java.io.File(filePath);
-        file.transferTo(destinationFile);
+        try {
+            file.transferTo(destinationFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return "uploaded";
     }
+
+//    public File convertMultipartFileToFile(MultipartFile multipartFile) {
+//        multipartFile.getOriginalFilename();
+//    }
 
     @Transactional
     public Long saveFile(File file) {
