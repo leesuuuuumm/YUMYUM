@@ -89,8 +89,8 @@ public class FeedController {
 
 	@GetMapping("/{id}")
 	@ApiOperation(value = "단일 피드 조회")
-	public Object search(@Valid @ApiParam(value = "id 값으로 검색", required = true) @PathVariable int id) {
-		Optional<Feed> curFeed = feedDao.findById((long)id);
+	public Object search(@Valid @ApiParam(value = "id 값으로 검색", required = true) @PathVariable String id) {
+		Optional<Feed> curFeed = feedDao.findById(Long.parseLong(id));
 
 		if (!curFeed.isPresent()) {
 			return makeResponse("404", null, "No searchResult", HttpStatus.NOT_FOUND);
