@@ -26,7 +26,7 @@ public class CreateFeedRequest {
 
     private String userEmail;
 
-    private MultipartFile file;
+//    private MultipartFile file;
 
 //    private String imageSrc;
 }

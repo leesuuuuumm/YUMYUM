@@ -58,8 +58,7 @@ public class AccountController {
 
 		// User curUser = userDao.getUserByEmail(email);
 		// 이메일 중복 체크
-		if (userDao.getUserByEmail(email) != null) {
-
+		if (userDao.findById(email).isPresent()) {
 			return makeResponse("400", null, "this email already exists", HttpStatus.BAD_REQUEST);
 		}
 		// 이메일, 별명, 패스워드 비어있는지 확인
@@ -88,7 +87,7 @@ public class AccountController {
 
 		// 로그인 했을 때 유저 정보(이메일, 닉네임) 보내주기
 		if (curUser.isPresent()) {
-			return makeResponse("200", convertObjToJson(userDao.getUserByEmail(email)), "success", HttpStatus.OK);
+			return makeResponse("200", convertObjToJson(userDao.findById(email).get()), "success", HttpStatus.OK);
 		} else {
 			return makeResponse("400", null, "mismatch", HttpStatus.BAD_REQUEST);
 		}
@@ -98,21 +97,23 @@ public class AccountController {
 	@ApiOperation(value = "비밀번호 변경")
 	public Object changePassword(
 			@Valid @RequestBody @ApiParam(value = "비밀번호 변경 시 필요한 회원정보(이메일, 기존 비밀번호, 새 비밀번호).", required = true) ChangePasswordRequest request) {
-		User curUser = userDao.getUserByEmail(request.getEmail());
-		if (curUser == null) {
+		Optional<User> curUser = userDao.findById(request.getEmail());
+		if (!curUser.isPresent()) {
 			return makeResponse("404", null, "user not found", HttpStatus.NOT_FOUND);
 		}
 
 		String password = request.getPassword().trim();
 		String newPassword = request.getNewPassword().trim();
 
+		User updateUser = curUser.get();
+
 		// 비밀번호랑 User의 비밀번호와 같은지 확인
-		if (!password.equals(curUser.getPassword())) {
+		if (!password.equals(updateUser.getPassword())) {
 			return makeResponse("400", null, "password is not match", HttpStatus.BAD_REQUEST);
 		} else {
-			curUser.setPassword(newPassword);
-			userDao.save(curUser);
-			return makeResponse("200", convertObjToJson(curUser), "success", HttpStatus.OK);
+			updateUser.setPassword(newPassword);
+			userDao.save(updateUser);
+			return makeResponse("200", convertObjToJson(updateUser), "success", HttpStatus.OK);
 		}
 	}
 
@@ -120,29 +121,31 @@ public class AccountController {
 	@ApiOperation(value = "회원 수정")
 	public Object update(
 			@Valid @RequestBody @ApiParam(value = "회원 정보 수정(닉네임, 한줄 소개).", required = true) UpdateRequest request) {
-		User curUser = userDao.getUserByEmail(request.getEmail());
-		if (curUser == null) {
+		Optional<User> curUser = userDao.findById(request.getEmail());
+		if (!curUser.isPresent()) {
 			return makeResponse("404", null, "user not found", HttpStatus.NOT_FOUND);
 		}
 
 		String nickname = request.getNickname().trim();
 		String introduction = request.getIntroduction().trim();
 
-		curUser.setNickname(nickname);
-		curUser.setIntroduction(introduction);
-		userDao.save(curUser);
-		return makeResponse("200", convertObjToJson(curUser), "success", HttpStatus.OK);
+		User updateUser = curUser.get();
+
+		updateUser.setNickname(nickname);
+		updateUser.setIntroduction(introduction);
+		userDao.save(updateUser);
+		return makeResponse("200", convertObjToJson(updateUser), "success", HttpStatus.OK);
 	}
 
 	@GetMapping("/{email}")
 	@ApiOperation(value = "회원 조회")
 	public Object getDetailInfo(@Valid @ApiParam(value = "회원 정보 조회", required = true) @PathVariable String email) {
-		User curUser = userDao.getUserByEmail(email);
-		if (curUser == null) {
+		Optional<User> curUser = userDao.findById(email);
+		if (!curUser.isPresent()) {
 			return makeResponse("404", null, "user not found", HttpStatus.NOT_FOUND);
 		}
 
-		return makeResponse("200", convertObjToJson(curUser), "success", HttpStatus.OK);
+		return makeResponse("200", convertObjToJson(curUser.get()), "success", HttpStatus.OK);
 	}
 
 //	@GetMapping("/{nickname}")
@@ -162,22 +165,19 @@ public class AccountController {
 	@ApiOperation(value = "회원 삭제")
 	public Object delete(
 			@Valid @RequestBody @ApiParam(value = "회원정보 탈퇴 시 필요한 회원정보(이메일, 별명, 비밀번호).", required = true) SignupRequest request) {
-		User curUser = userDao.getUserByEmail(request.getEmail());
-		if (curUser == null) {
+		Optional<User> curUser = userDao.findById(request.getEmail());
+		if (!curUser.isPresent()) {
 			return makeResponse("404", null, "user not found", HttpStatus.NOT_FOUND);
 		}
 
-		userDao.delete(curUser);
+		userDao.delete(curUser.get());
 
-		return makeResponse("200", curUser.getEmail(), "success", HttpStatus.OK);
+		return makeResponse("200", curUser.get().getEmail(), "success", HttpStatus.OK);
 	}
 
 	private ResponseEntity<BasicResponse> makeResponse(String status, String data, String message,
 			HttpStatus httpStatus) {
-		final BasicResponse result = new BasicResponse();
-		result.status = status;
-		result.message = message;
-		result.data = data;
+		BasicResponse result = BasicResponse.builder().status(status).message(message).data(data).build();
 		return new ResponseEntity<>(result, httpStatus);
 	}
 
