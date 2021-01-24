@@ -14,7 +14,7 @@ import SignUpComplete from "./views/user/SignUpComplete";
 import UserSetting from './views/user/UserSetting';
 import InfoMap from './views/map/InfoMap';
 import BarkPage from './views/bark/BarkPage';
-import BottomTab from './views/common/BottomTab';
+import BottomTab from './_components/common/BottomTab';
 import ReviewMap from './views/map/ReviewMap';
 
 
@@ -39,8 +39,9 @@ function App() {
           <Route path="/error" component={ErrorPage} />
           <Route path="*" component={NotFound} />
         </Switch>
+        <BottomTab />
       </Router>
-      <BottomTab />
+      
     </div>
   );
 }
