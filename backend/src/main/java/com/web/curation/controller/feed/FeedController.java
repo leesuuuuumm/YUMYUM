@@ -1,16 +1,13 @@
 package com.web.curation.controller.feed;
 
-import java.io.IOException;
-import java.security.CodeSource;
 import java.util.List;
 import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.sun.org.apache.xpath.internal.operations.Mult;
 import com.web.curation.model.feed.*;
 import com.web.curation.model.user.User;
 import com.web.curation.service.feed.FileService;
-import com.web.curation.util.UploadFileUtils;
+import com.web.curation.util.SftpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -96,16 +93,18 @@ public class FeedController {
 	public Object uploadVideo(@RequestPart("file") @Valid @NotNull @NotEmpty MultipartFile multipartFile) {
 		String contentType = multipartFile.getContentType();
 
-//		String filePath = fileService.upload(multipartFile);
-		String fileName = "";
-		try {
-			FeedController.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-			fileName = UploadFileUtils.uploadFile(multipartFile.getOriginalFilename(), multipartFile.getBytes());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		String fileName = fileService.upload(multipartFile);
 
-		return makeResponse("200", FeedController.class.getProtectionDomain().getCodeSource().getLocation().getPath(), "success", HttpStatus.OK);
+		String host = "i4b101.p.ssafy.io";
+		String user = "ubuntu";
+		String password = "wnsgus123";
+		int port = 22;
+		String workingDir = "/var/lib/tomcat9/webapps/single";
+//		String workingDir = "/home/uploaduser/sftp_root/uploads";
+
+		boolean isSuccess = SftpUtils.directUpload(host, user, password, port, workingDir, multipartFile);
+
+		return makeResponse("200", String.valueOf(isSuccess), "success", HttpStatus.OK);
 	}
 
 	@PutMapping
