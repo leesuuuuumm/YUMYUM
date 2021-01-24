@@ -5,7 +5,7 @@ import { request } from "../_utils/axios";
 const USER_URL = '/account';
 
 export function registerUser(dataToSubmit) {
-    const data = request('post', USER_URL + '/user/', dataToSubmit);
+    const data = request('post', USER_URL , dataToSubmit);
     return {
         type: REGISTER_USER,
         payload: data,

@@ -1,5 +1,6 @@
+import { CodeSharp } from '@material-ui/icons';
 import React, {useEffect, useState} from 'react';
-import "./ReviewMap.css";
+import "./FeedMap.css";
 // import { displayMarkerNow } from '../../_components/map/displayMarkerNow'
 
 const { kakao } = window;
@@ -7,10 +8,13 @@ const { kakao } = window;
 const ReviewMapTest = () => {
   const [map, setCreateMap] = useState(null)
   let [markers, setMarkers]  = useState([]); //marker들을 저장하는 배열
-  const [searchContent, setSerchContent] = useState("");
-  const [infowindow, setInfowindow] = useState(null); //검색 결과 목록이나 마커를 클릭 했을때 장소명을 표출할 인포 윈도우
+  const [searchContent, setSerchContent] = useState(""); 
+  const [infowindow, setInfowindow] = useState(null); //검색 결과 목록이나 마커를 클릭 했을때 장소명을 표출할 인포 객체
   const [ps, setPs] = useState(null); // 장소 저장 검색 객체
-  const [nowMarker, setNowMarker] = useState(null);
+  const [nowMarker, setNowMarker] = useState(null); //현재위치마커 객체 변수
+  const [nowInfoWindow, setNowInfoWindow] = useState(null); //현재 위치 인포 객체 변수
+  const [isList, setIsList] = useState(false);
+  const [center, setCenter] = useState(null); //현재 위치의 경도,위도가 저장된 변수
 
   useEffect(()=>{
     createMap();
@@ -23,13 +27,10 @@ const ReviewMapTest = () => {
       level: 7,
     };
     let map = new kakao.maps.Map(container, options);
-
-    let mapTypeControl = new kakao.maps.MapTypeControl();
-
     setPs(new kakao.maps.services.Places());
     setInfowindow(new kakao.maps.InfoWindow({zIndex:1}));
     setCreateMap(map);
-
+    nowLocation(map); // map을 nowLocation에 넘겨줘야 정상적으로 동작되게할 수 있다. 중요!! 잊지말것
   };
   // 검색을 제어하는 함수
   const searchContenthandeler = (e) => {
@@ -38,8 +39,12 @@ const ReviewMapTest = () => {
   // 장소 검색 함수
   function searchPlaces() {
     // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다.
-    ps.keywordSearch(searchContent, placesSearchCB);
+    ps.keywordSearch(searchContent, placesSearchCB, {
+      location: center,
+      sort: kakao.maps.services.SortBy.DISTANCE
+    });
     setSerchContent("");
+    setIsList(true);
   }
   // 검색이 성공했을때 아래 콜백함수가 호출된다.
   function placesSearchCB(data, status, pagination) {
@@ -65,20 +70,80 @@ const ReviewMapTest = () => {
     }
   }
   
+  //검색된 자
   function displayPlaces(places) {
-    let bounds = new kakao.maps.LatLngBounds();
+    let bounds = new kakao.maps.LatLngBounds(),
+    listEl = document.getElementById('placesList'), 
+    menuEl = document.getElementById('menu_wrap'),
+    fragment = document.createDocumentFragment(), // 가짜 document를 만들고 거기에 담아서 한번에 appendchild하면 메모리를 줄일수 있다.
+    listStr = '';
     // 지도에 표시되는 마커를 제거한다.
+    removeAllChildNods(listEl);
+
     removeMarker();
-    // 검색했을때 현재위치를 제거하는 함수
+    // 검색했을때 현재위치를 제거하는 함수 마커가 있으면 제거해준다.
     if (nowMarker) {
       removeNowMarker();
     }
+
     for( let i = 0 ; i<places.length; i++) {
       let placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
-          marker = addMarker(places[i] , i) 
+          marker = addMarker(places[i] , i), 
+          itemEl = getListItem(i, places[i]);
+
           bounds.extend(placePosition);
+
+           (function(marker, title) {
+            kakao.maps.event.addListener(marker, 'mouseover', function() {
+                displayInfowindow(marker, title);
+            });
+
+            kakao.maps.event.addListener(marker, 'mouseout', function() {
+                infowindow.close();
+            });
+
+            itemEl.onclick =  function () {
+                displayInfowindow(marker, title);
+                map.setLevel(3)
+                map.panTo(placePosition);
+                setIsList(false);
+            };
+
+            itemEl.onmouseout =  function () {
+                infowindow.close();
+            };
+        })(marker, places[i].place_name);
+
+        fragment.appendChild(itemEl);
     }
+    //  검색 결과 항복을 결과목록의 Elemnet에 추가 한다.
+    listEl.appendChild(fragment);
+    menuEl.scrollTop = 0;
+    // 검색된 장소 위치를 기준으로 지도 범위 재설정
     map.setBounds(bounds)
+  }
+
+  function getListItem(index, places) {
+
+    var el = document.createElement('li'),
+    itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
+                '<div class="info">' +
+                '   <h5>' + places.place_name + '</h5>';
+
+    if (places.road_address_name) {
+        itemStr += '    <span>' + places.road_address_name + '</span>' +
+                    '   <span class="jibun gray">' +  places.address_name  + '</span>';
+    } else {
+        itemStr += '    <span>' +  places.address_name  + '</span>'; 
+    }
+                 
+      itemStr += '  <span class="tel">' + places.phone  + '</span>' +
+                '</div>';           
+
+    el.innerHTML = itemStr;
+    el.className = 'item';
+
+    return el;
   }
  // map에 마커를 찍는 함수
   function addMarker(position, idx, title) {
@@ -119,17 +184,18 @@ const ReviewMapTest = () => {
         markers[i].setMap(null)
     }
   }
-
-  function removeNowMarker(){
+  // 현재 위치에 찍혀 있는 마커를 지우는 함수
+  function removeNowMarker() {
     nowMarker.setMap(null);
-    infowindow.close();
+    nowInfoWindow.close();
   }
-
-
   //현재 위치로 이동하는 함수
-  const nowLocation = () => {
+  function nowLocation(map) {
+    console.log(map)
     // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
-
+    if (nowMarker) {
+      removeNowMarker();
+    }
     if (navigator.geolocation) {
       // GeoLocation을 이용해서 접속 위치를 얻어옵니다
       navigator.geolocation.getCurrentPosition(function (position) {
@@ -139,7 +205,7 @@ const ReviewMapTest = () => {
         let locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
           message = '<div style="padding:5px;">현재 위치</div>';
         // 마커와 인포윈도우를 표시합니다
-        displayMarkerNow(locPosition, message);
+        displayMarkerNow(map ,locPosition, message);
       });
     } else {
       // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
@@ -148,8 +214,8 @@ const ReviewMapTest = () => {
       displayMarkerNow(locPosition);
     }
   };
-  
-  const displayMarkerNow = (locPosition, message) => {
+  // 현재위치에 마커를 찍는 함수
+  function displayMarkerNow (map, locPosition, message) {
     let marker = new kakao.maps.Marker({
       map: map,
       position : locPosition
@@ -157,53 +223,70 @@ const ReviewMapTest = () => {
     let iwContent = message, // 인포윈도우에 표시할 내용
         iwRemoveable = true;
   
-    var infowindow = new kakao.maps.InfoWindow({
+    let infowindow = new kakao.maps.InfoWindow({
           content : iwContent,
           removable : iwRemoveable
     });
 
     setNowMarker(marker);
+    setNowInfoWindow(infowindow) //현재 객체로 저장된 infowindow를 현재 위치 인포 윈도 변수에 새팅하고 그거로 제어함! 중요
     // 인포윈도우를 마커위에 표시합니다 
     infowindow.open(map, marker);
     marker.setMap(map)
     map.panTo(locPosition)
-    map.setLevel(3)
+    map.setLevel(2)
+    console.log(locPosition)
+    setCenter(locPosition)
   }
+  function displayInfowindow(marker, title) {
+    var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
 
+    infowindow.setContent(content);
+    infowindow.open(map, marker);
+  }
+  // 검색결과 목록에서 자식 Element를 제거한다.
+  function removeAllChildNods(el) {   
+    while (el.hasChildNodes()) {
+        el.removeChild (el.lastChild);
+    }
+ }
   return (
     <div className="reviewmap">
-    <input
-      type="text"
-      placeholder="Search"
-      value={searchContent}
-      onChange={searchContenthandeler}
-    />
-    <span>
-      <button onClick={searchPlaces}>검색</button>
-      <button onClick={nowLocation}>현재위치</button>
-    </span>
-    <div className="map_wrap">
-        <div id="map" style={{ width: "80vw", height: "85vh" }}></div>
-        <div id="menu_wrap" class="bg_white">
-        <div className="option">
-            <div>
-                <form onSubmit={searchPlaces} return false>
-                    키워드 : <input 
-                    id="keyword" 
-                    type="text" 
-                    value={searchContent}
-                    onChange={searchContenthandeler}
-                    size="15"
-                    /> 
-                    <button type="submit">검색하기</button> 
-                </form>
+      <input
+        type="text"
+        placeholder="Search"
+        value={searchContent}
+        onChange={searchContenthandeler}
+        size = "15"
+      />
+      <span>
+        <button onClick={searchPlaces}>검색</button>
+        {/* <span><button onClick={nowLocation}>현재위치</button></span> */}
+      </span>
+      <div className="map_wrap">
+            <div id="map" style={{ width: "80vw", height: "85vh" }}></div>
+            {isList  && 
+            <div id="menu_wrap" className="bg_white">
+            <div className="option">
+                <div>
+                    {/* <form onSubmit={searchPlaces} return false>
+                        키워드 : <input 
+                        id="keyword" 
+                        type="text" 
+                        value={searchContent}
+                        onChange={searchContenthandeler}
+                        size="15"
+                        /> 
+                        <span><button type="submit">검색하기</button></span>
+                    </form> */}
+                </div>
             </div>
-        </div>
-        <hr/>
-        <ul id="placesList"></ul>
-        <div id="pagination"></div>
-    </div>
-    </div>
+            <hr/>
+            <ul id="placesList"></ul>
+            <div id="pagination"></div>
+            </div>
+            }
+      </div>
     </div>
   )
 };
