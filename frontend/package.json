@@ -13,6 +13,7 @@
     "axios": "^0.21.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-full-page": "^0.1.11",
     "react-id-swiper": "^4.0.0",
     "react-page-scroller": "^2.0.11-beta",
     "react-rating-stars-component": "^2.2.0",

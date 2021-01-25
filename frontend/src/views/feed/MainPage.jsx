@@ -21,6 +21,7 @@ function MainPage(props) {
   const getProfileUser = (e) => {
     const profileEmail = props.match.params.email;
     dispatch(getUser(profileEmail)).then((res) => {
+      console.log(res, "mainpage getprofile");
       const obj = JSON.parse(res.payload.data);
       setProfileUser(obj);
     });
@@ -45,11 +46,11 @@ function MainPage(props) {
           {" "}
           유저 정보 변경{" "}
         </Link>
-        {loggedUser.email === profileUser.email && (
+        {/* {loggedUser.email === profileUser.email && (
           <Link to="/user/resetpassword" className="userLink">
             비밀번호 바꾸기
           </Link>
-        )}
+        )} */}
         <Link to="/feed/camera" className="userLink">
           {" "}
           게시글 작성

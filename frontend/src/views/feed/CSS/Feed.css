@@ -3,13 +3,13 @@
   height: 100%; 
   /* overflow: hidden; */
   position: absolute; 
+  /* display: block */
 }
-
 
 #textbox { 
   float: left;
   display: inline;
   position: relative; 
-  top: -50%;
+  top: 50%;
   left: 5%;
 }

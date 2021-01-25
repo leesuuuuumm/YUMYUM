@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link, withRouter } from "react-router-dom";
-import "../../App.css"
 import "./CSS/Camera.css"
 import PhotoCameraRoundedIcon from "@material-ui/icons/PhotoCameraRounded";
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
@@ -8,21 +7,24 @@ import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
 
 function Camera() {
   const [source, setSource] = useState("");
-  const [selectedFile, setSelectedFile] = useState()
+  const [selectedFile, setSelectedFile] = useState([])
   
   const handleCapture = (target) => {
     if (target.files) {
       if (target.files.length !== 0) {
         const file = target.files[0];
-        setSelectedFile(target.files)
+        selectedFile.push(file)
         const newUrl = URL.createObjectURL(file);
         setSource(newUrl);
+        console.log(selectedFile)
+        console.log(newUrl)
       }
     }
   };
 
   const sourceClear = () => {
     setSource("")
+    setSelectedFile([])
     console.log(source)
   }
 
@@ -46,7 +48,14 @@ function Camera() {
               <ReplayRoundedIcon id="retryIcon" color="disabled" fontSize="large"/>
             </a>
             <a id="next">
-              <Link to="/feed/flippages"> <NavigateNextIcon fontSize="large" color="disabled" /> </Link>
+              <Link to={{
+                pathname: "/feed/feedmap",
+                state: {
+                  selectedFile: selectedFile[0],
+                }
+              }}> 
+                <NavigateNextIcon fontSize="large" color="disabled" /> 
+              </Link>
             </a>
           </div>
         </div>
