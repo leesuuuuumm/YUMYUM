@@ -74,8 +74,8 @@ const FeedMap = (props) => {
     setSerchContent(e.target.value);
   };
   // 장소 검색 함수
-  function searchPlaces() {
-
+  function searchPlaces(e) {
+    e.preventDefault();
     let keyword = document.getElementById('keyword').value;
     if (!keyword.replace(/^\s+|\s+$/g, '')) {
       alert('찾을 장소를 입력해주세요!');
