@@ -1,11 +1,45 @@
-import { CodeSharp } from '@material-ui/icons';
 import React, {useEffect, useState} from 'react';
-import "./FeedMap.css";
-// import { displayMarkerNow } from '../../_components/map/displayMarkerNow'
+// import "./FeedMap.css";
+import { withRouter } from "react-router-dom";
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import InputBase from '@material-ui/core/InputBase';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/Search';
+import DirectionsIcon from '@material-ui/icons/Directions';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: '2px 4px',
+    display: 'flex',
+    alignItems: 'center',
+    width: 400,
+    margin: '0px auto'
+  },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+  iconButton: {
+    padding: 10,
+  },
+  iconButtonNext: {
+    padding: 10,
+    backgroundColor: '#F4D503'
+  },
+  divider: {
+    height: 28,
+    margin: 4,
+  },
+}));
+
 
 const { kakao } = window;
 
-const ReviewMapTest = () => {
+const FeedMap = (props) => {
+  const classes = useStyles();
   const [map, setCreateMap] = useState(null)
   let [markers, setMarkers]  = useState([]); //marker들을 저장하는 배열
   const [searchContent, setSerchContent] = useState(""); 
@@ -15,6 +49,10 @@ const ReviewMapTest = () => {
   const [nowInfoWindow, setNowInfoWindow] = useState(null); //현재 위치 인포 객체 변수
   const [isList, setIsList] = useState(false);
   const [center, setCenter] = useState(null); //현재 위치의 경도,위도가 저장된 변수
+  const [selectPlace, setSelectPlace] = useState(false); // 목록에서 장소를 선택했는지 확인하는 방법
+  const [detailPlaceInfo, setDetailPlaceInfo] = useState(null); // 선택한 장소의 정보를 담아두는 변수
+  const source = props.location.state.source
+  const selectedFile = props.location.state.selectedFile
 
   useEffect(()=>{
     createMap();
@@ -38,6 +76,13 @@ const ReviewMapTest = () => {
   };
   // 장소 검색 함수
   function searchPlaces() {
+
+    let keyword = document.getElementById('keyword').value;
+    if (!keyword.replace(/^\s+|\s+$/g, '')) {
+      alert('찾을 장소를 입력해주세요!');
+      return false;
+    }
+
     // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다.
     ps.keywordSearch(searchContent, placesSearchCB, {
       location: center,
@@ -49,7 +94,6 @@ const ReviewMapTest = () => {
   // 검색이 성공했을때 아래 콜백함수가 호출된다.
   function placesSearchCB(data, status, pagination) {
     if (status === kakao.maps.services.Status.OK) {
-  
         // 정상적으로 검색이 완료됐으면
         // 검색 목록과 마커를 표출합니다
         displayPlaces(data);
@@ -103,6 +147,7 @@ const ReviewMapTest = () => {
             });
 
             itemEl.onclick =  function () {
+                setDetailPlaceInfo(places[i]);
                 displayInfowindow(marker, title);
                 map.setLevel(3)
                 map.panTo(placePosition);
@@ -250,36 +295,44 @@ const ReviewMapTest = () => {
         el.removeChild (el.lastChild);
     }
  }
+
+ function sendPlaceInfo() {
+   props.history.push({
+     pathname : '/feed/createfeed',
+     state: {
+      detailPlace : detailPlaceInfo,
+      selectedFile: selectedFile,
+      source: source
+    }
+   });
+ };
   return (
-    <div className="reviewmap">
-      <input
-        type="text"
-        placeholder="Search"
-        value={searchContent}
-        onChange={searchContenthandeler}
-        size = "15"
-      />
-      <span>
-        <button onClick={searchPlaces}>검색</button>
-        {/* <span><button onClick={nowLocation}>현재위치</button></span> */}
-      </span>
+    <div className="feedmap">
+       <Paper component="form" className={classes.root}>
+          <IconButton className={classes.iconButton} aria-label="menu">
+            <MenuIcon />
+          </IconButton>
+          <InputBase
+            className={classes.input}
+            placeholder="Search Google Maps"
+            inputProps={{ 'aria-label': 'search google maps' }}
+            onChange={searchContenthandeler}
+            size = "15"
+            id = "keyword"
+          />
+          <IconButton type="submit" className={classes.iconButton} aria-label="search" onClick={searchPlaces}>
+            <SearchIcon />
+          </IconButton>
+          <Divider className={classes.divider} orientation="vertical" />
+          <IconButton className={classes.iconButtonNext} aria-label="directions" onClick={sendPlaceInfo}>
+            <DirectionsIcon />
+          </IconButton>
+      </Paper>
       <div className="map_wrap">
-            <div id="map" style={{ width: "80vw", height: "85vh" }}></div>
+            <div id="map" style={{ width: "98vw", height: "95vh" }}></div>
             {isList  && 
             <div id="menu_wrap" className="bg_white">
             <div className="option">
-                <div>
-                    {/* <form onSubmit={searchPlaces} return false>
-                        키워드 : <input 
-                        id="keyword" 
-                        type="text" 
-                        value={searchContent}
-                        onChange={searchContenthandeler}
-                        size="15"
-                        /> 
-                        <span><button type="submit">검색하기</button></span>
-                    </form> */}
-                </div>
             </div>
             <hr/>
             <ul id="placesList"></ul>
@@ -291,4 +344,5 @@ const ReviewMapTest = () => {
   )
 };
 
-export default ReviewMapTest;
+export default withRouter(FeedMap);
+// 컴포넌트에서 props.location.state.detailPlace 로 받으면됨.

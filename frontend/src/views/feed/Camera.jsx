@@ -17,6 +17,7 @@ function Camera() {
         const newUrl = URL.createObjectURL(file);
         setSource(newUrl);
         console.log(selectedFile)
+        console.log(newUrl)
       }
     }
   };
@@ -47,7 +48,15 @@ function Camera() {
               <ReplayRoundedIcon id="retryIcon" color="disabled" fontSize="large"/>
             </a>
             <a id="next">
-              <Link to="/feed/createfeed"> <NavigateNextIcon fontSize="large" color="disabled" /> </Link>
+              <Link to={{
+                pathname: "/feed/feedmap",
+                state: {
+                  selectedFile: selectedFile,
+                  source: source
+                }
+              }}> 
+                <NavigateNextIcon fontSize="large" color="disabled" /> 
+              </Link>
             </a>
           </div>
         </div>

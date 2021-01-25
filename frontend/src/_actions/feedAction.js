@@ -5,6 +5,11 @@ import { request } from "../_utils/axios";
 const USER_URL = '/feed';
 
 export function registerFeed(dataToSubmit) {
+    // const config = {
+    //   headers: {
+    //     "content-type": "multipart/form-data"
+    //   }
+    // }
     const data = request('post', USER_URL, dataToSubmit);
     return {
         type: CREATE_FEED,

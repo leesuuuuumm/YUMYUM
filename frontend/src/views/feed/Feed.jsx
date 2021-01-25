@@ -6,20 +6,21 @@ function Feed(props) {
   const { feed } = props
   const feedDate = feed.user
   const feedUser = feed.createdDate
+  const videoURL = "http://i4b101.p.ssafy.io:8080/single/2021025102848766.mp4"
 
   return (
     <div id="videobox">
-      {/* <video
+      <video
         id="background-video"
         className="videoTag"
-        src={sample}
+        src={ videoURL }
         type="video/mp4"
         width="100%"
         height="100%"
         autoPlay
         loop
         muted
-      /> */}
+      />
       <div id="textbox">
         <h2> 메뉴 : #{feed.title} </h2>
         <h6> 작성자 : {feedUser.nickname} </h6>
