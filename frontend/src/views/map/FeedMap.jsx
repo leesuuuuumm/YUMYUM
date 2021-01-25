@@ -1,11 +1,40 @@
-import { CodeSharp } from '@material-ui/icons';
 import React, {useEffect, useState} from 'react';
 import "./FeedMap.css";
-// import { displayMarkerNow } from '../../_components/map/displayMarkerNow'
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import InputBase from '@material-ui/core/InputBase';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/Search';
+import DirectionsIcon from '@material-ui/icons/Directions';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: '2px 4px',
+    display: 'flex',
+    alignItems: 'center',
+    width: 400,
+    margin: '0px auto'
+  },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+  iconButton: {
+    padding: 10,
+  },
+  divider: {
+    height: 28,
+    margin: 4,
+  },
+}));
+
 
 const { kakao } = window;
 
 const ReviewMapTest = () => {
+  const classes = useStyles();
   const [map, setCreateMap] = useState(null)
   let [markers, setMarkers]  = useState([]); //marker들을 저장하는 배열
   const [searchContent, setSerchContent] = useState(""); 
@@ -15,7 +44,6 @@ const ReviewMapTest = () => {
   const [nowInfoWindow, setNowInfoWindow] = useState(null); //현재 위치 인포 객체 변수
   const [isList, setIsList] = useState(false);
   const [center, setCenter] = useState(null); //현재 위치의 경도,위도가 저장된 변수
-
   useEffect(()=>{
     createMap();
   },[])
@@ -251,35 +279,31 @@ const ReviewMapTest = () => {
     }
  }
   return (
-    <div className="reviewmap">
-      <input
-        type="text"
-        placeholder="Search"
-        value={searchContent}
-        onChange={searchContenthandeler}
-        size = "15"
-      />
-      <span>
-        <button onClick={searchPlaces}>검색</button>
-        {/* <span><button onClick={nowLocation}>현재위치</button></span> */}
-      </span>
+    <div className="feedmap">
+       <Paper component="form" className={classes.root}>
+          <IconButton className={classes.iconButton} aria-label="menu">
+            <MenuIcon />
+          </IconButton>
+          <InputBase
+            className={classes.input}
+            placeholder="Search Google Maps"
+            inputProps={{ 'aria-label': 'search google maps' }}
+            onChange={searchContenthandeler}
+            size="15"
+          />
+          <IconButton type="submit" className={classes.iconButton} aria-label="search" onClick={searchPlaces}>
+            <SearchIcon />
+          </IconButton>
+          <Divider className={classes.divider} orientation="vertical" />
+          <IconButton color="primary" className={classes.iconButton} aria-label="directions">
+            <DirectionsIcon />
+          </IconButton>
+      </Paper>
       <div className="map_wrap">
-            <div id="map" style={{ width: "80vw", height: "85vh" }}></div>
+            <div id="map" style={{ width: "98vw", height: "95vh" }}></div>
             {isList  && 
             <div id="menu_wrap" className="bg_white">
             <div className="option">
-                <div>
-                    {/* <form onSubmit={searchPlaces} return false>
-                        키워드 : <input 
-                        id="keyword" 
-                        type="text" 
-                        value={searchContent}
-                        onChange={searchContenthandeler}
-                        size="15"
-                        /> 
-                        <span><button type="submit">검색하기</button></span>
-                    </form> */}
-                </div>
             </div>
             <hr/>
             <ul id="placesList"></ul>

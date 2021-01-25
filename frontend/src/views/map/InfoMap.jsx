@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getPosition } from "../../_utils/getLocation";
+import './InfoMap.css'
 
 const { kakao } = window;
 
@@ -8,7 +9,7 @@ const InfoMap = (props) => {
 
   //지도를 불러오는 로직
   const createMap = () => {
-    let container = document.getElementById("Mymap");
+    let container = document.getElementById("map");
     let options = {
       center: new kakao.maps.LatLng(37.506502, 127.053617),
       level: 7,
@@ -81,7 +82,7 @@ const InfoMap = (props) => {
 
   return (
     <div className="infomap">
-      <div id="Mymap" style={{ width: "80vw", height: "80vh" }}></div>
+      <div id="map" style={{ width: "80vw", height: "80vh" }}></div>
       <div>
         <button onClick={nowLocation}>현재위치</button>
       </div>
