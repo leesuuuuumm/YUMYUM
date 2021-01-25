@@ -51,7 +51,6 @@ const FeedMap = (props) => {
   const [center, setCenter] = useState(null); //현재 위치의 경도,위도가 저장된 변수
   const [selectPlace, setSelectPlace] = useState(false); // 목록에서 장소를 선택했는지 확인하는 방법
   const [detailPlaceInfo, setDetailPlaceInfo] = useState(null); // 선택한 장소의 정보를 담아두는 변수
-  const source = props.location.state.source
   const selectedFile = props.location.state.selectedFile
 
   useEffect(()=>{
@@ -302,7 +301,6 @@ const FeedMap = (props) => {
      state: {
       detailPlace : detailPlaceInfo,
       selectedFile: selectedFile,
-      source: source
     }
    });
  };

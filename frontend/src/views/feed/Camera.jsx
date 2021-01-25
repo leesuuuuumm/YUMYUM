@@ -7,13 +7,13 @@ import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
 
 function Camera() {
   const [source, setSource] = useState("");
-  const [selectedFile, setSelectedFile] = useState()
+  const [selectedFile, setSelectedFile] = useState([])
   
   const handleCapture = (target) => {
     if (target.files) {
       if (target.files.length !== 0) {
         const file = target.files[0];
-        setSelectedFile(target.files)
+        selectedFile.push(file)
         const newUrl = URL.createObjectURL(file);
         setSource(newUrl);
         console.log(selectedFile)
@@ -24,7 +24,7 @@ function Camera() {
 
   const sourceClear = () => {
     setSource("")
-    setSelectedFile(null)
+    setSelectedFile([])
     console.log(source)
   }
 
@@ -51,8 +51,7 @@ function Camera() {
               <Link to={{
                 pathname: "/feed/feedmap",
                 state: {
-                  selectedFile: selectedFile,
-                  source: source
+                  selectedFile: selectedFile[0],
                 }
               }}> 
                 <NavigateNextIcon fontSize="large" color="disabled" /> 
