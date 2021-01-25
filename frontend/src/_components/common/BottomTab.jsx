@@ -51,7 +51,7 @@ function BottomTab() {
       />
       <BottomNavigationAction
         label="Review"
-        value="feed/createarticle"
+        value="feed/camera"
         icon={<CreateIcon />}
         className={classes.action}
       />
