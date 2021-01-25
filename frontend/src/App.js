@@ -5,7 +5,7 @@ import NotFound from './views/error/NotFound';
 import ErrorPage from './views/error/ErrorPage';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import ResetPassword from './views/user/ResetPassword';
-import MainPage from './views/feed/MainPage';
+import UserFeedPage from './views/feed/UserFeedPage';
 import CreateArticle from "./views/feed/CreateArticle";
 import Camera from "./views/feed/Camera";
 import Article from "./views/feed/Article";
@@ -16,7 +16,7 @@ import InfoMap from './views/map/InfoMap';
 import BarkPage from './views/bark/BarkPage';
 import BottomTab from './_components/common/BottomTab';
 import ReviewMap from './views/map/ReviewMap';
-import Card from './_components/feed/Card';
+import UserFeedTab from './views/feed/UserFeedTab';
 
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
           <Route path="/" exact render={() => <Login />}/>
           <Route path="/user/join" exact render={() => <SignUp />}/>
           <Route path="/user/complete" exact render={() => <SignUpComplete />}/>
-          <Route path="/profile/:email" render={() => <MainPage />}/>
+          <Route path="/profile/:email" render={() => <UserFeedPage />}/>
           <Route path="/user/resetpassword" exact render={() => <ResetPassword />}/>
           <Route path="/user/usersetting" exact render={()=> <UserSetting /> } />
           <Route path="/feed/createarticle" exact render={() => <CreateArticle />}/>
@@ -35,7 +35,7 @@ function App() {
           <Route path="/feed/article" exact render={() => <Article />}/>
           <Route path="/feed/flippages" exact render={() => <FlipPages />}/>
           <Route path='/bark' exact render={() => <BarkPage />} />
-          <Route path='/feed/test' exact render={() => <Card />} />
+          <Route path='/feed/test' exact render={() => <UserFeedTab />} />
           <Route path='/map/reviewmap' exact render ={() => <ReviewMap />}/>
           <Route path="/map/infomap" exact render={() => <InfoMap />} />
           <Route path="/error" component={ErrorPage} />
