@@ -7,7 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.web.curation.model.feed.*;
 import com.web.curation.model.user.User;
 import com.web.curation.service.feed.FileService;
-import com.web.curation.util.SftpUtils;
+//import com.web.curation.util.SftpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -37,13 +37,18 @@ public class FeedController {
 	private UserDao userDao;
 	@Autowired
 	private FileService fileService;
+
 	private ObjectMapper objectMapper = new ObjectMapper();
 
-	@PostMapping
+	@PostMapping(
+			consumes = {
+					MediaType.MULTIPART_FORM_DATA_VALUE,
+					MediaType.APPLICATION_OCTET_STREAM_VALUE
+			})
 	@ApiOperation(value = "게시글 등록")
 	public ResponseEntity<?> create(
-			@RequestBody @ApiParam(value = "게시글 등록 시 필요한 정보 (음식명 , 날짜 , 식당이름, 장소 , 점수 , 내용)", required = true) CreateFeedRequest request
-//			, @RequestParam("file") MultipartFile multipartFile
+			@ModelAttribute @ApiParam(value = "게시글 등록 시 필요한 정보 (음식명 , 날짜 , 식당이름, 장소 , 점수 , 내용)", required = true) CreateFeedRequest request
+//			, @RequestPart("file") @Valid @NotNull @NotEmpty MultipartFile multipartFile
 //			, @ModelAttribute CreateFeedRequest request
 	) {
 		String title = request.getTitle().trim();
@@ -52,8 +57,7 @@ public class FeedController {
 		Integer score = request.getScore();
 		String content = request.getContent().trim();
 		String userEmail = request.getUserEmail().trim();
-//		MultipartFile multipartFile = request.getFile();
-//		String imageSrc = request.getImageSrc().trim();
+		MultipartFile mFile = request.getFile();
 
 		Optional<User> curUser = userDao.findById(userEmail);
 		if (!curUser.isPresent()) {
@@ -63,11 +67,7 @@ public class FeedController {
 		if ("".equals(title) || "".equals(storeName) || "".equals(location) || score == null || "".equals(content)) {
 			return makeResponse("400", null, "data is blank", HttpStatus.BAD_REQUEST);
 		}
-
-//		fileService.upload(multipartFile);
-//		File convertedFile = fileService.convertMultipartFileToFile(multipartFile);
-
-//		fileService.saveFile(convertedFile);
+		String url = fileService.upload(mFile);
 
 		Feed feed = Feed.builder()
 				.title(title)
@@ -76,6 +76,7 @@ public class FeedController {
 				.score(score)
 				.content(content)
 				.user(curUser.get())
+				.filePath(url)
 				.build();
 
 		Feed savedFeed = feedDao.save(feed);
@@ -92,27 +93,9 @@ public class FeedController {
 	@ApiOperation(value = "동영상 등록")
 	@ResponseBody
 	public Object uploadVideo(@RequestPart("file") @Valid @NotNull @NotEmpty MultipartFile multipartFile) {
-		String contentType = multipartFile.getContentType();
+		String url = fileService.upload(multipartFile);
 
-//		String fileName = fileService.upload(multipartFile);
-
-		String host = "i4b101.p.ssafy.io";
-		String user = "ubuntu";
-		String password = "wnsgus123";
-		int port = 22;
-		String workingDir = "/var/lib/tomcat9/webapps/single";
-//		String workingDir = "/home/uploaduser/sftp_root/uploads";
-
-		String errorMessage;
-		try {
-			errorMessage = SftpUtils.directUpload(host, user, password, port, workingDir, multipartFile);
-		} catch (Exception e) {
-			errorMessage = SftpUtils.errorBd.toString();
-			return ResponseEntity.status(HttpStatus.UPGRADE_REQUIRED).body(errorMessage);
-		}
-
-
-		return makeResponse("200", errorMessage, "success", HttpStatus.OK);
+		return makeResponse("200", url, "success", HttpStatus.OK);
 	}
 
 	@PutMapping

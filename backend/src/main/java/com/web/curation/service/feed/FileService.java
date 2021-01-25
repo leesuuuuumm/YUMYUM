@@ -12,12 +12,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.swing.filechooser.FileSystemView;
 import javax.transaction.Transactional;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.SQLTransactionRollbackException;
+import java.util.Calendar;
 import java.util.UUID;
 
 @Service
@@ -25,79 +27,94 @@ public class FileService {
     @Autowired
     private FileDao fileDao;
 
-    @Value("${upload.path}")
-    private String path;
+    private static final String SAVE_PATH = "/var/lib/tomcat9/webapps/single";
+    private static final String PREFIX_URL = "/var/lib/tomcat9/webapps/single/";
 
-    public String upload(MultipartFile file) {
-        if (file.isEmpty()) {
-            throw new StorageException("Failed to store empty file");
-        }
-        String resultLog = "";
-        UUID uuid = UUID.randomUUID();
-        String savedFileName = uuid.toString() + file.getOriginalFilename();
+    private static final String WINDOWS_SAVE_PATH = FileSystemView.getFileSystemView().getHomeDirectory().toString() + "/single";
+    private static final String WINDOWS_PREFIX_URL =FileSystemView.getFileSystemView().getHomeDirectory().toString() + "/single/";
+
+
+    public String upload(MultipartFile multipartFile) {
+        String url;
 
         try {
+            // 파일 정보
+            String originFilename = multipartFile.getOriginalFilename();
+            String extName = originFilename.substring(originFilename.lastIndexOf("."), originFilename.length());
+            Long size = multipartFile.getSize();
+
+            // 서버에서 저장 할 파일 이름
+            String saveFileName = genSaveFileName(extName);
+
+            System.out.println("originFilename : " + originFilename);
+            System.out.println("extensionName : " + extName);
+            System.out.println("size : " + size);
+            System.out.println("saveFileName : " + saveFileName);
+
+            writeFile(multipartFile, saveFileName);
+
             if (System.getProperty("os.name").contains("Windows")) {
-                String rootPath = FileSystemView.getFileSystemView().getHomeDirectory().toString();
-                String basePath = rootPath + "/" + "single";
-                String filePath = basePath + "/" + savedFileName;
-                java.io.File dest = new java.io.File(filePath);
-                file.transferTo(dest);
-
-                resultLog = filePath;
+                url = WINDOWS_PREFIX_URL + saveFileName;
             } else {
-                var fileName = savedFileName;
-                var is = file.getInputStream();
-
-                resultLog = path + fileName;
-                Files.copy(is, Paths.get(path + fileName), StandardCopyOption.REPLACE_EXISTING);
+                url = PREFIX_URL + saveFileName;
             }
+            System.out.println("url : " + url);
 
-        } catch (IOException e) {
-            var msg = String.format("Failed to store file %f", file.getName());
-
-            throw new StorageException(msg, e);
+            saveFile(originFilename, extName, url);
         }
-        return resultLog;
+        catch (IOException e) {
+            // 원래라면 RuntimeException 을 상속받은 예외가 처리되어야 하지만
+            // 편의상 RuntimeException을 던진다.
+            // throw new FileUploadException();
+            throw new RuntimeException(e);
+        }
+        return url;
     }
 
 
+    // 현재 시간을 기준으로 파일 이름 생성
+    private String genSaveFileName(String extName) {
+        StringBuilder fileName = new StringBuilder();
 
-//    public String upload(MultipartFile file) {
-//        String filePath;
-//        if (System.getProperty("os.name").contains("Windows")) {
-//            String rootPath = FileSystemView.getFileSystemView().getHomeDirectory().toString();
-//            String basePath = rootPath + "/" + "single";
-//            filePath = basePath + "/" + file.getOriginalFilename();
-//
-//            java.io.File destinationFile = new java.io.File(filePath);
-//            try {
-//                file.transferTo(destinationFile);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        } else {
-//            String basePath = path + "/" + "single";
-//            filePath = basePath + "/" + file.getOriginalFilename();
-//            try {
-//                InputStream inputStream = file.getInputStream();
-//
-//                Files.copy(inputStream, Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//        return filePath + System.getProperty("os.name");
-//    }
+        Calendar calendar = Calendar.getInstance();
+        fileName.append(calendar.get(Calendar.YEAR));
+        fileName.append(calendar.get(Calendar.MONTH));
+        fileName.append(calendar.get(Calendar.DATE));
+        fileName.append(calendar.get(Calendar.HOUR));
+        fileName.append(calendar.get(Calendar.MINUTE));
+        fileName.append(calendar.get(Calendar.SECOND));
+        fileName.append(calendar.get(Calendar.MILLISECOND));
+        fileName.append(extName);
 
-//    public File convertMultipartFileToFile(MultipartFile multipartFile) {
-//        multipartFile.getOriginalFilename();
-//    }
+        return fileName.toString();
+    }
+
+
+    // 파일을 실제로 write 하는 메서드
+    private boolean writeFile(MultipartFile multipartFile, String saveFileName) throws IOException{
+        boolean result = false;
+
+        byte[] data = multipartFile.getBytes();
+        FileOutputStream fos;
+        if (System.getProperty("os.name").contains("Windows")) {
+            fos = new FileOutputStream(WINDOWS_SAVE_PATH + "/" + saveFileName);
+        } else {
+            fos = new FileOutputStream(SAVE_PATH + "/" + saveFileName);
+        }
+        fos.write(data);
+        fos.close();
+
+        return result;
+    }
 
     @Transactional
-    public Long saveFile(File file) {
-        return fileDao.save(file).getId();
+    private String saveFile(String origFileName, String fileName, String filePath) {
+        File file = File.builder()
+                .origFileName(origFileName)
+                .fileName(fileName)
+                .filePath(filePath)
+                .build();
+        return fileDao.save(file).getFilePath();
     }
 
     @Transactional
