@@ -16,6 +16,7 @@ import InfoMap from './views/map/InfoMap';
 import BarkPage from './views/bark/BarkPage';
 import BottomTab from './_components/common/BottomTab';
 import ReviewMap from './views/map/ReviewMap';
+import Card from './_components/feed/Card';
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
           <Route path="/feed/article" exact render={() => <Article />}/>
           <Route path="/feed/flippages" exact render={() => <FlipPages />}/>
           <Route path='/bark' exact render={() => <BarkPage />} />
+          <Route path='/feed/test' exact render={() => <Card />} />
           <Route path='/map/reviewmap' exact render ={() => <ReviewMap />}/>
           <Route path="/map/infomap" exact render={() => <InfoMap />} />
           <Route path="/error" component={ErrorPage} />
