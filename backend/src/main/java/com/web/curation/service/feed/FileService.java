@@ -60,7 +60,7 @@ public class FileService {
             }
             System.out.println("url : " + url);
 
-            saveFile(originFilename, extName, url);
+            saveFile(originFilename, saveFileName, url, extName);
         }
         catch (IOException e) {
             // 원래라면 RuntimeException 을 상속받은 예외가 처리되어야 하지만
@@ -108,11 +108,12 @@ public class FileService {
     }
 
     @Transactional
-    private String saveFile(String origFileName, String fileName, String filePath) {
+    private String saveFile(String origFileName, String fileName, String filePath, String extensionName) {
         File file = File.builder()
                 .origFileName(origFileName)
                 .fileName(fileName)
                 .filePath(filePath)
+                .extensionName(extensionName)
                 .build();
         return fileDao.save(file).getFilePath();
     }

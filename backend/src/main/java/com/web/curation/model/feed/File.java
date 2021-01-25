@@ -21,4 +21,7 @@ public class File {
 
     @Column(nullable = false)
     private String fileName;
+
+    @Column(nullable = false)
+    private String extensionName;
 }
