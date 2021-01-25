@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import girl from "../../_assets/barkIcon/girl.svg";
 import styled, { keyframes, css } from "styled-components";
+import "./BarkPage.css";
 
 const BarkPage = () => {
   const [waveVisible, setWaveVisible] = useState(false);
@@ -31,44 +32,48 @@ const BarkPage = () => {
     top: "50%",
     transform: center,
     border: 4 + "px solid #F4D503",
+    zIndex: 8,
   };
 
   const shout = keyframes`
   0% {
-    transform: scale(1)
+    transform: scale(1);
+    opacity: 0.3;
   }
   100% {
-    transform: scale(8)
+    transform: scale(8);
+    opacity: 0.3;
   }
 `;
-  const Circle = styled.label`
+  const Circle = styled.div`
     width: 4rem;
     height: 4rem;
-    left: 50%;
-    top: 50%;
+    margin: auto;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
     position: absolute;
-    border-radius: 50px;
-    border: 1px solid #f4d503;
-    transform: ${center};
+    border-radius: 50%;
+    background-color: #f4d503;
+    opacity: 0;
     animation: ${shout} 3s;
+    z-index: 1;
   `;
 
   // btn click 시
   function clickBark() {
     setWaveVisible(!waveVisible);
     console.log("hi");
-    setWaves((oldArray) => [...oldArray, 1]);
+    setWaves((oldArray) => [...oldArray, <Circle />]);
   }
 
   return (
     <div className="barkContainer">
       <div style={circle}>
         <button style={btnBg} onClick={clickBark}></button>
+        {waves}
       </div>
-      {waves.map((wave) => (
-        <Circle />
-      ))}
-      {/* {waveVisible ? <Circle /> : <div></div>} */}
     </div>
   );
 };
