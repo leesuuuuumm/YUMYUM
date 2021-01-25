@@ -16,12 +16,14 @@ function Camera() {
         setSelectedFile(target.files)
         const newUrl = URL.createObjectURL(file);
         setSource(newUrl);
+        console.log(selectedFile)
       }
     }
   };
 
   const sourceClear = () => {
     setSource("")
+    setSelectedFile(null)
     console.log(source)
   }
 

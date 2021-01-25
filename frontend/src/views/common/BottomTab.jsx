@@ -37,7 +37,7 @@ function BottomTab() {
           label="Home"
           value="home"
           component={Link}
-          to="/"
+          to="/feed/flippages"
           icon={<HomeIcon />}
         />
         <BottomNavigationAction

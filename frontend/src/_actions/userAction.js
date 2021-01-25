@@ -31,7 +31,7 @@ export function resetPassword(dataToSubmit) {
 
 export function getUser(dataToSubmit) {
   const email = dataToSubmit
-  const data = request("get", USER_URL + `${email}`);
+  const data = request("get", USER_URL + `/${email}`);
   return {
     type: GET_USER_INFO,
     payload: data,
