@@ -14,6 +14,8 @@ import UserSetting from './views/user/UserSetting';
 import InfoMap from './views/map/InfoMap';
 import BarkPage from './views/bark/BarkPage';
 import BottomTab from './views/common/BottomTab';
+import FeedMap from './views/map/FeedMap';
+
 
 function App() {
   return (
@@ -30,6 +32,7 @@ function App() {
           <Route path="/feed/camera" exact render={() => <Camera />}/>
           <Route path="/feed/flippages" exact render={() => <FlipPages />}/>
           <Route path='/bark' exact render={() => <BarkPage />} />
+          <Route path='/map/feedmap' exact render ={() => <FeedMap />}/>
           <Route path="/map/infomap" exact render={() => <InfoMap />} />
           <Route path="/error" component={ErrorPage} />
           <Route path="*" component={NotFound} />
