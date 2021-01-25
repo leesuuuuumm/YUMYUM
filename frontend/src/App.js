@@ -13,8 +13,9 @@ import SignUpComplete from "./views/user/SignUpComplete";
 import UserSetting from './views/user/UserSetting';
 import InfoMap from './views/map/InfoMap';
 import BarkPage from './views/bark/BarkPage';
-import BottomTab from './views/common/BottomTab';
 import FeedMap from './views/map/FeedMap';
+import BottomTab from './_components/common/BottomTab';
+import Card from './_components/feed/Card';
 
 
 function App() {
@@ -33,12 +34,14 @@ function App() {
           <Route path="/feed/flippages" exact render={() => <FlipPages />}/>
           <Route path='/bark' exact render={() => <BarkPage />} />
           <Route path='/map/feedmap' exact render ={() => <FeedMap />}/>
+          <Route path='/feed/test' exact render={() => <Card />} />
           <Route path="/map/infomap" exact render={() => <InfoMap />} />
           <Route path="/error" component={ErrorPage} />
           <Route path="*" component={NotFound} />
         </Switch>
+        <BottomTab />
       </Router>
-      <BottomTab />
+      
     </div>
   );
 }
