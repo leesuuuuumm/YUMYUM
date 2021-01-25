@@ -90,6 +90,7 @@ public class FeedController {
 					MediaType.APPLICATION_OCTET_STREAM_VALUE
 			})
 	@ApiOperation(value = "동영상 등록")
+	@ResponseBody
 	public Object uploadVideo(@RequestPart("file") @Valid @NotNull @NotEmpty MultipartFile multipartFile) {
 		String contentType = multipartFile.getContentType();
 
@@ -102,9 +103,16 @@ public class FeedController {
 		String workingDir = "/var/lib/tomcat9/webapps/single";
 //		String workingDir = "/home/uploaduser/sftp_root/uploads";
 
-		boolean isSuccess = SftpUtils.directUpload(host, user, password, port, workingDir, multipartFile);
+		String errorMessage;
+		try {
+			errorMessage = SftpUtils.directUpload(host, user, password, port, workingDir, multipartFile);
+		} catch (Exception e) {
+			errorMessage = SftpUtils.errorBd.toString();
+			return ResponseEntity.status(HttpStatus.UPGRADE_REQUIRED).body(errorMessage);
+		}
 
-		return makeResponse("200", String.valueOf(isSuccess), "success", HttpStatus.OK);
+
+		return makeResponse("200", errorMessage, "success", HttpStatus.OK);
 	}
 
 	@PutMapping

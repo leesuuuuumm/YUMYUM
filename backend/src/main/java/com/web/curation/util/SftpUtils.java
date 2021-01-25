@@ -26,6 +26,8 @@ public class SftpUtils {
 
     private ChannelSftp channelSftp = null;
 
+    public static StringBuilder errorBd;
+
 
     /**
      * 서버와 연결에 필요한 값들을 가져와 초기화 시킴
@@ -137,56 +139,78 @@ public class SftpUtils {
      * @param sftpPass       SFTP 접속 패스워드
      * @param sftpPort       SFTP 접속 포트
      * @param sftpWorkingDir SFTP 작업 경로
-     * @param fileFullPath   업로드할 파일 경로
+     * @param mfile   업로드할 파일
      */
-    public static boolean directUpload(
+    public static String directUpload(
             String sftpHost, String sftpUser, String sftpPass,
             int sftpPort, String sftpWorkingDir, MultipartFile mfile) {
-
+        errorBd = new StringBuilder();
         boolean result = true;
 
         Session session = null;
         Channel channel = null;
         ChannelSftp channelSftp = null;
         System.out.println("preparing the host information for sftp.");
+        errorBd.append("preparing the host information for sftp.\n");
         try {
             JSch jsch = new JSch();
+            errorBd.append("JSch jsch = new JSch();\n");
             session = jsch.getSession(sftpUser, sftpHost, sftpPort);
+            errorBd.append("session = jsch.getSession(sftpUser, sftpHost, sftpPort);\n");
             session.setPassword(sftpPass);
+            errorBd.append("session.setPassword(sftpPass);\n");
 
             // Host 연결.
             java.util.Properties config = new java.util.Properties();
+            errorBd.append("java.util.Properties config = new java.util.Properties();\n");
             config.put("StrictHostKeyChecking", "no");
+            errorBd.append("config.put(\"StrictHostKeyChecking\", \"no\");\n");
             session.setConfig(config);
+            errorBd.append("session.setConfig(config);\n");
             session.connect();
+            errorBd.append("session.connect();\n");
 
             // sftp 채널 연결.
             channel = session.openChannel("sftp");
+            errorBd.append("channel = session.openChannel(\"sftp\");\n");
             channel.connect();
+            errorBd.append("channel.connect();\n");
 
             // 파일 업로드 처리.
             channelSftp = (ChannelSftp) channel;
+            errorBd.append("channelSftp = (ChannelSftp) channel;\n");
             channelSftp.cd(sftpWorkingDir);
+            errorBd.append("channelSftp.cd(sftpWorkingDir);\n");
             File file = convert(mfile);
+            errorBd.append("File file = convert(mfile);\n");
             String fileName = file.getName();
+            errorBd.append("String fileName = file.getName();\n");
             //fileName = URLEncoder.encode(f.getName(),"UTF-8");
             channelSftp.put(new FileInputStream(file), fileName);
+            errorBd.append("channelSftp.put(new FileInputStream(file), fileName);\n");
         } catch (Exception ex) {
             System.out.println(ex.toString());
+            errorBd.append("ex.toString()\n");
+            errorBd.append(ex.toString());
+            errorBd.append("\n");
             System.out.println("Exception found while tranfer the response.");
+            errorBd.append("Exception found while tranfer the response.\n");
             result = false;
         } finally {
             // sftp 채널을 닫음.
             channelSftp.exit();
+            errorBd.append("channelSftp.exit();\n");
 
             // 채널 연결 해제.
             channel.disconnect();
+            errorBd.append("channel.disconnect();\n");
 
             // 호스트 세션 종료.
             session.disconnect();
+            errorBd.append("session.disconnect();\n");
         }
 
-        return result;
+        return errorBd.toString();
     }
 
     private static File convert(MultipartFile mfile) {
