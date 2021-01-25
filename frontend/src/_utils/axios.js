@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// const DOMAIN = 'http://localhost:8080'
 const DOMAIN = 'http://i4b101.p.ssafy.io/yumyum'
 
 export const request = (method, url, data) => {

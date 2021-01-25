@@ -2,6 +2,7 @@ package com.web.curation.model.feed;
 
 import com.web.curation.model.user.User;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
@@ -24,6 +25,8 @@ public class CreateFeedRequest {
     private String content;
 
     private String userEmail;
+
+//    private MultipartFile file;
 
 //    private String imageSrc;
 }

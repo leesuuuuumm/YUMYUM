@@ -14,6 +14,7 @@ export function registerUser(dataToSubmit) {
 
 export function loginUser(dataToSubmit) {
     const data = request("post", USER_URL + "/login/", dataToSubmit);
+    console.log(data, '로그인data')
     return {
       type: LOGIN_USER,
       payload: data,

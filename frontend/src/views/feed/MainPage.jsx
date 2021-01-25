@@ -20,10 +20,10 @@ function MainPage(props) {
 
   const getProfileUser = (e) => {
     const profileEmail = props.match.params.email;
-    dispatch(getUser(profileEmail))
-      .then((res) => {
-        const obj = JSON.parse(res.payload.data);
-        setProfileUser(obj);
+    dispatch(getUser(profileEmail)).then((res) => {
+      console.log(res, "mainpage getprofile");
+      const obj = JSON.parse(res.payload.data);
+      setProfileUser(obj);
     });
   };
 
