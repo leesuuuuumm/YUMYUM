@@ -12,6 +12,7 @@ import com.web.curation.model.user.User;
 import com.web.curation.service.feed.FileService;
 import com.web.curation.util.UploadFileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -72,41 +73,32 @@ public class FeedController {
 
 //		fileService.saveFile(convertedFile);
 
-		Feed feed = Feed.builder()
-				.title(title)
-				.storeName(storeName)
-				.location(location)
-				.score(score)
-				.content(content)
-				.user(curUser.get())
-				.build();
+		Feed feed = Feed.builder().title(title).storeName(storeName).location(location).score(score).content(content)
+				.user(curUser.get()).build();
 
 		Feed savedFeed = feedDao.save(feed);
 
 		return makeResponse("200", convertObjToJson(savedFeed), "success", HttpStatus.OK);
 	}
 
-	@PostMapping(
-			value = "/video",
-			consumes = {
-					MediaType.MULTIPART_FORM_DATA_VALUE,
-					MediaType.APPLICATION_OCTET_STREAM_VALUE
-			})
-	@ApiOperation(value = "동영상 등록")
-	public Object uploadVideo(@RequestPart("file") @Valid @NotNull @NotEmpty MultipartFile multipartFile) {
-		String contentType = multipartFile.getContentType();
-
-//		String filePath = fileService.upload(multipartFile);
-		String fileName = "";
-		try {
-			FeedController.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-			fileName = UploadFileUtils.uploadFile(multipartFile.getOriginalFilename(), multipartFile.getBytes());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return makeResponse("200", FeedController.class.getProtectionDomain().getCodeSource().getLocation().getPath(), "success", HttpStatus.OK);
-	}
+//	@PostMapping(value = "/video", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE,
+//			MediaType.APPLICATION_OCTET_STREAM_VALUE })
+//	@ApiOperation(value = "동영상 등록")
+//	public Object uploadVideo(@RequestPart("file") @Valid @NotNull @NotEmpty MultipartFile multipartFile) {
+//		String contentType = multipartFile.getContentType();
+//
+////		String filePath = fileService.upload(multipartFile);
+//		String fileName = "";
+//		try {
+//			FeedController.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+//			fileName = UploadFileUtils.uploadFile(multipartFile.getOriginalFilename(), multipartFile.getBytes());
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//		return makeResponse("200", FeedController.class.getProtectionDomain().getCodeSource().getLocation().getPath(),
+//				"success", HttpStatus.OK);
+//	}
 
 	@PutMapping
 	@ApiOperation(value = "피드 수정")
@@ -130,7 +122,7 @@ public class FeedController {
 
 	@GetMapping("/{id}")
 	@ApiOperation(value = "단일 피드 조회")
-	public Object search(@Valid @ApiParam(value = "id 값으로 검색", required = true) @PathVariable String id) {
+	public Object searchId(@Valid @ApiParam(value = "id 값으로 검색", required = true) @PathVariable String id) {
 		Optional<Feed> curFeed = feedDao.findById(Long.parseLong(id));
 
 		if (!curFeed.isPresent()) {
@@ -142,7 +134,7 @@ public class FeedController {
 
 	@GetMapping("/list/{email}")
 	@ApiOperation(value = "피드 리스트 조회")
-	public Object searchList(@Valid @ApiParam(value = "email 값으로 검색 ", required = true) @PathVariable String email) {
+	public Object feedList(@Valid @ApiParam(value = "email 값으로 검색 ", required = true) @PathVariable String email) {
 		Optional<User> curUser = userDao.findById(email);
 
 		if (!curUser.isPresent()) {
@@ -150,11 +142,68 @@ public class FeedController {
 		}
 
 		List<Feed> searchlist = feedDao.findAllByUser(curUser.get());
-//		System.out.println(searchlist);
 
 		return makeResponse("200", convertObjToJson(searchlist), "success", HttpStatus.OK);
 
 	}
+//
+//	@GetMapping("/list/title/{email}")
+//	@ApiOperation(value = "title 별로 리스트 전체 조회")
+//	public Object titleList(@Valid @ApiParam(value = "title 별로 전체 조회", required = true) @PathVariable String email) {
+//
+//		Optional<User> curUser = userDao.findById(email);
+//
+//		if (!curUser.isPresent()) {
+//			return makeResponse("404", null, "User Not Found", HttpStatus.NOT_FOUND);
+//		}
+//
+//		List<Feed> titleList = feedDao.findAllByUserOrderByTitle(curUser.get());
+//
+//
+//		System.out.println();
+//		return makeResponse("200", convertObjToJson(titleList), "success", HttpStatus.OK);
+//
+//	}
+	@GetMapping("/list/title/{email}") 
+	@ApiOperation(value = "title 별로 리스트 전체 조회")
+	public Object titleList(@Valid @ApiParam(value = "title 별로 전체 조회", required = true) @PathVariable String email) {
+
+		Optional<User> curUser = userDao.findById(email);
+
+		if (!curUser.isPresent()) {
+			return makeResponse("404", null, "User Not Found", HttpStatus.NOT_FOUND);
+		}
+	
+		List<String> titleList = feedDao.findByUser_email(email);
+
+		System.out.println(titleList);
+
+		System.out.println();
+		return makeResponse("200", convertObjToJson(titleList), "success", HttpStatus.OK);
+
+	}
+	
+	@GetMapping("/list/title/{title}/{email}")
+	@ApiOperation(value = "title 별로 리스트 전체 조회")
+	public Object titleList(@Valid @ApiParam(value = "title 별로 전체 조회", required = true) @PathVariable String title,@PathVariable String email ) {
+
+		Optional<User> curUser = userDao.findById(email);
+
+		if (!curUser.isPresent()) {
+			return makeResponse("404", null, "User Not Found", HttpStatus.NOT_FOUND);
+		}
+	
+		List<Feed> titleList = feedDao.findAllByTitleAndUser_email(title,email);
+		
+		System.out.println(titleList);
+
+		System.out.println();
+		return makeResponse("200", convertObjToJson(titleList), "success", HttpStatus.OK);
+
+	}
+	
+	
+	
 
 	@DeleteMapping("/{id}")
 	@ApiOperation(value = "피드 삭제")
@@ -168,9 +217,11 @@ public class FeedController {
 
 		return makeResponse("200", convertObjToJson(curFeed.get()), "success", HttpStatus.OK);
 	}
+	
+
 
 	private ResponseEntity<BasicResponse> makeResponse(String status, String data, String message,
-													   HttpStatus httpStatus) {
+			HttpStatus httpStatus) {
 		BasicResponse result = BasicResponse.builder().status(status).message(message).data(data).build();
 		return new ResponseEntity<>(result, httpStatus);
 	}
