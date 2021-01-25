@@ -37,7 +37,7 @@ function BottomTab() {
           label="Home"
           value="home"
           component={Link}
-          to="/"
+          to="/feed/flippages"
           icon={<HomeIcon />}
         />
         <BottomNavigationAction
@@ -49,9 +49,9 @@ function BottomTab() {
         />
         <BottomNavigationAction
           label="Review"
-          value="/feed/createarticle"
+          value="/feed/camera"
           component={Link}
-          to="/feed/createarticle"
+          to="/feed/camera"
           icon={<CreateIcon />}
         />
         <BottomNavigationAction

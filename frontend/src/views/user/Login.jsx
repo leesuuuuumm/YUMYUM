@@ -50,6 +50,7 @@ function Login(props) {
   return (
     <section className="login">
       <div className="userContainer">
+        {/* <button className="add-button">Add to home screen</button> */}
         <p className="userAppTitle">
           당신의
           <br />
