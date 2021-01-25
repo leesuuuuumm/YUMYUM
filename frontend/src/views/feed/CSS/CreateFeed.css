@@ -1,0 +1,17 @@
+.createWapper {
+  height: 100vh;
+}
+
+#feed-button-wapper {
+  position: relative;
+}
+
+#next {
+  height: 5px;
+  float: right;
+  margin-right: 5vw;
+}
+
+#goback {
+  margin-left: 5vh;
+}

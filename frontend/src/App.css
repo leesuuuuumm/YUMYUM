@@ -56,6 +56,12 @@
   font-size: 30px;
 }
 
+#add-button {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+}
+
 .login .userContainer .userTitle {
   color: white;
   margin: 10px 0px 70px 0;
