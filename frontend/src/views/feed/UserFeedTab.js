@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -10,7 +10,12 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import UserFeedMonthGrid from './UserFeedMonthGrid';
+import UserFeedSquareGrid from './UserFeedSquareGrid';
+import { FeedsContext } from './UserFeedPage';
+
+import wine from "../../_assets/wine.jpg";
+import neon from "../../_assets/neon.jpg";
+import yellowwine from "../../_assets/yellowwine.jpg";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -52,6 +57,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const tileData = [
+  {
+    img: wine,
+    title: "Image",
+    author: "author",
+  },
+  {
+    img: neon,
+    title: "Image",
+    author: "author",
+  },
+  {
+    img: yellowwine,
+    title: "Image",
+    author: "author",
+  },
+];
 
 
 export default function UserFeedTab(props) {
@@ -59,6 +81,8 @@ export default function UserFeedTab(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
+  const [imgData, setImgData] = React.useState(tileData);
+  const {loggedUser, feeds} = useContext(FeedsContext);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -76,6 +100,11 @@ export default function UserFeedTab(props) {
     alert("나가잇!?");
     history.push("/");
   };
+
+  useEffect(()=>{
+    console.log(feeds, 'feeds')
+    console.log(imgData, 'tile')
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -101,9 +130,11 @@ export default function UserFeedTab(props) {
       > */}
         <TabPanel value={value} index={0} dir={theme.direction}>
           메뉴유우우우!
+          {loggedUser}
+          {/* {feeds} */}
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <UserFeedMonthGrid />
+          <UserFeedSquareGrid title="12월" tileData = {imgData} style={{ padding: 0 }}/>
         </TabPanel>
       {/* </SwipeableViews> */}
     </div>

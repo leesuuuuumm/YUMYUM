@@ -1,47 +1,57 @@
 import { withRouter } from "react-router-dom";
-import React, { useEffect, useState } from "react";
-// import { useDispatch } from "react-redux";
-// import { getUser, logoutUser } from "../../_actions/userAction";
+import React, { useEffect, useState, createContext, useMemo } from "react";
+import { useDispatch } from "react-redux";
+import { getFeedByEmail } from "../../_actions/feedAction";
 import UserFeedTab from "./UserFeedTab";
 import "./CSS/UserFeedPage.css";
 
-function MainPage(props) {
+// Context 생성
+export const FeedsContext = createContext();
+
+function UserFeedPage(props) {
   const [loggedUser, setLoggedUser] = useState("");
-  // const [profileUser, setProfileUser] = useState({});
-  // const dispatch = useDispatch();
+  const [feedsCalendar, setfeedsCalendar] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    // getProfileUser();
     onLoggedUser();
     console.log("loggedUser", loggedUser);
+    if (loggedUser) {
+      getFeedsCalendar();
+    }
   }, []);
 
   const onLoggedUser = (e) => {
     setLoggedUser(JSON.parse(localStorage.getItem("loggedInfo")));
   };
 
-  // const getProfileUser = (e) => {
-  //   // const profileEmail = props.match.params.email;
+  const getFeedsCalendar = (e) => {
+    dispatch(getFeedByEmail(loggedUser.email))
+      .then((response) => {
+        const data = JSON.parse(response.payload.data);
+        console.log(data, "월별feeds");
 
-  //   dispatch(getUser(profileEmail)).then((res) => {
-  //     console.log(res.payload);
-  //     const obj = JSON.parse(res.payload.data);
-  //     setProfileUser(obj);
-  //   });
-  // };
+        return data;
+      })
+      .then((response) => {
+        console.log(response, "response2");
+        setfeedsCalendar(response);
+        console.log(feedsCalendar, "feedsCalendar");
+      });
+  };
 
   return (
     <div>
-      {loggedUser ? (
-        <UserFeedTab username={loggedUser.nickname} />
-      ) : (
-        <div>
-          <p>로그인하세요잇!</p>
-        </div>
-      )}
-      <div className="userContainer"></div>
+      <FeedsContext.Provider
+        value={{ loggedUser: loggedUser.nickname, feeds: feedsCalendar }}
+      >
+        <UserFeedTab
+          username={loggedUser.nickname}
+          feedsCalendar={feedsCalendar}
+        />
+      </FeedsContext.Provider>
     </div>
   );
 }
 
-export default withRouter(MainPage);
+export default withRouter(UserFeedPage);
