@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, withRouter } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { registerFeed } from "../../_actions/feedAction";
+import { registerFeed, registerVideo } from "../../_actions/feedAction";
 import "./CSS/CreateFeed.css"
 import ReactStars from "react-rating-stars-component";
 import NavigateBeforeRoundedIcon from '@material-ui/icons/NavigateBeforeRounded';
@@ -12,8 +12,9 @@ function CreateFeed(props) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [score, setScore] = useState(0);
-  const selectedFile = props.location.state.selectedFile[0]
+  const selectedFile = props.location.state.selectedFile
   const placeInfo = props.location.state.detailPlace
+  const formData = props.location.state.formData
 
   useEffect(() => {
     onLoggedUser()
@@ -43,17 +44,15 @@ function CreateFeed(props) {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
+    formData.append('title', title);
+    formData.append('content', content);
+    formData.append('storeName', placeInfo.place_name);
+    formData.append('location', placeInfo.address_name);
+    formData.append('score', score);
+    formData.append('userEmail', loggedUser.email);
+
 
     if (title && content && score) {
-      var formData = new FormData();
-      formData.append("file", `${selectedFile}`)
-      formData.append("title", `${title}`)
-      formData.append("content", `${content}`)
-      formData.append("score", `${score}`)
-      formData.append("location", `${placeInfo.address_name}`)
-      formData.append("storeName", `${placeInfo.place_name}`)
-      formData.append("userEmail", `${loggedUser.email}`)
-
       dispatch(registerFeed(formData))
         .then((res) => {
           if (res.payload.status) {
@@ -64,9 +63,6 @@ function CreateFeed(props) {
           }
         })
         .catch((err) => {
-          for (let value of formData.keys()) {
-            console.log(value);
-          }
           console.log("피드 실패 에러");
           console.log(err);
         });

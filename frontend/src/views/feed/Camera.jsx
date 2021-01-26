@@ -7,24 +7,26 @@ import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
 
 function Camera() {
   const [source, setSource] = useState("");
-  const [selectedFile, setSelectedFile] = useState([])
+  const [formData, setFormData] = useState({})
   
   const handleCapture = (target) => {
     if (target.files) {
       if (target.files.length !== 0) {
         const file = target.files[0];
-        selectedFile.push(file)
         const newUrl = URL.createObjectURL(file);
         setSource(newUrl);
-        console.log(selectedFile)
         console.log(newUrl)
+        
+        const formData = new FormData();
+        formData.append('file', file);
+        setFormData(formData)
       }
     }
   };
 
   const sourceClear = () => {
     setSource("")
-    setSelectedFile([])
+    setFormData({})
     console.log(source)
   }
 
@@ -51,7 +53,7 @@ function Camera() {
               <Link to={{
                 pathname: "/feed/feedmap",
                 state: {
-                  selectedFile: selectedFile[0],
+                  formData: formData,
                 }
               }}> 
                 <NavigateNextIcon fontSize="large" color="disabled" /> 
@@ -64,14 +66,16 @@ function Camera() {
           <h4 className="userAppTitle">맛을 보여주세요</h4>
           <label htmlFor="icon-button-file" component="span">
             <PhotoCameraRoundedIcon id="cameraIcon" fontSize="small" color="primary" />
-          </label> 
+          </label>
           <input
             accept="video/*"
             id="icon-button-file"
             type="file"
+            name="file"
             capture="environment"
             onChange={(e) => handleCapture(e.target)}
           />
+          
       </div>
       )}
     </div>

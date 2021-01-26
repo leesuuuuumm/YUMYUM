@@ -1,15 +1,10 @@
-import { CREATE_FEED, GET_FEED_INFO, DELETE_FEED, GET_FEED_BY_EMAIL } from './types';
+import { CREATE_FEED, GET_FEED_INFO, DELETE_FEED, GET_FEED_BY_EMAIL, CREATE_VIDEO } from './types';
 
 import { request } from "../_utils/axios";
 
 const USER_URL = '/feed';
 
 export function registerFeed(dataToSubmit) {
-    // const config = {
-    //   headers: {
-    //     "content-type": "multipart/form-data"
-    //   }
-    // }
     const data = request('post', USER_URL, dataToSubmit);
     return {
         type: CREATE_FEED,
@@ -43,3 +38,14 @@ export function deleteFeed(dataToSubmit) {
       payload: data,
     };
   }
+
+export function registerVideo(dataToSubmit) {
+    for (let value of dataToSubmit.values()) {
+      console.log(value);
+    }
+    const data = request('post', USER_URL+ `/video`, dataToSubmit);
+    return {
+        type: CREATE_VIDEO,
+        payload: data,
+    }
+}
