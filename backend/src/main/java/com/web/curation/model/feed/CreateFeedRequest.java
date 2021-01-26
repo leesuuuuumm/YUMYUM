@@ -16,19 +16,18 @@ import javax.persistence.ManyToOne;
 public class CreateFeedRequest {
     private String title;
 
+    private String content;
+
     private String storeName;
 
     private String location;
 
     private Integer score;
 
-    private String content;
 
     private String userEmail;
     
     private Long placeId;
 
 //    private MultipartFile file;
-
-//    private String imageSrc;
 }

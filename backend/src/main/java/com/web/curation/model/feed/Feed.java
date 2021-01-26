@@ -2,13 +2,7 @@ package com.web.curation.model.feed;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import com.web.curation.model.TimeEntity;
 import com.web.curation.model.user.User;
@@ -53,7 +47,6 @@ public class Feed extends TimeEntity {
 	@ManyToOne
 	@JoinColumn(name="PlACE_LOCATION")
 	private Place placesInfo;
-		
-	@Column()
-	private String imageSrc;
+
+	private String filePath;
 }

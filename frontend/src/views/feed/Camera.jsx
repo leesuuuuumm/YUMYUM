@@ -7,23 +7,26 @@ import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
 
 function Camera() {
   const [source, setSource] = useState("");
-  const [selectedFile, setSelectedFile] = useState()
+  const [formData, setFormData] = useState({})
   
   const handleCapture = (target) => {
     if (target.files) {
       if (target.files.length !== 0) {
         const file = target.files[0];
-        setSelectedFile(target.files)
         const newUrl = URL.createObjectURL(file);
         setSource(newUrl);
-        console.log(selectedFile)
+        console.log(newUrl)
+        
+        const formData = new FormData();
+        formData.append('file', file);
+        setFormData(formData)
       }
     }
   };
 
   const sourceClear = () => {
     setSource("")
-    setSelectedFile(null)
+    setFormData({})
     console.log(source)
   }
 
@@ -35,7 +38,7 @@ function Camera() {
             id="background-video" 
             className='videoTag' 
             src={source} 
-            type='video/mp4'
+            type='video/*'
             width= "100%"
             height= "100%"
             autoPlay 
@@ -47,7 +50,14 @@ function Camera() {
               <ReplayRoundedIcon id="retryIcon" color="disabled" fontSize="large"/>
             </a>
             <a id="next">
-              <Link to="/feed/createfeed"> <NavigateNextIcon fontSize="large" color="disabled" /> </Link>
+              <Link to={{
+                pathname: "/feed/feedmap",
+                state: {
+                  formData: formData,
+                }
+              }}> 
+                <NavigateNextIcon fontSize="large" color="disabled" /> 
+              </Link>
             </a>
           </div>
         </div>
@@ -56,14 +66,16 @@ function Camera() {
           <h4 className="userAppTitle">맛을 보여주세요</h4>
           <label htmlFor="icon-button-file" component="span">
             <PhotoCameraRoundedIcon id="cameraIcon" fontSize="small" color="primary" />
-          </label> 
+          </label>
           <input
             accept="video/*"
             id="icon-button-file"
             type="file"
+            name="file"
             capture="environment"
             onChange={(e) => handleCapture(e.target)}
           />
+          
       </div>
       )}
     </div>

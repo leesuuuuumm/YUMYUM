@@ -1,62 +1,56 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { registerFeed } from "../../_actions/feedAction";
-import "./CSS/CreateFeed.css"
+import { registerFeed, registerVideo } from "../../_actions/feedAction";
+import "./CSS/CreateFeed.css";
 import ReactStars from "react-rating-stars-component";
-import NavigateBeforeRoundedIcon from '@material-ui/icons/NavigateBeforeRounded';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import NavigateBeforeRoundedIcon from "@material-ui/icons/NavigateBeforeRounded";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 
 function CreateFeed(props) {
   const [loggedUser, setLoggedUser] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [location, setLocation] = useState("");
-  const [storeName, setStoreName] = useState("");
   const [score, setScore] = useState(0);
+  const placeInfo = props.location.state.detailPlace;
+  const formData = props.location.state.formData;
 
   useEffect(() => {
-    onLoggedUser()
+    onLoggedUser();
   }, []);
 
   const dispatch = useDispatch();
+  
   const onTitleHandler = (e) => {
     setTitle(e.currentTarget.value);
-  }
+  };
   const onContentHandler = (e) => {
     setContent(e.currentTarget.value);
-  }
-  const onLocationHandler = (e) => {
-    setLocation(e.currentTarget.value);
-  }
-  const onStoreNameHandler = (e) => {
-    setStoreName(e.currentTarget.value);
-  }
+  };
   const onLoggedUser = (e) => {
     setLoggedUser(JSON.parse(localStorage.getItem("loggedInfo")));
   };
   const ratingChanged = (newRating) => {
-    setScore(newRating)
+    setScore(newRating);
   };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    if (title && content && location && storeName && score) {
-      let body = {
-        title: title,
-        content: content,
-        location: location,
-        storeName: storeName,
-        score: score,
-        userEmail: loggedUser.email
-      };
-      dispatch(registerFeed(body))
+    formData.append("title", title);
+    formData.append("content", content);
+    formData.append("storeName", placeInfo.place_name);
+    formData.append("location", placeInfo.address_name);
+    formData.append("score", score);
+    formData.append("userEmail", loggedUser.email);
+
+    if (title && content && score) {
+      dispatch(registerFeed(formData))
         .then((res) => {
           if (res.payload.status) {
             alert("피드가 작성되었습니다!");
             props.history.push("/feed/flippages");
           } else {
-            alert("피드 생성 실패"); 
+            alert("피드 생성 실패");
           }
         })
         .catch((err) => {
@@ -71,9 +65,9 @@ function CreateFeed(props) {
   return (
     <div className="createWapper">
       <h2>오늘의 맛일기</h2>
-      <h3>작성자 : {loggedUser.nickname}</h3>
-      <br/>
-      <hr/>
+      {/* <h3>작성자 : {loggedUser.nickname}</h3> */}
+      <br />
+      <hr />
       <form onSubmit={onSubmitHandler}>
         <ReactStars
           count={5}
@@ -95,32 +89,22 @@ function CreateFeed(props) {
           onChange={onContentHandler}
           required
           placeholder="어땠음?!"
-        />     
-        <input
-          type="content"
-          value={storeName}
-          onChange={onStoreNameHandler}
-          required
-          placeholder="어디서 먹었음?!"
-        />     
-        <input
-          type="content"
-          value={location}
-          onChange={onLocationHandler}
-          required
-          placeholder="위치가 어디임?!"
-        />     
+        />
+
         <div id="feed-button-wapper">
           <a id="goback">
-            <Link to="/feed/camera"> <NavigateBeforeRoundedIcon fontSize="large"  /> </Link>
+            <Link to="/feed/camera">
+              {" "}
+              <NavigateBeforeRoundedIcon fontSize="large" />{" "}
+            </Link>
           </a>
           <button id="next" type="submit">
-            <NavigateNextIcon fontSize="large"  />
+            <NavigateNextIcon fontSize="large" />
           </button>
-        </div>     
+        </div>
       </form>
     </div>
   );
-};
+}
 
 export default withRouter(CreateFeed);

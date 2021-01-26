@@ -5,19 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class File {
     @Id
-    @GeneratedValue
-    private Long id;
+    private String filePath;
 
     @Column(nullable = false)
     private String origFileName;
@@ -26,5 +23,5 @@ public class File {
     private String fileName;
 
     @Column(nullable = false)
-    private String filePath;
+    private String extensionName;
 }
