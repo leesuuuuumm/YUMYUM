@@ -1,11 +1,9 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import ListSubheader from "@material-ui/core/ListSubheader";
-import wine from "../../_assets/wine.jpg";
-import neon from "../../_assets/neon.jpg";
-import yellowwine from "../../_assets/yellowwine.jpg";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -23,7 +21,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
-export default function UserFeedSquareGrid(props) {
+export default function FeedSquareGrid(props) {
   const classes = useStyles();
   const { title, tileData } = props;
 
@@ -43,3 +41,7 @@ export default function UserFeedSquareGrid(props) {
     </div>
   );
 }
+FeedSquareGrid.propTypes = {
+  title: PropTypes.string,
+  tileData: PropTypes.arrayOf(PropTypes.object),
+};

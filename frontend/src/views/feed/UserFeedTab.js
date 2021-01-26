@@ -10,7 +10,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import UserFeedSquareGrid from './UserFeedSquareGrid';
+import FeedSquareGrid from './FeedSquareGrid';
 import { FeedsContext } from './UserFeedPage';
 
 import wine from "../../_assets/wine.jpg";
@@ -102,7 +102,7 @@ export default function UserFeedTab(props) {
   };
 
   useEffect(()=>{
-    console.log(feeds, 'feeds')
+    console.log(feeds, 'feeds왔니?')
     console.log(imgData, 'tile')
   }, []);
 
@@ -130,11 +130,11 @@ export default function UserFeedTab(props) {
       > */}
         <TabPanel value={value} index={0} dir={theme.direction}>
           메뉴유우우우!
-          {loggedUser}
-          {/* {feeds} */}
+
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <UserFeedSquareGrid title="12월" tileData = {imgData} style={{ padding: 0 }}/>
+          {/* Todo : tileData에 feeds로 수정! */}
+          <FeedSquareGrid title="12월" tileData = {tileData} style={{ padding: 0 }}/>
         </TabPanel>
       {/* </SwipeableViews> */}
     </div>

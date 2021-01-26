@@ -13,20 +13,12 @@ function UserFeedPage(props) {
   const [feedsCalendar, setfeedsCalendar] = useState([]);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    onLoggedUser();
-    console.log("loggedUser", loggedUser);
-    if (loggedUser) {
-      getFeedsCalendar();
-    }
-  }, []);
-
   const onLoggedUser = (e) => {
     setLoggedUser(JSON.parse(localStorage.getItem("loggedInfo")));
   };
 
   const getFeedsCalendar = (e) => {
-    dispatch(getFeedByEmail(loggedUser.email))
+    dispatch(getFeedByEmail("ssafy@ssafy.com"))
       .then((response) => {
         const data = JSON.parse(response.payload.data);
         console.log(data, "월별feeds");
@@ -35,10 +27,41 @@ function UserFeedPage(props) {
       })
       .then((response) => {
         console.log(response, "response2");
-        setfeedsCalendar(response);
+
+        // const fetchData = async () => {
+        //   try {
+        //     await setfeedsCalendar(feedsCalendar.concat(response));
+        //     console.log(feedsCalendar, "feedsCalendar");
+        //   } catch (error) {
+        //     console.log(error);
+        //   }
+        // };
+        // fetchData();
+        feedsCalendar.push(response);
+        // setfeedsCalendar(feedsCalendar.concat(response));
         console.log(feedsCalendar, "feedsCalendar");
       });
   };
+
+  useEffect(() => {
+    // const fetchData = async () => {
+    //   try {
+    //     await onLoggedUser();
+    //     getFeedsCalendar();
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
+    // fetchData();
+    onLoggedUser();
+    console.log("loggedUser", loggedUser);
+
+    // getFeedsCalendar();
+  }, []);
+
+  useEffect(() => {
+    getFeedsCalendar();
+  }, []);
 
   return (
     <div>
