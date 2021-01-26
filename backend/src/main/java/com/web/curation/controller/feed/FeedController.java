@@ -9,6 +9,7 @@ import com.web.curation.model.user.User;
 import com.web.curation.service.feed.FileService;
 //import com.web.curation.util.SftpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -116,7 +117,7 @@ public class FeedController {
 
 	@GetMapping("/{id}")
 	@ApiOperation(value = "단일 피드 조회")
-	public Object search(@Valid @ApiParam(value = "id 값으로 검색", required = true) @PathVariable String id) {
+	public Object searchId(@Valid @ApiParam(value = "id 값으로 검색", required = true) @PathVariable String id) {
 		Optional<Feed> curFeed = feedDao.findById(Long.parseLong(id));
 
 		if (!curFeed.isPresent()) {
@@ -127,8 +128,8 @@ public class FeedController {
 	}
 
 	@GetMapping("/list/{email}")
-	@ApiOperation(value = "피드 리스트 조회")
-	public Object searchList(@Valid @ApiParam(value = "email 값으로 검색 ", required = true) @PathVariable String email) {
+	@ApiOperation(value = "한 유저의 피드 리스트 조회")
+	public Object feedList(@Valid @ApiParam(value = "email 값으로 검색 ", required = true) @PathVariable String email) {
 		Optional<User> curUser = userDao.findById(email);
 
 		if (!curUser.isPresent()) {
@@ -136,11 +137,45 @@ public class FeedController {
 		}
 
 		List<Feed> searchlist = feedDao.findAllByUser(curUser.get());
-//		System.out.println(searchlist);
 
-		return makeResponse("200", convertObjToJson(searchlist), "success", HttpStatus.OK);
-
+		return makeResponse("200", convertObjToJson(searchlist), "success" + searchlist.size(), HttpStatus.OK);
 	}
+
+	@GetMapping("/titles/{email}")
+	@ApiOperation(value = "한 유저의 피드 타이틀 리스트 조회")
+	public Object titleList(@Valid @ApiParam(value = "title 별로 전체 조회", required = true) @PathVariable String email) {
+		Optional<User> curUser = userDao.findById(email);
+
+		if (!curUser.isPresent()) {
+			return makeResponse("404", null, "User Not Found", HttpStatus.NOT_FOUND);
+		}
+	
+		List<String> titleList = feedDao.findByUser_email(email);
+
+		System.out.println(titleList);
+
+		System.out.println();
+		return makeResponse("200", convertObjToJson(titleList), "success" + titleList.size(), HttpStatus.OK);
+	}
+
+	
+	@GetMapping("/list/{email}/{title}/")
+	@ApiOperation(value = "한 유저의 하나의 title로 적힌 피드 리스트 조회")
+	public Object titleList(@Valid @ApiParam(value = "title 별로 전체 조회", required = true) @PathVariable String title, @PathVariable String email ) {
+		Optional<User> curUser = userDao.findById(email);
+
+		if (!curUser.isPresent()) {
+			return makeResponse("404", null, "User Not Found", HttpStatus.NOT_FOUND);
+		}
+	
+		List<Feed> feedList = feedDao.findAllByTitleAndUser_email(title,email);
+		
+		System.out.println(feedList);
+
+		System.out.println();
+		return makeResponse("200", convertObjToJson(feedList), "success" + feedList.size(), HttpStatus.OK);
+	}
+
 
 	@DeleteMapping("/{id}")
 	@ApiOperation(value = "피드 삭제")
@@ -154,9 +189,11 @@ public class FeedController {
 
 		return makeResponse("200", convertObjToJson(curFeed.get()), "success", HttpStatus.OK);
 	}
+	
+
 
 	private ResponseEntity<BasicResponse> makeResponse(String status, String data, String message,
-													   HttpStatus httpStatus) {
+			HttpStatus httpStatus) {
 		BasicResponse result = BasicResponse.builder().status(status).message(message).data(data).build();
 		return new ResponseEntity<>(result, httpStatus);
 	}

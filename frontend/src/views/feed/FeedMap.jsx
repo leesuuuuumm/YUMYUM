@@ -314,7 +314,11 @@ const FeedMap = (props) => {
       pathname: "/feed/createfeed",
       state: { 
         detailPlace: detailPlaceInfo,
+<<<<<<< HEAD
         // formData: formData 
+=======
+        formData: formData 
+>>>>>>> 2c7313856dedcb0149dc299a433b64a5af1d083f
       },
     });
   }
