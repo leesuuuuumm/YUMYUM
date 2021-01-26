@@ -4,11 +4,11 @@ import { Link, withRouter } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
-import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
-import DirectionsIcon from "@material-ui/icons/Directions";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowCircleRight }  from '@fortawesome/free-solid-svg-icons';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -362,6 +362,7 @@ const FeedMap = (props) => {
           <DirectionsIcon />
         </IconButton> */}
       </Paper>
+      <FontAwesomeIcon icon={faArrowCircleRight} className="arrowcircle" size="4x" color="#b3e5fc" onClick={sendPlaceInfo}/>
       <div className="map_wrap">
         <div id="map" style={{ width: "98vw", height: "85vh" }}></div>
         {isList && (
