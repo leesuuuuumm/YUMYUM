@@ -55,20 +55,23 @@ public class FeedController {
 		Integer score = request.getScore();
 		String content = request.getContent().trim();
 		String userEmail = request.getUserEmail().trim();
-		Place place = request.getPlace();
 
 		Optional<User> curUser = userDao.findById(userEmail);
-		Optional<Place> curPlace = placeDao.findById(place.getId());
+		Optional<Place> curPlace = placeDao.findById(request.getPlaceId());
 		if (!curUser.isPresent()) {
 			return makeResponse("400", null, "User Not found", HttpStatus.BAD_REQUEST);
 		}
 
-		if ("".equals(title) || "".equals(place.getAddressName()) || "".equals(place.getPlaceName()) || score == null || "".equals(content)) {
+		if (!curPlace.isPresent()) {
+			return makeResponse("400", null, "Place Not found", HttpStatus.BAD_REQUEST);
+		}
+
+		if ("".equals(title) || "".equals(curPlace.get().getAddressName()) || "".equals(curPlace.get().getPlaceName()) || score == null || "".equals(content)) {
 			return makeResponse("400", null, "data is blank", HttpStatus.BAD_REQUEST);
 		}
 		String url = fileService.upload(mFile);
 
-		Place savedPlace = placeDao.save(place);
+		Place savedPlace = placeDao.save(curPlace.get());
 
 		Feed feed = Feed.builder()
 				.title(title)

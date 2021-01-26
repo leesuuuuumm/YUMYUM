@@ -23,7 +23,7 @@ public class CreateFeedRequest {
 
     private String userEmail;
 
-    private Place place;
+    private Long placeId;
 
 //    private MultipartFile file;
 }

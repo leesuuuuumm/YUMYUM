@@ -41,7 +41,7 @@ function UserFeedPage(props) {
   }, []);
 
   useEffect(() => {
-    getFeedsCalendar();
+    // getFeedsCalendar();
   }, []);
 
   return (

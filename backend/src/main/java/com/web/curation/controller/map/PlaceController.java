@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.web.curation.utils.HttpUtils.convertObjToJson;
 import static com.web.curation.utils.HttpUtils.makeResponse;
@@ -27,9 +28,9 @@ public class PlaceController {
 	@ApiOperation(value = "place 저장")
 	public Object save(@RequestBody @ApiParam(value = "place에 저장할 정보", required = true) Place request) {
 		Long id = request.getId();
-
-		if (placeDao.findById(id).isPresent()) {
-			return makeResponse("400", null, "this place already exists", HttpStatus.BAD_REQUEST);
+		Optional<Place> placeOptional = placeDao.findById(id);
+		if (placeOptional.isPresent()) {
+			return makeResponse("200", convertObjToJson(placeOptional.get()), "this place already exists", HttpStatus.OK);
 		}
 		
 		Place place=Place.builder()

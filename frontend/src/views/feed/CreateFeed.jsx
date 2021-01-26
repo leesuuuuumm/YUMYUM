@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { registerFeed, registerVideo } from "../../_actions/feedAction";
+import { registerPlace } from "../../_actions/mapAction";
 import "./CSS/CreateFeed.css";
 import ReactStars from "react-rating-stars-component";
 import NavigateBeforeRoundedIcon from "@material-ui/icons/NavigateBeforeRounded";
@@ -12,6 +13,7 @@ function CreateFeed(props) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [place, setPlace] = useState({});
+  const [reqBody, setReqBody] = useState({});
   const [score, setScore] = useState(0);
   const placeInfo = props.location.state.detailPlace;
   const formData = props.location.state.formData;
@@ -41,39 +43,39 @@ function CreateFeed(props) {
     formData.append("content", content);
     formData.append("score", score);
     formData.append("userEmail", loggedUser.email);
-    setPlace({
-      addressName : placeInfo.address_name,
-      id :placeInfo.id,
-      phone: placeInfo.phone,
-      placeName: placeInfo.place_name,
-      x : placeInfo.x,
-      y : placeInfo.y
-    })
-    // place.addressName = placeInfo.address_name;
-    // place.id =placeInfo.id;
-    // place.phone= placeInfo.phone;
-    // place.placeName= placeInfo.place_name;
-    // place.x = placeInfo.x;
-    // place.y = placeInfo.y;
-    formData.append("place", place)
+    formData.append("placeId", placeInfo.id);
+    place.addressName = placeInfo.address_name;
+    place.id =placeInfo.id;
+    place.phone= placeInfo.phone;
+    place.placeName= placeInfo.place_name;
+    place.x = placeInfo.x;
+    place.y = placeInfo.y;
 
     if (title && content && score) {
-      dispatch(registerFeed(formData))
+      dispatch(registerPlace(place))
         .then((res) => {
-          if (res.payload.status) {
-            alert("피드가 작성되었습니다!");
-            props.history.push("/feed/flippages");
-          } else {
-            alert("피드 생성 실패");
-          }
+          dispatch(registerFeed(formData))
+            .then((res) => {
+              if (res.payload.status) {
+                alert("피드가 작성되었습니다!");
+                props.history.push("/feed/flippages");
+              } else {
+                alert("피드 생성 실패");
+              }
+            })
+            .catch((err) => {
+              console.log("피드 실패 에러");
+              console.log(err);
+              for (let value of formData.values()) {
+                console.log(value);
+              }
+            });
         })
         .catch((err) => {
-          console.log("피드 실패 에러");
+          console.log("장소 실패 에러");
           console.log(err);
-          for (let value of formData.values()) {
-            console.log(value);
-          }
         });
+      
     } else {
       alert("이건뭐고");
     }
