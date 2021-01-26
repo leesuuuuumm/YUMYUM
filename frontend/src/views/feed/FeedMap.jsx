@@ -312,9 +312,9 @@ const FeedMap = (props) => {
   function sendPlaceInfo() {
     props.history.push({
       pathname: "/feed/createfeed",
-      state: { 
+      state: {
         detailPlace: detailPlaceInfo,
-        formData: formData 
+        formData: formData,
       },
     });
   }

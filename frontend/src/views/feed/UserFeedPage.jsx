@@ -27,36 +27,17 @@ function UserFeedPage(props) {
       })
       .then((response) => {
         console.log(response, "response2");
+        response.map((feed) => {
+          feedsCalendar.push(feed);
+        });
 
-        // const fetchData = async () => {
-        //   try {
-        //     await setfeedsCalendar(feedsCalendar.concat(response));
-        //     console.log(feedsCalendar, "feedsCalendar");
-        //   } catch (error) {
-        //     console.log(error);
-        //   }
-        // };
-        // fetchData();
-        feedsCalendar.push(response);
-        // setfeedsCalendar(feedsCalendar.concat(response));
         console.log(feedsCalendar, "feedsCalendar");
       });
   };
 
   useEffect(() => {
-    // const fetchData = async () => {
-    //   try {
-    //     await onLoggedUser();
-    //     getFeedsCalendar();
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
-    // fetchData();
     onLoggedUser();
     console.log("loggedUser", loggedUser);
-
-    // getFeedsCalendar();
   }, []);
 
   useEffect(() => {
@@ -64,7 +45,7 @@ function UserFeedPage(props) {
   }, []);
 
   return (
-    <div>
+    <div className="userFeed">
       <FeedsContext.Provider
         value={{ loggedUser: loggedUser.nickname, feeds: feedsCalendar }}
       >

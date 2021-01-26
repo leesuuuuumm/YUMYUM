@@ -42,7 +42,7 @@ function App() {
         </Switch>
         <BottomTab />
       </Router>
-      
+
     </div>
   );
 }
