@@ -1,56 +1,52 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { registerFeed, registerVideo } from "../../_actions/feedAction";
-import "./CSS/CreateFeed.css"
+import "./CSS/CreateFeed.css";
 import ReactStars from "react-rating-stars-component";
-import NavigateBeforeRoundedIcon from '@material-ui/icons/NavigateBeforeRounded';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import NavigateBeforeRoundedIcon from "@material-ui/icons/NavigateBeforeRounded";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 
 function CreateFeed(props) {
   const [loggedUser, setLoggedUser] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [score, setScore] = useState(0);
-  const selectedFile = props.location.state.selectedFile
-  const placeInfo = props.location.state.detailPlace
-  const formData = props.location.state.formData
+  const selectedFile = props.location.state.selectedFile;
+  const placeInfo = props.location.state.detailPlace;
+  const formData = props.location.state.formData;
 
   useEffect(() => {
-    onLoggedUser()
-
-    // setFormDatas(formData)
+    onLoggedUser();
   }, []);
 
   const dispatch = useDispatch();
   const onTitleHandler = (e) => {
     setTitle(e.currentTarget.value);
-  }
+  };
   const onContentHandler = (e) => {
     setContent(e.currentTarget.value);
-  }
+  };
   const onLoggedUser = (e) => {
     setLoggedUser(JSON.parse(localStorage.getItem("loggedInfo")));
   };
   const ratingChanged = (newRating) => {
-    setScore(newRating)
-    console.log(selectedFile)
-    console.log(placeInfo)
-    console.log(placeInfo.place_name)
-    console.log(placeInfo.address_name)
-    console.log(loggedUser.email)
-    
+    setScore(newRating);
+    console.log(selectedFile);
+    console.log(placeInfo);
+    console.log(placeInfo.place_name);
+    console.log(placeInfo.address_name);
+    console.log(loggedUser.email);
   };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    formData.append('title', title);
-    formData.append('content', content);
-    formData.append('storeName', placeInfo.place_name);
-    formData.append('location', placeInfo.address_name);
-    formData.append('score', score);
-    formData.append('userEmail', loggedUser.email);
-
+    formData.append("title", title);
+    formData.append("content", content);
+    formData.append("storeName", placeInfo.place_name);
+    formData.append("location", placeInfo.address_name);
+    formData.append("score", score);
+    formData.append("userEmail", loggedUser.email);
 
     if (title && content && score) {
       dispatch(registerFeed(formData))
@@ -59,7 +55,7 @@ function CreateFeed(props) {
             alert("피드가 작성되었습니다!");
             props.history.push("/feed/flippages");
           } else {
-            alert("피드 생성 실패"); 
+            alert("피드 생성 실패");
           }
         })
         .catch((err) => {
@@ -75,8 +71,8 @@ function CreateFeed(props) {
     <div className="createWapper">
       <h2>오늘의 맛일기</h2>
       {/* <h3>작성자 : {loggedUser.nickname}</h3> */}
-      <br/>
-      <hr/>
+      <br />
+      <hr />
       <form onSubmit={onSubmitHandler}>
         <ReactStars
           count={5}
@@ -98,19 +94,22 @@ function CreateFeed(props) {
           onChange={onContentHandler}
           required
           placeholder="어땠음?!"
-        />     
+        />
 
         <div id="feed-button-wapper">
           <a id="goback">
-            <Link to="/feed/camera"> <NavigateBeforeRoundedIcon fontSize="large"  /> </Link>
+            <Link to="/feed/camera">
+              {" "}
+              <NavigateBeforeRoundedIcon fontSize="large" />{" "}
+            </Link>
           </a>
           <button id="next" type="submit">
-            <NavigateNextIcon fontSize="large"  />
+            <NavigateNextIcon fontSize="large" />
           </button>
-        </div>     
+        </div>
       </form>
     </div>
   );
-};
+}
 
 export default withRouter(CreateFeed);

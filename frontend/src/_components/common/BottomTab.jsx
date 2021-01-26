@@ -3,9 +3,9 @@ import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
-import CreateIcon from "@material-ui/icons/Create";
+import AddBox from "@material-ui/icons/AddBox";
 import HomeIcon from "@material-ui/icons/Home";
-import FavoriteIcon from "@material-ui/icons/Favorite";
+import Person from "@material-ui/icons/Person";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import MoodIcon from "@material-ui/icons/Mood";
 
@@ -59,27 +59,27 @@ function BottomTab() {
         className={classes.action}
       />
       <BottomNavigationAction
-        label="Pick"
-        value="profile/:email"
-        icon={<FavoriteIcon />}
-        className={classes.action}
-      />
-      <BottomNavigationAction
-        label="Review"
-        value="feed/camera"
-        icon={<CreateIcon />}
-        className={classes.action}
-      />
-      <BottomNavigationAction
         label="Map"
         value="map/infomap"
         icon={<LocationOnIcon />}
         className={classes.action}
       />
       <BottomNavigationAction
+        label="Review"
+        value="feed/camera"
+        icon={<AddBox />}
+        className={classes.action}
+      />
+      <BottomNavigationAction
         label="Bark"
         value="bark"
         icon={<MoodIcon />}
+        className={classes.action}
+      />
+      <BottomNavigationAction
+        label="Pick"
+        value="profile/:email"
+        icon={<Person />}
         className={classes.action}
       />
     </BottomNavigation>

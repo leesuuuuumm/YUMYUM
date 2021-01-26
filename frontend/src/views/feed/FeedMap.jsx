@@ -1,14 +1,25 @@
 import React, {useEffect, useState} from 'react';
+<<<<<<< HEAD:frontend/src/views/feed/FeedMap.jsx
 // import "./FeedMap.css";
 import { withRouter } from "react-router-dom";
+=======
+import "./FeedMap.css";
+import { Link, withRouter } from "react-router-dom";
+>>>>>>> b1b3722e938af786ac0ae14c39132346d8d97481:frontend/src/views/map/FeedMap.jsx
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
+<<<<<<< HEAD:frontend/src/views/feed/FeedMap.jsx
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import DirectionsIcon from '@material-ui/icons/Directions';
+=======
+import SearchIcon from '@material-ui/icons/Search';
+import DirectionsIcon from '@material-ui/icons/Directions';
+import CameraAltIcon from '@material-ui/icons/CameraAlt';
+>>>>>>> b1b3722e938af786ac0ae14c39132346d8d97481:frontend/src/views/map/FeedMap.jsx
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
   iconButtonNext: {
     padding: 10,
     backgroundColor: '#F4D503'
+  },
+  iconButtonBefore: {
+    padding: 10,
   },
   divider: {
     height: 28,
@@ -53,7 +67,7 @@ const FeedMap = (props) => {
   const [detailPlaceInfo, setDetailPlaceInfo] = useState(null); // 선택한 장소의 정보를 담아두는 변수
   const formData = props.location.state.formData
   
-  console.log(formData)
+
 
   useEffect(()=>{
     createMap();
@@ -73,7 +87,8 @@ const FeedMap = (props) => {
   };
   // 검색을 제어하는 함수
   const searchContenthandeler = (e) => {
-    setSerchContent(e.target.value);
+    e.preventDefault()
+    setSerchContent(e.currentTarget.value);
   };
   // 장소 검색 함수
   function searchPlaces(e) {
@@ -92,6 +107,7 @@ const FeedMap = (props) => {
     setSerchContent("");
     setIsList(true);
   }
+
   // 검색이 성공했을때 아래 콜백함수가 호출된다.
   function placesSearchCB(data, status, pagination) {
     if (status === kakao.maps.services.Status.OK) {
@@ -149,6 +165,7 @@ const FeedMap = (props) => {
 
             itemEl.onclick =  function () {
                 setDetailPlaceInfo(places[i]);
+                console.log(places[i])
                 displayInfowindow(marker, title);
                 map.setLevel(3)
                 map.panTo(placePosition);
@@ -296,25 +313,35 @@ const FeedMap = (props) => {
         el.removeChild (el.lastChild);
     }
  }
+  // 리뷰작성 페이지로 넘기고 장소 정보를 함께 담아서 보내는 함수.
+  function sendPlaceInfo() {
+    props.history.push({
+      pathname : '/feed/createfeed',
+      state: {detailPlace : detailPlaceInfo}
+    });
+  };
 
- function sendPlaceInfo() {
-   props.history.push({
-     pathname : '/feed/createfeed',
-     state: {
-      detailPlace : detailPlaceInfo,
-      formData: formData,
-    }
-   });
- };
+  // 지도 확대, 축소 컨트롤에서 확대 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
+  function zoomIn() {
+    map.setLevel(map.getLevel() - 1);
+  }
+
+  // 지도 확대, 축소 컨트롤에서 축소 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
+  function zoomOut() {
+    map.setLevel(map.getLevel() + 1);
+  }
+
   return (
     <div className="feedmap">
        <Paper component="form" className={classes.root}>
-          <IconButton className={classes.iconButton} aria-label="menu">
-            <MenuIcon />
+        <Link to='/feed/camera'>
+          <IconButton className={classes.iconButtonBefore} aria-label="menu">
+            <CameraAltIcon />
           </IconButton>
+        </Link>
           <InputBase
             className={classes.input}
-            placeholder="Search Google Maps"
+            placeholder="음식점 이름은?"
             inputProps={{ 'aria-label': 'search google maps' }}
             onChange={searchContenthandeler}
             size = "15"
@@ -329,16 +356,20 @@ const FeedMap = (props) => {
           </IconButton>
       </Paper>
       <div className="map_wrap">
-            <div id="map" style={{ width: "98vw", height: "95vh" }}></div>
-            {isList  && 
-            <div id="menu_wrap" className="bg_white">
-            <div className="option">
-            </div>
-            <hr/>
-            <ul id="placesList"></ul>
-            <div id="pagination"></div>
-            </div>
-            }
+            <div id="map" style={{ width: "90vw", height: "90vh" }}></div>
+              {isList  && 
+              <div id="menu_wrap" className="bg_white">
+              <div className="option">
+              </div>
+              <hr/>
+              <ul id="placesList"></ul>
+              <div id="pagination"></div>
+              </div>
+              }
+              <div className="custom_zoomcontrol radius_border"> 
+              <span onClick={zoomIn}><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png" alt="확대"/></span>  
+              <span onClick={zoomOut}><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png" alt="축소"/></span>
+              </div>
       </div>
     </div>
   )
