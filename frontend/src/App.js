@@ -15,6 +15,7 @@ import InfoMap from './views/map/InfoMap';
 import BarkPage from './views/bark/BarkPage';
 import FeedMap from './views/map/FeedMap';
 import BottomTab from './_components/common/BottomTab';
+import FoodFeed from './views/food/FoodFeed';
 
 
 
@@ -35,6 +36,7 @@ function App() {
           <Route path='/bark' exact render={() => <BarkPage />} />
           <Route path='/map/feedmap' exact render ={() => <FeedMap />}/>
           <Route path="/map/infomap" exact render={() => <InfoMap />} />
+          <Route path="/food/feed" exact render={() => <FoodFeed />} />
           <Route path="/error" component={ErrorPage} />
           <Route path="*" component={NotFound} />
         </Switch>
