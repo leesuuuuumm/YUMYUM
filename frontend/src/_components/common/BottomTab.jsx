@@ -41,7 +41,7 @@ function BottomTab() {
     >
       <BottomNavigationAction
         label="Home"
-        value=""
+        value="feed/flippages"
         icon={<HomeIcon />}
         className={classes.action}
       />

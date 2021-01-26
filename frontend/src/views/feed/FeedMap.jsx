@@ -295,6 +295,7 @@ const FeedMap = (props) => {
     console.log(locPosition);
     setCenter(locPosition);
   }
+
   function displayInfowindow(marker, title) {
     var content = '<div style="padding:5px;z-index:1;">' + title + "</div>";
 
@@ -352,17 +353,17 @@ const FeedMap = (props) => {
         >
           <SearchIcon />
         </IconButton>
-        <Divider className={classes.divider} orientation="vertical" />
-        <IconButton
+        {/* <Divider className={classes.divider} orientation="vertical" /> */}
+        {/* <IconButton
           className={classes.iconButtonNext}
           aria-label="directions"
           onClick={sendPlaceInfo}
         >
           <DirectionsIcon />
-        </IconButton>
+        </IconButton> */}
       </Paper>
       <div className="map_wrap">
-        <div id="map" style={{ width: "90vw", height: "90vh" }}></div>
+        <div id="map" style={{ width: "98vw", height: "85vh" }}></div>
         {isList && (
           <div id="menu_wrap" className="bg_white">
             <div className="option"></div>
