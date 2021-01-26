@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
-import sample from "../../_assets/sample.mp4";
+import ReactStars from "react-rating-stars-component";
 import "./CSS/Feed.css"
 
 function Feed(props) {
   const { feed } = props
-  const feedDate = feed.user
-  const feedUser = feed.createdDate
+  const feedUser = feed.user
+  const feedDate = feed.createdDate
   const feedURL = feed.filePath.split('/')
   const myVideo = feedURL[6]
   const videoURL = "http://i4b101.p.ssafy.io:8080/single/" + `${myVideo}`
@@ -24,14 +23,19 @@ function Feed(props) {
         muted
       />
       <div id="textbox">
-        <h2> 메뉴 : #{feed.title} </h2>
-        <h6> 작성자 : {feedUser.nickname} </h6>
+        <h1> {feed.title} </h1>
+        <a href="">
+          <h6> By. {feedUser.nickname} </h6>
+        </a>
+        <br/>
+        <ReactStars size={20} edit={false} value={feed.score} />
         <hr />
-        <h5> 날짜 : {feedDate.dayOfWeek} / {feedDate.month} {feedDate.dayOfMonth} / {feedDate.year} </h5>
-        <h4> 식당명 : {feed.storeName} </h4>
-        <h4> 위치 : {feed.location} </h4>
+        <h4> {feed.storeName} </h4>
+        <h5> {feed.location} </h5>
+        <h5> {feedDate.dayOfWeek} / {feedDate.month} {feedDate.dayOfMonth} / {feedDate.year} </h5>
+        <hr id="second_line"/>
         <br />
-        <h3> 한줄평 : {feed.content} </h3>
+        <h3> {feed.content} </h3>
       </div>
      </div>
   );

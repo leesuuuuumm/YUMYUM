@@ -12,5 +12,6 @@ export const UPDATE_USER_INFO = "UPDATE_USER_INFO";
 export const CREATE_FEED = "CREATE_FEED";
 export const GET_FEED_INFO = "GET_FEED_INFO";
 export const GET_FEED_BY_EMAIL = "GET_FEED_BY_EMAIL";
+export const GET_ALL_FEED = "GET_ALL_FEED";
 export const DELETE_FEED = "DELETE_FEED";
 export const CREATE_VIDEO = "CREATE_VIDEO";

@@ -1,4 +1,4 @@
-import { CREATE_FEED, GET_FEED_INFO, DELETE_FEED, GET_FEED_BY_EMAIL, CREATE_VIDEO } from "../_actions/types";
+import { CREATE_FEED, GET_FEED_INFO, DELETE_FEED, GET_FEED_BY_EMAIL, CREATE_VIDEO, GET_ALL_FEED } from "../_actions/types";
 
 
 const feedReducer = function(state = {}, action) {
@@ -9,6 +9,8 @@ const feedReducer = function(state = {}, action) {
         case GET_FEED_INFO:
             return { ...state, feedInfoSuccess: payload };
         case GET_FEED_BY_EMAIL:
+            return { ...state, feedInfoSuccess: payload };
+        case GET_ALL_FEED:
             return { ...state, feedInfoSuccess: payload };
         case DELETE_FEED:
             return { ...state, deletefeedSuccess: payload };
