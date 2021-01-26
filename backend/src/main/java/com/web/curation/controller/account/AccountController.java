@@ -31,6 +31,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import static com.web.curation.utils.HttpUtils.convertObjToJson;
+import static com.web.curation.utils.HttpUtils.makeResponse;
+
 //@ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
 //		@ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
 //		@ApiResponse(code = 404, message = "Not Found", response = BasicResponse.class),
@@ -43,8 +46,6 @@ public class AccountController {
 
 	@Autowired
 	private UserDao userDao;
-
-	private ObjectMapper objectMapper = new ObjectMapper();
 
 	@PostMapping
 	@ApiOperation(value = "회원가입")
@@ -148,19 +149,6 @@ public class AccountController {
 		return makeResponse("200", convertObjToJson(curUser.get()), "success", HttpStatus.OK);
 	}
 
-//	@GetMapping("/{nickname}")
-//	@ApiOperation(value = "닉네임으로 검색", notes = "닉네임에 검색 키워드가 포함이 된 모든 유저 정보를 리스트로 반환합니다. \n "
-//			+ "검색 키워드에 해당되는 정보가 없다면 404 에러와 data에 null 값이 담깁니다.")
-//	public Object searchByNickname(
-//			@Valid @ApiParam(value = "닉네임으로 검색", required = true) @PathVariable String nickname) {
-//		List<User> searchResult = userDao.findByNicknameContaining(nickname);
-//		if (searchResult.size() == 0) {
-//			return makeResponse("404", null, "No searchResult", HttpStatus.NOT_FOUND);
-//		}
-//
-//		return makeResponse("200", convertObjToJson(searchResult), "success", HttpStatus.OK);
-//	}
-
 	@DeleteMapping
 	@ApiOperation(value = "회원 삭제")
 	public Object delete(
@@ -173,20 +161,5 @@ public class AccountController {
 		userDao.delete(curUser.get());
 
 		return makeResponse("200", curUser.get().getEmail(), "success", HttpStatus.OK);
-	}
-
-	private ResponseEntity<BasicResponse> makeResponse(String status, String data, String message,
-			HttpStatus httpStatus) {
-		BasicResponse result = BasicResponse.builder().status(status).message(message).data(data).build();
-		return new ResponseEntity<>(result, httpStatus);
-	}
-
-	private String convertObjToJson(Object object) {
-		try {
-			return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(object);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-			return "Failed convert object to json";
-		}
 	}
 }

@@ -1,17 +1,13 @@
 package com.web.curation.model.feed;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.*;
 
 import com.web.curation.model.TimeEntity;
 import com.web.curation.model.user.User;
-import com.web.curation.moder.map.Place;
+import com.web.curation.model.map.Place;
 
 import lombok.Builder;
-import org.hibernate.annotations.CreationTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
@@ -32,9 +28,6 @@ public class Feed extends TimeEntity {
 
 	private String title;
 
-	private String storeName;
-	
-	private String location;
 	private Integer score;
 
 	@Column(length = 200)
@@ -45,8 +38,8 @@ public class Feed extends TimeEntity {
 	private User user;
 	
 	@ManyToOne
-	@JoinColumn(name="PlACE_LOCATION")
-	private Place placesInfo;
+	@JoinColumn(name="PLACE_ID")
+	private Place place;
 
 	private String filePath;
 }

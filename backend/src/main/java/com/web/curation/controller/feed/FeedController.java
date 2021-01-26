@@ -1,26 +1,20 @@
 package com.web.curation.controller.feed;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.TreeSet;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.web.curation.model.feed.*;
 import com.web.curation.model.user.User;
-import com.web.curation.moder.map.Place;
+import com.web.curation.model.map.Place;
 import com.web.curation.service.feed.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.web.curation.dao.feed.FeedDao;
 import com.web.curation.dao.map.PlaceDao;
 import com.web.curation.dao.user.UserDao;
-import com.web.curation.model.BasicResponse;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -29,6 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import static com.web.curation.utils.HttpUtils.convertObjToJson;
+import static com.web.curation.utils.HttpUtils.makeResponse;
 
 @CrossOrigin(origins = { "http://localhost:3000" })
 @RestController
@@ -42,9 +39,7 @@ public class FeedController {
 	@Autowired
 	private FileService fileService;
 	@Autowired
-	private PlaceDao placedao;
-
-	private ObjectMapper objectMapper = new ObjectMapper();
+	private PlaceDao placeDao;
 
 	@PostMapping(
 			consumes = {
@@ -57,32 +52,31 @@ public class FeedController {
 			, @RequestParam("file") @Valid @NotNull @NotEmpty MultipartFile mFile
 	) {
 		String title = request.getTitle().trim();
-		String storeName = request.getStoreName().trim();
-		String location = request.getLocation().trim();
 		Integer score = request.getScore();
 		String content = request.getContent().trim();
 		String userEmail = request.getUserEmail().trim();
+		Place place = request.getPlace();
 
-		Long placeInfo = request.getPlaceId();
 		Optional<User> curUser = userDao.findById(userEmail);
-		Optional<Place> curPlace = placedao.findById(placeInfo);
+		Optional<Place> curPlace = placeDao.findById(place.getId());
 		if (!curUser.isPresent()) {
 			return makeResponse("400", null, "User Not found", HttpStatus.BAD_REQUEST);
 		}
 
-		if ("".equals(title) || "".equals(storeName) || "".equals(location) || score == null || "".equals(content)) {
+		if ("".equals(title) || "".equals(place.getAddressName()) || "".equals(place.getPlaceName()) || score == null || "".equals(content)) {
 			return makeResponse("400", null, "data is blank", HttpStatus.BAD_REQUEST);
 		}
 		String url = fileService.upload(mFile);
 
+		Place savedPlace = placeDao.save(place);
+
 		Feed feed = Feed.builder()
 				.title(title)
-				.storeName(storeName)
-				.location(location)
 				.score(score)
 				.content(content)
 				.user(curUser.get())
 				.filePath(url)
+				.place(savedPlace)
 				.build();
 
 		Feed savedFeed = feedDao.save(feed);
@@ -170,9 +164,6 @@ public class FeedController {
 
 		List<String> titleList = feedDao.findByUser_email(email);
 
-		System.out.println(titleList);
-
-		System.out.println();
 		return makeResponse("200", convertObjToJson(titleList), "success" + titleList.size(), HttpStatus.OK);
 	}
 
@@ -194,24 +185,6 @@ public class FeedController {
 		return makeResponse("200", convertObjToJson(feedList), "success" + feedList.size(), HttpStatus.OK);
 	}
 
-	@GetMapping("/feed/places")
-	@ApiOperation(value = "모든 place 반환 ")
-	public Object placesList() {
-		List<Feed> feeds = feedDao.findAll();
-		List<Feed> resultFeeds = new ArrayList<>();
-		Set<Long> set = new TreeSet<Long>();
-		for (int i = 0; i < feeds.size(); ++i) {
-			Long placeId = feeds.get(i).getPlacesInfo().getId();
-			if (set.contains(placeId))
-				continue;
-			set.add(placeId);
-			resultFeeds.add(feeds.get(i));
-		}
-
-		System.out.println(resultFeeds);
-		return makeResponse("200", convertObjToJson(resultFeeds), "success", HttpStatus.OK);
-	}
-
 	@DeleteMapping("/{id}")
 	@ApiOperation(value = "피드 삭제")
 	public Object delete(@Valid @ApiParam(value = "id 값으로 피드 삭제", required = true) @PathVariable String id) {
@@ -223,20 +196,5 @@ public class FeedController {
 		feedDao.delete(curFeed.get());
 
 		return makeResponse("200", convertObjToJson(curFeed.get()), "success", HttpStatus.OK);
-	}
-
-	private ResponseEntity<BasicResponse> makeResponse(String status, String data, String message,
-			HttpStatus httpStatus) {
-		BasicResponse result = BasicResponse.builder().status(status).message(message).data(data).build();
-		return new ResponseEntity<>(result, httpStatus);
-	}
-
-	private String convertObjToJson(Object object) {
-		try {
-			return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(object);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-			return "Failed convert object to json";
-		}
 	}
 }

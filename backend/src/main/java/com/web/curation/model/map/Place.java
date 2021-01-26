@@ -1,4 +1,4 @@
-package com.web.curation.moder.map;
+package com.web.curation.model.map;
 
 
 import javax.persistence.Column;
@@ -20,20 +20,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Place {
-
 	@Id
-	@Column(name="PlACE_LOCATION")
+	@Column(name="PLACE_ID")
 	private Long id;
 	
 	private String addressName;
-	private String categoryGroupCode;
-	private String categroyGroupName; 
-	private String categoryName;
-	private Long distance;
 	private String phone;
 	private String placeName;
 	private double y;
 	private double x;
-	
-
 }
