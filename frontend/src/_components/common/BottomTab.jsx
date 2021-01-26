@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
@@ -24,11 +24,26 @@ const useStyles = makeStyles({
 function BottomTab() {
   const classes = useStyles();
   const [value, setValue] = useState("");
+  const [loggedUser, setLoggedUser] = useState("");
   const history = useHistory();
 
   const handleChange = (event, newValue) => {
     history.push(`/${newValue}`);
     setValue(newValue);
+  };
+
+  useEffect(() => {
+    // getProfileUser();
+    onLoggedUser();
+    console.log("loggedUser", loggedUser);
+    if (!loggedUser) {
+      alert("로그인 하세요!");
+      history.push("/");
+    }
+  }, []);
+
+  const onLoggedUser = (e) => {
+    setLoggedUser(JSON.parse(localStorage.getItem("loggedInfo")));
   };
 
   return (

@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../../_actions/userAction";
 // import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -7,6 +10,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import UserFeedMonthGrid from './UserFeedMonthGrid';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -44,14 +48,19 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    width: 500,
+    width: 100+"%",
   },
 }));
 
-export default function FullWidthTabs() {
+
+
+export default function UserFeedTab(props) {
+  const { username } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -61,9 +70,18 @@ export default function FullWidthTabs() {
     setValue(index);
   };
 
+  const onLogoutHandler = (e) => {
+    e.preventDefault();
+    dispatch(logoutUser());
+    alert("나가잇!?");
+    history.push("/");
+  };
+
   return (
     <div className={classes.root}>
       <AppBar position="static" color="default">
+        <div><h2>{ username }</h2></div>
+        <button onClick={onLogoutHandler}>로그아웃</button>
         <Tabs
           value={value}
           onChange={handleChange}
@@ -72,8 +90,8 @@ export default function FullWidthTabs() {
           variant="fullWidth"
           aria-label="full width tabs example"
         >
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
+          <Tab label="메뉴별" {...a11yProps(0)} />
+          <Tab label="날짜별" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
       {/* <SwipeableViews
@@ -82,12 +100,16 @@ export default function FullWidthTabs() {
         onChangeIndex={handleChangeIndex}
       > */}
         <TabPanel value={value} index={0} dir={theme.direction}>
-          Item One
+          메뉴유우우우!
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          Item Two
+          <UserFeedMonthGrid />
         </TabPanel>
       {/* </SwipeableViews> */}
     </div>
   );
 }
+
+UserFeedTab.propTypes = {
+  username: PropTypes.string,
+};
