@@ -1,5 +1,6 @@
 package com.web.curation.model.feed;
 
+import com.web.curation.model.map.Place;
 import com.web.curation.model.user.User;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,14 +19,11 @@ public class CreateFeedRequest {
 
     private String content;
 
-    private String storeName;
-
-    private String location;
-
     private Integer score;
 
-
     private String userEmail;
+
+    private Place place;
 
 //    private MultipartFile file;
 }

@@ -10,8 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.swing.filechooser.FileSystemView;
 import javax.transaction.Transactional;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -105,6 +108,35 @@ public class FileService {
         fos.close();
 
         return result;
+    }
+
+    public void createThumbnail(String url) {
+        String oPath = url; // 원본 경로
+        java.io.File oFile = new java.io.File(oPath);
+
+        int index = oPath.lastIndexOf(".");
+        String ext = ".jpg"; // 파일 확장자
+
+        String tPath = oFile.getParent() + java.io.File.separator + "t-" + oFile.getName(); // 썸네일저장 경로
+        java.io.File tFile = new java.io.File(tPath);
+
+        double ratio = 2; // 이미지 축소 비율
+
+        try {
+            BufferedImage oImage = ImageIO.read(oFile); // 원본이미지
+            int tWidth = (int) (oImage.getWidth() / ratio); // 생성할 썸네일이미지의 너비
+            int tHeight = (int) (oImage.getHeight() / ratio); // 생성할 썸네일이미지의 높이
+
+            BufferedImage tImage = new BufferedImage(tWidth, tHeight, BufferedImage.TYPE_3BYTE_BGR); // 썸네일이미지
+            Graphics2D graphic = tImage.createGraphics();
+            Image image = oImage.getScaledInstance(tWidth, tHeight, Image.SCALE_SMOOTH);
+            graphic.drawImage(image, 0, 0, tWidth, tHeight, null);
+            graphic.dispose(); // 리소스를 모두 해제
+
+            ImageIO.write(tImage, ext, tFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Transactional
