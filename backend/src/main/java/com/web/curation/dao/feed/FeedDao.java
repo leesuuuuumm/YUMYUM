@@ -23,6 +23,9 @@ public interface FeedDao extends JpaRepository<Feed, Long> {
 	@Query("SELECT DISTINCT title FROM Feed where user_email=?1 ORDER BY title")
 	List<String> findByUser_email(String email);
 	
+	
 	List<Feed> findAllByTitleAndUser_email(String title,String email);
+	
+	
 	
 }

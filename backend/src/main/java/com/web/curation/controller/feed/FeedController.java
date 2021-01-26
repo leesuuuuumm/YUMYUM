@@ -2,13 +2,17 @@ package com.web.curation.controller.feed;
 
 import java.io.IOException;
 import java.security.CodeSource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.TreeSet;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sun.org.apache.xpath.internal.operations.Mult;
 import com.web.curation.model.feed.*;
 import com.web.curation.model.user.User;
+import com.web.curation.moder.map.Place;
 import com.web.curation.service.feed.FileService;
 import com.web.curation.util.UploadFileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.web.curation.dao.feed.FeedDao;
+import com.web.curation.dao.map.PlaceDao;
 import com.web.curation.dao.user.UserDao;
 import com.web.curation.model.BasicResponse;
 
@@ -41,6 +46,8 @@ public class FeedController {
 	private UserDao userDao;
 	@Autowired
 	private FileService fileService;
+	@Autowired
+	private PlaceDao placedao;
 	private ObjectMapper objectMapper = new ObjectMapper();
 
 	@PostMapping
@@ -59,7 +66,9 @@ public class FeedController {
 //		MultipartFile multipartFile = request.getFile();
 //		String imageSrc = request.getImageSrc().trim();
 
+		Long placeInfo = request.getPlaceId();
 		Optional<User> curUser = userDao.findById(userEmail);
+		Optional<Place> curPlace = placedao.findById(placeInfo);
 		if (!curUser.isPresent()) {
 			return makeResponse("400", null, "User Not found", HttpStatus.BAD_REQUEST);
 		}
@@ -73,8 +82,8 @@ public class FeedController {
 
 //		fileService.saveFile(convertedFile);
 
-		Feed feed = Feed.builder().title(title).storeName(storeName).location(location).score(score).content(content)
-				.user(curUser.get()).build();
+		Feed feed = Feed.builder().title(title).storeName(storeName).score(score).content(content).user(curUser.get())
+				.placesInfo(curPlace.get()).build();
 
 		Feed savedFeed = feedDao.save(feed);
 
@@ -146,6 +155,7 @@ public class FeedController {
 		return makeResponse("200", convertObjToJson(searchlist), "success", HttpStatus.OK);
 
 	}
+
 //
 //	@GetMapping("/list/title/{email}")
 //	@ApiOperation(value = "title 별로 리스트 전체 조회")
@@ -164,7 +174,7 @@ public class FeedController {
 //		return makeResponse("200", convertObjToJson(titleList), "success", HttpStatus.OK);
 //
 //	}
-	@GetMapping("/list/title/{email}") 
+	@GetMapping("/list/title/{email}")
 	@ApiOperation(value = "title 별로 리스트 전체 조회")
 	public Object titleList(@Valid @ApiParam(value = "title 별로 전체 조회", required = true) @PathVariable String email) {
 
@@ -173,7 +183,7 @@ public class FeedController {
 		if (!curUser.isPresent()) {
 			return makeResponse("404", null, "User Not Found", HttpStatus.NOT_FOUND);
 		}
-	
+
 		List<String> titleList = feedDao.findByUser_email(email);
 
 		System.out.println(titleList);
@@ -182,28 +192,44 @@ public class FeedController {
 		return makeResponse("200", convertObjToJson(titleList), "success", HttpStatus.OK);
 
 	}
-	
+
 	@GetMapping("/list/title/{title}/{email}")
 	@ApiOperation(value = "title 별로 리스트 전체 조회")
-	public Object titleList(@Valid @ApiParam(value = "title 별로 전체 조회", required = true) @PathVariable String title,@PathVariable String email ) {
+	public Object titleList(@Valid @ApiParam(value = "title 별로 전체 조회", required = true) @PathVariable String title,
+			@PathVariable String email) {
 
 		Optional<User> curUser = userDao.findById(email);
 
 		if (!curUser.isPresent()) {
 			return makeResponse("404", null, "User Not Found", HttpStatus.NOT_FOUND);
 		}
-	
-		List<Feed> titleList = feedDao.findAllByTitleAndUser_email(title,email);
-		
+
+		List<Feed> titleList = feedDao.findAllByTitleAndUser_email(title, email);
+
 		System.out.println(titleList);
 
 		System.out.println();
 		return makeResponse("200", convertObjToJson(titleList), "success", HttpStatus.OK);
 
 	}
-	
-	
-	
+
+	@GetMapping("/feed/places")
+	@ApiOperation(value = "모든 place 반환 ")
+	public Object placesList() {
+		List<Feed> feeds = feedDao.findAll();
+		List<Feed> resultFeeds = new ArrayList<>();
+		Set<Long> set = new TreeSet<Long>();
+		for (int i = 0; i < feeds.size(); ++i) {
+			Long placeId = feeds.get(i).getPlacesInfo().getId();
+			if (set.contains(placeId))
+				continue;
+			set.add(placeId);
+			resultFeeds.add(feeds.get(i));
+		}
+
+		System.out.println(resultFeeds);
+		return makeResponse("200", convertObjToJson(resultFeeds), "success", HttpStatus.OK);
+	}
 
 	@DeleteMapping("/{id}")
 	@ApiOperation(value = "피드 삭제")
@@ -217,8 +243,6 @@ public class FeedController {
 
 		return makeResponse("200", convertObjToJson(curFeed.get()), "success", HttpStatus.OK);
 	}
-	
-
 
 	private ResponseEntity<BasicResponse> makeResponse(String status, String data, String message,
 			HttpStatus httpStatus) {

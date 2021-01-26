@@ -25,6 +25,8 @@ public class CreateFeedRequest {
     private String content;
 
     private String userEmail;
+    
+    private Long placeId;
 
 //    private MultipartFile file;
 

@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 
 import com.web.curation.model.TimeEntity;
 import com.web.curation.model.user.User;
+import com.web.curation.moder.map.Place;
+
 import lombok.Builder;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -21,8 +23,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
 @Data
@@ -39,6 +39,7 @@ public class Feed extends TimeEntity {
 	private String title;
 
 	private String storeName;
+	
 	private String location;
 	private Integer score;
 
@@ -48,7 +49,11 @@ public class Feed extends TimeEntity {
 	@ManyToOne
 	@JoinColumn(name = "USER_EMAIL")
 	private User user;
-
+	
+	@ManyToOne
+	@JoinColumn(name="PlACE_LOCATION")
+	private Place placesInfo;
+		
 	@Column()
 	private String imageSrc;
 }
