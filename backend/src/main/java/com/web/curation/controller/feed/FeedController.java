@@ -92,6 +92,8 @@ public class FeedController {
 	public Object uploadVideo(@RequestParam(value = "file", required = false) MultipartFile multipartFile) {
 		String url = fileService.upload(multipartFile);
 
+		fileService.createThumbnail(url);
+
 		return makeResponse("200", url, "success", HttpStatus.OK);
 	}
 
@@ -125,6 +127,15 @@ public class FeedController {
 		}
 
 		return makeResponse("200", convertObjToJson(curFeed.get()), "success", HttpStatus.OK);
+	}
+
+	@GetMapping("/list")
+	@ApiOperation(value = "모든 유저의 피드 리스트 조회")
+	public Object feedList() {
+//		TODO::로그인 되어있는지 확인하는 로직 필요.
+		List<Feed> searchlist = feedDao.findAll();
+
+		return makeResponse("200", convertObjToJson(searchlist), "success" + searchlist.size(), HttpStatus.OK);
 	}
 
 	@GetMapping("/list/{email}")
