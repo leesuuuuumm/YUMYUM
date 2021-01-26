@@ -5,3 +5,10 @@
  #allmap {
    margin: 0px auto;
  }
+
+ .location_icon {
+  position: absolute;
+  z-index: 1;
+  left: 345px;
+  bottom: 100px;
+ }

@@ -53,7 +53,7 @@ const FeedMap = (props) => {
   const [center, setCenter] = useState(null); //현재 위치의 경도,위도가 저장된 변수
   const [selectPlace, setSelectPlace] = useState(false); // 목록에서 장소를 선택했는지 확인하는 방법
   const [detailPlaceInfo, setDetailPlaceInfo] = useState(null); // 선택한 장소의 정보를 담아두는 변수
-  const formData = props.location.state.formData;
+  // const formData = props.location.state.formData;
 
   useEffect(() => {
     createMap();
@@ -295,6 +295,7 @@ const FeedMap = (props) => {
     console.log(locPosition);
     setCenter(locPosition);
   }
+  
   function displayInfowindow(marker, title) {
     var content = '<div style="padding:5px;z-index:1;">' + title + "</div>";
 
@@ -311,7 +312,10 @@ const FeedMap = (props) => {
   function sendPlaceInfo() {
     props.history.push({
       pathname: "/feed/createfeed",
-      state: { detailPlace: detailPlaceInfo },
+      state: { 
+        detailPlace: detailPlaceInfo,
+        // formData: formData 
+      },
     });
   }
 
@@ -349,17 +353,17 @@ const FeedMap = (props) => {
         >
           <SearchIcon />
         </IconButton>
-        <Divider className={classes.divider} orientation="vertical" />
-        <IconButton
+        {/* <Divider className={classes.divider} orientation="vertical" /> */}
+        {/* <IconButton
           className={classes.iconButtonNext}
           aria-label="directions"
           onClick={sendPlaceInfo}
         >
           <DirectionsIcon />
-        </IconButton>
+        </IconButton> */}
       </Paper>
       <div className="map_wrap">
-        <div id="map" style={{ width: "90vw", height: "90vh" }}></div>
+        <div id="map" style={{ width: "98vw", height: "85vh" }}></div>
         {isList && (
           <div id="menu_wrap" className="bg_white">
             <div className="option"></div>
