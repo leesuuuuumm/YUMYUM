@@ -5,8 +5,8 @@ import NotFound from './views/error/NotFound';
 import ErrorPage from './views/error/ErrorPage';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import ResetPassword from './views/user/ResetPassword';
-import MainPage from './views/feed/MainPage';
 import CreateFeed from "./views/feed/CreateFeed";
+import UserFeedPage from './views/feed/UserFeedPage';
 import Camera from "./views/feed/Camera";
 import FlipPages from "./views/feed/FlipPages";
 import SignUpComplete from "./views/user/SignUpComplete";
@@ -15,8 +15,8 @@ import InfoMap from './views/map/InfoMap';
 import BarkPage from './views/bark/BarkPage';
 import FeedMap from './views/map/FeedMap';
 import BottomTab from './_components/common/BottomTab';
-import Card from './_components/feed/Card';
 import FoodFeed from './views/food/FoodFeed';
+
 
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
           <Route path="/" exact render={() => <Login />}/>
           <Route path="/user/join" exact render={() => <SignUp />}/>
           <Route path="/user/complete" exact render={() => <SignUpComplete />}/>
-          <Route path="/profile/:email" render={() => <MainPage />}/>
+          <Route path="/profile/:email" render={() => <UserFeedPage />}/>
           <Route path="/user/resetpassword" exact render={() => <ResetPassword />}/>
           <Route path="/user/usersetting" exact render={()=> <UserSetting /> } />
           <Route path="/feed/createfeed" exact render={() => <CreateFeed />}/>
@@ -35,7 +35,6 @@ function App() {
           <Route path="/feed/flippages" exact render={() => <FlipPages />}/>
           <Route path='/bark' exact render={() => <BarkPage />} />
           <Route path='/map/feedmap' exact render ={() => <FeedMap />}/>
-          <Route path='/feed/test' exact render={() => <Card />} />
           <Route path="/map/infomap" exact render={() => <InfoMap />} />
           <Route path="/food/feed" exact render={() => <FoodFeed />} />
           <Route path="/error" component={ErrorPage} />
