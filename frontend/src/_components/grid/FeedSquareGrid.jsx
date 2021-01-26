@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
@@ -24,17 +24,33 @@ const useStyles = makeStyles(() =>
 export default function FeedSquareGrid(props) {
   const classes = useStyles();
   const { title, tileData } = props;
+  useEffect(() => {
+    console.log(tileData, "tileData?");
+  }, []);
 
   return (
     <div className={classes.root}>
-      <GridList cellHeight={150} className={classes.gridList} cols={3}>
+      <GridList cellHeight={100} className={classes.gridList} cols={3}>
         <GridListTile key="Subheader" cols={3} style={{ height: 3 + "rem" }}>
           <ListSubheader component="div">{title}</ListSubheader>
         </GridListTile>
 
         {tileData.map((tile) => (
-          <GridListTile key={tile.img}>
-            <img src={tile.img} alt={tile.title} />
+          <GridListTile key={tile.id}>
+            {/* <img src={tile.filePath} alt={tile.title} />
+             */}
+            <video
+              id="background-video"
+              className="videoTag"
+              src={`http://i4b101.p.ssafy.io:8080/single/${
+                tile.filePath.split("/")[6]
+              }`}
+              type="video/mp4"
+              width="100%"
+              loop
+              muted
+            />
+            {tile.id}
           </GridListTile>
         ))}
       </GridList>
