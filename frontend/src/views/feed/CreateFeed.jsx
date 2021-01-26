@@ -11,6 +11,7 @@ function CreateFeed(props) {
   const [loggedUser, setLoggedUser] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [place, setPlace] = useState({});
   const [score, setScore] = useState(0);
   const placeInfo = props.location.state.detailPlace;
   const formData = props.location.state.formData;
@@ -38,10 +39,23 @@ function CreateFeed(props) {
     e.preventDefault();
     formData.append("title", title);
     formData.append("content", content);
-    formData.append("storeName", placeInfo.place_name);
-    formData.append("location", placeInfo.address_name);
     formData.append("score", score);
     formData.append("userEmail", loggedUser.email);
+    setPlace({
+      addressName : placeInfo.address_name,
+      id :placeInfo.id,
+      phone: placeInfo.phone,
+      placeName: placeInfo.place_name,
+      x : placeInfo.x,
+      y : placeInfo.y
+    })
+    // place.addressName = placeInfo.address_name;
+    // place.id =placeInfo.id;
+    // place.phone= placeInfo.phone;
+    // place.placeName= placeInfo.place_name;
+    // place.x = placeInfo.x;
+    // place.y = placeInfo.y;
+    formData.append("place", place)
 
     if (title && content && score) {
       dispatch(registerFeed(formData))
@@ -56,6 +70,9 @@ function CreateFeed(props) {
         .catch((err) => {
           console.log("피드 실패 에러");
           console.log(err);
+          for (let value of formData.values()) {
+            console.log(value);
+          }
         });
     } else {
       alert("이건뭐고");
@@ -103,6 +120,7 @@ function CreateFeed(props) {
           </button>
         </div>
       </form>
+      
     </div>
   );
 }

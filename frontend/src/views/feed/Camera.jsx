@@ -63,7 +63,7 @@ function Camera() {
         </div>
       ) : (
         <div id="icon-wapper">
-          <h4 className="userAppTitle">맛을 보여주세요</h4>
+          <h1 className="userAppTitle">맛을 기록하세요</h1>
           <label htmlFor="icon-button-file" component="span">
             <PhotoCameraRoundedIcon id="cameraIcon" fontSize="small" color="primary" />
           </label>
