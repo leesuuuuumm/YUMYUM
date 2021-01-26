@@ -48,7 +48,7 @@ public class FeedController {
 	@ApiOperation(value = "게시글 등록")
 	public ResponseEntity<?> create(
 			@ModelAttribute @ApiParam(value = "게시글 등록 시 필요한 정보 (음식명 , 날짜 , 식당이름, 장소 , 점수 , 내용)", required = true) CreateFeedRequest request
-			, @RequestPart("file") @Valid @NotNull @NotEmpty MultipartFile multipartFile
+			, @RequestParam("file") @Valid @NotNull @NotEmpty MultipartFile mFile
 	) {
 		String title = request.getTitle().trim();
 		String storeName = request.getStoreName().trim();
@@ -56,7 +56,6 @@ public class FeedController {
 		Integer score = request.getScore();
 		String content = request.getContent().trim();
 		String userEmail = request.getUserEmail().trim();
-//		MultipartFile mFile = request.getFile();
 
 		Optional<User> curUser = userDao.findById(userEmail);
 		if (!curUser.isPresent()) {
@@ -66,7 +65,7 @@ public class FeedController {
 		if ("".equals(title) || "".equals(storeName) || "".equals(location) || score == null || "".equals(content)) {
 			return makeResponse("400", null, "data is blank", HttpStatus.BAD_REQUEST);
 		}
-		String url = fileService.upload(multipartFile);
+		String url = fileService.upload(mFile);
 
 		Feed feed = Feed.builder()
 				.title(title)
@@ -86,12 +85,10 @@ public class FeedController {
 	@PostMapping(
 			value = "/video",
 			consumes = {
-					MediaType.MULTIPART_FORM_DATA_VALUE,
-					MediaType.APPLICATION_OCTET_STREAM_VALUE
+					MediaType.MULTIPART_FORM_DATA_VALUE
 			})
 	@ApiOperation(value = "동영상 등록")
-	@ResponseBody
-	public Object uploadVideo(@RequestPart("file") @Valid @NotNull @NotEmpty MultipartFile multipartFile) {
+	public Object uploadVideo(@RequestParam(value = "file", required = false) MultipartFile multipartFile) {
 		String url = fileService.upload(multipartFile);
 
 		return makeResponse("200", url, "success", HttpStatus.OK);
