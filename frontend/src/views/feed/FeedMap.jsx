@@ -53,7 +53,7 @@ const FeedMap = (props) => {
   const [center, setCenter] = useState(null); //현재 위치의 경도,위도가 저장된 변수
   const [selectPlace, setSelectPlace] = useState(false); // 목록에서 장소를 선택했는지 확인하는 방법
   const [detailPlaceInfo, setDetailPlaceInfo] = useState(null); // 선택한 장소의 정보를 담아두는 변수
-  // const formData = props.location.state.formData;
+  const formData = props.location.state.formData;
 
   useEffect(() => {
     createMap();
@@ -295,7 +295,7 @@ const FeedMap = (props) => {
     console.log(locPosition);
     setCenter(locPosition);
   }
-  
+
   function displayInfowindow(marker, title) {
     var content = '<div style="padding:5px;z-index:1;">' + title + "</div>";
 
@@ -314,11 +314,7 @@ const FeedMap = (props) => {
       pathname: "/feed/createfeed",
       state: { 
         detailPlace: detailPlaceInfo,
-<<<<<<< HEAD
-        // formData: formData 
-=======
         formData: formData 
->>>>>>> 2c7313856dedcb0149dc299a433b64a5af1d083f
       },
     });
   }
