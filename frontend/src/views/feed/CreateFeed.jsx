@@ -12,7 +12,6 @@ function CreateFeed(props) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [score, setScore] = useState(0);
-  const selectedFile = props.location.state.selectedFile;
   const placeInfo = props.location.state.detailPlace;
   const formData = props.location.state.formData;
 
@@ -21,6 +20,7 @@ function CreateFeed(props) {
   }, []);
 
   const dispatch = useDispatch();
+  
   const onTitleHandler = (e) => {
     setTitle(e.currentTarget.value);
   };
@@ -32,11 +32,6 @@ function CreateFeed(props) {
   };
   const ratingChanged = (newRating) => {
     setScore(newRating);
-    console.log(selectedFile);
-    console.log(placeInfo);
-    console.log(placeInfo.place_name);
-    console.log(placeInfo.address_name);
-    console.log(loggedUser.email);
   };
 
   const onSubmitHandler = (e) => {

@@ -13,3 +13,7 @@
   top: 50%;
   left: 5%;
 }
+
+#textbox .h6 { 
+  margin: 0;
+}
