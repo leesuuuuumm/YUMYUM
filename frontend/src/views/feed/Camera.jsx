@@ -38,7 +38,7 @@ function Camera() {
             id="background-video" 
             className='videoTag' 
             src={source} 
-            type='video/mp4'
+            type='video/*'
             width= "100%"
             height= "100%"
             autoPlay 
