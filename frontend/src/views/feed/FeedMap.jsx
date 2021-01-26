@@ -1,25 +1,14 @@
 import React, {useEffect, useState} from 'react';
-<<<<<<< HEAD:frontend/src/views/feed/FeedMap.jsx
-// import "./FeedMap.css";
-import { withRouter } from "react-router-dom";
-=======
-import "./FeedMap.css";
+import "./CSS/FeedMap.css"
 import { Link, withRouter } from "react-router-dom";
->>>>>>> b1b3722e938af786ac0ae14c39132346d8d97481:frontend/src/views/map/FeedMap.jsx
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-<<<<<<< HEAD:frontend/src/views/feed/FeedMap.jsx
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import DirectionsIcon from '@material-ui/icons/Directions';
-=======
 import SearchIcon from '@material-ui/icons/Search';
 import DirectionsIcon from '@material-ui/icons/Directions';
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
->>>>>>> b1b3722e938af786ac0ae14c39132346d8d97481:frontend/src/views/map/FeedMap.jsx
 
 const useStyles = makeStyles((theme) => ({
   root: {
