@@ -354,13 +354,13 @@ const FeedMap = (props) => {
           <SearchIcon />
         </IconButton>
         {/* <Divider className={classes.divider} orientation="vertical" /> */}
-        {/* <IconButton
+        <IconButton
           className={classes.iconButtonNext}
           aria-label="directions"
           onClick={sendPlaceInfo}
         >
           <DirectionsIcon />
-        </IconButton> */}
+        </IconButton>
       </Paper>
       <div className="map_wrap">
         <div id="map" style={{ width: "98vw", height: "85vh" }}></div>
