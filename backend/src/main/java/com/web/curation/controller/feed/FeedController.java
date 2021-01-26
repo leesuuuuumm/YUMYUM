@@ -128,7 +128,7 @@ public class FeedController {
 	}
 
 	@GetMapping("/list/{email}")
-	@ApiOperation(value = "피드 리스트 조회")
+	@ApiOperation(value = "한 유저의 피드 리스트 조회")
 	public Object feedList(@Valid @ApiParam(value = "email 값으로 검색 ", required = true) @PathVariable String email) {
 		Optional<User> curUser = userDao.findById(email);
 
@@ -138,31 +138,12 @@ public class FeedController {
 
 		List<Feed> searchlist = feedDao.findAllByUser(curUser.get());
 
-		return makeResponse("200", convertObjToJson(searchlist), "success", HttpStatus.OK);
-
+		return makeResponse("200", convertObjToJson(searchlist), "success" + searchlist.size(), HttpStatus.OK);
 	}
-//
-//	@GetMapping("/list/title/{email}")
-//	@ApiOperation(value = "title 별로 리스트 전체 조회")
-//	public Object titleList(@Valid @ApiParam(value = "title 별로 전체 조회", required = true) @PathVariable String email) {
-//
-//		Optional<User> curUser = userDao.findById(email);
-//
-//		if (!curUser.isPresent()) {
-//			return makeResponse("404", null, "User Not Found", HttpStatus.NOT_FOUND);
-//		}
-//
-//		List<Feed> titleList = feedDao.findAllByUserOrderByTitle(curUser.get());
-//
-//
-//		System.out.println();
-//		return makeResponse("200", convertObjToJson(titleList), "success", HttpStatus.OK);
-//
-//	}
-	@GetMapping("/list/title/{email}") 
-	@ApiOperation(value = "title 별로 리스트 전체 조회")
-	public Object titleList(@Valid @ApiParam(value = "title 별로 전체 조회", required = true) @PathVariable String email) {
 
+	@GetMapping("/titles/{email}")
+	@ApiOperation(value = "한 유저의 피드 타이틀 리스트 조회")
+	public Object titleList(@Valid @ApiParam(value = "title 별로 전체 조회", required = true) @PathVariable String email) {
 		Optional<User> curUser = userDao.findById(email);
 
 		if (!curUser.isPresent()) {
@@ -174,31 +155,27 @@ public class FeedController {
 		System.out.println(titleList);
 
 		System.out.println();
-		return makeResponse("200", convertObjToJson(titleList), "success", HttpStatus.OK);
-
+		return makeResponse("200", convertObjToJson(titleList), "success" + titleList.size(), HttpStatus.OK);
 	}
-	
-	@GetMapping("/list/title/{title}/{email}")
-	@ApiOperation(value = "title 별로 리스트 전체 조회")
-	public Object titleList(@Valid @ApiParam(value = "title 별로 전체 조회", required = true) @PathVariable String title,@PathVariable String email ) {
 
+	
+	@GetMapping("/list/{email}/{title}/")
+	@ApiOperation(value = "한 유저의 하나의 title로 적힌 피드 리스트 조회")
+	public Object titleList(@Valid @ApiParam(value = "title 별로 전체 조회", required = true) @PathVariable String title, @PathVariable String email ) {
 		Optional<User> curUser = userDao.findById(email);
 
 		if (!curUser.isPresent()) {
 			return makeResponse("404", null, "User Not Found", HttpStatus.NOT_FOUND);
 		}
 	
-		List<Feed> titleList = feedDao.findAllByTitleAndUser_email(title,email);
+		List<Feed> feedList = feedDao.findAllByTitleAndUser_email(title,email);
 		
-		System.out.println(titleList);
+		System.out.println(feedList);
 
 		System.out.println();
-		return makeResponse("200", convertObjToJson(titleList), "success", HttpStatus.OK);
-
+		return makeResponse("200", convertObjToJson(feedList), "success" + feedList.size(), HttpStatus.OK);
 	}
-	
-	
-	
+
 
 	@DeleteMapping("/{id}")
 	@ApiOperation(value = "피드 삭제")
