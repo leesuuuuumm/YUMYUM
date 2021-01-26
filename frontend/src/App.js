@@ -34,7 +34,7 @@ function App() {
           <Route path="/feed/camera" exact render={() => <Camera />}/>
           <Route path="/feed/flippages" exact render={() => <FlipPages />}/>
           <Route path='/bark' exact render={() => <BarkPage />} />
-          <Route path='/map/feedmap' exact render ={() => <FeedMap />}/>
+          <Route path='/feed/feedmap' exact render ={() => <FeedMap />}/>
           <Route path="/map/infomap" exact render={() => <InfoMap />} />
           <Route path="/food/feed" exact render={() => <FoodFeed />} />
           <Route path="/error" component={ErrorPage} />

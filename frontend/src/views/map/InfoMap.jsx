@@ -1,27 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { getPosition } from "../../_utils/getLocation";
-import './InfoMap.css'
-
+import "./InfoMap.css";
 
 const { kakao } = window;
 
 const InfoMap = (props) => {
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([
-      {
-        address_name: "대전 유성구 봉명동 536-10",
-        category_group_code: "FD6",
-        category_group_name: "음식점",
-        category_name: "음식점 > 양식 > 햄버거",
-        distance: "510",
-        id: "800935414",
-        phone: "042-719-8253",
-        place_name: "델리랩 유성충대점",
-        place_url: "http://place.map.kakao.com/800935414",
-        road_address_name: "대전 유성구 대학로 34",
-        x: "127.34295332577295",
-        y: "36.35655111481983",
-      },
+    {
+      address_name: "대전 유성구 봉명동 536-10",
+      category_group_code: "FD6",
+      category_group_name: "음식점",
+      category_name: "음식점 > 양식 > 햄버거",
+      distance: "510",
+      id: "800935414",
+      phone: "042-719-8253",
+      place_name: "델리랩 유성충대점",
+      place_url: "http://place.map.kakao.com/800935414",
+      road_address_name: "대전 유성구 대학로 34",
+      x: "127.34295332577295",
+      y: "36.35655111481983",
+    },
   ]);
   const [samples, setSamples] = useState([
     {
@@ -51,8 +50,8 @@ const InfoMap = (props) => {
       road_address_name: "대전 서구 대덕대로 226",
       x: "127.379863542692",
       y: "36.3527356488493",
-      }
-  ])                                    
+    },
+  ]);
 
   //지도를 불러오는 로직
   const createMap = () => {
@@ -72,21 +71,21 @@ const InfoMap = (props) => {
   function displayAllMarkers() {
     for (let i = 0; i < markers.length; i++) {
       let placePosition = new kakao.maps.LatLng(markers[i].y, markers[i].x),
-      marker = new kakao.maps.Marker({
-        map: map,
-        position: placePosition
-      })
+        marker = new kakao.maps.Marker({
+          map: map,
+          position: placePosition,
+        });
 
-      kakao.maps.event.addListener(marker, 'click', function () {
+      kakao.maps.event.addListener(marker, "click", function () {
         //TODO : 여기에 모달을 호출하는 함수를 넣어주면된다.
-        alert('클릭했어!')
-      })
+        alert("클릭했어!");
+      });
     }
   }
   //현재위치에 마커를 찍는 함수
   function displayMarkerNow(locPosition, message) {
     // 마커를 생성합니다
-    console.log(map)
+    console.log(map);
     let marker = new kakao.maps.Marker({
       map: map,
       position: locPosition,
@@ -121,7 +120,6 @@ const InfoMap = (props) => {
 
         // 마커와 인포윈도우를 표시합니다
         displayMarkerNow(locPosition, message);
-
       });
     } else {
       // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
@@ -129,7 +127,7 @@ const InfoMap = (props) => {
       let locPosition = new kakao.maps.LatLng(33.450701, 126.570667),
         message = "geolocation을 사용할수 없어요..";
 
-      displayMarkerNow(locPosition, message,);
+      displayMarkerNow(locPosition, message);
     }
   };
 
@@ -141,8 +139,8 @@ const InfoMap = (props) => {
 
   useEffect(() => {
     displayAllMarkers();
-    console.log("호출합니다.")
-  },[displayAllMarkers])
+    console.log("호출합니다.");
+  }, [displayAllMarkers]);
 
   return (
     <div className="infomap">
