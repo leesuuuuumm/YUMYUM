@@ -19,6 +19,19 @@ import wine from "../../_assets/wine.jpg";
 import neon from "../../_assets/neon.jpg";
 import yellowwine from "../../_assets/yellowwine.jpg";
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    backgroundColor: theme.palette.background.paper,
+    width: 100+"%",
+  },
+  tabpannel: {
+    'MuiBox-root': {
+      padding: 0,
+    },
+    
+  }
+}));
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -31,7 +44,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box p={3}>
+        <Box>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -52,38 +65,12 @@ function a11yProps(index) {
   };
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.paper,
-    width: 100+"%",
-  },
-}));
-
-const tileData = [
-  {
-    img: wine,
-    title: "Image",
-    author: "author",
-  },
-  {
-    img: neon,
-    title: "Image",
-    author: "author",
-  },
-  {
-    img: yellowwine,
-    title: "Image",
-    author: "author",
-  },
-];
-
 
 export default function UserFeedTab(props) {
   const { username } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
-  const [imgData, setImgData] = React.useState(tileData);
   const {loggedUser, feeds} = useContext(FeedsContext);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -104,7 +91,7 @@ export default function UserFeedTab(props) {
   };
 
   useEffect(()=>{
-    console.log(feeds, 'feeds왔니?')
+    console.log(feeds, 'feeds왔니?', loggedUser)
   }, []);
 
   return (
@@ -129,11 +116,10 @@ export default function UserFeedTab(props) {
         index={value}
         onChangeIndex={handleChangeIndex}
       > */}
-        <TabPanel value={value} index={0} dir={theme.direction}>
+        <TabPanel className={classes.tabpannel} value={value} index={0} dir={theme.direction}>
           <FeedList tileData = {feeds} />
-
         </TabPanel>
-        <TabPanel value={value} index={1} dir={theme.direction}>
+        <TabPanel className={classes.tabpannel} value={value} index={1} dir={theme.direction}>
           <FeedSquareGrid title="12월" tileData = {feeds} style={{ padding: 0 }}/>
         </TabPanel>
       {/* </SwipeableViews> */}

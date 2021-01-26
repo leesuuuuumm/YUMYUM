@@ -29,14 +29,14 @@ export default function FeedList(props) {
 
   return (
     <div className={classes.root}>
-      <GridList cellHeight={300} className={classes.gridList} cols={1}>
+      <GridList cellHeight={100} className={classes.gridList} cols={1}>
         {tileData.map((tile) => (
-          <GridListTile key={tile.id} cols={1} style={{ height: 3 + "rem" }}>
+          <GridListTile key={tile.id} cols={1} style={{ height: 5.8 + "rem" }}>
             {/* <img src={tile.filePath} alt={tile.title} />
              */}
             <video
               id="background-video"
-              className="videoTag"
+              className="feedVideo"
               src={`http://i4b101.p.ssafy.io:8080/single/${
                 tile.filePath.split("/")[6]
               }`}
@@ -44,6 +44,8 @@ export default function FeedList(props) {
               width="100%"
               loop
               muted
+              onMouseOver={(event) => event.target.play()}
+              onMouseOut={(event) => event.target.pause()}
             />
             {tile.id}
           </GridListTile>

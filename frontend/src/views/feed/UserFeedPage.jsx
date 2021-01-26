@@ -45,7 +45,7 @@ function UserFeedPage(props) {
   }, []);
 
   return (
-    <div>
+    <div className="userFeed">
       <FeedsContext.Provider
         value={{ loggedUser: loggedUser.nickname, feeds: feedsCalendar }}
       >

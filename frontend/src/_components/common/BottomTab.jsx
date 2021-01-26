@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
@@ -12,6 +12,7 @@ import MoodIcon from "@material-ui/icons/Mood";
 const useStyles = makeStyles({
   root: {
     width: "100%",
+    height: "10vh",
     position: "fixed",
     bottom: 0,
   },
@@ -30,20 +31,6 @@ function BottomTab() {
   const handleChange = (event, newValue) => {
     history.push(`/${newValue}`);
     setValue(newValue);
-  };
-
-  useEffect(() => {
-    // getProfileUser();
-    onLoggedUser();
-    console.log("loggedUser", loggedUser);
-    if (!loggedUser) {
-      alert("로그인 하세요!");
-      history.push("/");
-    }
-  }, []);
-
-  const onLoggedUser = (e) => {
-    setLoggedUser(JSON.parse(localStorage.getItem("loggedInfo")));
   };
 
   return (

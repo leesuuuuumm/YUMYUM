@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
@@ -18,12 +18,16 @@ const useStyles = makeStyles(() =>
       height: 100 + "%",
       padding: 0,
     },
+    gridtile: {
+      height: "calc(" + 100 + "vw*0.33) !important",
+    },
   })
 );
 
 export default function FeedSquareGrid(props) {
   const classes = useStyles();
   const { title, tileData } = props;
+
   useEffect(() => {
     console.log(tileData, "tileData?");
   }, []);
@@ -36,12 +40,12 @@ export default function FeedSquareGrid(props) {
         </GridListTile>
 
         {tileData.map((tile) => (
-          <GridListTile key={tile.id}>
+          <GridListTile key={tile.id} className={classes.gridtile}>
             {/* <img src={tile.filePath} alt={tile.title} />
              */}
             <video
               id="background-video"
-              className="videoTag"
+              className="feedVideo"
               src={`http://i4b101.p.ssafy.io:8080/single/${
                 tile.filePath.split("/")[6]
               }`}
@@ -49,6 +53,10 @@ export default function FeedSquareGrid(props) {
               width="100%"
               loop
               muted
+              // onMouseOver={(event) => event.target.play()}
+              onTouchStart={(event) => event.target.play()}
+              // onMouseOut={(event) => event.target.pause()}
+              onTouchEnd={(event) => event.target.pause()}
             />
             {tile.id}
           </GridListTile>
