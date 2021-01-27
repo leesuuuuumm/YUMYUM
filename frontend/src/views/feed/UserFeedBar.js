@@ -96,7 +96,7 @@ export default function UserFeedBar(props) {
 
   return (
     <div>
-      <AppBar position="static" color="#F4D503">
+      <AppBar position="static" color="primary">
         <ProfileInfo>
           <Avatar alt={username} src={girl} style={{marginRight:"0.5rem"}}/>
           <h2>{ username }</h2>
