@@ -75,7 +75,6 @@ function Camera() {
             capture="environment"
             onChange={(e) => handleCapture(e.target)}
           />
-          
       </div>
       )}
     </div>
