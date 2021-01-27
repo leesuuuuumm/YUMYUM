@@ -1,15 +1,83 @@
 .createWapper {
   height: 100vh;
+  background-color: rgba(128, 128, 128, 0.2);
+}
+
+.createWapper .title-box {
+  background-color: white;
+  position: absolute;
+  display: block;
+  width: 80%;
+  height: 20%;
+  top: 15%;
+  left: 10%;
+  border-radius: 10px;
+}
+
+.createWapper .title-box input{
+  text-align: center;
+  margin: 8% 0 3% 8%;
+  color: gray;
+  width: 80%;
+  border-width: 0 0 2px;
+  font-size: 18px;
+  background: white;
+  /* letter-spacing: px; */
+}
+
+.createWapper .title-box .stars{
+  display: block;
+  margin-left: 20%;
+}
+
+.createWapper .title-box .stars h3{
+  color: orange;
+  margin: 2% 0 0 15%;
+}
+
+
+.createWapper .content-box {
+  background-color: white;
+  position: absolute;
+  display: block;
+  width: 80%;
+  height: 30%;
+  top: 40%;
+  left: 10%;
+  border-radius: 10px;
+}
+
+.createWapper .content-box input{
+  /* text-align: ceter; */
+  margin: 8% 0 3% 8%;
+  color: gray;
+  width: 80%;
+  border-width: 0;
+  font-size: 20px;
+  font-weight: bold;
+  background: white;
+  /* letter-spacing: px; */
+}
+
+.createWapper h2{
+  background-color: orange;
+  position: relative;
+  height: 15%;
+  padding-left: 10%;
+  padding-top: 15%;
 }
 
 #feed-button-wapper {
-  position: relative;
+  position: fixed;
+  bottom: 15%;
+  width: 100%;
 }
 
 #next {
   height: 5px;
   float: right;
   margin-right: 5vw;
+  
 }
 
 #goback {

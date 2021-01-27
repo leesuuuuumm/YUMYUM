@@ -4,11 +4,12 @@ import { Link, withRouter } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
-import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
-import DirectionsIcon from "@material-ui/icons/Directions";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faArrowCircleRight }  from '@fortawesome/free-solid-svg-icons';
+import ArrowForwardRoundedIcon from '@material-ui/icons/ArrowForwardRounded';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -236,7 +237,6 @@ const FeedMap = (props) => {
   }
   // map에 있는 marker를 지우는 함수
   function removeMarker() {
-    console.log(markers.length);
     for (var i = 0; i < markers.length; i++) {
       markers[i].setMap(null);
     }
@@ -248,7 +248,6 @@ const FeedMap = (props) => {
   }
   //현재 위치로 이동하는 함수
   function nowLocation(map) {
-    console.log(map);
     // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
     if (nowMarker) {
       removeNowMarker();
@@ -292,7 +291,6 @@ const FeedMap = (props) => {
     marker.setMap(map);
     map.panTo(locPosition);
     map.setLevel(2);
-    console.log(locPosition);
     setCenter(locPosition);
   }
 
@@ -310,13 +308,15 @@ const FeedMap = (props) => {
   }
   // 리뷰작성 페이지로 넘기고 장소 정보를 함께 담아서 보내는 함수.
   function sendPlaceInfo() {
-    props.history.push({
-      pathname: "/feed/createfeed",
-      state: {
-        detailPlace: detailPlaceInfo,
-        formData: formData,
-      },
-    });
+    setTimeout(() => {
+      props.history.push({
+        pathname: "/feed/createfeed",
+        state: {
+          detailPlace: detailPlaceInfo,
+          formData: formData,
+        },
+      });
+    }, 200);
   }
 
   // 지도 확대, 축소 컨트롤에서 확대 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
@@ -353,15 +353,8 @@ const FeedMap = (props) => {
         >
           <SearchIcon />
         </IconButton>
-        {/* <Divider className={classes.divider} orientation="vertical" /> */}
-        <IconButton
-          className={classes.iconButtonNext}
-          aria-label="directions"
-          onClick={sendPlaceInfo}
-        >
-          <DirectionsIcon />
-        </IconButton>
       </Paper>
+      <FontAwesomeIcon icon={faArrowCircleRight} className="arrowcircle" size="4x" onClick={sendPlaceInfo}/>
       <div className="map_wrap">
         <div id="map" style={{ width: "98vw", height: "85vh" }}></div>
         {isList && (
