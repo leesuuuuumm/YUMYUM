@@ -18,3 +18,4 @@ export const CREATE_VIDEO = "CREATE_VIDEO";
 
 // map
 export const CREATE_PLACE = "CREATE_PLACE";
+export const GET_ALL_PLACE = "GET_ALL_PLACE";

@@ -53,4 +53,12 @@
   z-index: 2;
   top: 83%;
   left: 83%;
+  color : #F6D705;
+  box-shadow : 1px 6px 10px rgba(darken(dodgerblue, 40%));
+  transition : all .2s ;
+}
+.arrowcircle:active{
+  transform: scale(0.9);
+  color:rgba(59, 59, 59, 0.5);
+
 }
