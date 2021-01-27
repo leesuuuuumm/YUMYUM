@@ -1,4 +1,6 @@
 import './App.css';
+import { MuiThemeProvider } from "@material-ui/core/styles";
+import { theme } from './_utils/theme'
 import Login from './views/user/Login';
 import SignUp from './views/user/SignUp';
 import NotFound from './views/error/NotFound';
@@ -22,6 +24,7 @@ import FoodFeed from './views/food/FoodFeed';
 function App() {
   return (
     <div className="App">
+      <MuiThemeProvider theme={theme}>
       <Router>
         <Switch>
           <Route path="/" exact render={() => <Login />}/>
@@ -42,6 +45,7 @@ function App() {
         </Switch>
         <BottomTab />
       </Router>
+      </MuiThemeProvider>
 
     </div>
   );
