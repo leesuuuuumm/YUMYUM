@@ -57,3 +57,4 @@ export function registerVideo(dataToSubmit) {
         payload: data,
     }
 }
+
