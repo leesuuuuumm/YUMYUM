@@ -96,15 +96,6 @@ const InfoMap = (props) => {
       map: map,
       position: locPosition,
     });
-    // let iwContent = message; // 인포윈도우에 표시할 내용
-    // // 인포윈도우를 생성합니다
-    // let infowindow = new kakao.maps.InfoWindow({
-    //   content: iwContent,
-    // });
-
-    // // 인포윈도우를 마커위에 표시합니다
-    // infowindow.open(map, marker);
-    // // 지도 중심좌표를 접속위치로 변경합니다
     map.panTo(locPosition);
     map.setLevel(3);
   }
