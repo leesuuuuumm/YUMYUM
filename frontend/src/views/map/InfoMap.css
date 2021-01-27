@@ -1,7 +1,15 @@
 .infomap {
-    text-align: center;
-   }
-   
-   #allmap {
-     margin: 0px auto;
-   }
+  text-align: center;
+ }
+
+#allmap {
+margin: 0px auto;
+}
+
+.location_icon {
+position: absolute;
+z-index: 1;
+left: 340px;
+bottom: 100px;
+}
+
