@@ -170,7 +170,7 @@ public class FeedController {
 		return makeResponse("200", convertObjToJson(titleList), "success" + titleList.size(), HttpStatus.OK);
 	}
 
-	
+
 	@GetMapping("/list/{email}/{title}/")
 	@ApiOperation(value = "한 유저의 하나의 title로 적힌 피드 리스트 조회")
 	public Object titleList(@Valid @ApiParam(value = "title 별로 전체 조회", required = true) @PathVariable String title, @PathVariable String email ) {
@@ -181,7 +181,7 @@ public class FeedController {
 		}
 
 		List<Feed> feedList = feedDao.findAllByTitleAndUser_email(title,email);
-		
+
 		System.out.println(feedList);
 
 		System.out.println();
