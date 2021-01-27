@@ -1,7 +1,20 @@
 .infomap {
-    text-align: center;
-   }
-   
-   #allmap {
-     margin: 0px auto;
-   }
+  text-align: center;
+ }
+
+#allmap {
+margin: 0px auto;
+}
+
+.location_icon {
+  position: absolute;
+  z-index: 1;
+  left: 340px;
+  bottom: 100px;
+  box-shadow : 1px 6px 10px rgba(darken(dodgerblue, 40%));
+  transition : all .2s ;
+}
+.location_icon:active{
+  transform: scale(0.9);
+  color:rgba(59, 59, 59, 0.5);
+}

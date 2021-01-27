@@ -1,40 +1,52 @@
-#cameraIcon {
-  margin: 45% 45%;
-}
-
 #icon-wapper {
   width: 100%;
   height: 100%;
 }
 
 #icon-wapper label .MuiSvgIcon-root {
+  margin-top: 60%;
+  margin-left: 42%;
   width: 3em !important;
   height: 3em !important;
 }
 
 #icon-wapper .userAppTitle {
-  color: black;
-  text-align: center;
-  background-color: gray;
-  background-color: rgba(128, 128, 128, 0.3);
-  display: block;
+  background-color: orange;
+  position: relative;
+  height: 15%;
+  padding-left: 10%;
+  padding-top: 10%;
+  padding-bottom: 10%;
+}
+video {
+  margin-left: 2px;
 }
 
 #background-video {
-  position: absolute;
+  position: relative;
 }
 
 #button-wapper {
-  position: relative;
-  top: 85vh;
+  position: absolute;
+  top: 83%;
+  display: block;
+  width: 100%;
+}
+
+
+#button-wapper .MuiSvgIcon-colorDisabled{
+  color: black;
 }
 
 #next {
   height: 5px;
   float: right;
-  margin-right: 5vw;
+  margin-right: 8%;
+  bottom: 10px;
+
+
 }
 
 #retry {
-  margin-left: 5vh;
+  margin-left: 8%;
 }
