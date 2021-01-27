@@ -7,8 +7,9 @@ import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowCircleRight }  from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faArrowCircleRight }  from '@fortawesome/free-solid-svg-icons';
+import ArrowForwardRoundedIcon from '@material-ui/icons/ArrowForwardRounded';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -353,16 +354,8 @@ const FeedMap = (props) => {
         >
           <SearchIcon />
         </IconButton>
-        {/* <Divider className={classes.divider} orientation="vertical" /> */}
-        <IconButton
-          className={classes.iconButtonNext}
-          aria-label="directions"
-          onClick={sendPlaceInfo}
-        >
-          <DirectionsIcon />
-        </IconButton>
       </Paper>
-      <FontAwesomeIcon icon={faArrowCircleRight} className="arrowcircle" size="4x" color="#b3e5fc" onClick={sendPlaceInfo}/>
+      <ArrowForwardRoundedIcon fontSize="large" onClick={sendPlaceInfo} className="arrowcircle"/>
       <div className="map_wrap">
         <div id="map" style={{ width: "98vw", height: "85vh" }}></div>
         {isList && (

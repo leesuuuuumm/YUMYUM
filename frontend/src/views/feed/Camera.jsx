@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Link, withRouter } from "react-router-dom";
 import "./CSS/Camera.css"
-import PhotoCameraRoundedIcon from "@material-ui/icons/PhotoCameraRounded";
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
+import CameraAltOutlinedIcon from '@material-ui/icons/CameraAltOutlined';
+import ArrowForwardRoundedIcon from '@material-ui/icons/ArrowForwardRounded';
+
 
 function Camera() {
   const [source, setSource] = useState("");
@@ -14,11 +15,9 @@ function Camera() {
       if (target.files.length !== 0) {
         const file = target.files[0];
         const newUrl = URL.createObjectURL(file);
-        setSource(newUrl);
-        console.log(newUrl)
-        
         const formData = new FormData();
         formData.append('file', file);
+        setSource(newUrl);     
         setFormData(formData)
       }
     }
@@ -27,7 +26,6 @@ function Camera() {
   const sourceClear = () => {
     setSource("")
     setFormData({})
-    console.log(source)
   }
 
   return (
@@ -39,8 +37,7 @@ function Camera() {
             className='videoTag' 
             src={source} 
             type='video/*'
-            width= "100%"
-            height= "100%"
+            width= "99%"
             autoPlay 
             loop 
             muted 
@@ -56,16 +53,16 @@ function Camera() {
                   formData: formData,
                 }
               }}> 
-                <NavigateNextIcon fontSize="large" color="disabled" /> 
+                <ArrowForwardRoundedIcon fontSize="large" color="disabled"/>
               </Link>
             </a>
           </div>
         </div>
       ) : (
         <div id="icon-wapper">
-          <h1 className="userAppTitle">맛을 기록하세요</h1>
+          <h1 className="userAppTitle">맛을 보여주세요</h1>
           <label htmlFor="icon-button-file" component="span">
-            <PhotoCameraRoundedIcon id="cameraIcon" fontSize="small" color="primary" />
+            <CameraAltOutlinedIcon id="cameraIcon" />
           </label>
           <input
             accept="video/*"
