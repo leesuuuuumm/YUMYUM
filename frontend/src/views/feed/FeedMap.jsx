@@ -7,8 +7,9 @@ import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowCircleRight }  from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faArrowCircleRight }  from '@fortawesome/free-solid-svg-icons';
+import ArrowForwardRoundedIcon from '@material-ui/icons/ArrowForwardRounded';
 
 const useStyles = makeStyles((theme) => ({
   root: {
