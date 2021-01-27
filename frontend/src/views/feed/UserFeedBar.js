@@ -14,7 +14,7 @@ import FeedList from '../../_components/grid/FeedList';
 // import { FeedsContext } from './UserFeedPage';
 import styled from "styled-components";
 import girl from "../../_assets/barkIcon/girl.svg";
-
+import './CSS/UserFeedPage.css'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -43,8 +43,11 @@ function a11yProps(index) {
 }
 
 const ProfileInfo = styled.div`
-margin: 10px;
-
+  display: flex;
+  margin-top: 1rem;
+  margin-left: 1rem;
+  flex-direction: row;
+  align-items: center;
 `;
 
 export default function UserFeedBar(props) {
@@ -93,22 +96,18 @@ export default function UserFeedBar(props) {
 
   return (
     <div>
-      <AppBar position="static" color="#F4D503">
+      <AppBar position="static" color="primary">
         <ProfileInfo>
+          <Avatar alt={username} src={girl} style={{marginRight:"0.5rem"}}/>
           <h2>{ username }</h2>
-          <br/>
-          {feedsCalendar.length}
-          <Avatar alt="Remy Sharp" src={girl} />
         </ProfileInfo>
-        <button onClick={onLogoutHandler}>로그아웃</button>
         <Tabs
           value={value}
           onChange={handleChange}
           variant="fullWidth"
-          textColor="secondary"
         >
-          <Tab label="메뉴별" {...a11yProps(0)} />
-          <Tab label="날짜별" {...a11yProps(1)} />
+          <Tab selected label="메뉴별" {...a11yProps(0)} />
+          <Tab selected label="날짜별" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
 
