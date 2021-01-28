@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Link, withRouter } from "react-router-dom";
-import Quokka from "../../_assets/quokka1.png";
+import Quokka from "../../_assets/quokkaCamera.png";
 import "./CSS/Camera.css"
 import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
 import ArrowForwardRoundedIcon from '@material-ui/icons/ArrowForwardRounded';
-import PhotoCameraRoundedIcon from '@material-ui/icons/PhotoCameraRounded';
+// import PhotoCameraRoundedIcon from '@material-ui/icons/PhotoCameraRounded';
 
 
 function Camera() {
@@ -65,8 +65,8 @@ function Camera() {
         <div id="icon-wapper">
           
           <label htmlFor="icon-button-file" component="span">
-            <PhotoCameraRoundedIcon />
-            {/* <img src= {Quokka} alt="Quokka"/> */}
+            {/* <PhotoCameraRoundedIcon /> */}
+            <img src= {Quokka} alt="Quokka"/>
           </label>
           <h2 className="userAppTitle">맛을 보여주세요!</h2>
 
