@@ -7,13 +7,26 @@ export const theme = createMuiTheme({
         },
         secondary: {
           main: "#ffffff"
+        },
+        third: {
+            main: "000000"
         }
     },
     overrides: {
       MuiTabs: {
         indicator: {
-          backgroundColor: "white"
-        }
+          backgroundColor: "black",
+          height: "1px",
+        },
+      },
+      MuiTab: {
+          root: {
+            '&$selected': {
+                color: "black",
+                fontWeight: 800,
+            },
+          },
+          selected: {},
       },
       MuiAppBar: {
           root: {
@@ -25,6 +38,7 @@ export const theme = createMuiTheme({
           root: {
             border: "2px solid white"
           }
-      }
+      },
+
     }
   });
