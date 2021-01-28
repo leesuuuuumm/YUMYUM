@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
@@ -38,7 +38,6 @@ export default function FeedSquareGrid(props) {
         <GridListTile key="Subheader" cols={3} style={{ height: 3 + "rem" }}>
           <ListSubheader component="div">{title}</ListSubheader>
         </GridListTile>
-
         {tileData.map((tile) => (
           <GridListTile key={tile.id} className={classes.gridtile}>
             {/* <img src={tile.filePath} alt={tile.title} />
