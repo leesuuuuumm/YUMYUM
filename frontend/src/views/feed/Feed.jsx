@@ -1,4 +1,8 @@
 import ReactStars from "react-rating-stars-component";
+import FastfoodRoundedIcon from '@material-ui/icons/FastfoodRounded';
+import LocalDiningRoundedIcon from '@material-ui/icons/LocalDiningRounded';
+import StorefrontRoundedIcon from '@material-ui/icons/StorefrontRounded';
+import TextsmsRoundedIcon from '@material-ui/icons/TextsmsRounded';
 import "./CSS/Feed.css"
 
 function Feed(props) {
@@ -23,7 +27,8 @@ function Feed(props) {
         muted
       />
       <div id="textbox">
-        <h1> {feed.title} </h1>
+        {/* <FastfoodRoundedIcon /> */}
+        <h1> <FastfoodRoundedIcon id="foodIcon"/> {feed.title} </h1>
         <a href="">
           <h6> By. {feedUser.nickname} </h6>
         </a>
@@ -32,12 +37,17 @@ function Feed(props) {
           <ReactStars size={15} edit={false} value={feed.score} />
         </div>
         <hr />
+        <LocalDiningRoundedIcon id="nameIcon" fontSize="small"/> 
         <h4> {feed.place.placeName} </h4>
-        <h5> {feed.place.addressName} </h5>
-        <h5> {feedDate.dayOfWeek} / {feedDate.month} {feedDate.dayOfMonth} / {feedDate.year} </h5>
+        <div>
+          <StorefrontRoundedIcon id="storeIcon" fontSize="small" />
+          <h5> {feed.place.addressName} </h5>
+          <h5> {feedDate.year}.{feedDate.month.slice(0,3)}.{feedDate.dayOfMonth} / {feedDate.dayOfWeek.slice(0,3)}  </h5>
+        </div>
         <hr id="second_line"/>
         <br />
-        <h3> {feed.content} </h3>
+        <TextsmsRoundedIcon id="commentIcon"/>
+        <h3> " {feed.content} " </h3>
       </div>
      </div>
   );

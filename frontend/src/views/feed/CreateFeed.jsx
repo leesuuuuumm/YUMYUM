@@ -91,7 +91,7 @@ function CreateFeed(props) {
 
   return (
     <div className="createWapper">
-      <h2>아현술랭 평가하기</h2>
+      <h2>맛 평가하기</h2>
       <form onSubmit={onSubmitHandler}>
         <div className="title-box">
           <input
@@ -129,7 +129,7 @@ function CreateFeed(props) {
               <ArrowBackRoundedIcon fontSize="large" color="disabled" />
             </Link>
           </a>
-          <button id="next" type="submit">
+          <button id="final" type="submit">
             <DoneOutlineIcon fontSize="large" />
           </button>
         </div>

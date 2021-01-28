@@ -37,25 +37,27 @@ function Camera() {
             className='videoTag' 
             src={source} 
             type='video/*'
-            width= "99%"
+            height="100%"
             autoPlay 
             loop 
             muted 
           />
           <div id="button-wapper">
-            <a id="retry" onClick={sourceClear}>
-              <ReplayRoundedIcon id="retryIcon" color="disabled" fontSize="large"/>
-            </a>
-            <a id="next">
+            <button id="retry" onClick={sourceClear}>
+                <ReplayRoundedIcon id="retryIcon" color="disabled" fontSize="small"/>
+                <h3>Retry</h3>
+            </button>
+            <button id="next">
               <Link to={{
                 pathname: "/feed/feedmap",
                 state: {
                   formData: formData,
                 }
               }}> 
-                <ArrowForwardRoundedIcon fontSize="large" color="disabled"/>
+                <ArrowForwardRoundedIcon  fontSize="small" color="disabled"/>
+              <h3 id="nextText">Next</h3>
               </Link>
-            </a>
+            </button>
           </div>
         </div>
       ) : (

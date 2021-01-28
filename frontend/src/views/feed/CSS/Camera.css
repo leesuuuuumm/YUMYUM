@@ -1,3 +1,5 @@
+
+
 #total {
   width: 100vw;
   height: 100vh;
@@ -34,7 +36,7 @@
   padding-left: 30%;
 }
 .catchVideo {
-  left: 1px;
+  height: 100%;
 }
 
 #background-video {
@@ -49,16 +51,37 @@
 }
 
 #button-wapper .MuiSvgIcon-colorDisabled{
-  color: yellow;
+  color: white;
+  float: left;
 }
 
 #next {
-  height: 5px;
+  height: 40px;
+  margin-right: 5%;
+  bottom: 1px;
+  border-color: #F4D503;
+  border-width: 2px;
+  border-radius: 10px;
+  width: 80px;
   float: right;
-  margin-right: 8%;
-  bottom: 10px;
+  background-color: rgba(255, 255, 255, 0);
+}
+
+#nextText {
+  margin-top: 5px;
 }
 
 #retry {
+  width: 80px;
   margin-left: 8%;
+  border-color: #F4D503;
+  border-width: 2px;
+  border-radius: 10px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0);
+}
+
+#retry h3 {
+  margin: 3px;
+  float: right;
 }
