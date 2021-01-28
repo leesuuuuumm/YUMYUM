@@ -1,0 +1,7 @@
+.userFeed {
+  height: 90vh;
+  overflow: scroll;
+}
+.userNav {
+  min-height: 48px;
+}

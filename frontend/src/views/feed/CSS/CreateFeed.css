@@ -1,0 +1,88 @@
+.createWapper {
+  height: 100vh;
+  background-color: rgba(128, 128, 128, 0.2);
+}
+
+.createWapper .title-box {
+  background-color: white;
+  position: absolute;
+  display: block;
+  width: 80%;
+  height: 20%;
+  top: 15%;
+  left: 10%;
+  border-radius: 10px;
+}
+
+.createWapper .title-box input{
+  text-align: center;
+  margin: 8% 0 3% 10%;
+  color: gray;
+  width: 80%;
+  border-width: 0 0 2px;
+  font-size: 18px;
+  background: white;
+  /* letter-spacing: px; */
+}
+
+.createWapper .title-box .stars{
+  display: block;
+  margin-left: 24%;
+}
+
+.createWapper .title-box .stars h3{
+  color:#8d6e63;
+  margin: 2% 0 0 15%;
+}
+
+.createWapper .content-box {
+  background-color: white;
+  position: absolute;
+  display: block;
+  width: 80%;
+  height: 30%;
+  top: 40%;
+  left: 10%;
+  border-radius: 10px;
+}
+
+.createWapper .content-box input{
+  margin: 8% 0 3% 8%;
+  color: gray;
+  width: 80%;
+  border-width: 0;
+  font-size: 20px;
+  font-weight: bold;
+  background: white;
+}
+
+.createWapper h2{
+  background-color:#F4D503;
+  position: relative;
+  height: 15%;
+  padding-left: 10%;
+  padding-top: 15%;
+  color: #8d6e63;
+}
+
+#feed-button-wapper {
+  position: fixed;
+  bottom: 14%;
+  width: 100%;
+}
+
+#final {
+  height: 5px;
+  float: right;
+  margin-right: 10%;
+  border-width: 0;
+  background-color: rgba(255, 255, 255, 0);
+}
+
+#goback {
+  margin-left: 5vh;
+}
+
+#goback .MuiSvgIcon-colorDisabled{
+  color: black;
+}
