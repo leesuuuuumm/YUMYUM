@@ -11,20 +11,21 @@ import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import { Link } from "react-router-dom";
 import { getAllPlace } from "../../_actions/mapAction"
 
-
 const { kakao } = window;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     margin: '0px auto',
-    width: '100%'
+    width: '100%',
+    color : '#8d6e63'
   },
   menuButton: {
     marginRight: theme.spacing(2),
   },
   title: {
-    color:'black',
+    color:'white',
+    fontFamily: 'GmarketSansMedium',
   }
 }));
 
@@ -162,11 +163,8 @@ const InfoMap = (props) => {
   return (
     <>
     <div className={classes.root}>
-      <AppBar position="static" style = {{ background: '#fafafa' }}>
+      <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="primary" aria-label="menu">
-            <Link to='/feed/flippages'><NavigateBeforeIcon /></Link>
-          </IconButton>
           <Typography variant="h6" className={classes.title}>
             내 근처 리뷰 
           </Typography>
