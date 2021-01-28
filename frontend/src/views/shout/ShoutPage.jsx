@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import girl from "../../_assets/shoutIcon/girl.svg";
-import styled, { keyframes, css } from "styled-components";
+import styled, { keyframes } from "styled-components";
 import "./ShoutPage.css";
 
 const ShoutPage = () => {
