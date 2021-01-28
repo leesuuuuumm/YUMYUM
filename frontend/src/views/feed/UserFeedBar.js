@@ -13,7 +13,7 @@ import FeedSquareGrid from '../../_components/grid/FeedSquareGrid';
 import FeedList from '../../_components/grid/FeedList';
 // import { FeedsContext } from './UserFeedPage';
 import styled from "styled-components";
-import girl from "../../_assets/barkIcon/girl.svg";
+import girl from "../../_assets/shoutIcon/girl.svg";
 
 
 function TabPanel(props) {

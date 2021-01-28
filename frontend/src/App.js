@@ -14,7 +14,7 @@ import FlipPages from "./views/feed/FlipPages";
 import SignUpComplete from "./views/user/SignUpComplete";
 import UserSetting from './views/user/UserSetting';
 import InfoMap from './views/map/InfoMap';
-import BarkPage from './views/bark/BarkPage';
+import ShoutPage from './views/shout/ShoutPage';
 import FeedMap from './views/feed/FeedMap';
 import BottomTab from './_components/common/BottomTab';
 import FoodFeed from './views/food/FoodFeed';
@@ -36,7 +36,7 @@ function App() {
           <Route path="/feed/createfeed" exact render={() => <CreateFeed />}/>
           <Route path="/feed/camera" exact render={() => <Camera />}/>
           <Route path="/feed/flippages" exact render={() => <FlipPages />}/>
-          <Route path='/bark' exact render={() => <BarkPage />} />
+          <Route path='/shout' exact render={() => <ShoutPage />} />
           <Route path='/feed/feedmap' exact render ={() => <FeedMap />}/>
           <Route path="/map/infomap" exact render={() => <InfoMap />} />
           <Route path="/food/feed" exact render={() => <FoodFeed />} />

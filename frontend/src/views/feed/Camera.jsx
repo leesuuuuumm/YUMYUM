@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link, withRouter } from "react-router-dom";
+import Quokka from "../../_assets/quokka1.png";
 import "./CSS/Camera.css"
 import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
-import CameraAltOutlinedIcon from '@material-ui/icons/CameraAltOutlined';
 import ArrowForwardRoundedIcon from '@material-ui/icons/ArrowForwardRounded';
 
 
@@ -29,9 +29,9 @@ function Camera() {
   }
 
   return (
-    <div >
+    <div id="total">
       { source ? (
-        <div>
+        <div className="catchVideo">
           <video 
             id="background-video" 
             className='videoTag' 
@@ -60,10 +60,12 @@ function Camera() {
         </div>
       ) : (
         <div id="icon-wapper">
-          <h1 className="userAppTitle">맛을 보여주세요</h1>
+          
           <label htmlFor="icon-button-file" component="span">
-            <CameraAltOutlinedIcon id="cameraIcon" />
+            <img src= {Quokka} alt="Quokka"/>
           </label>
+          <h2 className="userAppTitle">맛을 보여주세요!</h2>
+
           <input
             accept="video/*"
             id="icon-button-file"
@@ -72,7 +74,7 @@ function Camera() {
             capture="environment"
             onChange={(e) => handleCapture(e.target)}
           />
-      </div>
+        </div>
       )}
     </div>
   );
