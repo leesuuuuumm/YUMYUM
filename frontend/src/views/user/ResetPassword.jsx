@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { resetPassword } from "../../_actions/userAction";
 import { withRouter } from "react-router-dom";
+import './CSS/ResetPassword.css'
 
 function ResetPassword(props) {
   const [Password, setPassword] = useState("");
@@ -67,49 +68,49 @@ function ResetPassword(props) {
   };
 
   return (
-    <section className="login">
-      <div className="userContainer">
-        <p className="userAppTitle">
-          당신의
-          <br />
-          눈동자에 cheers...
-        </p>
-        <p className="userTitle">비밀번호 변경하기</p>
-        <form onSubmit={onSubmitHandler}>
-          <input
-            type="password"
-            value={Password}
-            onChange={onPasswordHandler}
-            required
-            placeholder="비밀번호"
-          />
-          <input
-            type="password"
-            value={NewPassword}
-            onChange={onNewPasswordHandler}
-            required
-            placeholder="새로운 비밀번호"
-          />
-          <input
-            type="password"
-            value={ConfirmPassword}
-            onChange={onConfirmPasswordHandler}
-            required
-            placeholder="비밀번호를 한번 더 입력하세요"
-          />
-          {checkPwdError ? (
-            <div>
-              <p className="errorMsg">비밀번호가 일치하지 않습니다</p>
-            </div>
-          ) : (
-            <div></div>
-          )}
-          {/* <p className="errorMsg">이메일 형식을 확인하세요</p> */}
+    <section className="resetPw">
+      <div className="resetPwContainer">
+        <p className="resetPwTitle">비밀번호 변경하기</p>
+        <div className="input_wrap">
+          <form onSubmit={onSubmitHandler}>
+            <input
+              type="password"
+              value={Password}
+              onChange={onPasswordHandler}
+              required
+              placeholder="현재 비밀번호"
+            />
+            <hr className="restPw" />
+            <input
+              type="password"
+              value={NewPassword}
+              onChange={onNewPasswordHandler}
+              required
+              placeholder="새로운 비밀번호"
+            />
+            <hr className="restPw" />
+            <input
+              type="password"
+              value={ConfirmPassword}
+              onChange={onConfirmPasswordHandler}
+              required
+              placeholder="비밀번호를 한번 더 입력하세요"
+            />
+            <hr className="restPw" />
+            {checkPwdError ? (
+              <div>
+                <p className="errorMsg">비밀번호가 일치하지 않습니다</p>
+              </div>
+            ) : (
+              <div></div>
+            )}
+            {/* <p className="errorMsg">이메일 형식을 확인하세요</p> */}
 
-          <div className="btnContainer">
-            <button type="submit">비밀번호 변경하기</button>
-          </div>
-        </form>
+            <div className="btnContainer">
+              <button className="resetPwButton"type="submit">비밀번호 변경하기</button>
+            </div>
+          </form>
+        </div>
       </div>
     </section>
   );

@@ -45,9 +45,6 @@ const useStyles = makeStyles(() =>
 export default function FeedList(props) {
   const classes = useStyles();
   const { tileData } = props;
-  useEffect(() => {
-    console.log(tileData, "tileData?");
-  }, []);
 
   return (
     <div className={classes.root}>
@@ -59,8 +56,6 @@ export default function FeedList(props) {
               cols={1}
               style={{ height: 5.8 + "rem" }}
             >
-              {/* <img src={tile.filePath} alt={tile.title} />
-               */}
               <div className={classes.tileBox}>
                 <video
                   id="background-video"
@@ -72,8 +67,10 @@ export default function FeedList(props) {
                   width="100%"
                   loop
                   muted
-                  onMouseOver={(event) => event.target.play()}
-                  onMouseOut={(event) => event.target.pause()}
+                  // onMouseOver={(event) => event.target.play()}
+                  onTouchStart={(event) => event.target.play()}
+                  // onMouseOut={(event) => event.target.pause()}
+                  onTouchEnd={(event) => event.target.pause()}
                 />
                 <div className={classes.textBox}>
                   <span className={classes.text}>{tile.title}</span>

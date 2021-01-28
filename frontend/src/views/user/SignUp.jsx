@@ -59,7 +59,7 @@ function SignUp(props) {
         .then((res) => {
           if (res.payload.status) {
             alert("회원가입 성공!");
-            props.history.push("/user/complete");
+            props.history.push("/");
           } else {
             alert("회원가입 실패");
           }

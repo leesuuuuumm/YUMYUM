@@ -55,7 +55,7 @@ function Camera() {
                 }
               }}> 
                 <ArrowForwardRoundedIcon  fontSize="small" color="disabled"/>
-              <h3 id="nextText">Next</h3>
+                <h3 id="nextText">Next</h3>
               </Link>
             </button>
           </div>
