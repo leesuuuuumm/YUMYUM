@@ -65,6 +65,7 @@ const FeedMap = (props) => {
     let options = {
       center: new kakao.maps.LatLng(37.506502, 127.053617),
       level: 7,
+      draggable : true,
     };
     let map = new kakao.maps.Map(container, options);
     setPs(new kakao.maps.services.Places());
