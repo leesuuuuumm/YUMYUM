@@ -73,7 +73,7 @@ function SignUp(props) {
     }
   };
   return (
-    <section className="signUp">
+    <div className="signUp">
       <div className="signUpContainer">
         <div className="img_wrap">  
           <img src={Quokka} alt="쿼카" />
@@ -156,7 +156,7 @@ function SignUp(props) {
         </form>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
 

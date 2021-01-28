@@ -32,7 +32,7 @@ function Login(props) {
         console.log("login ojb", obj);
         console.log("login status", JSON.parse(res.payload.status));
         if (status) {
-          alert("로그인 성공!");
+          // alert("로그인 성공!");
 
           localStorage.setItem("loggedInfo", JSON.stringify(obj));
           console.log("히스토리");
@@ -80,9 +80,6 @@ function Login(props) {
             />
             <hr className="login_hr"/>
             <div className="userLink">
-              {/* <Link to="/user/password" className="userLink"> */}
-              비밀번호 찾기
-              {/* </Link> */} |{" "}
               <Link to="/user/join" className="userLink">
                 회원가입
               </Link>
