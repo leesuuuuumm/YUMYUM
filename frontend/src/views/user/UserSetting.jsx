@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { getUser, updateUser } from "../../_actions/userAction";
+import './CSS/UserSetting.css';
 
 function UserSetting(props) {
   const [nickname, setNickName] = useState("");
@@ -59,35 +60,37 @@ function UserSetting(props) {
   };
 
   return (
-    <section className="login">
-      <div className="userContainer">
-        <p className="userAppTitle">
+    <section className="setting">
+      <div className="settingContainer">
+        <p className="settingAppTitle">
           당신의
           <br />
           눈동자에 cheers...
         </p>
-        <p className="userTitle">유저 정보 변경</p>
-        <form onSubmit={onSubmitHandeler}>
-          <input
-            type="text"
-            value={nickname}
-            onChange={onNicknameHandler}
-            required
-            placeholder="닉네임변경하기"
-          />
-          <input
-            type="text"
-            value={introduction}
-            onChange={onIntroductionHandler}
-            required
-            placeholder="한줄 소개를 써주세요."
-          />
-          <div className="btnContainer">
-            <button className="userButton" type="submit">
-              유저정보 변경하기
-            </button>
+        <p className="settingTitle">유저 정보 변경</p>
+        <div className="input_wrap">
+          <form onSubmit={onSubmitHandeler}>
+            <input
+              type="text"
+              value={nickname}
+              onChange={onNicknameHandler}
+              required
+              placeholder="닉네임변경하기"
+            />
+            <input
+              type="text"
+              value={introduction}
+              onChange={onIntroductionHandler}
+              required
+              placeholder="한줄 소개를 써주세요."
+            />
+            <div className="btnContainer">
+              <button className="settingButton" type="submit">
+                유저정보 변경하기
+              </button>
+            </div>
+          </form>
           </div>
-        </form>
       </div>
     </section>
   );
