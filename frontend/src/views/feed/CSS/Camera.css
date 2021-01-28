@@ -69,6 +69,7 @@
 
 #nextText {
   margin-top: 5px;
+  color: #fff;
 }
 
 #retry {
@@ -84,4 +85,5 @@
 #retry h3 {
   margin: 3px;
   float: right;
+  color: #fff;
 }
