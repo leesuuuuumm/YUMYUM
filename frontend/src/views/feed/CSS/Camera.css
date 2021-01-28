@@ -3,7 +3,7 @@
 #total {
   width: 100vw;
   height: 100vh;
-  background-color: yellow;
+  background-color:#F4D503;
 }
 
 #icon-wapper {
@@ -30,7 +30,7 @@
 }
 
 #icon-wapper .userAppTitle {
-  background-color: yellow;
+  background-color: #F4D503;
   position: relative;
   height: 10%;
   padding-left: 30%;

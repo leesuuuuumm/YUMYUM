@@ -46,7 +46,7 @@ const ProfileInfo = styled.div`
 function UserFeedPage() {
   const theme = useTheme();
 
-  const [value, setValue] = React.useState(1);
+  const [value, setValue] = React.useState(0);
   const [username, setUsername] = React.useState("");
   const [isModalOpen, setModalOpen] = useState(false);
   const dispatch = useDispatch();
@@ -92,12 +92,12 @@ function UserFeedPage() {
           <Tab selected label="날짜별" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
-
       <TabPanel value={value} index={0} dir={theme.direction}>
-        <FeedList tileData={feeds} />
-      </TabPanel>
-      <TabPanel value={value} index={1} dir={theme.direction}>
         <FeedSquareGrid title="1월" tileData={feeds} style={{ padding: 0 }} />
+      </TabPanel>
+
+      <TabPanel value={value} index={1} dir={theme.direction}>
+        <FeedList tileData={feeds} />
       </TabPanel>
     </div>
   );

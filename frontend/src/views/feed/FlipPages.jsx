@@ -15,7 +15,7 @@ function FlipPages(props) {
     .then((res) => {
       const objs = JSON.parse(res.payload.data);
       console.log(objs)
-      setFeeds(objs.map(obj => (<Slide> <Feed key={obj.id} feed={obj} /></Slide>)))
+      setFeeds(objs.reverse().map(obj => (<Slide> <Feed key={obj.id} feed={obj} /></Slide>)))
     })
   };
 
