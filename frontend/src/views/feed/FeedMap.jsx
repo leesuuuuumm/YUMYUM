@@ -7,8 +7,6 @@ import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowCircleRight } from "@fortawesome/free-solid-svg-icons";
 import ArrowForwardRoundedIcon from "@material-ui/icons/ArrowForwardRounded";
 
 const useStyles = makeStyles((theme) => ({
@@ -65,6 +63,7 @@ const FeedMap = (props) => {
     let options = {
       center: new kakao.maps.LatLng(37.506502, 127.053617),
       level: 7,
+      draggable : true,
     };
     let map = new kakao.maps.Map(container, options);
     setPs(new kakao.maps.services.Places());
@@ -308,15 +307,20 @@ const FeedMap = (props) => {
   }
   // 리뷰작성 페이지로 넘기고 장소 정보를 함께 담아서 보내는 함수.
   function sendPlaceInfo() {
-    setTimeout(() => {
-      props.history.push({
-        pathname: "/feed/createfeed",
-        state: {
-          detailPlace: detailPlaceInfo,
-          formData: formData,
-        },
-      });
-    }, 200);
+    if (detailPlaceInfo) {
+      setTimeout(() => {
+        props.history.push({
+          pathname: "/feed/createfeed",
+          state: {
+            detailPlace: detailPlaceInfo,
+            formData: formData,
+          },
+        });
+      }, 200);
+    } else {
+      alert("식당을 알려주세요!")
+    }
+
   }
 
   // 지도 확대, 축소 컨트롤에서 확대 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
@@ -354,14 +358,10 @@ const FeedMap = (props) => {
           <SearchIcon />
         </IconButton>
       </Paper>
-      <FontAwesomeIcon
-        icon={faArrowCircleRight}
-        className="arrowcircle"
-        size="4x"
-        onClick={sendPlaceInfo}
-      />
+      { isList || <ArrowForwardRoundedIcon className="arrowcircle" onClick={sendPlaceInfo} fontSize="large" />}
+    
       <div className="map_wrap">
-        <div id="map" style={{ width: "98vw", height: "85vh" }}></div>
+        <div id="map" style={{ width: "100vw", height: "83.5vh" }}></div>
         {isList && (
           <div id="menu_wrap" className="bg_white">
             <div className="option"></div>

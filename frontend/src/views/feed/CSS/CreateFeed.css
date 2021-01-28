@@ -16,7 +16,7 @@
 
 .createWapper .title-box input{
   text-align: center;
-  margin: 8% 0 3% 8%;
+  margin: 8% 0 3% 10%;
   color: gray;
   width: 80%;
   border-width: 0 0 2px;
@@ -27,14 +27,13 @@
 
 .createWapper .title-box .stars{
   display: block;
-  margin-left: 20%;
+  margin-left: 24%;
 }
 
 .createWapper .title-box .stars h3{
-  color: orange;
+  color:#8d6e63;
   margin: 2% 0 0 15%;
 }
-
 
 .createWapper .content-box {
   background-color: white;
@@ -48,7 +47,6 @@
 }
 
 .createWapper .content-box input{
-  /* text-align: ceter; */
   margin: 8% 0 3% 8%;
   color: gray;
   width: 80%;
@@ -56,30 +54,35 @@
   font-size: 20px;
   font-weight: bold;
   background: white;
-  /* letter-spacing: px; */
 }
 
 .createWapper h2{
-  background-color: orange;
+  background-color:#F4D503;
   position: relative;
   height: 15%;
   padding-left: 10%;
   padding-top: 15%;
+  color: #8d6e63;
 }
 
 #feed-button-wapper {
   position: fixed;
-  bottom: 15%;
+  bottom: 14%;
   width: 100%;
 }
 
-#next {
+#final {
   height: 5px;
   float: right;
-  margin-right: 5vw;
-  
+  margin-right: 10%;
+  border-width: 0;
+  background-color: rgba(255, 255, 255, 0);
 }
 
 #goback {
   margin-left: 5vh;
+}
+
+#goback .MuiSvgIcon-colorDisabled{
+  color: black;
 }

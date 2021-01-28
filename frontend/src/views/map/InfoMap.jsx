@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     margin: '0px auto',
-    width: '98%'
+    width: '100%'
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -46,6 +46,7 @@ const InfoMap = (props) => {
     let options = {
       center: new kakao.maps.LatLng(37.506502, 127.053617),
       level: 7,
+      draggable: true,
     };
     let myMap = new kakao.maps.Map(container, options);
 
@@ -173,7 +174,7 @@ const InfoMap = (props) => {
       </AppBar>
     </div>
     <div className="infomap">
-      <div id="allmap" style={{ width: "98vw", height: "83vh" }}></div>
+      <div id="allmap" style={{ width: "100vw", height: "83vh" }}></div>
       <div className="location_icon"><MyLocationIcon fontSize="large" onClick={nowLocation} color = "primary" /></div>
     </div>
     </>

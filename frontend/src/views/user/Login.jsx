@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { Link, withRouter } from "react-router-dom";
-// import PropTypes from "prop-types";
+import  Quokka  from "../../_assets/quokka1.png";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../_actions/userAction";
+import "./CSS/Login.css";
 
 function Login(props) {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
+  const [islogin, setIsLogin] = useState(false);
   // redux store에 설정된 action에 대한 dispatch를 연결하는 훅
   const dispatch = useDispatch();
   
@@ -44,63 +46,59 @@ function Login(props) {
         }
       })
       .catch((err) => {
-        console.log(err);
+        setIsLogin(true)
       });
   };
   return (
     <section className="login">
-      <div className="userContainer">
-        {/* <button className="add-button">Add to home screen</button> */}
-        <p className="userAppTitle">
-          당신의
-          <br />
-          눈동자에 cheers...
-        </p>
-        <p className="userTitle">회원 서비스 이용을 위해 로그인 해주세요.</p>
-        <form onSubmit={onSubmitHandler}>
-          <input
-            type="email"
-            value={Email}
-            onChange={onEmailHandler}
-            autoFocus
-            required
-            autoCapitalize="off"
-            placeholder="이메일"
-          />
-          {/* <p className="errorMsg">이메일 형식을 확인하세요</p> */}
-          <input
-            type="password"
-            value={Password}
-            onChange={onPasswordHandler}
-            required
-            placeholder="비밀번호"
-          />
-          <div className="userLink">
-            {/* <Link to="/user/password" className="userLink"> */}
-            비밀번호 찾기
-            {/* </Link> */} |{" "}
-            <Link to="/user/join" className="userLink">
-              회원가입
-            </Link>
-          </div>
-          <div className="btnContainer">
-            <div>
-              {Email && Password ? (
-                <button className="userButton" type="submit">
-                  로그인하기
-                </button>
-              ) : (
-                <div></div>
-              )}
-              {/* <button
-                type="submit"
-                className={Email && Password ? "successButton" : "failButton"}
-              >
-                로그인하기
-              </button> */}
+      <div className="loginContainer">
+        <div className="img_wrap">
+          <img src={Quokka} alt="쿼카" />
+          <div className="loginAppTitle">YUM YUM</div>
+        </div>
+        <p className="loginTitle">회원 서비스 이용을 위해 로그인 해주세요.</p>
+        <div className="input_wrap">
+          <div className="email_label">EMAIL</div>
+          <form onSubmit={onSubmitHandler}>
+            <input
+              type="email"
+              value={Email}
+              onChange={onEmailHandler}
+              autoFocus
+              required
+              autoCapitalize="off"
+              placeholder="이메일"
+            />
+            <hr className="login_hr"/>
+            <div className="password_label">PASSWORD</div>
+            <input
+              type="password"
+              value={Password}
+              onChange={onPasswordHandler}
+              required
+              placeholder="비밀번호"
+            />
+            <hr className="login_hr"/>
+            <div className="userLink">
+              {/* <Link to="/user/password" className="userLink"> */}
+              비밀번호 찾기
+              {/* </Link> */} |{" "}
+              <Link to="/user/join" className="userLink">
+                회원가입
+              </Link>
             </div>
-          </div>
-        </form>
+            <div className="btnContainer">
+              <div>
+                {islogin &&
+                <div className="login_error">이메일 혹은 비밀번호가 잘못되었습니다.</div>
+                }     
+                  <button className="loginButton" type="submit">
+                    로그인
+                  </button>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
     </section>
   );

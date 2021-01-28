@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import girl from "../../_assets/barkIcon/girl.svg";
+import girl from "../../_assets/shoutIcon/girl.svg";
 import styled, { keyframes, css } from "styled-components";
-import "./BarkPage.css";
+import "./ShoutPage.css";
 
-const BarkPage = () => {
+const ShoutPage = () => {
   const [waveVisible, setWaveVisible] = useState(false);
   const [waves, setWaves] = useState([]);
   //css
@@ -62,20 +62,20 @@ const BarkPage = () => {
   `;
 
   // btn click 시
-  function clickBark() {
+  function clickShout() {
     setWaveVisible(!waveVisible);
     console.log("hi");
     setWaves((oldArray) => [...oldArray, <Circle />]);
   }
 
   return (
-    <div className="barkContainer">
+    <div className="shoutContainer">
       <div style={circle}>
-        <button style={btnBg} onClick={clickBark}></button>
+        <button style={btnBg} onClick={clickShout}></button>
         {waves}
       </div>
     </div>
   );
 };
 
-export default BarkPage;
+export default ShoutPage;

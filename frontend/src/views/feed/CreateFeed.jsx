@@ -5,8 +5,8 @@ import { registerFeed } from "../../_actions/feedAction";
 import { registerPlace } from "../../_actions/mapAction";
 import "./CSS/CreateFeed.css";
 import ReactStars from "react-rating-stars-component";
-import NavigateBeforeRoundedIcon from "@material-ui/icons/NavigateBeforeRounded";
-import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
+import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
 
 function CreateFeed(props) {
   const [loggedUser, setLoggedUser] = useState("");
@@ -91,7 +91,7 @@ function CreateFeed(props) {
 
   return (
     <div className="createWapper">
-      <h2>아현술랭 평가하기</h2>
+      <h2>맛 평가하기</h2>
       <form onSubmit={onSubmitHandler}>
         <div className="title-box">
           <input
@@ -126,12 +126,11 @@ function CreateFeed(props) {
         <div id="feed-button-wapper">
           <a id="goback">
             <Link to="/feed/camera">
-              {" "}
-              <NavigateBeforeRoundedIcon fontSize="large" />{" "}
+              <ArrowBackRoundedIcon fontSize="large" color="disabled" />
             </Link>
           </a>
-          <button id="next" type="submit">
-            <NavigateNextIcon fontSize="large" />
+          <button id="final" type="submit">
+            <DoneOutlineIcon fontSize="large" />
           </button>
         </div>
       </form>
