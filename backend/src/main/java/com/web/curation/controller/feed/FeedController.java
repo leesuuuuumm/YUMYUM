@@ -1,5 +1,6 @@
 package com.web.curation.controller.feed;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +21,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -143,7 +145,7 @@ public class FeedController {
 	}
 
 	@GetMapping("/list/{email}")
-	@ApiOperation(value = "한 유저의 피드 리스트 조회")
+	@ApiOperation(value = "한 유저의 피드 리스트  시간별로 조회")
 	public Object feedList(@Valid @ApiParam(value = "email 값으로 검색 ", required = true) @PathVariable String email) {
 		Optional<User> curUser = userDao.findById(email);
 
@@ -151,21 +153,23 @@ public class FeedController {
 			return makeResponse("404", null, "User Not Found", HttpStatus.NOT_FOUND);
 		}
 
-		List<Feed> searchlist = feedDao.findAllByUser(curUser.get());
+		List<Feed> searchlist = feedDao.findAllByUserOrderByIdDesc(curUser.get());
 
 		return makeResponse("200", convertObjToJson(searchlist), "success" + searchlist.size(), HttpStatus.OK);
 	}
 
 	@GetMapping("/titles/{email}")
 	@ApiOperation(value = "한 유저의 피드 타이틀 리스트 조회")
-	public Object titleList(@Valid @ApiParam(value = "title 별로 전체 조회", required = true) @PathVariable String email) {
+	public Object titleList(@Valid @RequestBody @ApiParam(value = "title 별로 전체 조회", required = true) @PathVariable String email) {
 		Optional<User> curUser = userDao.findById(email);
 
 		if (!curUser.isPresent()) {
 			return makeResponse("404", null, "User Not Found", HttpStatus.NOT_FOUND);
 		}
 
-		List<String> titleList = feedDao.findByUser_email(email);
+//		List<String> titleList = feedDao.findByUser_email(email);
+		
+		List<ArrayList<String>> titleList =feedDao.findByUser_email(email);
 
 		return makeResponse("200", convertObjToJson(titleList), "success" + titleList.size(), HttpStatus.OK);
 	}
@@ -187,6 +191,8 @@ public class FeedController {
 		System.out.println();
 		return makeResponse("200", convertObjToJson(feedList), "success" + feedList.size(), HttpStatus.OK);
 	}
+	
+	
 
 	@DeleteMapping("/{id}")
 	@ApiOperation(value = "피드 삭제")
