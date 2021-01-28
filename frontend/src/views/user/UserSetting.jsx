@@ -8,9 +8,7 @@ function UserSetting(props) {
   const [nickname, setNickName] = useState("");
   const [introduction, setIntroduction] = useState("");
   const [email, setEmail] = useState("");
-
   const dispatch = useDispatch();
-
   //TODO 닉네임이랑, 한줄내용을 서버에  보내주는 로직을 작성해야한다.
   useEffect(() => {
     const loggedInfo = JSON.parse(localStorage.getItem("loggedInfo"));
@@ -62,11 +60,6 @@ function UserSetting(props) {
   return (
     <section className="setting">
       <div className="settingContainer">
-        <p className="settingAppTitle">
-          당신의
-          <br />
-          눈동자에 cheers...
-        </p>
         <p className="settingTitle">유저 정보 변경</p>
         <div className="input_wrap">
           <form onSubmit={onSubmitHandeler}>
@@ -77,6 +70,7 @@ function UserSetting(props) {
               required
               placeholder="닉네임변경하기"
             />
+            <hr className="setting_hr"/>
             <input
               type="text"
               value={introduction}
@@ -84,6 +78,7 @@ function UserSetting(props) {
               required
               placeholder="한줄 소개를 써주세요."
             />
+            <hr className="setting_hr"/>
             <div className="btnContainer">
               <button className="settingButton" type="submit">
                 유저정보 변경하기
