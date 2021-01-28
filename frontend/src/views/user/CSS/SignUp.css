@@ -1,4 +1,4 @@
-.loginButton {
+.signUpButton {
   border: none;
   outline: none;
   width: 100%;
@@ -30,7 +30,7 @@
   cursor: pointer;
 }
 
-.login {
+.signUp {
   min-height: 100vh;
   padding: 0 30px;
   background-color: #212121;
@@ -42,7 +42,7 @@
   font-weight:normal;
 }
 
-.login .loginContainer {
+.signUp .signUpContainer {
   margin-top: 15%;
   width: 100%;
   height: 100%;
@@ -52,13 +52,13 @@
 }
 
 
-.login .loginContainer .loginTitle {
+.signUp .signUpContainer .signUpTitle {
   color: white;
   font-size: 14px;
   color: gray;
 }
 
-.login .loginContainer label {
+.signUp .signUpContainer label {
   color: white;
   margin: 14px 0;
   display: block;
@@ -66,7 +66,7 @@
   line-height: 1;
 }
 
-.login .loginContainer input {
+.signUp .signUpContainer input {
   color: black;
   width: 100%;
   outline: 0;
@@ -80,18 +80,18 @@
   letter-spacing: 1px;
 }
 
-.login .loginContainer .btnContainer {
+.signUp .signUpContainer .btnContainer {
   width: 100%;
   padding: 24px 0 0 0 ;
 }
 
-.login .loginContainer .btnContainer p {
+.signUp .signUpContainer .btnContainer p {
   margin: 14px 0 0 0;
   text-align: right;
   color: #fff;
 }
 
-.login .loginContainer .btnContainer p span {
+.signUp .signUpContainer .btnContainer p span {
   color: yellow;
   font-weight: 500;
   letter-spacing: 0.5px;
@@ -100,17 +100,17 @@
   transition: all 400ms ease-in-out;
 }
 
-.login .loginContainer .btnContainer p span:hover {
+.signUp .signUpContainer .btnContainer p span:hover {
   color: red;
 }
 
-.login .loginContainer .errorMsg {
+.signUp .signUpContainer .errorMsg {
   color: red;
   font-size: 10px;
   margin: 0 0 10px 0;
 }
 
-.login .userLink {
+.signUp .userLink {
   margin-left: auto;
   color: #3cb9fc;
 }
@@ -196,24 +196,24 @@ h3 {
   color: #8d6e63;
 }
 
-.login_error{
+.signUp_error{
   color: red;
   text-align: center;
 }
 
-.login_hr{
+.signUp_hr{
   margin-top: 0px;
   margin-bottom: 10px;
   padding: 0;
   border-width: 1.5px;
 }
 
-.login .loginContainer .loginAppTitle{
+.signUp .signUpContainer .signUpAppTitle{
   color: black;
   font-size: 30px;
 }
 
-.login .loginContainer img {
+.signUp .signUpContainer img {
   width: 40%;
   height: 40%;
 }
@@ -223,4 +223,8 @@ h3 {
   align-items: center;
   width: 100%;
   height: 100%;
+}
+
+.signUpTitle {
+  color: black;
 }

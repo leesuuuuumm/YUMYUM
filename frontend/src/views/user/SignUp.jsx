@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import { registerUser } from "../../_actions/userAction";
 import { Link, withRouter } from "react-router-dom";
 import { chkEmail, chkPassword } from "../../_utils/validator";
+import  Quokka  from "../../_assets/quokka1.png";
+import './CSS/SignUp.css';
 
 function SignUp(props) {
   // useState로 현재 state와 state를 변경하는 함수 지정
@@ -71,89 +73,88 @@ function SignUp(props) {
     }
   };
   return (
-    <section className="login">
-      <div className="userContainer">
-        <p className="userAppTitle">
-          당신의
-          <br />
-          눈동자에 cheers...
-        </p>
-        <p className="userTitle">
+    <section className="signUp">
+      <div className="signUpContainer">
+        <div className="img_wrap">  
+          <img src={Quokka} alt="쿼카" />
+          <div className="signUpAppTitle">YUM YUM</div>
+        </div>
+        <p className="signUpTitle">
           회원 서비스 이용을 위해 회원가입을 해주세요.
         </p>
+        <div className="input_wrap">
         <form onSubmit={onSubmitHandler}>
-          <input
-            type="nickname"
-            value={Nickname}
-            onChange={onNicknameHandler}
-            autoFocus
-            required
-            autoCapitalize="off"
-            placeholder="닉네임(8글자 이하)"
-          />
-          <input
-            type="email"
-            value={Email}
-            onChange={onEmailHandler}
-            autoFocus
-            required
-            autoCapitalize="off"
-            placeholder="이메일"
-          />
-          {emailError ? (
-            <div>
-              <p className="errorMsg">이메일이 올바르지 않습니다.</p>
-            </div>
-          ) : (
-            <div></div>
-          )}
-
-          <input
-            type="password"
-            value={Password}
-            onChange={onPasswordHandler}
-            required
-            placeholder="비밀번호"
-          />
-          {passwordError ? (
-            <div>
-              <p className="errorMsg">8 ~ 10자 영문, 숫자 조합</p>
-            </div>
-          ) : (
-            <div></div>
-          )}
-          <input
-            type="password"
-            value={ConfirmPassword}
-            onChange={onConfirmPasswordHandler}
-            required
-            placeholder="비밀번호확인"
-          />
-          {checkPwdError ? (
-            <div>
-              <p className="errorMsg">비밀번호가 일치하지 않습니다</p>
-            </div>
-          ) : (
-            <div></div>
-          )}
-
-          <div className="userLink">
-            <Link to="/" className="userLink">
-              이미 계정이 있으신가요?
-            </Link>
-          </div>
-          <div className="btnContainer">
-            {Email && Password && ConfirmPassword && Nickname ? (
+            <input
+              type="nickname"
+              value={Nickname}
+              onChange={onNicknameHandler}
+              autoFocus
+              required
+              autoCapitalize="off"
+              placeholder="닉네임(8글자 이하)"
+            />
+            <hr className="signUp_hr"/>
+            <input
+              type="email"
+              value={Email}
+              onChange={onEmailHandler}
+              autoFocus
+              required
+              autoCapitalize="off"
+              placeholder="이메일"
+            />
+            {emailError ? (
               <div>
-                <button className="userButton" type="submit">
-                  회원가입하기
-                </button>
+                <p className="errorMsg">이메일이 올바르지 않습니다.</p>
               </div>
             ) : (
               <div></div>
             )}
+            <hr className="signUp_hr"/>
+            <input
+              type="password"
+              value={Password}
+              onChange={onPasswordHandler}
+              required
+              placeholder="비밀번호"
+            />
+            {passwordError ? (
+              <div>
+                <p className="errorMsg">8 ~ 10자 영문, 숫자 조합</p>
+              </div>
+            ) : (
+              <div></div>
+            )}
+            <hr className="signUp_hr"/>
+            <input
+              type="password"
+              value={ConfirmPassword}
+              onChange={onConfirmPasswordHandler}
+              required
+              placeholder="비밀번호확인"
+            />
+            {checkPwdError ? (
+              <div>
+                <p className="errorMsg">비밀번호가 일치하지 않습니다</p>
+              </div>
+            ) : (
+              <div></div>
+            )}
+            <hr className="signUp_hr"/>
+          <div className="signUpLink">
+            <Link to="/" className="signUpLink">
+              이미 계정이 있으신가요?
+            </Link>
+          </div>
+          <div className="btnContainer">
+              <div>
+                <button className="signUpButton" type="submit">
+                  회원가입하기
+                </button>
+              </div>
           </div>
         </form>
+        </div>
       </div>
     </section>
   );
