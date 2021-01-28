@@ -31,11 +31,10 @@ const useStyles = makeStyles((theme) => ({
 
 const InfoMap = (props) => {
   const classes = useStyles();
-  const [map, setMap] = useState(null);
+  const [map, setCreateMap] = useState(null);
   const [infowindow, setInfowindow] = useState(null);
   const [bounds, setBounds] = useState(null);
   const [markers, setMarkers] = useState([]);
-  const [email, setEmail] = useState(null);
   const [isLocation, setIsLocation] = useState(false);
   const [isdisplayMarkers, setdisplayMarkers] = useState(false);
   const [isgetPlaces, setIsGetPlaces] = useState(false);
@@ -47,32 +46,35 @@ const InfoMap = (props) => {
     let options = {
       center: new kakao.maps.LatLng(37.506502, 127.053617),
       level: 7,
-      draggable: true,
     };
-    let myMap = new kakao.maps.Map(container, options);
+    let map = new kakao.maps.Map(container, options);
 
     let mapTypeControl = new kakao.maps.MapTypeControl();
+
     setInfowindow(new kakao.maps.InfoWindow({ zIndex: 1 }));
     setBounds(new kakao.maps.LatLngBounds());
-    myMap.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
-    setMap(myMap);
+    map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+    setCreateMap(map);
     setdisplayMarkers(true);
   };
   //지도에 모든 마커를 뽑아주는 함수 
   const displayAllMarkers = React.useCallback(() => {
-    console.log(markers)
     let imageSrc = "https://cdn2.iconfinder.com/data/icons/default-1/100/.svg-4-512.png",
     imageSize = new kakao.maps.Size(36, 37),
-    imageOption = {offset: new kakao.maps.Point(27, 69)};
+    imageOption = {offset: new kakao.maps.Point(27, 69)},
+    bounds = new kakao.maps.LatLngBounds();
 
     let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
       for (let i = 0; i < markers.length; i++) {
         let placePosition = new kakao.maps.LatLng(markers[i].y, markers[i].x),
-          marker = new kakao.maps.Marker({
-            map: map,
-            position: placePosition,
-            image : markerImage
-          });
+        marker = new kakao.maps.Marker({
+          map: map,
+          position: placePosition,
+          image : markerImage
+        });
+
+        bounds.extend(placePosition);
+
           kakao.maps.event.addListener(marker, "click", function () {
             infowindow.setContent(
               '<div style="padding:5px;font-size:12px;">' +
@@ -82,10 +84,8 @@ const InfoMap = (props) => {
             infowindow.open(map, marker);
             map.setCenter(placePosition);
             map.setLevel(4);
-
-            
           });
-      }    
+      }
   })
   //현재위치에 마커를 찍는 함수
   function displayMarkerNow(locPosition, message) {
@@ -146,10 +146,6 @@ const InfoMap = (props) => {
   }, [isgetPlaces]);
 
   useEffect(() => {
-    const loggedInfo = localStorage.getItem("loggedInfo");
-    if (loggedInfo) {
-      setEmail(JSON.parse(loggedInfo).email);
-    }
     getPlaces();
   },[])
 
