@@ -28,10 +28,12 @@ function Feed(props) {
           <h6> By. {feedUser.nickname} </h6>
         </a>
         <br/>
-        <ReactStars size={20} edit={false} value={feed.score} />
+        <div className="stars">
+          <ReactStars size={15} edit={false} value={feed.score} />
+        </div>
         <hr />
-        <h4> {feed.storeName} </h4>
-        <h5> {feed.location} </h5>
+        <h4> {feed.place.placeName} </h4>
+        <h5> {feed.place.addressName} </h5>
         <h5> {feedDate.dayOfWeek} / {feedDate.month} {feedDate.dayOfMonth} / {feedDate.year} </h5>
         <hr id="second_line"/>
         <br />
