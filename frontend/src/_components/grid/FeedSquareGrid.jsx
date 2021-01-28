@@ -28,10 +28,6 @@ export default function FeedSquareGrid(props) {
   const classes = useStyles();
   const { title, tileData } = props;
 
-  useEffect(() => {
-    console.log(tileData, "tileData?");
-  }, []);
-
   return (
     <div className={classes.root}>
       <GridList cellHeight={100} className={classes.gridList} cols={3}>
