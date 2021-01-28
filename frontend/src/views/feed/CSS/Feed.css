@@ -46,10 +46,11 @@
 
 #textbox h3 { 
   border-radius: 10px;
-  height: 30%;
+  height: 25%;
   color: white;
   margin: 0px;
-  padding: 10px;
+  padding: 0px;
+  line-height: 20px;
 }
 
 #textbox h4 { 
@@ -88,7 +89,7 @@
 
 #commentIcon {
   float: left;
-  margin: 5px 10px 0 10px;
+  margin:0px 10px 0 10px;
   color: white;
 }
 

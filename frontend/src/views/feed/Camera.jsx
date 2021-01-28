@@ -4,6 +4,7 @@ import Quokka from "../../_assets/quokka1.png";
 import "./CSS/Camera.css"
 import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
 import ArrowForwardRoundedIcon from '@material-ui/icons/ArrowForwardRounded';
+import PhotoCameraRoundedIcon from '@material-ui/icons/PhotoCameraRounded';
 
 
 function Camera() {
@@ -64,7 +65,8 @@ function Camera() {
         <div id="icon-wapper">
           
           <label htmlFor="icon-button-file" component="span">
-            <img src= {Quokka} alt="Quokka"/>
+            <PhotoCameraRoundedIcon />
+            {/* <img src= {Quokka} alt="Quokka"/> */}
           </label>
           <h2 className="userAppTitle">맛을 보여주세요!</h2>
 
