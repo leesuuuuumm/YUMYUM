@@ -50,9 +50,9 @@ const FeedMap = (props) => {
   const [nowInfoWindow, setNowInfoWindow] = useState(null); //현재 위치 인포 객체 변수
   const [isList, setIsList] = useState(false);
   const [center, setCenter] = useState(null); //현재 위치의 경도,위도가 저장된 변수
-  const [selectPlace, setSelectPlace] = useState(false); // 목록에서 장소를 선택했는지 확인하는 방법
   const [detailPlaceInfo, setDetailPlaceInfo] = useState(null); // 선택한 장소의 정보를 담아두는 변수
-  const formData = props.location.state.formData;
+  const [formData, setFormData] = useState(null);
+  // TODO : sampleMarkers지워줘야한다. 꼭 잊지말것 !
   const [sampleMarkers, setSampleMarkers] = useState([
     {
       address_name: "대전 유성구 장대동 370-13",
@@ -270,6 +270,10 @@ const FeedMap = (props) => {
     createMap();
   }, []);
 
+  useEffect(() => {
+    setFormData(props.location.state.formData);
+  },[])
+
   const createMap = () => {
     let container = document.getElementById("map");
     let options = {
@@ -305,13 +309,15 @@ const FeedMap = (props) => {
     setSerchContent("");
     setIsList(true);
   }
-
+  
   // 검색이 성공했을때 아래 콜백함수가 호출된다.
   function placesSearchCB(data, status, pagination) {
     if (status === kakao.maps.services.Status.OK) {
       // 정상적으로 검색이 완료됐으면
       // 검색 목록과 마커를 표출합니다
-      displayPlaces(sampleMarkers);
+      // TODO : displayPlaces안의 변수 data로 바꿔줘야한다.
+      console.log(status)
+      displayPlaces(data);
 
       // 페이지 번호를 표출합니다
       // displayPagination(pagination)
@@ -321,12 +327,15 @@ const FeedMap = (props) => {
     } else if (status === kakao.maps.services.Status.ERROR) {
       alert("검색 결과 중 오류가 발생했습니다.");
       return;
+    } else { 
+      displayPlaces(sampleMarkers) //TODO: 이부분 수정해야함 나중에 꼭 지울것
     }
+    
   }
 
   //검색된 자
-  function displayPlaces(places) {
-    console.log(places)
+  function displayPlaces(places) {  //TODO: 안에 places넣을것
+
     let bounds = new kakao.maps.LatLngBounds(),
       listEl = document.getElementById("placesList"),
       menuEl = document.getElementById("menu_wrap"),
@@ -380,7 +389,7 @@ const FeedMap = (props) => {
     map.setBounds(bounds);
   }
 
-  function getListItem(index, places) {
+  function getListItem(index, places) { //TODO : places로 바꿔줘야한다. 
     var el = document.createElement("li"),
       itemStr =
         '<span class="markerbg marker_' +
@@ -521,7 +530,6 @@ const FeedMap = (props) => {
   // 리뷰작성 페이지로 넘기고 장소 정보를 함께 담아서 보내는 함수.
   function sendPlaceInfo() {
     if (detailPlaceInfo) {
-      setTimeout(() => {
         props.history.push({
           pathname: "/feed/createfeed",
           state: {
@@ -529,7 +537,6 @@ const FeedMap = (props) => {
             formData: formData,
           },
         });
-      }, 200);
     } else {
       alert("식당을 알려주세요!")
     }
@@ -566,13 +573,13 @@ const FeedMap = (props) => {
           type="submit"
           className={classes.iconButton}
           aria-label="search"
-          onClick={searchPlaces}
+          onClick={searchPlaces} //TODO : 시연 끝나고 이주석으로 다시 변경
+          // onClick={displayPlaces}
         >
           <SearchIcon />
         </IconButton>
       </Paper>
       { isList || <ArrowForwardRoundedIcon className="arrowcircle" onClick={sendPlaceInfo} fontSize="large" />}
-    
       <div className="map_wrap">
         <div id="map" style={{ width: "100vw", height: "83.5vh" }}></div>
         {isList && (
