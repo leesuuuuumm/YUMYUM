@@ -58,7 +58,7 @@ function BottomTab() {
         className={classes.action}
       />
       <BottomNavigationAction
-        label="Shout"
+        label="Eureka"
         value="shout"
         icon={<MoodIcon />}
         className={classes.action}
