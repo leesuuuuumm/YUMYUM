@@ -19,8 +19,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const FoodFeed = () => {
+const FoodFeed = (props) => {
   const classes = useStyles();
+  
 
   return (
     <div className={classes.root}>
@@ -31,9 +32,6 @@ const FoodFeed = () => {
           </IconButton>
           <Typography variant="h8" className={classes.title}>
             음식점 이름 
-          </Typography>
-          <Typography variant="h8" className={classes.title}>
-            음식점 주소 
           </Typography>
         </Toolbar>
       </AppBar>

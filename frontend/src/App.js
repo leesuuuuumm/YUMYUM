@@ -15,7 +15,7 @@ import SignUpComplete from "./views/user/SignUpComplete";
 import UserSetting from './views/user/UserSetting';
 import InfoMap from './views/map/InfoMap';
 import ShoutPage from './views/shout/ShoutPage';
-import FeedMap from './views/feed/FeedMap';
+import SearchBar from './views/feed/SearchBar';
 import BottomTab from './_components/common/BottomTab';
 import FoodFeed from './views/food/FoodFeed';
 
@@ -37,7 +37,7 @@ function App() {
           <Route path="/feed/camera" exact render={() => <Camera />}/>
           <Route path="/feed/flippages" exact render={() => <FlipPages />}/>
           <Route path='/shout' exact render={() => <ShoutPage />} />
-          <Route path='/feed/feedmap' exact render ={() => <FeedMap />}/>
+          <Route path='/feed/feedmap' exact render ={() => <SearchBar />}/>
           <Route path="/map/infomap" exact render={() => <InfoMap />} />
           <Route path="/food/feed" exact render={() => <FoodFeed />} />
           <Route path="/error" component={ErrorPage} />
