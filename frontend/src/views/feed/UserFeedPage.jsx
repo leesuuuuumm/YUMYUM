@@ -2,7 +2,7 @@ import { withRouter } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { getFeedByEmail } from "../../_actions/feedAction";
+import { getFeedCalendarByEmail } from "../../_actions/feedAction";
 import { useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Avatar from "@material-ui/core/Avatar";
@@ -67,7 +67,7 @@ function UserFeedPage() {
     const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
     const nickname = JSON.parse(localStorage.getItem("loggedInfo")).nickname;
     setUsername(nickname);
-    dispatch(getFeedByEmail(userEmail));
+    dispatch(getFeedCalendarByEmail(userEmail));
   }, []);
   const feeds = useSelector((state) => {
     return JSON.parse(state.feed.feedsCalenadarInfo.data);
