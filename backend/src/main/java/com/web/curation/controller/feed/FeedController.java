@@ -43,16 +43,11 @@ public class FeedController {
 	@Autowired
 	private PlaceDao placeDao;
 
-	@PostMapping(
-			consumes = {
-					MediaType.MULTIPART_FORM_DATA_VALUE,
-					MediaType.APPLICATION_OCTET_STREAM_VALUE
-			})
+	@PostMapping(consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_OCTET_STREAM_VALUE })
 	@ApiOperation(value = "게시글 등록")
 	public ResponseEntity<?> create(
-			@ModelAttribute @ApiParam(value = "게시글 등록 시 필요한 정보 (음식명 , 날짜 , 식당이름, 장소 , 점수 , 내용)", required = true) CreateFeedRequest request
-			, @RequestParam("file") @Valid @NotNull @NotEmpty MultipartFile mFile
-	) {
+			@ModelAttribute @ApiParam(value = "게시글 등록 시 필요한 정보 (음식명 , 날짜 , 식당이름, 장소 , 점수 , 내용)", required = true) CreateFeedRequest request,
+			@RequestParam("file") @Valid @NotNull @NotEmpty MultipartFile mFile) {
 		String title = request.getTitle().trim();
 		Integer score = request.getScore();
 		String content = request.getContent().trim();
@@ -68,32 +63,23 @@ public class FeedController {
 			return makeResponse("400", null, "Place Not found", HttpStatus.BAD_REQUEST);
 		}
 
-		if ("".equals(title) || "".equals(curPlace.get().getAddressName()) || "".equals(curPlace.get().getPlaceName()) || score == null || "".equals(content)) {
+		if ("".equals(title) || "".equals(curPlace.get().getAddressName()) || "".equals(curPlace.get().getPlaceName())
+				|| score == null || "".equals(content)) {
 			return makeResponse("400", null, "data is blank", HttpStatus.BAD_REQUEST);
 		}
 		String url = fileService.upload(mFile);
 
 		Place savedPlace = placeDao.save(curPlace.get());
 
-		Feed feed = Feed.builder()
-				.title(title)
-				.score(score)
-				.content(content)
-				.user(curUser.get())
-				.filePath(url)
-				.place(savedPlace)
-				.build();
+		Feed feed = Feed.builder().title(title).score(score).content(content).user(curUser.get()).filePath(url)
+				.place(savedPlace).build();
 
 		Feed savedFeed = feedDao.save(feed);
 
 		return makeResponse("200", convertObjToJson(savedFeed), "success", HttpStatus.OK);
 	}
 
-	@PostMapping(
-			value = "/video",
-			consumes = {
-					MediaType.MULTIPART_FORM_DATA_VALUE
-			})
+	@PostMapping(value = "/video", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	@ApiOperation(value = "동영상 등록")
 	public Object uploadVideo(@RequestParam(value = "file", required = false) MultipartFile multipartFile) {
 		String url = fileService.upload(multipartFile);
@@ -160,7 +146,8 @@ public class FeedController {
 
 	@GetMapping("/titles/{email}")
 	@ApiOperation(value = "한 유저의 피드 타이틀 리스트 조회")
-	public Object titleList(@Valid @RequestBody @ApiParam(value = "title 별로 전체 조회", required = true) @PathVariable String email) {
+	public Object titleList(
+			@Valid @RequestBody @ApiParam(value = "title 별로 전체 조회", required = true) @PathVariable String email) {
 		Optional<User> curUser = userDao.findById(email);
 
 		if (!curUser.isPresent()) {
@@ -168,31 +155,29 @@ public class FeedController {
 		}
 
 //		List<String> titleList = feedDao.findByUser_email(email);
-		
-		List<ArrayList<String>> titleList =feedDao.findByUser_email(email);
+
+		List<ArrayList<String>> titleList = feedDao.findByUser_email(email);
 
 		return makeResponse("200", convertObjToJson(titleList), "success" + titleList.size(), HttpStatus.OK);
 	}
 
-	
 	@GetMapping("/list/{email}/{title}/")
 	@ApiOperation(value = "한 유저의 하나의 title로 적힌 피드 리스트 조회")
-	public Object titleList(@Valid @ApiParam(value = "title 별로 전체 조회", required = true) @PathVariable String title, @PathVariable String email ) {
+	public Object titleList(@Valid @ApiParam(value = "title 별로 전체 조회", required = true) @PathVariable String title,
+			@PathVariable String email) {
 		Optional<User> curUser = userDao.findById(email);
 
 		if (!curUser.isPresent()) {
 			return makeResponse("404", null, "User Not Found", HttpStatus.NOT_FOUND);
 		}
 
-		List<Feed> feedList = feedDao.findAllByTitleAndUser_email(title,email);
-		
+		List<Feed> feedList = feedDao.findAllByTitleAndUser_email(title, email);
+
 		System.out.println(feedList);
 
 		System.out.println();
 		return makeResponse("200", convertObjToJson(feedList), "success" + feedList.size(), HttpStatus.OK);
 	}
-	
-	
 
 	@DeleteMapping("/{id}")
 	@ApiOperation(value = "피드 삭제")

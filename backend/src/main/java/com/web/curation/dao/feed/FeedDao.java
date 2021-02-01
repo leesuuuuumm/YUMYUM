@@ -3,6 +3,8 @@ package com.web.curation.dao.feed;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.web.curation.controller.map.PlaceController;
+import com.web.curation.model.map.Place;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -11,9 +13,8 @@ import com.web.curation.model.user.User;
 
 public interface FeedDao extends JpaRepository<Feed, Long> {
 
-	List<Feed> findAllByUser(User user);
+	//List<Feed> findAllByUser(User user);
 
-	
 
 //	List<Feed> findDistinctPeopleByLastnameOrFirstname(String lastname, String firstname);
 	
@@ -24,7 +25,10 @@ public interface FeedDao extends JpaRepository<Feed, Long> {
 	
 //	@Query("SELECT DISTINCT title FROM Feed where user_email=?1 ORDER BY title")
 //	List<String> findByUser_email(String email);
-	
+
+	List<Feed> findByPlace(Place place);
+
+
 	List<Feed> findAllByUserOrderByIdDesc(User user);
 	
 	List<Feed> findAllByTitleAndUser_email(String title,String email);
