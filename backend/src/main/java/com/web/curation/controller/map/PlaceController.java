@@ -68,7 +68,7 @@ public class PlaceController {
 //		Set<Long> set = new TreeSet<Long>();
 //		for (int i = 0; i < feeds.size(); ++i) {
 //			Long placeId = feeds.get(i).getPlaceInfo().getId();
-//			if (set.contains(placeId))
+//			if (set.contains(placeId))`
 //				continue;
 //			set.add(placeId);
 //			resultFeeds.add(feeds.get(i));
