@@ -68,14 +68,14 @@ public class AccountController {
 		String password = request.getPassword().trim();
 
 		Optional<User> curUser = userDao.findUserByEmailAndPassword(email, password);
+
 		// 로그인 했을 때 유저 정보(이메일, 닉네임) 보내주기
 		if (curUser.isPresent()) {
-//			String token=jwtService.create("email",curUser.get().getEmail(),"access-token");
-
-//			return makeResponse("200", convertObjToJson(token), "success", HttpStatus.OK);
+			return makeResponse("200", convertObjToJson(userDao.findById(email).get()), "success", HttpStatus.OK);
 		} else {
 			return makeResponse("400", null, "mismatch", HttpStatus.BAD_REQUEST);
 		}
+
 	}
 
 	@PutMapping("/password")
