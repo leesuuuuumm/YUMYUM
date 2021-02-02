@@ -1,4 +1,4 @@
-import { CREATE_PLACE, GET_FEED_INFO, DELETE_FEED, GET_FEED_BY_EMAIL, CREATE_VIDEO, GET_ALL_FEED } from './types';
+import { CREATE_PLACE, GET_ALL_PLACE } from './types';
 
 import { request } from "../_utils/axios";
 
@@ -10,4 +10,12 @@ export function registerPlace(dataToSubmit) {
         type: CREATE_PLACE,
         payload: data,
     }
+}
+
+export function getAllPlace() {
+  const data = request('get', USER_URL + '/list');
+  return {
+    type : GET_ALL_PLACE,
+    payload : data,
+  }
 }

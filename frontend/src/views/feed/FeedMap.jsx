@@ -4,11 +4,10 @@ import { Link, withRouter } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
-import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
-import DirectionsIcon from "@material-ui/icons/Directions";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
+import ArrowForwardRoundedIcon from "@material-ui/icons/ArrowForwardRounded";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,19 +50,236 @@ const FeedMap = (props) => {
   const [nowInfoWindow, setNowInfoWindow] = useState(null); //현재 위치 인포 객체 변수
   const [isList, setIsList] = useState(false);
   const [center, setCenter] = useState(null); //현재 위치의 경도,위도가 저장된 변수
-  const [selectPlace, setSelectPlace] = useState(false); // 목록에서 장소를 선택했는지 확인하는 방법
   const [detailPlaceInfo, setDetailPlaceInfo] = useState(null); // 선택한 장소의 정보를 담아두는 변수
-  const formData = props.location.state.formData;
+  const [formData, setFormData] = useState(null);
+  // TODO : sampleMarkers지워줘야한다. 꼭 잊지말것 !
+  const [sampleMarkers, setSampleMarkers] = useState([
+    {
+      address_name: "대전 유성구 장대동 370-13",
+      category_group_code: "FD6",
+      category_group_name: "음식점",
+      category_name: "음식점 > 중식 > 양꼬치",
+      distance: "511",
+      id: "599595383",
+      phone: "042-483-8800",
+      place_name: "칭다오 양갈비",
+      place_url: "http://place.map.kakao.com/599595383",
+      road_address_name: "대전 유성구 유성대로730번길 109",
+      x: "127.33875034509",
+      y: "36.3579779491602",
+    },
+    {
+      address_name: "대전 서구 도안동 855",
+      category_group_code: "FD6",
+      category_group_name: "음식점",
+      category_name: "음식점 > 중식 > 양꼬치",
+      distance: "2399",
+      id: "1137180164",
+      phone: "042-825-8008",
+      place_name: "양꽃이피는밤 대전도안점",
+      place_url: "http://place.map.kakao.com/1137180164",
+      road_address_name: "대전 서구 동서대로 700",
+      x: "127.340570531643",
+      y: "36.3318098051336",
+    },
+    {
+      address_name: "대전 서구 괴정동 86-26",
+      category_group_code: "FD6",
+      category_group_name: "음식점",
+      category_name: "음식점 > 중식",
+      distance: "4296",
+      id: "827024232",
+      phone: "",
+      place_name: "마이램",
+      place_url: "http://place.map.kakao.com/827024232",
+      road_address_name: "대전 서구 도솔로 317",
+      x: "127.382753131395",
+      y: "36.3367395704602",
+    },
+    {
+      address_name: "대전 중구 태평동 339-90",
+      category_group_code: "FD6",
+      category_group_name: "음식점",
+      category_name: "음식점 > 한식 > 육류,고기 > 갈비",
+      distance: "6041",
+      id: "475824149",
+      phone: "042-521-9288",
+      place_name: "갈비포차 태평점",
+      place_url: "http://place.map.kakao.com/475824149",
+      road_address_name: "대전 중구 수침로 95-1",
+      x: "127.399041655857",
+      y: "36.3279484822162",
+    },
+    {
+      address_name: "대전 유성구 관평동 1116",
+      category_group_code: "FD6",
+      category_group_name: "음식점",
+      category_name: "음식점 > 중식 > 양꼬치",
+      distance: "9231",
+      id: "24123345",
+      phone: "",
+      place_name: "미미",
+      place_url: "http://place.map.kakao.com/24123345",
+      road_address_name: "대전 유성구 관들2길 53",
+      x: "127.392435655647",
+      y: "36.4247813166264" ,
+    },
+    {
+      address_name: "대전 동구 가오동 592",
+      category_group_code: "FD6",
+      category_group_name: "음식점",
+      category_name: "음식점 > 중식 > 양꼬치",
+      distance: "11570",
+      id: "1882486572",
+      phone: "042-286-2695",
+      place_name: "송화강양꼬치",
+      place_url: "http://place.map.kakao.com/1882486572",
+      road_address_name: "대전 동구 대전로448번길 52-12",
+      x: "127.454854079576",
+      y: "36.3068237797023",
+    },
+    {
+      address_name: "충북 청주시 서원구 산남동 891",
+      category_group_code: "FD6",
+      category_group_name: "음식점",
+      category_name: "음식점 > 중식 > 양꼬치",
+      distance: "30748",
+      id: "360135381",
+      phone: "043-287-5988",
+      place_name: "칭따오양꼬치",
+      place_url: "http://place.map.kakao.com/360135381",
+      road_address_name: "충북 청주시 서원구 두꺼비로20번길 43",
+      x: "127.46751370065",
+      y: "36.6105184665906",
+    },
+    {
+      address_name: "충북 청주시 흥덕구 복대동 3022",
+      category_group_code: "FD6",
+      category_group_name: "음식점",
+      category_name: "음식점 > 한식 > 육류,고기",
+      distance: "32090",
+      id: "1859710242",
+      phone: "043-237-2415",
+      place_name: "유우진",
+      place_url: "http://place.map.kakao.com/1859710242",
+      road_address_name: "충북 청주시 흥덕구 진재로 24",
+      x: "127.429913174624",
+      y: "36.633249635917",
+    },
+    {
+      address_name: "충북 청주시 흥덕구 복대동 3236",
+      category_group_code: "FD6",
+      category_group_name: "음식점",
+      category_name: "음식점 > 한식 > 육류,고기",
+      distance: "32847",
+      id: "27607724",
+      phone: "043-231-1191",
+      place_name: "상하이양갈비 청주점",
+      place_url: "http://place.map.kakao.com/27607724",
+      road_address_name: "충북 청주시 흥덕구 진재로 101",
+      x: "127.43020691006454",
+      y: "36.64023053235445",
+    },
+    {
+      address_name: "충북 청주시 청원구 오창읍 양청리 780-4",
+      category_group_code: "FD6",
+      category_group_name: "음식점",
+      category_name: "음식점 > 중식 > 양꼬치",
+      distance: "41363",
+      id: "14808840",
+      phone: "043-211-9592",
+      place_name: "초원양꼬치",
+      place_url: "http://place.map.kakao.com/14808840",
+      road_address_name: "충북 청주시 청원구 오창읍 양청2안길 59",
+      x: "127.427781912418",
+      y: "36.7192966570142",
+    },
+    {
+      address_name: "전북 익산시 부송동 1082-2",
+      category_group_code: "FD6",
+      category_group_name: "음식점",
+      category_name: "음식점 > 한식 > 육류,고기",
+      distance: "53716",
+      id: "1888649680",
+      phone: "063-835-5959",
+      place_name: "양누리 익산점",
+      place_url: "http://place.map.kakao.com/1888649680",
+      road_address_name: "전북 익산시 무왕로23길 29-1",
+      x: "126.988005329523",
+      y: "35.9621704323557",
+    },
+    {
+      address_name: "전북 익산시 영등동 842-6",
+      category_group_code: "FD6",
+      category_group_name: "음식점",
+      category_name: "음식점 > 한식 > 육류,고기",
+      distance: "54480",
+      id: "2052873486",
+      phone: "070-8286-8828",
+      place_name: "미스터램스 영등점",
+      place_url: "http://place.map.kakao.com/2052873486",
+      road_address_name: "전북 익산시 하나로11길 32-5",
+      x: "126.977940266005",
+      y: "35.9596383233852",
+    },
+    {
+      address_name: "충북 음성군 맹동면 두성리 1366",
+      category_group_code: "FD6",
+      category_group_name: "음식점",
+      category_name: "음식점 > 중식 > 양꼬치",
+      distance: "64255",
+      id: "298582150",
+      phone: "",
+      place_name: "양다리양갈비",
+      place_url: "http://place.map.kakao.com/298582150",
+      road_address_name: "충북 음성군 맹동면 산학로 35",
+      x: "127.544683126605",
+      y: "36.9083338001481",
+    },
+    {
+      address_name: "충북 음성군 음성읍 읍내리 437-1",
+      category_group_code: "FD6",
+      category_group_name: "음식점",
+      category_name: "음식점 > 중식 > 양꼬치",
+      distance: "71282",
+      id: "1340748168",
+      phone: "043-873-9598",
+      place_name: "양갈비또꼬치또",
+      place_url: "http://place.map.kakao.com/1340748168",
+      road_address_name: "충북 음성군 음성읍 설성로 80",
+      x: "127.690858406427",
+      y: "36.9300077950104",
+    },
+    {
+      address_name: "경기 안성시 공도읍 만정리 815-4",
+      category_group_code: "FD6",
+      category_group_name: "음식점",
+      category_name: "음식점 > 중식 > 양꼬치",
+      distance: "73367",
+      id: "1623422158",
+      phone: "031-653-5178",
+      place_name: "호호양꼬치양갈비",
+      place_url: "http://place.map.kakao.com/1623422158",
+      road_address_name: "경기 안성시 공도읍 공도3로 7",
+      x: "127.170400840825",
+      y: "37.0003520569692",
+    }
+  ]); 
 
   useEffect(() => {
     createMap();
   }, []);
+
+  useEffect(() => {
+    setFormData(props.location.state.formData);
+  },[])
 
   const createMap = () => {
     let container = document.getElementById("map");
     let options = {
       center: new kakao.maps.LatLng(37.506502, 127.053617),
       level: 7,
+      draggable : true,
     };
     let map = new kakao.maps.Map(container, options);
     setPs(new kakao.maps.services.Places());
@@ -93,12 +309,14 @@ const FeedMap = (props) => {
     setSerchContent("");
     setIsList(true);
   }
-
+  
   // 검색이 성공했을때 아래 콜백함수가 호출된다.
   function placesSearchCB(data, status, pagination) {
     if (status === kakao.maps.services.Status.OK) {
       // 정상적으로 검색이 완료됐으면
       // 검색 목록과 마커를 표출합니다
+      // TODO : displayPlaces안의 변수 data로 바꿔줘야한다.
+      console.log(status)
       displayPlaces(data);
 
       // 페이지 번호를 표출합니다
@@ -109,11 +327,15 @@ const FeedMap = (props) => {
     } else if (status === kakao.maps.services.Status.ERROR) {
       alert("검색 결과 중 오류가 발생했습니다.");
       return;
+    } else { 
+      displayPlaces(sampleMarkers) //TODO: 이부분 수정해야함 나중에 꼭 지울것
     }
+    
   }
 
   //검색된 자
-  function displayPlaces(places) {
+  function displayPlaces(places) {  //TODO: 안에 places넣을것
+
     let bounds = new kakao.maps.LatLngBounds(),
       listEl = document.getElementById("placesList"),
       menuEl = document.getElementById("menu_wrap"),
@@ -167,7 +389,7 @@ const FeedMap = (props) => {
     map.setBounds(bounds);
   }
 
-  function getListItem(index, places) {
+  function getListItem(index, places) { //TODO : places로 바꿔줘야한다. 
     var el = document.createElement("li"),
       itemStr =
         '<span class="markerbg marker_' +
@@ -236,7 +458,6 @@ const FeedMap = (props) => {
   }
   // map에 있는 marker를 지우는 함수
   function removeMarker() {
-    console.log(markers.length);
     for (var i = 0; i < markers.length; i++) {
       markers[i].setMap(null);
     }
@@ -248,7 +469,6 @@ const FeedMap = (props) => {
   }
   //현재 위치로 이동하는 함수
   function nowLocation(map) {
-    console.log(map);
     // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
     if (nowMarker) {
       removeNowMarker();
@@ -292,7 +512,6 @@ const FeedMap = (props) => {
     marker.setMap(map);
     map.panTo(locPosition);
     map.setLevel(2);
-    console.log(locPosition);
     setCenter(locPosition);
   }
 
@@ -310,13 +529,18 @@ const FeedMap = (props) => {
   }
   // 리뷰작성 페이지로 넘기고 장소 정보를 함께 담아서 보내는 함수.
   function sendPlaceInfo() {
-    props.history.push({
-      pathname: "/feed/createfeed",
-      state: {
-        detailPlace: detailPlaceInfo,
-        formData: formData,
-      },
-    });
+    if (detailPlaceInfo) {
+        props.history.push({
+          pathname: "/feed/createfeed",
+          state: {
+            detailPlace: detailPlaceInfo,
+            formData: formData,
+          },
+        });
+    } else {
+      alert("식당을 알려주세요!")
+    }
+
   }
 
   // 지도 확대, 축소 컨트롤에서 확대 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
@@ -349,21 +573,15 @@ const FeedMap = (props) => {
           type="submit"
           className={classes.iconButton}
           aria-label="search"
-          onClick={searchPlaces}
+          onClick={searchPlaces} //TODO : 시연 끝나고 이주석으로 다시 변경
+          // onClick={displayPlaces}
         >
           <SearchIcon />
         </IconButton>
-        {/* <Divider className={classes.divider} orientation="vertical" /> */}
-        <IconButton
-          className={classes.iconButtonNext}
-          aria-label="directions"
-          onClick={sendPlaceInfo}
-        >
-          <DirectionsIcon />
-        </IconButton>
       </Paper>
+      { isList || <ArrowForwardRoundedIcon className="arrowcircle" onClick={sendPlaceInfo} fontSize="large" />}
       <div className="map_wrap">
-        <div id="map" style={{ width: "98vw", height: "85vh" }}></div>
+        <div id="map" style={{ width: "100vw", height: "83.5vh" }}></div>
         {isList && (
           <div id="menu_wrap" className="bg_white">
             <div className="option"></div>

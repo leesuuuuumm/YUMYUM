@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Link, withRouter } from "react-router-dom";
+import Quokka from "../../_assets/quokkaCamera.png";
 import "./CSS/Camera.css"
-import PhotoCameraRoundedIcon from "@material-ui/icons/PhotoCameraRounded";
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
+import ArrowForwardRoundedIcon from '@material-ui/icons/ArrowForwardRounded';
+// import PhotoCameraRoundedIcon from '@material-ui/icons/PhotoCameraRounded';
+
 
 function Camera() {
   const [source, setSource] = useState("");
@@ -14,11 +16,9 @@ function Camera() {
       if (target.files.length !== 0) {
         const file = target.files[0];
         const newUrl = URL.createObjectURL(file);
-        setSource(newUrl);
-        console.log(newUrl)
-        
         const formData = new FormData();
         formData.append('file', file);
+        setSource(newUrl);     
         setFormData(formData)
       }
     }
@@ -27,46 +27,49 @@ function Camera() {
   const sourceClear = () => {
     setSource("")
     setFormData({})
-    console.log(source)
   }
 
   return (
-    <div >
+    <div id="total">
       { source ? (
-        <div>
+        <div className="catchVideo">
           <video 
             id="background-video" 
             className='videoTag' 
             src={source} 
             type='video/*'
-            width= "100%"
-            height= "100%"
+            height="100%"
             autoPlay 
             loop 
             muted 
           />
           <div id="button-wapper">
-            <a id="retry" onClick={sourceClear}>
-              <ReplayRoundedIcon id="retryIcon" color="disabled" fontSize="large"/>
-            </a>
-            <a id="next">
+            <button id="retry" onClick={sourceClear}>
+                <ReplayRoundedIcon id="retryIcon" color="disabled" fontSize="small"/>
+                <h3>Retry</h3>
+            </button>
+            <button id="next">
               <Link to={{
                 pathname: "/feed/feedmap",
                 state: {
                   formData: formData,
                 }
               }}> 
-                <NavigateNextIcon fontSize="large" color="disabled" /> 
+                <ArrowForwardRoundedIcon  fontSize="small" color="disabled"/>
+                <h3 id="nextText">Next</h3>
               </Link>
-            </a>
+            </button>
           </div>
         </div>
       ) : (
         <div id="icon-wapper">
-          <h1 className="userAppTitle">맛을 기록하세요</h1>
+          
           <label htmlFor="icon-button-file" component="span">
-            <PhotoCameraRoundedIcon id="cameraIcon" fontSize="small" color="primary" />
+            {/* <PhotoCameraRoundedIcon /> */}
+            <img src= {Quokka} alt="Quokka"/>
           </label>
+          <h2 className="userAppTitle">맛을 보여주세요!</h2>
+
           <input
             accept="video/*"
             id="icon-button-file"
@@ -75,8 +78,7 @@ function Camera() {
             capture="environment"
             onChange={(e) => handleCapture(e.target)}
           />
-          
-      </div>
+        </div>
       )}
     </div>
   );

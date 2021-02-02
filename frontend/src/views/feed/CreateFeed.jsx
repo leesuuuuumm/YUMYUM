@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { registerFeed, registerVideo } from "../../_actions/feedAction";
+import { registerFeed } from "../../_actions/feedAction";
 import { registerPlace } from "../../_actions/mapAction";
 import "./CSS/CreateFeed.css";
 import ReactStars from "react-rating-stars-component";
-import NavigateBeforeRoundedIcon from "@material-ui/icons/NavigateBeforeRounded";
-import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
+import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
 
 function CreateFeed(props) {
   const [loggedUser, setLoggedUser] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [place, setPlace] = useState({});
-  const [reqBody, setReqBody] = useState({});
   const [score, setScore] = useState(0);
+  const [comment, setComment] = useState("");
   const placeInfo = props.location.state.detailPlace;
   const formData = props.location.state.formData;
 
@@ -35,6 +35,17 @@ function CreateFeed(props) {
   };
   const ratingChanged = (newRating) => {
     setScore(newRating);
+    if (newRating === 1) {
+      setComment("먹지마세요......")
+    } else if (newRating === 2) {
+      setComment("별로에요...")
+    } else if (newRating === 3) {
+      setComment("먹을만해요.")
+    } else if (newRating === 4) {
+      setComment("맛있어요!!")
+    } else if (newRating === 5) {
+      setComment("추천해요!!!!")
+    }
   };
 
   const onSubmitHandler = (e) => {
@@ -66,9 +77,6 @@ function CreateFeed(props) {
             .catch((err) => {
               console.log("피드 실패 에러");
               console.log(err);
-              for (let value of formData.values()) {
-                console.log(value);
-              }
             });
         })
         .catch((err) => {
@@ -83,42 +91,46 @@ function CreateFeed(props) {
 
   return (
     <div className="createWapper">
-      <h2>오늘의 맛일기</h2>
-      {/* <h3>작성자 : {loggedUser.nickname}</h3> */}
-      <br />
-      <hr />
+      <h2>맛 평가하기</h2>
       <form onSubmit={onSubmitHandler}>
-        <ReactStars
-          count={5}
-          onChange={ratingChanged}
-          size={24}
-          activeColor="#ffd700"
-        />
-        <input
-          type="title"
-          value={title}
-          onChange={onTitleHandler}
-          autoFocus
-          required
-          placeholder="뭐 먹음?!"
-        />
-        <input
-          type="content"
-          value={content}
-          onChange={onContentHandler}
-          required
-          placeholder="어땠음?!"
-        />
+        <div className="title-box">
+          <input
+            type="title"
+            value={title}
+            onChange={onTitleHandler}
+            autoFocus
+            required
+            placeholder="방금 먹은 음식은 무엇인가요?"
+          />
+          <div className="stars">
+            <ReactStars
+              id = "stars"
+              count={5}
+              onChange={ratingChanged}
+              size={35}
+              activeColor="#ffd700"
+            />
+            <h3> { comment } </h3>
+          </div>
+        </div>
+        <div className="content-box">
+          <input
+            type="content"
+            value={content}
+            onChange={onContentHandler}
+            required
+            placeholder="음식은 어땠어요?"
+          />
+        </div>
 
         <div id="feed-button-wapper">
           <a id="goback">
             <Link to="/feed/camera">
-              {" "}
-              <NavigateBeforeRoundedIcon fontSize="large" />{" "}
+              <ArrowBackRoundedIcon fontSize="large" color="disabled" />
             </Link>
           </a>
-          <button id="next" type="submit">
-            <NavigateNextIcon fontSize="large" />
+          <button id="final" type="submit">
+            <DoneOutlineIcon fontSize="large" />
           </button>
         </div>
       </form>

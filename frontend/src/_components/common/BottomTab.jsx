@@ -15,9 +15,9 @@ const useStyles = makeStyles({
     height: "10vh",
     position: "fixed",
     bottom: 0,
+    zIndex: "100"
   },
   action: {
-    // padding: 6 + "px " + 12 + "px " + 8 + "px",
     minWidth: 20 + "px",
   },
 });
@@ -58,8 +58,8 @@ function BottomTab() {
         className={classes.action}
       />
       <BottomNavigationAction
-        label="Bark"
-        value="bark"
+        label="Eureka"
+        value="shout"
         icon={<MoodIcon />}
         className={classes.action}
       />

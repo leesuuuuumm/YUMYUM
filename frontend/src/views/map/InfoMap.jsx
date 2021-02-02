@@ -1,49 +1,43 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
 import "./InfoMap.css";
-import { getFeedByEmail } from "../../_actions/feedAction";
 import MyLocationIcon from '@material-ui/icons/MyLocation';
-
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
+import { Link } from "react-router-dom";
+import { getAllPlace } from "../../_actions/mapAction"
 
 const { kakao } = window;
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    margin: '0px auto',
+    width: '100%',
+    color : '#8d6e63'
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    color:'white',
+    fontFamily: 'GmarketSansMedium',
+  }
+}));
+
 const InfoMap = (props) => {
-  const [map, setMap] = useState(null);
+  const classes = useStyles();
+  const [map, setCreateMap] = useState(null);
   const [infowindow, setInfowindow] = useState(null);
-  const [markers, setMarkers] = useState([
-    {
-      address_name: "대전 서구 둔산동 1362",
-      category_group_code: "FD6",
-      category_group_name: "음식점",
-      category_name: "음식점 > 일식 > 토끼정",
-      distance: "3014",
-      id: "1669995956",
-      phone: "042-472-5585",
-      place_name: "토끼정 대전둔산점",
-      place_url: "http://place.map.kakao.com/1669995956",
-      road_address_name: "대전 서구 대덕대로 226",
-      x: "127.379863542692",
-      y: "36.3527356488493",
-      },
-      {
-        address_name: "대전 유성구 봉명동 552-5",
-        category_group_code: "FD6",
-        category_group_name: "음식점",
-        category_name: "음식점 > 패스트푸드 > KFC",
-        distance: "480",
-        id: "238687706",
-        phone: "042-824-9034",
-        place_name: "KFC 유성온천점",
-        place_url: "http://place.map.kakao.com/238687706",
-        road_address_name: "대전 유성구 대학로 3",
-        x: "127.34125234237348",
-        y: "36.35431926756466",
-      },
-  ]);
-  const [samples, setSamples] = useState([]);
-  const [email, setEmail] = useState(null);
+  const [bounds, setBounds] = useState(null);
+  const [markers, setMarkers] = useState([]);
   const [isLocation, setIsLocation] = useState(false);
   const [isdisplayMarkers, setdisplayMarkers] = useState(false);
+  const [isgetPlaces, setIsGetPlaces] = useState(false);
   const dispatch = useDispatch();
 
   //지도를 불러오는 로직
@@ -53,41 +47,45 @@ const InfoMap = (props) => {
       center: new kakao.maps.LatLng(37.506502, 127.053617),
       level: 7,
     };
-    let myMap = new kakao.maps.Map(container, options);
+    let map = new kakao.maps.Map(container, options);
 
     let mapTypeControl = new kakao.maps.MapTypeControl();
+
     setInfowindow(new kakao.maps.InfoWindow({ zIndex: 1 }));
-    myMap.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
-    setMap(myMap);
+    setBounds(new kakao.maps.LatLngBounds());
+    map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+    setCreateMap(map);
     setdisplayMarkers(true);
   };
-
+  //지도에 모든 마커를 뽑아주는 함수 
   const displayAllMarkers = React.useCallback(() => {
     let imageSrc = "https://cdn2.iconfinder.com/data/icons/default-1/100/.svg-4-512.png",
     imageSize = new kakao.maps.Size(36, 37),
-    imageOption = {offset: new kakao.maps.Point(27, 69)};
+    imageOption = {offset: new kakao.maps.Point(27, 69)},
+    bounds = new kakao.maps.LatLngBounds();
 
     let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-
-    for (let i = 0; i < markers.length; i++) {
-      let placePosition = new kakao.maps.LatLng(markers[i].y, markers[i].x),
+      for (let i = 0; i < markers.length; i++) {
+        let placePosition = new kakao.maps.LatLng(markers[i].y, markers[i].x),
         marker = new kakao.maps.Marker({
           map: map,
           position: placePosition,
           image : markerImage
         });
-        kakao.maps.event.addListener(marker, "click", function () {
-          infowindow.setContent(
-            '<div style="padding:5px;font-size:12px;">' +
-              markers[i].place_name +
-              "</div>"
-          );
-          infowindow.open(map, marker);
-          map.setCenter(placePosition);
-          map.setLevel(3);
-        });
-      
-    }
+
+        bounds.extend(placePosition);
+
+          kakao.maps.event.addListener(marker, "click", function () {
+            infowindow.setContent(
+              '<div style="padding:5px;font-size:12px;">' +
+                markers[i].placeName +
+                "</div>"
+            );
+            infowindow.open(map, marker);
+            map.setCenter(placePosition);
+            map.setLevel(4);
+          });
+      }
   })
   //현재위치에 마커를 찍는 함수
   function displayMarkerNow(locPosition, message) {
@@ -96,17 +94,10 @@ const InfoMap = (props) => {
       map: map,
       position: locPosition,
     });
-    // let iwContent = message; // 인포윈도우에 표시할 내용
-    // // 인포윈도우를 생성합니다
-    // let infowindow = new kakao.maps.InfoWindow({
-    //   content: iwContent,
-    // });
-
-    // // 인포윈도우를 마커위에 표시합니다
-    // infowindow.open(map, marker);
-    // // 지도 중심좌표를 접속위치로 변경합니다
     map.panTo(locPosition);
     map.setLevel(3);
+    bounds.extend(locPosition);
+    map.setBounds(bounds);
   }
   // 현재위치 버튼 클릭시 호출되는 메서드
   const nowLocation = () => {
@@ -133,33 +124,29 @@ const InfoMap = (props) => {
     }
   };
 
-  function getFeedLists() {
+  function getPlaces() {
     setIsLocation(true)
-    if (email) {
-      dispatch(getFeedByEmail(email))
+      dispatch(getAllPlace())
       .then((res) => {
-        // console.log(JSON.parse(res.payload.data))
+        let addPlaces = JSON.parse(res.payload.data);
+        setMarkers(markers => markers.concat(addPlaces));
+        setIsGetPlaces(true);
       })
-    }
   }
+  
   // 현재 위치로 이동해서 마커를 찍어주는 함
   useEffect(() => {
     createMap();
-    setMarkers(markers.concat(samples));
   }, []);
 
   useEffect(() => {
-      if(isdisplayMarkers){
+      if(isgetPlaces){
         displayAllMarkers();
       }
-  }, [isdisplayMarkers]);
+  }, [isgetPlaces]);
 
   useEffect(() => {
-    const loggedInfo = localStorage.getItem("loggedInfo");
-    if (loggedInfo) {
-      setEmail(JSON.parse(loggedInfo).email);
-    }
-    getFeedLists();
+    getPlaces();
   },[])
 
   useEffect(() => {
@@ -170,10 +157,21 @@ const InfoMap = (props) => {
   })
 
   return (
-    <div className="infomap">
-      <div id="allmap" style={{ width: "90vw", height: "90vh" }}></div>
-      <div className="location_icon"><MyLocationIcon fontSize="large" onClick={nowLocation}/></div>
+    <>
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" className={classes.title}>
+            내 근처 리뷰 
+          </Typography>
+        </Toolbar>
+      </AppBar>
     </div>
+    <div className="infomap">
+      <div id="allmap" style={{ width: "100vw", height: "83vh" }}></div>
+      <div className="location_icon"><MyLocationIcon fontSize="large" onClick={nowLocation} color = "primary" /></div>
+    </div>
+    </>
   );
 };
 

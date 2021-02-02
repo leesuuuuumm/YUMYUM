@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import "./CSS/FlipPages.css";
 import Feed from "./Feed"
-import { getFeedByEmail, getAllFeed } from "../../_actions/feedAction";
+import { getAllFeed } from "../../_actions/feedAction";
 import { useDispatch } from "react-redux";
 import FullPage from '../../_components/pagecomponents/FullPage';
 import Slide  from '../../_components/pagecomponents/Slide';
@@ -14,7 +14,8 @@ function FlipPages(props) {
     dispatch(getAllFeed())
     .then((res) => {
       const objs = JSON.parse(res.payload.data);
-      setFeeds(objs.map(obj => (<Slide> <Feed key={obj.id} feed={obj} /></Slide>)))
+      console.log(objs)
+      setFeeds(objs.reverse().map(obj => (<Slide> <Feed key={obj.id} feed={obj} /></Slide>)))
     })
   };
 

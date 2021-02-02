@@ -7,8 +7,8 @@
 .map_wrap, .map_wrap *{margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
 .map_wrap {margin : 0px auto;}
 .map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
-.map_wrap {position:relative;width:98%;height:100%;}
-#menu_wrap {position:absolute;top:0;left:0;bottom:0;width:250px;margin:10px 0px 30px 50px;padding:5px;overflow-y:auto;background:rgba(59, 59, 59, 0.5);z-index: 1;font-size:12px;border-radius: 10px;}
+.map_wrap {position:relative;width:100%;height:90%; margin: 0;}
+#menu_wrap {position:absolute;top:0;left:0;bottom:0;width:70%;margin:10px 0px 30px 50px;padding:5px;overflow-y:auto;background:rgba(59, 59, 59, 0.5);z-index: 1;font-size:12px;border-radius: 10px;}
 .bg_white {background:#fff;}
 #menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
 #menu_wrap .option{text-align: center;}
@@ -17,10 +17,11 @@
 #placesList li {list-style: none;}
 #placesList .item {position:relative;border-bottom:1px solid rgb(228, 228, 228);overflow: hidden;cursor: pointer;min-height: 65px;}
 #placesList .item span {display: block;margin-top:4px;}
-#placesList .item h5 {color: #dddddd;}
+#placesList .item h5 {color: #ffffff; font-size: 15px;}
 #placesList .item h5, #placesList .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+#placesList .item .info span{color: #F4D503;}
 #placesList .item .info{padding:10px 0 10px 55px;}
-#placesList .info .gray {color:#dddddd;}
+#placesList .info .gray {color:#F4D503; display: none;}
 #placesList .info .jibun {padding-left:26px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
 #placesList .info .tel {color:#F4D503;}
 #placesList .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
@@ -47,3 +48,10 @@
 .custom_zoomcontrol span {display:block;width:36px;height:40px;text-align:center;cursor:pointer;}     
 .custom_zoomcontrol span img {width:15px;height:15px;padding:12px 0;border:none;}             
 .custom_zoomcontrol span:first-child{border-bottom:1px solid #bfbfbf;}
+
+.arrowcircle {
+  position: absolute;
+  z-index: 2;
+  top: 83%;
+  left: 83%;
+}
