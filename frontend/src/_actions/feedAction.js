@@ -1,4 +1,4 @@
-import { CREATE_FEED, GET_FEED, DELETE_FEED, GET_FEEDCALENDAR_BY_EMAIL, CREATE_VIDEO, GET_ALL_FEED } from './types';
+import { CREATE_FEED, GET_FEED, DELETE_FEED, GET_FEEDCALENDAR_BY_EMAIL, CREATE_VIDEO, GET_FEEDS } from './types';
 import { request } from "../_utils/axios";
 
 
@@ -27,7 +27,7 @@ export function getFeed(dataToSubmit) {
 export function getAllFeed() {
     const data = request("get", FEED_URL + `/list`);
     return {
-      type: GET_ALL_FEED,
+      type: GET_FEEDS,
       payload: data,
     };
   }

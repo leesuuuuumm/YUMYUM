@@ -21,18 +21,37 @@ const feedReducer = function(state = initialState, action) {
             return { ...state, feedInfo: payload };
 
         case GET_FEEDCALENDAR_BY_EMAIL:
-            return { ...state, feedsCalenadarInfo: {
+            return { ...state, 
+                feedsCalenadarInfo: {
                 status: payload.status,
                 message: payload.message,
                 data: payload.data,
                 object: payload.object,
             }};
         case GET_FEEDS:
-            return { ...state, feedInfoSuccess: payload };
+            return { ...state, 
+                feedInfoSuccess: {
+                status: payload.status,
+                message: payload.message,
+                data: payload.data,
+                object: payload.object,
+            } };
         case DELETE_FEED:
-            return { ...state, deletefeedSuccess: payload };
+            return { ...state, 
+                deletefeedSuccess: {
+                status: payload.status,
+                message: payload.message,
+                data: payload.data,
+                object: payload.object,
+            } };
         case CREATE_VIDEO:
-            return { ...state, createVideoSuccess: payload };
+            return { ...state, 
+                createVideoSuccess: {
+                status: payload.status,
+                message: payload.message,
+                data: payload.data,
+                object: payload.object,
+            } };
         default:
             return state;
     }
