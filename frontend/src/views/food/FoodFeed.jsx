@@ -5,7 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,7 +21,8 @@ const useStyles = makeStyles((theme) => ({
 
 const FoodFeed = (props) => {
   const classes = useStyles();
-  
+
+  console.log(props.location)
 
   return (
     <div className={classes.root}>
@@ -39,4 +40,4 @@ const FoodFeed = (props) => {
   );
 };
 
-export default FoodFeed;
+export default withRouter(FoodFeed);
