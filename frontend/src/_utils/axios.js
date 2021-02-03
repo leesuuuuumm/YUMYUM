@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const DOMAIN = 'http://18.191.183.197:8080/backend'
+export const DOMAIN = 'http://18.191.183.197:8080'
 // const DOMAIN = 'http://localhost:8080'
 
 export const request = (method, url, data, config = {}) => {
@@ -8,7 +8,7 @@ export const request = (method, url, data, config = {}) => {
     console.log(config)
     return axios({
         method,
-        url: DOMAIN + url,
+        url: DOMAIN + '/backend' + url,
         data,
         config
     })

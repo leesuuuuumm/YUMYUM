@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { getFeedCalendarByEmail } from "../../_actions/feedAction";
-import { makeStyles } from "@material-ui/core/styles";
+import Drawer from "@material-ui/core/Drawer";
 import { useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Avatar from "@material-ui/core/Avatar";
@@ -13,15 +13,10 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import FeedSquareGrid from "../../_components/grid/FeedSquareGrid";
 import FeedList from "../../_components/grid/FeedList";
+import ModalList from "../../_components/settings/ModalList";
 import styled from "styled-components";
+import { makeStyles } from "@material-ui/core/styles";
 import girl from "../../_assets/shoutIcon/girl.svg";
-import Drawer from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
 import "./CSS/UserFeedPage.css";
 
 function TabPanel(props) {
@@ -50,7 +45,6 @@ const ProfileInfo = styled.div`
   flex-direction: row;
   align-items: center;
 `;
-
 const useStyles = makeStyles({
   fullList: {
     width: "auto",
@@ -61,7 +55,6 @@ function UserFeedPage() {
   const theme = useTheme();
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-  // const [feeds, setFeed] = React.useState([]);
   const [username, setUsername] = React.useState("");
   const [isModalOpen, setModalOpen] = useState(false);
   const dispatch = useDispatch();
@@ -70,7 +63,7 @@ function UserFeedPage() {
     setValue(newValue);
   };
 
-  // Modal open
+  // Modal toggle 함수
   const toggleDrawer = (isOpen) => (event) => {
     if (
       event.type === "keydown" &&
@@ -80,26 +73,6 @@ function UserFeedPage() {
     }
     setModalOpen(isOpen);
   };
-  // Modal에 들어갈 list
-  const list = () => (
-    <div
-      className={classes.fullList}
-      role="presentation"
-      onClick={toggleDrawer(true)}
-      onKeyDown={toggleDrawer(false)}
-    >
-      <List>
-        {["Logout", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-    </div>
-  );
 
   useEffect(() => {
     const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
@@ -113,27 +86,21 @@ function UserFeedPage() {
 
   return (
     <div>
+      {/* 유저 프로필 상단 */}
       <AppBar position="static" color="primary">
         <ProfileInfo>
           <Avatar alt={username} src={girl} style={{ marginRight: "0.5rem" }} />
           <h2>{username}</h2>
-          <>
-            <IconButton
-              aria-label="settings"
-              style={{ position: "absolute", right: 0 }}
-              onClick={toggleDrawer(true)}
-            >
-              <MoreVertIcon />
-              <Drawer
-                anchor="bottom"
-                open={isModalOpen}
-                onClose={toggleDrawer(false)}
-              >
-                {list("bottom")}
-              </Drawer>
-            </IconButton>
-          </>
+          {/* Todo: - loginuser라면 띄우기 */}
+          <IconButton
+            aria-label="settings"
+            style={{ position: "absolute", right: 0 }}
+            onClick={toggleDrawer(true)}
+          >
+            <MoreVertIcon />
+          </IconButton>
         </ProfileInfo>
+        {/* 탭바 */}
         <Tabs value={value} onChange={handleChange} variant="fullWidth">
           <Tab selected label="날짜별" {...a11yProps(0)} />
           <Tab selected label="메뉴별" {...a11yProps(1)} />
@@ -146,6 +113,17 @@ function UserFeedPage() {
       <TabPanel value={value} index={1} dir={theme.direction}>
         <FeedList tileData={feeds} />
       </TabPanel>
+      {/* 3 dots 클릭 시 모달 */}
+      <Drawer anchor="bottom" open={isModalOpen} onClose={toggleDrawer(false)}>
+        <div
+          className={classes.fullList}
+          role="presentation"
+          onClick={toggleDrawer(false)}
+          onKeyDown={toggleDrawer(false)}
+        >
+          <ModalList></ModalList>
+        </div>
+      </Drawer>
     </div>
   );
 }
