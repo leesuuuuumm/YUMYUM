@@ -61,7 +61,7 @@ function UserFeedPage() {
   const theme = useTheme();
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-  const [feeds, setFeed] = React.useState([]);
+  // const [feeds, setFeed] = React.useState([]);
   const [username, setUsername] = React.useState("");
   const [isModalOpen, setModalOpen] = useState(false);
   const dispatch = useDispatch();
@@ -102,14 +102,14 @@ function UserFeedPage() {
   );
 
   useEffect(() => {
-    // const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
-    // const nickname = JSON.parse(localStorage.getItem("loggedInfo")).nickname;
-    setUsername("ahyeon");
-    // dispatch(getFeedCalendarByEmail(userEmail));
+    const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
+    const nickname = JSON.parse(localStorage.getItem("loggedInfo")).nickname;
+    setUsername(nickname);
+    dispatch(getFeedCalendarByEmail(userEmail));
   }, []);
-  // const feeds = useSelector((state) => {
-  //   return JSON.parse(state.feed.feedsCalenadarInfo.data);
-  // }, shallowEqual);
+  const feeds = useSelector((state) => {
+    return JSON.parse(state.feed.feedsCalenadarInfo.data);
+  }, shallowEqual);
 
   return (
     <div>
@@ -129,7 +129,7 @@ function UserFeedPage() {
                 open={isModalOpen}
                 onClose={toggleDrawer(false)}
               >
-                {list}
+                {list("bottom")}
               </Drawer>
             </IconButton>
           </>
