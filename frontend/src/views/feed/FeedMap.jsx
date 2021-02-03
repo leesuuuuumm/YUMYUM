@@ -18,7 +18,6 @@ const FeedMap = (props) => {
   const [center, setCenter] = useState(null); //현재 위치의 경도,위도가 저장된 변수
   const [detailPlaceInfo, setDetailPlaceInfo] = useState(null); // 선택한 장소의 정보를 담아두는 변수
   const [formData, setFormData] = useState(null);
-  // TODO : sampleMarkers지워줘야한다. 꼭 잊지말것 !
 
   useEffect(() => {
     createMap();
@@ -134,7 +133,7 @@ const FeedMap = (props) => {
     map.setBounds(bounds);
   }
   // map에 마커를 찍는 함수
-  function addMarker(position, idx, title) {
+  function addMarker(position, idx) {
     let placePosition = new kakao.maps.LatLng(position.y, position.x);
 
     var imageSrc =
