@@ -69,8 +69,8 @@ const InfoMap = (props) => {
 
     for (let i = 0; i < markers.length; i++) {
         // let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-        let placePosition = new kakao.maps.LatLng(markers[i].y, markers[i].x);
-        
+        let placePosition = new kakao.maps.LatLng(markers[i].y, markers[i].x); 
+
         let marker = new kakao.maps.Marker({
           map: map,
           position: placePosition,
@@ -126,9 +126,9 @@ const InfoMap = (props) => {
       dispatch(getAllPlace())
       .then((res) => {
         console.log(res)
-        // let addPlaces = JSON.parse(res.payload.data);
-        // setMarkers(markers => markers.concat(addPlaces));
-        // setIsGetPlaces(true);
+        let addPlaces = JSON.parse(res.payload.data);
+        setMarkers(markers => markers.concat(addPlaces));
+        setIsGetPlaces(true);
       })
   }
   

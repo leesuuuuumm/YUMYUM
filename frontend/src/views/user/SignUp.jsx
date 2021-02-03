@@ -15,6 +15,7 @@ function SignUp(props) {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [checkPwdError, setCheckPwdError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   // redux store에 설정된 action에 대한 dispatch를 연결하는 훅
   const dispatch = useDispatch();
@@ -57,16 +58,24 @@ function SignUp(props) {
       };
       dispatch(registerUser(body))
         .then((res) => {
-          if (res.payload.status) {
-            alert("회원가입 성공!");
+
+          if (res.payload.status === "200") {
             props.history.push("/");
+          } else if (res.payload.status === "400") {
+            
+            if (res.payload.message === "this email already exists") {
+              setErrorMessage("이미 가입되어 있는 이메일입니다.")
+            } else {
+              setErrorMessage("닉네임이 중복되었습니다.")
+            }
+
           } else {
-            alert("회원가입 실패");
+            alert("회원가입 실패")
           }
         })
         .catch((err) => {
           console.log("회원가입 실패 에러");
-          console.log(err);
+          console.log(err)
         });
     } else {
       alert("비밀번호 노일치!!");
@@ -98,7 +107,6 @@ function SignUp(props) {
               type="email"
               value={Email}
               onChange={onEmailHandler}
-              autoFocus
               required
               autoCapitalize="off"
               placeholder="이메일"
@@ -146,6 +154,7 @@ function SignUp(props) {
               이미 계정이 있으신가요?
             </Link>
           </div>
+          {errorMessage && <div className="errorMsgSignUp">{errorMessage}</div>}
           <div className="btnContainer">
               <div>
                 <button className="signUpButton" type="submit">
