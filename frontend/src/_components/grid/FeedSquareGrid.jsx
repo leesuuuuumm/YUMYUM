@@ -42,7 +42,7 @@ export default function FeedSquareGrid(props) {
               <video
                 id="background-video"
                 className="feedVideo"
-                src={`http://i4b101.p.ssafy.io:8080/single/${
+                src={`http://18.191.183.197:8080/single/${
                   tile.filePath.split("/")[6]
                 }`}
                 type="video/mp4"

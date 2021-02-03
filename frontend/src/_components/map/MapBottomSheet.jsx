@@ -11,6 +11,8 @@ const MapBottomSheet = (props) => {
       pathname: "/food/feed",
       state : {
         id : id,
+        placeName : placeName,
+        addressName : addressName
       },
     });
   }

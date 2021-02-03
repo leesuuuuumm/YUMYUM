@@ -11,7 +11,7 @@ function Feed(props) {
   const feedDate = feed.createdDate
   const feedURL = feed.filePath.split('/')
   const myVideo = feedURL[6]
-  const videoURL = "http://i4b101.p.ssafy.io:8080/single/" + `${myVideo}`
+  const videoURL = "http://18.191.183.197:8080/single/" + `${myVideo}`
 
   return (
     <div id="videobox">
