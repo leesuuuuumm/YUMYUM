@@ -31,7 +31,7 @@
 }
 
 .login {
-  min-height: 90vh;
+  min-height: 96.5vh;
   padding: 0 30px;
   background-color: #212121;
   display: flex;
@@ -179,6 +179,7 @@ h3 {
   background-color: white;
   padding: 15px;
   border-radius: 7px;
+  margin-top: 20%;
 }
 
 .email_label{
