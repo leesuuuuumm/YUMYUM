@@ -60,7 +60,7 @@ function UserFeedPage(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const [username, setUsername] = React.useState("");
-  const [info, setInfo] = React.useState("한줄평 입니다");
+  const [info, setInfo] = React.useState("");
   const [isModalOpen, setModalOpen] = useState(false);
   const dispatch = useDispatch();
 

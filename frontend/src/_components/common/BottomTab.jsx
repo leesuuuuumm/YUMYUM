@@ -28,27 +28,26 @@ function BottomTab(props) {
   const [loggedUserUrl, setLoggedUserUrl] = useState("");
   const history = useHistory();
 
-  console.log(props.history.location.pathname)
+  console.log(props.history.location.pathname);
   const handleChange = (event, newValue) => {
     history.push(`${newValue}`);
     setValue(newValue);
-    console.log("????되나?")
+    console.log("????되나?");
     // setValue("");
   };
-    
-  useEffect(() => {
-    if(localStorage.getItem("loggedInfo")){
-    const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
-    setLoggedUserUrl("/profile/"+`${userEmail}`)
-    }
-  }, [localStorage.getItem("loggedInfo")]);
+
+  // useEffect(() => {
+  //   if (localStorage.getItem("loggedInfo")) {
+  //     const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
+  //     setLoggedUserUrl("/profile/" + `${userEmail}`);
+  //   }
+  // }, [localStorage.getItem("loggedInfo")]);
 
   if (props.location.pathname === "/") {
     return false;
   } else if (props.location.pathname === "/user/join") {
     return false;
   }
-  
 
   return (
     <BottomNavigation
@@ -80,9 +79,9 @@ function BottomTab(props) {
         icon={<MoodIcon />}
         className={classes.action}
       /> */}
-       <BottomNavigationAction
+      <BottomNavigationAction
         label="Pick"
-        value="myprofile"
+        value="/myprofile"
         icon={<Person />}
         className={classes.action}
       />
