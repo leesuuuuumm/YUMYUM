@@ -35,7 +35,7 @@ function BottomTab() {
 
   // useEffect(() => {
   //   const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
-  //   setLoggedUserUrl("profile/"+`${userEmail}`)
+  //   setLoggedUserUrl("profile/" + `${userEmail}`);
   // }, []);
 
   return (
@@ -70,7 +70,7 @@ function BottomTab() {
       /> */}
       <BottomNavigationAction
         label="Pick"
-        value={loggedUserUrl}
+        value="myprofile"
         icon={<Person />}
         className={classes.action}
       />
