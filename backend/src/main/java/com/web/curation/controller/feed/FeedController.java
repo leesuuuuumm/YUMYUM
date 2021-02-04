@@ -84,7 +84,7 @@ public class FeedController {
 	public Object uploadVideo(@RequestParam(value = "file", required = false) MultipartFile multipartFile) {
 		String url = fileService.upload(multipartFile);
 
-		fileService.createThumbnail(url);
+//		fileService.createThumbnail(url);
 
 		return makeResponse("200", url, "success", HttpStatus.OK);
 	}
