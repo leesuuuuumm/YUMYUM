@@ -30,7 +30,7 @@ function FlipPages(props) {
     getFeedDatas();
   }, []);
 
-  return <FullPage initialSlide={5}>{feeds}</FullPage>;
+  return <FullPage>{feeds}</FullPage>;
 }
 
 export default withRouter(FlipPages);

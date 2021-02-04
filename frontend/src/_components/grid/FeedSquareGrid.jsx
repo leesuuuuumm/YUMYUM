@@ -26,22 +26,21 @@ const useStyles = makeStyles(() =>
   })
 );
 
-
 function FeedSquareGrid(props) {
   const classes = useStyles();
   const { title, tileData } = props;
 
   const goDetail = (tile, index) => {
-    console.log("오지마!")
-    console.log(props)
-    props.history.push({
-      pathname: "/feed/flippages",
-      state : {
-        index : index,
-        tile : tile,
-      },
-    });
-  }
+    console.log("오지마!");
+    console.log(props);
+    // props.history.push({
+    //   pathname: "/feed/flippages",
+    //   state : {
+    //     index : index,
+    //     tile : tile,
+    //   },
+    // });
+  };
 
   return (
     <div className={classes.root}>
@@ -51,12 +50,16 @@ function FeedSquareGrid(props) {
         </GridListTile>
         {tileData &&
           tileData.map((tile, index) => (
-            <GridListTile key={tile.id} className={classes.gridtile} onClick={() => goDetail(tile, index)}>
+            <GridListTile
+              key={tile.id}
+              className={classes.gridtile}
+              onClick={() => goDetail(tile, index)}
+            >
               <video
                 id="background-video"
                 className="feedVideo"
                 // src={`${DOMAIN}/single/${tile.filePath.split("/")[6]}`}
-                src={ tile.filePath }
+                src={tile.filePath}
                 type="video/mp4"
                 width="100%"
                 loop
