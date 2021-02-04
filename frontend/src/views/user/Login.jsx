@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, withRouter } from "react-router-dom";
-import  Quokka  from "../../_assets/quokka1.png";
+import Quokka from "../../_assets/quokka1.png";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../_actions/userAction";
 import "./CSS/Login.css";
@@ -11,7 +11,7 @@ function Login(props) {
   const [islogin, setIsLogin] = useState(false);
   // redux store에 설정된 action에 대한 dispatch를 연결하는 훅
   const dispatch = useDispatch();
-  
+
   const onEmailHandler = (e) => {
     setEmail(e.currentTarget.value);
   };
@@ -31,7 +31,7 @@ function Login(props) {
         const status = JSON.parse(res.payload.status);
         console.log("login ojb", obj);
         console.log("login status", JSON.parse(res.payload.status));
-        if (status) {
+        if (status == 200) {
           // alert("로그인 성공!");
 
           localStorage.setItem("loggedInfo", JSON.stringify(obj));
@@ -46,7 +46,7 @@ function Login(props) {
         }
       })
       .catch((err) => {
-        setIsLogin(true)
+        setIsLogin(true);
       });
   };
   return (
@@ -69,7 +69,7 @@ function Login(props) {
               autoCapitalize="off"
               placeholder="이메일"
             />
-            <hr className="login_hr"/>
+            <hr className="login_hr" />
             <div className="password_label">PASSWORD</div>
             <input
               type="password"
@@ -78,7 +78,7 @@ function Login(props) {
               required
               placeholder="비밀번호"
             />
-            <hr className="login_hr"/>
+            <hr className="login_hr" />
             <div className="userLink">
               <Link to="/user/join" className="userLink">
                 회원가입
@@ -86,12 +86,14 @@ function Login(props) {
             </div>
             <div className="btnContainer">
               <div>
-                {islogin &&
-                <div className="login_error">이메일 혹은 비밀번호가 잘못되었습니다.</div>
-                }     
-                  <button className="loginButton" type="submit">
-                    로그인
-                  </button>
+                {islogin && (
+                  <div className="login_error">
+                    이메일 혹은 비밀번호가 잘못되었습니다.
+                  </div>
+                )}
+                <button className="loginButton" type="submit">
+                  로그인
+                </button>
               </div>
             </div>
           </form>

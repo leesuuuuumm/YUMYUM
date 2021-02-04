@@ -2,7 +2,7 @@ import { withRouter } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { getFeedByEmail } from "../../_actions/feedAction";
+// import { getFeedByEmail } from "../../_actions/feedAction";
 import { getUser } from "../../_actions/userAction";
 import { getFeedCalendarByEmail } from "../../_actions/feedAction";
 import Drawer from "@material-ui/core/Drawer";
@@ -15,7 +15,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import FeedSquareGrid from "../../_components/grid/FeedSquareGrid";
 import FeedList from "../../_components/grid/FeedList";
-import ModalList from "../../_components/settings/ModalList";
+import ModalList from "../../_components/modal/ModalList";
 import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
 import girl from "../../_assets/shoutIcon/girl.svg";
@@ -23,7 +23,7 @@ import "./CSS/UserFeedPage.css";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-  console.log(props)
+  console.log(props);
   return <div>{value === index && <div>{children}</div>}</div>;
 }
 
@@ -78,15 +78,15 @@ function UserFeedPage(props) {
 
   useEffect(() => {
     const userEmail = props.match.params.email;
-    dispatch(getUser(userEmail))
+    dispatch(getUser(userEmail));
     if (props.location.state) {
-      const nickname = props.location.state.nickname
-      setUsername(nickname)
+      const nickname = props.location.state.nickname;
+      setUsername(nickname);
     } else {
       const nickname = JSON.parse(localStorage.getItem("loggedInfo")).nickname;
-      setUsername(nickname)
+      setUsername(nickname);
     }
-    dispatch(getFeedByEmail(userEmail));
+    dispatch(getFeedCalendarByEmail(userEmail));
   }, []);
 
   const feeds = useSelector((state) => {

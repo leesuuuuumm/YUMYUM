@@ -15,7 +15,7 @@ const useStyles = makeStyles({
     height: "10vh",
     position: "fixed",
     bottom: 0,
-    zIndex: "100"
+    zIndex: "100",
   },
   action: {
     minWidth: 20 + "px",
@@ -33,10 +33,10 @@ function BottomTab() {
     setValue(newValue);
   };
 
-  useEffect(() => {
-    const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
-    setLoggedUserUrl("profile/"+`${userEmail}`)
-  }, []);
+  // useEffect(() => {
+  //   const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
+  //   setLoggedUserUrl("profile/"+`${userEmail}`)
+  // }, []);
 
   return (
     <BottomNavigation
@@ -62,15 +62,15 @@ function BottomTab() {
         icon={<AddBox />}
         className={classes.action}
       />
-      <BottomNavigationAction
+      {/* <BottomNavigationAction
         label="Eureka"
         value="shout"
         icon={<MoodIcon />}
         className={classes.action}
-      />
+      /> */}
       <BottomNavigationAction
         label="Pick"
-        value= {loggedUserUrl}
+        value={loggedUserUrl}
         icon={<Person />}
         className={classes.action}
       />
