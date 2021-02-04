@@ -38,11 +38,12 @@ function Login(props) {
           console.log("히스토리");
           console.log(props.history);
           props.history.push({
-            pathname: `/profile/${body.email}`,
-            state: { email: body.email },
+            pathname: '/feed/flippages',
+            state: { value: "feed/flippages" },
           });
         } else {
-          alert("로그인 실패");
+          // alert("로그인 실패");
+          setIsLogin(true)
         }
       })
       .catch((err) => {

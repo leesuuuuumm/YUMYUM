@@ -20,6 +20,7 @@ import SearchBar from './views/feed/SearchBar';
 import BottomTab from './_components/common/BottomTab';
 import FoodFeed from './views/food/FoodFeed';
 import PrivateRoute from '../src/_components/common/PrivateRoute';
+import LoginRoute from '../src/_components/common/LoginRoute';
 
 function App() {
   return (
@@ -27,23 +28,25 @@ function App() {
       <MuiThemeProvider theme={theme}>
       <Router>
         <Switch>
-          <PrivateRoute path="/" exact component= {Login} />
-          <Route path="/feed/flippages" exact render={() => <FlipPages />}/>
+          <LoginRoute exact path="/" component={Login} />
+          {/* <PrivateRoute path="/" exact component= {Login} /> */}
+          <PrivateRoute exact path="/feed/flippages" component ={FlipPages}/>
           <Route path="/user/join" exact render={() => <SignUp />}/>
           <Route path="/user/complete" exact render={() => <SignUpComplete />}/>
-          <Route path="/profile/:email" render={() => <UserFeedPage />}/>
-          <Route path="/user/resetpassword" exact render={() => <ResetPassword />}/>
-          <Route path="/user/usersetting" exact render={()=> <UserSetting /> } />
-          <Route path="/feed/createfeed" exact render={() => <CreateFeed />}/>
-          <Route path="/feed/camera" exact render={() => <Camera />}/>
+          <PrivateRoute path="/profile/:email" component={UserFeedPage}/>
+          <PrivateRoute exact path="/myprofile" component={UserFeedPage}/>
+          <PrivateRoute exact path="/user/resetpassword" component={ResetPassword}/>
+          <PrivateRoute exact path="/user/usersetting"  component={UserSetting} />
+          <PrivateRoute exact path="/feed/createfeed"  component={CreateFeed}/>
+          <PrivateRoute exact path="/feed/camera" component={Camera}/>
           <Route path='/shout' exact render={() => <ShoutPage />} />
-          <Route path='/feed/feedmap' exact render ={() => <SearchBar />}/>
-          <Route path="/map/infomap" exact render={() => <InfoMap />} />
-          <Route path="/food/feed" exact render={() => <FoodFeed />} />
+          <PrivateRoute exact path='/feed/feedmap' component={SearchBar}/>
+          <PrivateRoute exact path="/map/infomap" component={InfoMap} />
+          <PrivateRoute exact path="/food/feed" component= {FoodFeed} />
           <Route path="/error" component={ErrorPage} />
           <Route path="*" component={NotFound} />
         </Switch>
-        <BottomTab />
+          <BottomTab />
       </Router>
       </MuiThemeProvider>
     </div>

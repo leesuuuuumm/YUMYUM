@@ -23,7 +23,7 @@ import "./CSS/UserFeedPage.css";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-  console.log(props);
+
   return <div>{value === index && <div>{children}</div>}</div>;
 }
 
@@ -87,7 +87,7 @@ function UserFeedPage(props) {
       setUsername(nickname);
     }
     dispatch(getFeedCalendarByEmail(userEmail));
-  }, []);
+  },[]);
 
   const feeds = useSelector((state) => {
     return JSON.parse(state.feed.feedsCalenadarInfo.data);
