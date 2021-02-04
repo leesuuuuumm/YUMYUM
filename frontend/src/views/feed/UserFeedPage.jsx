@@ -2,6 +2,8 @@ import { withRouter } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { getFeedByEmail } from "../../_actions/feedAction";
+import { getUser } from "../../_actions/userAction";
 import { getFeedCalendarByEmail } from "../../_actions/feedAction";
 import Drawer from "@material-ui/core/Drawer";
 import { useTheme } from "@material-ui/core/styles";
@@ -51,7 +53,7 @@ const useStyles = makeStyles({
   },
 });
 
-function UserFeedPage() {
+function UserFeedPage(props) {
   const theme = useTheme();
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -75,11 +77,18 @@ function UserFeedPage() {
   };
 
   useEffect(() => {
-    const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
-    const nickname = JSON.parse(localStorage.getItem("loggedInfo")).nickname;
-    setUsername(nickname);
-    dispatch(getFeedCalendarByEmail(userEmail));
+    const userEmail = props.match.params.email;
+    dispatch(getUser(userEmail))
+    if (props.location.state) {
+      const nickname = props.location.state.nickname
+      setUsername(nickname)
+    } else {
+      const nickname = JSON.parse(localStorage.getItem("loggedInfo")).nickname;
+      setUsername(nickname)
+    }
+    dispatch(getFeedByEmail(userEmail));
   }, []);
+
   const feeds = useSelector((state) => {
     return JSON.parse(state.feed.feedsCalenadarInfo.data);
   }, shallowEqual);
@@ -90,8 +99,10 @@ function UserFeedPage() {
       <AppBar position="static" color="primary">
         <ProfileInfo>
           <Avatar alt={username} src={girl} style={{ marginRight: "0.5rem" }} />
-          <h2>{username}</h2>
+          <h2>{username} </h2>
+
           {/* Todo: - loginuser라면 띄우기 */}
+
           <IconButton
             aria-label="settings"
             style={{ position: "absolute", right: 0 }}
