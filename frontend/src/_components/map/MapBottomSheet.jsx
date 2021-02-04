@@ -2,6 +2,8 @@ import React, {useState, useEffect}from 'react';
 import PropTypes from "prop-types";
 import { withRouter } from 'react-router-dom';
 import "./MapBottomSheet.css";
+import StorefrontRoundedIcon from '@material-ui/icons/StorefrontRounded';
+
 
 const MapBottomSheet = (props) => {
   const { id, placeName, addressName} = props.placeInfo;
@@ -25,9 +27,12 @@ const MapBottomSheet = (props) => {
 
   return (  
     <div className="bottomsheet">
-      <div>{placeName}</div>
-      <div>{addressName}</div>
-      <button onClick={goMapFeed}>리뷰보기</button>
+      <StorefrontRoundedIcon id="storeIcon" fontSize="medium" />
+      <h2>{placeName}</h2>
+
+      <hr/>
+      <h4>{addressName}</h4>
+      <a onClick={goMapFeed}>리뷰보기</a>
     </div>
   );
 }

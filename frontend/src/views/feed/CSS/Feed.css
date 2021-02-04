@@ -90,7 +90,7 @@
   left: 5px;
 }
 
-#storeIcon {
+.inblock #storeIcon {
   color: white;
   float: left;
   margin: 2px 5px;
