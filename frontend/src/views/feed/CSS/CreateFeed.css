@@ -46,10 +46,12 @@
   border-radius: 10px;
 }
 
-.createWapper .content-box input{
+.createWapper .content-box textarea{
   margin: 8% 0 3% 8%;
   color: gray;
-  width: 80%;
+  resize: none;
+  width: 83%;
+  height: 75%;
   border-width: 0;
   font-size: 20px;
   font-weight: bold;

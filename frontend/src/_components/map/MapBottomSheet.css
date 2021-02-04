@@ -1,0 +1,8 @@
+.bottomsheet {
+  width: 100%;
+  height: 15%;
+  background-color: white;
+  z-index: 1;
+  position: absolute;
+  bottom: 70px;
+}
