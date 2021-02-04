@@ -9,15 +9,17 @@ import {Collapse} from 'react-collapse';
 import "./CSS/Feed.css"
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import { DOMAIN } from "../../_utils/axios";
 
 function Feed(props) {
   const { feed } = props
   const feedUser = feed.user
   const feedDate = feed.createdDate
+  const feedFilePath = feed.filePath
   const feedURL = feed.filePath.split('/')
   const myVideo = feedURL[6]
   const [isOpened, setIsOpened] = useState(false)
-  const videoURL = "http://18.191.183.197:8080//single/" + `${myVideo}`
+  const videoURL = `${DOMAIN}/${myVideo}`
   const userUrl = "/profile/"+ `${feedUser.email}`
 
   const openHandler = () => {
@@ -30,7 +32,8 @@ function Feed(props) {
       <video
         id="background-video"
         className="videoTag"
-        src={ videoURL }
+        // src={ videoURL }
+        src={ feedFilePath }
         type="video/mp4"
         width="100%"
         height="100%"

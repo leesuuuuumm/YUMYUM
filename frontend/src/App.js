@@ -10,6 +10,7 @@ import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
 import ResetPassword from './views/user/ResetPassword';
 import CreateFeed from "./views/feed/CreateFeed";
 import UserFeedPage from './views/feed/UserFeedPage';
+import MyFeedPage from './views/feed/MyFeedPage';
 import Camera from "./views/feed/Camera";
 import FlipPages from "./views/feed/FlipPages";
 import SignUpComplete from "./views/user/SignUpComplete";
@@ -34,7 +35,7 @@ function App() {
           <Route path="/user/join" exact render={() => <SignUp />}/>
           <Route path="/user/complete" exact render={() => <SignUpComplete />}/>
           <PrivateRoute path="/profile/:email" component={UserFeedPage}/>
-          <PrivateRoute exact path="/myprofile" component={UserFeedPage}/>
+          <PrivateRoute exact path="/myprofile" component={MyFeedPage}/>
           <PrivateRoute exact path="/user/resetpassword" component={ResetPassword}/>
           <PrivateRoute exact path="/user/usersetting"  component={UserSetting} />
           <PrivateRoute exact path="/feed/createfeed"  component={CreateFeed}/>

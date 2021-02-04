@@ -82,7 +82,7 @@ function BottomTab(props) {
       /> */}
        <BottomNavigationAction
         label="Pick"
-        value={loggedUserUrl}
+        value="myprofile"
         icon={<Person />}
         className={classes.action}
       />
