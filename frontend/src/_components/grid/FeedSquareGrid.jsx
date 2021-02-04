@@ -43,13 +43,7 @@ export default function FeedSquareGrid(props) {
               <video
                 id="background-video"
                 className="feedVideo"
-<<<<<<< HEAD
-                src={`http://18.191.183.197:8080/single/${
-                  tile.filePath.split("/")[6]
-                }`}
-=======
                 src={`${DOMAIN}/single/${tile.filePath.split("/")[6]}`}
->>>>>>> 289fdc381d5669d5550fe30fb9295ba5463e2e98
                 type="video/mp4"
                 width="100%"
                 loop
