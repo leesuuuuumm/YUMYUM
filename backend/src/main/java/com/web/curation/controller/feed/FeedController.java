@@ -1,8 +1,12 @@
 package com.web.curation.controller.feed;
 
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.web.curation.model.feed.*;
 import com.web.curation.model.user.User;
@@ -141,7 +145,16 @@ public class FeedController {
 
 		List<Feed> searchlist = feedDao.findAllByUserOrderByIdDesc(curUser.get());
 
-		return makeResponse("200", convertObjToJson(searchlist), "success" + searchlist.size(), HttpStatus.OK);
+
+		return makeResponse("200", convertObjToJson(GroupFeedsByMonth(searchlist)), "success" + searchlist.size(), HttpStatus.OK);
+	}
+
+	private Map<Object, List<Feed>> GroupFeedsByMonth(List<Feed> feedList) {
+		Map<Object, List<Feed>> result = feedList.stream().collect(Collectors.groupingBy(feed -> feed.getCreatedDate()
+		.with(TemporalAdjusters.firstDayOfMonth())));
+
+		System.out.println(result);
+		return result;
 	}
 
 	@GetMapping("/titles/{email}")
