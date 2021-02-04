@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-export const DOMAIN = 'http://18.191.183.197:8080'
-// const DOMAIN = 'http://localhost:8080'
+export const DOMAIN = 'https://i4b101.p.ssafy.io'
+// export const DOMAIN = 'https://localhost'
+const PORT = ':9090'
 
 export const request = (method, url, data, config = {}) => {
     console.log(url, 'axios요청 보냅니다아아아 이 데이터를!', data)
@@ -12,7 +13,7 @@ export const request = (method, url, data, config = {}) => {
     // }
     return axios({
         method,
-        url: DOMAIN + '/backend' + url,
+        url: DOMAIN + PORT + url,
         data,
         config
     })
@@ -29,7 +30,7 @@ export const request = (method, url, data, config = {}) => {
 };
 
 // const Api = axios.create({
-//     url: DOMAIN,
+//     url: DOMAIN + PORT,
 // });
 // export default Api;
 

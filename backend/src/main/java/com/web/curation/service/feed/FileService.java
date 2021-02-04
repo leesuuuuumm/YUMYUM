@@ -30,8 +30,11 @@ public class FileService {
     @Autowired
     private FileDao fileDao;
 
-    private static final String SAVE_PATH = "/var/lib/tomcat9/webapps/single";
-    private static final String PREFIX_URL = "/var/lib/tomcat9/webapps/single/";
+
+//    private static final String SAVE_PATH = "/var/lib/tomcat9/webapps/single";
+    private static final String SAVE_PATH = "/var/www/html/dist/single";
+//    private static final String PREFIX_URL = "/var/lib/tomcat9/webapps/single/";
+    private static final String PREFIX_URL = "https://i4b101.p.ssafy.io/single/";
 
     private static final String WINDOWS_SAVE_PATH = FileSystemView.getFileSystemView().getHomeDirectory().toString() + "/single";
     private static final String WINDOWS_PREFIX_URL =FileSystemView.getFileSystemView().getHomeDirectory().toString() + "/single/";

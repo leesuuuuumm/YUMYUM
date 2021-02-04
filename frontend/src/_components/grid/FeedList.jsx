@@ -60,7 +60,8 @@ export default function FeedList(props) {
                 <video
                   id="background-video"
                   className={classes.feedVideo}
-                  src={`${DOMAIN}/single/${tile.filePath.split("/")[6]}`}
+                  // src={`${DOMAIN}/single/${tile.filePath.split("/")[6]}`}
+                  src={ tile.filePath }
                   type="video/mp4"
                   width="100%"
                   loop
