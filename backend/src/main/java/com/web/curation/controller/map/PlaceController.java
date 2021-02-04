@@ -19,7 +19,7 @@ import java.util.Optional;
 import static com.web.curation.utils.HttpUtils.convertObjToJson;
 import static com.web.curation.utils.HttpUtils.makeResponse;
 
-@CrossOrigin(origins = { "http://localhost:3000" })
+@CrossOrigin(origins = { "http://localhost:3000", "https://i4b101.p.ssafy.io" })
 @RestController
 @RequestMapping("/place")
 public class PlaceController {

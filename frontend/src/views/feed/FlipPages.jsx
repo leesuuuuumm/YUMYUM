@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { withRouter } from "react-router-dom";
 import "./CSS/FlipPages.css";
 import Feed from "./Feed"
 import { getAllFeed } from "../../_actions/feedAction";

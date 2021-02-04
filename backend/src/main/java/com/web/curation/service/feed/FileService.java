@@ -30,8 +30,11 @@ public class FileService {
     @Autowired
     private FileDao fileDao;
 
-    private static final String SAVE_PATH = "/var/lib/tomcat9/webapps/single";
-    private static final String PREFIX_URL = "/var/lib/tomcat9/webapps/single/";
+
+//    private static final String SAVE_PATH = "/var/lib/tomcat9/webapps/single";
+    private static final String SAVE_PATH = "/var/www/html/dist/single";
+//    private static final String PREFIX_URL = "/var/lib/tomcat9/webapps/single/";
+    private static final String PREFIX_URL = "https://i4b101.p.ssafy.io/single/";
 
     private static final String WINDOWS_SAVE_PATH = FileSystemView.getFileSystemView().getHomeDirectory().toString() + "/single";
     private static final String WINDOWS_PREFIX_URL =FileSystemView.getFileSystemView().getHomeDirectory().toString() + "/single/";
@@ -110,37 +113,37 @@ public class FileService {
         return result;
     }
 
-    public void createThumbnail(String url) {
-        String oPath = url; // 원본 경로
-        java.io.File oFile = new java.io.File(oPath);
-
-        int index = oPath.lastIndexOf(".");
-        String ext = ".jpg"; // 파일 확장자
-
-        String tPath = oFile.getParent() + java.io.File.separator + "t-" + oFile.getName(); // 썸네일저장 경로
-        java.io.File tFile = new java.io.File(tPath);
-
-        double ratio = 2; // 이미지 축소 비율
-
-        try {
-            BufferedImage oImage = ImageIO.read(oFile); // 원본이미지
-            int tWidth = (int) (oImage.getWidth() / ratio); // 생성할 썸네일이미지의 너비
-            int tHeight = (int) (oImage.getHeight() / ratio); // 생성할 썸네일이미지의 높이
-
-            BufferedImage tImage = new BufferedImage(tWidth, tHeight, BufferedImage.TYPE_3BYTE_BGR); // 썸네일이미지
-            Graphics2D graphic = tImage.createGraphics();
-            Image image = oImage.getScaledInstance(tWidth, tHeight, Image.SCALE_SMOOTH);
-            graphic.drawImage(image, 0, 0, tWidth, tHeight, null);
-            graphic.dispose(); // 리소스를 모두 해제
-
-            ImageIO.write(tImage, ext, tFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void createThumbnail(String url) {
+//        String oPath = url; // 원본 경로
+//        java.io.File oFile = new java.io.File(oPath);
+//
+//        int index = oPath.lastIndexOf(".");
+//        String ext = ".jpg"; // 파일 확장자
+//
+//        String tPath = oFile.getParent() + java.io.File.separator + "t-" + oFile.getName(); // 썸네일저장 경로
+//        java.io.File tFile = new java.io.File(tPath);
+//
+//        double ratio = 2; // 이미지 축소 비율
+//
+//        try {
+//            BufferedImage oImage = ImageIO.read(oFile); // 원본이미지
+//            int tWidth = (int) (oImage.getWidth() / ratio); // 생성할 썸네일이미지의 너비
+//            int tHeight = (int) (oImage.getHeight() / ratio); // 생성할 썸네일이미지의 높이
+//
+//            BufferedImage tImage = new BufferedImage(tWidth, tHeight, BufferedImage.TYPE_3BYTE_BGR); // 썸네일이미지
+//            Graphics2D graphic = tImage.createGraphics();
+//            Image image = oImage.getScaledInstance(tWidth, tHeight, Image.SCALE_SMOOTH);
+//            graphic.drawImage(image, 0, 0, tWidth, tHeight, null);
+//            graphic.dispose(); // 리소스를 모두 해제
+//
+//            ImageIO.write(tImage, ext, tFile);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @Transactional
-    private String saveFile(String origFileName, String fileName, String filePath, String extensionName) {
+    String saveFile(String origFileName, String fileName, String filePath, String extensionName) {
         File file = File.builder()
                 .origFileName(origFileName)
                 .fileName(fileName)

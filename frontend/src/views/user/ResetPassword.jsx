@@ -10,8 +10,7 @@ function ResetPassword(props) {
   const [ConfirmPassword, setConfirmPassword] = useState("");
   const [email, setEmail] = useState("");
   const [checkPwdError, setCheckPwdError] = useState(false);
-
-  // redux store에 설정된 action에 대한 dispatch를 연결하는 훅
+  
   const dispatch = useDispatch();
 
   const onPasswordHandler = (e) => {
@@ -29,8 +28,6 @@ function ResetPassword(props) {
     }
   };
 
-  // 중요!!!
-  // 함수형 컴포넌트에서 componentDidMount와 같은 함수
   useEffect(() => {
     const loggedInfo = localStorage.getItem("loggedInfo");
 
