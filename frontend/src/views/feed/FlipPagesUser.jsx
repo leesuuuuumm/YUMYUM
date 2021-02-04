@@ -7,7 +7,7 @@ import FullPage from '../../_components/pagecomponents/FullPage';
 import Slide  from '../../_components/pagecomponents/Slide';
 import { withRouter } from 'react-router-dom';
 
-function FlipPages(props) {
+function FlipPagesUser(props) {
   const [feeds, setFeeds] = useState([]);
   const dispatch = useDispatch();
 
@@ -31,4 +31,4 @@ function FlipPages(props) {
   );
 };
 
-export default withRouter(FlipPages);
+export default withRouter(FlipPagesUser);

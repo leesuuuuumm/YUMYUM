@@ -1,8 +1,31 @@
 .bottomsheet {
-  width: 100%;
+  width: 85%;
+  margin-left: 3%;
   height: 15%;
-  background-color: white;
+  background-color: rgba(128, 128, 128, 0.7);
   z-index: 1;
   position: absolute;
-  bottom: 70px;
+  bottom: 12%;
+  border-radius: 10px;
+  padding: 5%;
+}
+
+.bottomsheet h2 {
+  margin: 2%;
+}
+
+.bottomsheet hr {
+  margin: 0;
+}
+
+.bottomsheet a {
+  display: block;
+  text-align: right;
+  color: yellow;
+}
+
+.bottomsheet #storeIcon {
+  color: white;
+  float: left;
+  margin: 2px 10px 0 0;
 }
