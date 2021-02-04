@@ -8,8 +8,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
-import { Link } from "react-router-dom";
-import { getAllPlace } from "../../_actions/mapAction"
+import { withRouter } from "react-router-dom";
+import { getAllPlace } from "../../_actions/mapAction";
+import MapBottomSheet from "../../_components/map/MapBottomSheet";
+import { displayMarkerNow } from "../../_components/map/displayMarkerNow";
 
 const { kakao } = window;
 
@@ -35,6 +37,7 @@ const InfoMap = (props) => {
   const [infowindow, setInfowindow] = useState(null);
   const [bounds, setBounds] = useState(null);
   const [markers, setMarkers] = useState([]);
+  const [place, setPlace] = useState(null);
   const [isLocation, setIsLocation] = useState(false);
   const [isdisplayMarkers, setdisplayMarkers] = useState(false);
   const [isgetPlaces, setIsGetPlaces] = useState(false);
@@ -59,46 +62,40 @@ const InfoMap = (props) => {
   };
   //지도에 모든 마커를 뽑아주는 함수 
   const displayAllMarkers = React.useCallback(() => {
-    let imageSrc = "https://cdn2.iconfinder.com/data/icons/default-1/100/.svg-4-512.png",
-    imageSize = new kakao.maps.Size(36, 37),
-    imageOption = {offset: new kakao.maps.Point(27, 69)},
-    bounds = new kakao.maps.LatLngBounds();
+    // let imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png',
+    // imageSize = new kakao.maps.Size(36, 37),
+    // imageOption = {offset: new kakao.maps.Point(27, 69)},
+    let bounds = new kakao.maps.LatLngBounds();
 
-    let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-      for (let i = 0; i < markers.length; i++) {
-        let placePosition = new kakao.maps.LatLng(markers[i].y, markers[i].x),
-        marker = new kakao.maps.Marker({
+    for (let i = 0; i < markers.length; i++) {
+        // let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+        let placePosition = new kakao.maps.LatLng(markers[i].y, markers[i].x); 
+
+        let marker = new kakao.maps.Marker({
           map: map,
           position: placePosition,
-          image : markerImage
+          // image : markerImage
         });
 
         bounds.extend(placePosition);
 
           kakao.maps.event.addListener(marker, "click", function () {
+            
+            setPlace(markers[i]);
             infowindow.setContent(
               '<div style="padding:5px;font-size:12px;">' +
                 markers[i].placeName +
                 "</div>"
             );
+
             infowindow.open(map, marker);
+            
             map.setCenter(placePosition);
+            
             map.setLevel(4);
           });
       }
   })
-  //현재위치에 마커를 찍는 함수
-  function displayMarkerNow(locPosition, message) {
-    // 마커를 생성합니다
-    let marker = new kakao.maps.Marker({
-      map: map,
-      position: locPosition,
-    });
-    map.panTo(locPosition);
-    map.setLevel(3);
-    bounds.extend(locPosition);
-    map.setBounds(bounds);
-  }
   // 현재위치 버튼 클릭시 호출되는 메서드
   const nowLocation = () => {
     // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
@@ -112,7 +109,7 @@ const InfoMap = (props) => {
           message = '<div style="padding:5px;">현재 위치</div>'; // 인포윈도우에 표시될 내용입니다
 
         // 마커와 인포윈도우를 표시합니다
-        displayMarkerNow(locPosition, message);
+        displayMarkerNow(locPosition, map ,message);
       });
     } else {
       // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
@@ -120,7 +117,7 @@ const InfoMap = (props) => {
       let locPosition = new kakao.maps.LatLng(33.450701, 126.570667),
         message = "geolocation을 사용할수 없어요..";
 
-      displayMarkerNow(locPosition, message);
+      displayMarkerNow(locPosition, map, message);
     }
   };
 
@@ -128,16 +125,18 @@ const InfoMap = (props) => {
     setIsLocation(true)
       dispatch(getAllPlace())
       .then((res) => {
+        console.log(res)
         let addPlaces = JSON.parse(res.payload.data);
         setMarkers(markers => markers.concat(addPlaces));
         setIsGetPlaces(true);
       })
   }
   
-  // 현재 위치로 이동해서 마커를 찍어주는 함
+  // 현재 위치로 이동해서 마커를 찍어주는 함수
   useEffect(() => {
     createMap();
-  }, []);
+    getPlaces();
+  },[]);
 
   useEffect(() => {
       if(isgetPlaces){
@@ -146,15 +145,11 @@ const InfoMap = (props) => {
   }, [isgetPlaces]);
 
   useEffect(() => {
-    getPlaces();
-  },[])
-
-  useEffect(() => {
     // isLoaction을 줘서 map이 랜더 되기전에 nowLocation이 출력되지 않게 해주었다.
     if (isLocation){
       nowLocation();
     }
-  })
+  },[isLocation])
 
   return (
     <>
@@ -169,10 +164,13 @@ const InfoMap = (props) => {
     </div>
     <div className="infomap">
       <div id="allmap" style={{ width: "100vw", height: "83vh" }}></div>
-      <div className="location_icon"><MyLocationIcon fontSize="large" onClick={nowLocation} color = "primary" /></div>
+    </div>
+    <div>
+      <MyLocationIcon  className="location_icon" fontSize="large" onClick={nowLocation} color = "primary" />
+      {place && <MapBottomSheet placeInfo={place}/>}
     </div>
     </>
   );
 };
 
-export default InfoMap;
+export default withRouter(InfoMap);

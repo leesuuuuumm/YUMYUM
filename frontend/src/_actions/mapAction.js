@@ -1,4 +1,4 @@
-import { CREATE_PLACE, GET_ALL_PLACE } from './types';
+import { CREATE_PLACE, GET_ALL_PLACE, GET_PLACE_FEED } from './types';
 
 import { request } from "../_utils/axios";
 
@@ -17,5 +17,14 @@ export function getAllPlace() {
   return {
     type : GET_ALL_PLACE,
     payload : data,
+  }
+}
+
+export function getPlaceFeed(dataToSubmit) {
+  const id = dataToSubmit
+  const data = request('get', USER_URL +`/${id}`);
+  return {
+    type: GET_PLACE_FEED,
+    payload: data,
   }
 }

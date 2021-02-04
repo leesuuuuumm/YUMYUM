@@ -19,6 +19,7 @@
     "framer-motion": "^3.2.2-rc.1",
     "react": "^17.0.1",
     "react-collapse": "^5.1.0",
+    "react-bottom-sheet": "^1.1.1",
     "react-dom": "^17.0.1",
     "react-full-page": "^0.1.11",
     "react-id-swiper": "^4.0.0",

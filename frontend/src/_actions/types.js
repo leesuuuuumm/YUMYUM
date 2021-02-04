@@ -19,3 +19,4 @@ export const GET_FEEDCALENDAR_BY_EMAIL = "GET_FEEDCALENDAR_BY_EMAIL";
 // map
 export const CREATE_PLACE = "CREATE_PLACE";
 export const GET_ALL_PLACE = "GET_ALL_PLACE";
+export const GET_PLACE_FEED = "GET_PLACE_FEED";
