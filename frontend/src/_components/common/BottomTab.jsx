@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
@@ -25,13 +25,18 @@ const useStyles = makeStyles({
 function BottomTab() {
   const classes = useStyles();
   const [value, setValue] = useState("");
-  const [loggedUser, setLoggedUser] = useState("");
+  const [loggedUserUrl, setLoggedUserUrl] = useState("");
   const history = useHistory();
 
   const handleChange = (event, newValue) => {
     history.push(`/${newValue}`);
     setValue(newValue);
   };
+
+  useEffect(() => {
+    const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
+    setLoggedUserUrl("profile/"+`${userEmail}`)
+  }, []);
 
   return (
     <BottomNavigation
@@ -65,7 +70,7 @@ function BottomTab() {
       />
       <BottomNavigationAction
         label="Pick"
-        value="profile/:email"
+        value= {loggedUserUrl}
         icon={<Person />}
         className={classes.action}
       />

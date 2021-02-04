@@ -114,7 +114,9 @@ function CreateFeed(props) {
           </div>
         </div>
         <div className="content-box">
-          <input
+          <textarea
+            rows="5" 
+            cols="50"
             type="content"
             value={content}
             onChange={onContentHandler}
