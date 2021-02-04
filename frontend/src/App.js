@@ -10,6 +10,7 @@ import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
 import ResetPassword from './views/user/ResetPassword';
 import CreateFeed from "./views/feed/CreateFeed";
 import UserFeedPage from './views/feed/UserFeedPage';
+import MyFeedPage from './views/feed/MyFeedPage';
 import Camera from "./views/feed/Camera";
 import FlipPages from "./views/feed/FlipPages";
 import SignUpComplete from "./views/user/SignUpComplete";
@@ -32,6 +33,7 @@ function App() {
           <Route path="/user/join" exact render={() => <SignUp />}/>
           <Route path="/user/complete" exact render={() => <SignUpComplete />}/>
           <Route path="/profile/:email" render={() => <UserFeedPage />}/>
+          <Route path="/myprofile" render={() => <MyFeedPage />}/>
           <Route path="/user/resetpassword" exact render={() => <ResetPassword />}/>
           <Route path="/user/usersetting" exact render={()=> <UserSetting /> } />
           <Route path="/feed/createfeed" exact render={() => <CreateFeed />}/>

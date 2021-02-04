@@ -80,16 +80,15 @@ function UserFeedPage(props) {
   };
 
   useEffect(() => {
-    console.log("url", window.location.href);
-    let userEmail = props.match.params.email;
-    if (userEmail) {
-      dispatch(getUser(userEmail)).then((res) => {
-        setUsername(JSON.parse(res.payload.data).nickname);
-        setInfo(JSON.parse(res.payload.data).introduction);
-        console.log("info", info);
-      });
-      dispatch(getFeedCalendarByEmail(userEmail));
-    }
+    const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
+    const nickname = JSON.parse(localStorage.getItem("loggedInfo")).nickname;
+    setUsername(nickname);
+    console.log(
+      "hihi",
+      JSON.parse(localStorage.getItem("loggedInfo")).introduction
+    );
+    setInfo(JSON.parse(localStorage.getItem("loggedInfo")).introduction);
+    dispatch(getFeedCalendarByEmail(userEmail));
   }, []);
 
   // STORE에 저장된 FEEDS 가져오기
@@ -110,8 +109,16 @@ function UserFeedPage(props) {
             />
             <h2>{username} </h2>
             {/* Todo: - loginuser라면 띄우기 */}
+
+            <IconButton
+              aria-label="settings"
+              style={{ position: "absolute", right: 0 }}
+              onClick={toggleDrawer(true)}
+            >
+              <MoreVertIcon />
+            </IconButton>
           </ProfileUser>
-          <p>{info}</p>
+          {info ? <p>{info}</p> : <p>한줄평을 작성해 주세요</p>}
         </ProfileInfo>
         {/* 탭바 */}
         <Tabs value={value} onChange={handleChange} variant="fullWidth">
