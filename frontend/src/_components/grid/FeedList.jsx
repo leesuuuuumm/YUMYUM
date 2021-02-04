@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
-import styled from "styled-components";
+import { DOMAIN } from "../../_utils/axios";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -60,9 +60,7 @@ export default function FeedList(props) {
                 <video
                   id="background-video"
                   className={classes.feedVideo}
-                  src={`http://18.191.183.197:8080//single/${
-                    tile.filePath.split("/")[6]
-                  }`}
+                  src={`${DOMAIN}/single/${tile.filePath.split("/")[6]}`}
                   type="video/mp4"
                   width="100%"
                   loop
