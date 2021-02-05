@@ -36,9 +36,9 @@ public class Feed extends TimeEntity {
 	@ManyToOne
 	@JoinColumn(name = "USER_EMAIL")
 	private User user;
-	
+
 	@ManyToOne
-	@JoinColumn(name="PLACE_ID")
+	@JoinColumn(name = "PLACE_ID")
 	private Place place;
 
 	private String filePath;

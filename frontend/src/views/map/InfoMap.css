@@ -1,5 +1,6 @@
 .infomap {
   text-align: center;
+  position: static;
  }
 
 #allmap {
@@ -7,10 +8,11 @@ margin: 0px auto;
 }
 
 .location_icon {
-  position: absolute;
+  position: relative;
+  left: 83%;
+  /* bottom: 13%; */
+  bottom: 75px;
   z-index: 1;
-  left: 82%;
-  bottom: 13%;
   box-shadow : 1px 6px 10px rgba(darken(dodgerblue, 40%));
   transition : all .2s ;
 }

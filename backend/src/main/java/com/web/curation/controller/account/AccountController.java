@@ -1,35 +1,16 @@
 package com.web.curation.controller.account;
 
-import java.util.List;
-import java.util.Optional;
-import javax.validation.Valid;
-
 import com.web.curation.dao.user.UserDao;
-import com.web.curation.model.BasicResponse;
-import com.web.curation.model.user.AuthenticationRequest;
-import com.web.curation.model.user.ChangePasswordRequest;
-import com.web.curation.model.user.UpdateRequest;
-import com.web.curation.model.user.SignupRequest;
-import com.web.curation.model.user.User;
-
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.web.curation.model.user.*;
+//import com.web.curation.service.jwt.JwtService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import javax.validation.Valid;
+import java.util.Optional;
 
 import static com.web.curation.utils.HttpUtils.convertObjToJson;
 import static com.web.curation.utils.HttpUtils.makeResponse;
@@ -39,7 +20,7 @@ import static com.web.curation.utils.HttpUtils.makeResponse;
 //		@ApiResponse(code = 404, message = "Not Found", response = BasicResponse.class),
 //		@ApiResponse(code = 500, message = "Failure", response = BasicResponse.class) })
 
-@CrossOrigin(origins = { "http://localhost:3000" })
+@CrossOrigin(origins = { "http://localhost:3000", "https://i4b101.p.ssafy.io" })
 @RestController
 @RequestMapping("/account")
 public class AccountController {
@@ -47,6 +28,8 @@ public class AccountController {
 	@Autowired
 	private UserDao userDao;
 
+//	@Autowired
+//	private JwtService jwtService;
 	@PostMapping
 	@ApiOperation(value = "회원가입")
 	public Object signup(
@@ -92,6 +75,7 @@ public class AccountController {
 		} else {
 			return makeResponse("400", null, "mismatch", HttpStatus.BAD_REQUEST);
 		}
+
 	}
 
 	@PutMapping("/password")

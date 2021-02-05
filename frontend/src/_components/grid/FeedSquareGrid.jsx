@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import ListSubheader from "@material-ui/core/ListSubheader";
+import { DOMAIN } from "../../_utils/axios";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -24,9 +26,21 @@ const useStyles = makeStyles(() =>
   })
 );
 
-export default function FeedSquareGrid(props) {
+function FeedSquareGrid(props) {
   const classes = useStyles();
   const { title, tileData } = props;
+
+  const goDetail = (tile, index) => {
+    console.log("오지마!");
+    console.log(props);
+    // props.history.push({
+    //   pathname: "/feed/flippages",
+    //   state : {
+    //     index : index,
+    //     tile : tile,
+    //   },
+    // });
+  };
 
   return (
     <div className={classes.root}>
@@ -35,16 +49,17 @@ export default function FeedSquareGrid(props) {
           <ListSubheader component="div">{title}</ListSubheader>
         </GridListTile>
         {tileData &&
-          tileData.map((tile) => (
-            <GridListTile key={tile.id} className={classes.gridtile}>
-              {/* <img src={tile.filePath} alt={tile.title} />
-               */}
+          tileData.map((tile, index) => (
+            <GridListTile
+              key={tile.id}
+              className={classes.gridtile}
+              onClick={() => goDetail(tile, index)}
+            >
               <video
                 id="background-video"
                 className="feedVideo"
-                src={`http://i4b101.p.ssafy.io:8080/single/${
-                  tile.filePath.split("/")[6]
-                }`}
+                // src={`${DOMAIN}/single/${tile.filePath.split("/")[6]}`}
+                src={tile.filePath}
                 type="video/mp4"
                 width="100%"
                 loop
@@ -69,3 +84,5 @@ FeedSquareGrid.propTypes = {
 FeedSquareGrid.defaultProps = {
   tileData: {},
 };
+
+export default withRouter(FeedSquareGrid);

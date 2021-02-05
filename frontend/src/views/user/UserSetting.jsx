@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { getUser, updateUser } from "../../_actions/userAction";
-import './CSS/UserSetting.css';
+import SelectAvatar from "../../_components/icon/SelectAvatar";
+import "./CSS/UserSetting.css";
 
 function UserSetting(props) {
   const [nickname, setNickName] = useState("");
@@ -43,10 +44,14 @@ function UserSetting(props) {
     dispatch(updateUser(config))
       .then((res) => {
         if (res.payload) {
-          console.log(res.payload);
-          alert("유저정보가 변경되었습니다.");
-          // props.history.go(-1);
-          props.history.go(-1);
+          const obj = JSON.parse(res.payload.data);
+          const status = JSON.parse(res.payload.status);
+          console.log("login ojb", obj);
+          console.log("login status", JSON.parse(res.payload.status));
+          if (status == 200) {
+            localStorage.setItem("loggedInfo", JSON.stringify(obj));
+            props.history.go(-1);
+          }
         } else {
           alert("변경 실패");
         }
@@ -62,6 +67,7 @@ function UserSetting(props) {
       <div className="settingContainer">
         <p className="settingTitle">유저 정보 변경</p>
         <div className="input_wrap">
+          {/* <SelectAvatar></SelectAvatar> */}
           <form onSubmit={onSubmitHandeler}>
             <input
               type="text"
@@ -70,7 +76,7 @@ function UserSetting(props) {
               required
               placeholder="닉네임변경하기"
             />
-            <hr className="setting_hr"/>
+            <hr className="setting_hr" />
             <input
               type="text"
               value={introduction}
@@ -78,14 +84,14 @@ function UserSetting(props) {
               required
               placeholder="한줄 소개를 써주세요."
             />
-            <hr className="setting_hr"/>
+            <hr className="setting_hr" />
             <div className="btnContainer">
               <button className="settingButton" type="submit">
                 유저정보 변경하기
               </button>
             </div>
           </form>
-          </div>
+        </div>
       </div>
     </section>
   );

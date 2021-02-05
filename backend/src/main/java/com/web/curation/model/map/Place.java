@@ -27,6 +27,6 @@ public class Place {
 	private String addressName;
 	private String phone;
 	private String placeName;
-	private double y;
-	private double x;
+	private Double y;
+	private Double x;
 }
