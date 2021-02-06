@@ -6,6 +6,7 @@ import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import FeedMap from "./FeedMap.jsx";
 
 const useStyles = makeStyles((theme) => ({
@@ -13,12 +14,15 @@ const useStyles = makeStyles((theme) => ({
     padding: "2px 4px",
     display: "flex",
     alignItems: "center",
-    width: 400,
+    width: '100%',
     margin: "0px auto",
+    backgroundColor : "#8d6e63",
   },
   input: {
     marginLeft: theme.spacing(1),
     flex: 1,
+    fontFamily: "GmarketSansMedium",
+    padding: "3% 0 2%"
   },
   iconButton: {
     padding: 10,
@@ -39,12 +43,20 @@ const SearchBar = () => {
 
   const handleSubmit= (e) => {
     e.preventDefault();
+
+
+    if (searchContent === inputText) {
+      console.log("이걸보내요!")
+    }
+
     if (inputText){
     setSerchContent(inputText);
-    setInputText("");
     } else {
       alert("음식점 이름을 입력해주세요!")
     }
+
+    
+    
   };
 
   return (
@@ -52,7 +64,7 @@ const SearchBar = () => {
       <Paper component="form" className={classes.root} onSubmit={handleSubmit}>
         <Link to="/feed/camera">
           <IconButton className={classes.iconButtonBefore} aria-label="menu">
-            <CameraAltIcon />
+            <NavigateBeforeIcon />
           </IconButton>
         </Link>
         <InputBase
@@ -67,7 +79,6 @@ const SearchBar = () => {
           type="submit"
           className={classes.iconButton}
           aria-label="search"
-          // onClick={searchPlaces}//TODO : 시연 끝나고 이주석으로 다시 변경
         >
           <SearchIcon/>
         </IconButton>

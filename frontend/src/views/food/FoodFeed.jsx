@@ -36,9 +36,7 @@ const FoodFeed = (props) => {
 
   const feeds= useSelector((state) => {
     return JSON.parse(state.map.placeFeedsInfo.data)
-  })
-
-  console.log(feeds)
+  },shallowEqual)
 
   return (
     <>

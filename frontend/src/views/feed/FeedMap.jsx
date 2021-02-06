@@ -62,7 +62,7 @@ const FeedMap = (props) => {
       // 정상적으로 검색이 완료됐으면
       // 검색 목록과 마커를 표출합니다
       displayPlaces(data);
-
+      console.log(status)
       // 페이지 번호를 표출합니다
       // displayPagination(pagination)
     } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
@@ -73,6 +73,7 @@ const FeedMap = (props) => {
       return;
     } else { 
       // displayPlaces(sampleMarkers) //TODO: 이부분 수정해야함 나중에 꼭 지울것
+      console.log('검색에러1')
     }
     
   }
@@ -157,10 +158,10 @@ const FeedMap = (props) => {
           position.place_name +
           "</div>"
       );
+      setDetailPlaceInfo(position);
+      setIsList(false);
       infowindow.open(map, marker);
-
       map.setLevel(3);
-
       map.panTo(placePosition);
     });
 
@@ -274,7 +275,6 @@ const FeedMap = (props) => {
         {isList && (
           <div id="menu_wrap" className="bg_white">
             <div className="option"></div>
-            <hr />
             <ul id="placesList"></ul>
             <div id="pagination"></div>
           </div>

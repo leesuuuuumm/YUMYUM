@@ -1,12 +1,24 @@
 import React, {useState, useEffect}from 'react';
 import PropTypes from "prop-types";
 import { withRouter } from 'react-router-dom';
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import "./MapBottomSheet.css";
 import StorefrontRoundedIcon from '@material-ui/icons/StorefrontRounded';
-
+import {getPlaceFeed} from '../../_actions/mapAction';
 
 const MapBottomSheet = (props) => {
   const { id, placeName, addressName} = props.placeInfo;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getPlaceFeed(id)); 
+  },[])
+
+  const feeds= useSelector((state) => {
+    return JSON.parse(state.map.placeFeedsInfo.data)
+  },shallowEqual)
+
+  console.log(feeds)
 
   const goMapFeed = () => {
     props.history.push({
