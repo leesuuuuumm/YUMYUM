@@ -1,5 +1,3 @@
-
-
 #total {
   width: 100vw;
   height: 100vh;
@@ -12,8 +10,8 @@
 }
 
 #icon-wapper img {
-  margin-top: 30%;
-  margin-left: 8%;
+  display: flex;
+  margin: auto;
   height: 50%;
 }
 
@@ -32,8 +30,9 @@
 #icon-wapper .userAppTitle {
   background-color: #F4D503;
   position: relative;
+  width: 100%;
   height: 10%;
-  padding-left: 30%;
+  text-align: center;
 }
 .catchVideo {
   height: 100%;

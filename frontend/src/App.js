@@ -13,6 +13,7 @@ import UserFeedPage from './views/feed/UserFeedPage';
 import MyFeedPage from './views/feed/MyFeedPage';
 import Camera from "./views/feed/Camera";
 import FlipPages from "./views/feed/FlipPages";
+import FlipPagesUser from "./views/feed/FlipPagesUser";
 import SignUpComplete from "./views/user/SignUpComplete";
 import UserSetting from './views/user/UserSetting';
 import InfoMap from './views/map/InfoMap';
@@ -22,6 +23,7 @@ import BottomTab from './_components/common/BottomTab';
 import FoodFeed from './views/food/FoodFeed';
 import PrivateRoute from '../src/_components/common/PrivateRoute';
 import LoginRoute from '../src/_components/common/LoginRoute';
+import SingleFeed from "../src/views/feed/SingleFeed";
 
 function App() {
   return (
@@ -32,6 +34,7 @@ function App() {
           <LoginRoute exact path="/" component={Login} />
           {/* <PrivateRoute path="/" exact component= {Login} /> */}
           <PrivateRoute exact path="/feed/flippages" component ={FlipPages}/>
+          <PrivateRoute exact path="/feed/flippagesUser" component ={FlipPagesUser}/>
           <Route path="/user/join" exact render={() => <SignUp />}/>
           <Route path="/user/complete" exact render={() => <SignUpComplete />}/>
           <PrivateRoute path="/profile/:email" component={UserFeedPage}/>
@@ -44,6 +47,7 @@ function App() {
           <PrivateRoute exact path='/feed/feedmap' component={SearchBar}/>
           <PrivateRoute exact path="/map/infomap" component={InfoMap} />
           <PrivateRoute exact path="/food/feed" component= {FoodFeed} />
+          <PrivateRoute exact path="/feed/singlefeed" component= {SingleFeed} />
           <Route path="/error" component={ErrorPage} />
           <Route path="*" component={NotFound} />
         </Switch>

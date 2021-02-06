@@ -11,11 +11,12 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 
 function SingleFeed(props) {
-  const { feed } = props
+  const {feed, id, placeName, addressName} = props.location.state;
   const feedUser = feed.user
   const feedDate = feed.createdDate
   const feedURL = feed.filePath.split('/')
   const myVideo = feedURL[6]
+  const feedFilePath = feed.filePath
   const [isOpened, setIsOpened] = useState(false)
   const videoURL = "http://18.191.183.197:8080/single/" + `${myVideo}`
   const userUrl = "/profile/"+ `${feedUser.email}`
@@ -25,12 +26,25 @@ function SingleFeed(props) {
     console.log(isOpened)
   }
 
+  const goBack = () => {
+    console.log(props.location.state)
+    props.history.push({
+      pathname: "/food/feed",
+      state : {
+        id : id,
+        placeName : placeName,
+        addressName : addressName
+      },
+    });
+  }
+
   return (
     <Card id="videobox">
+      <button onClick={goBack}>go!</button>
       <video
         id="background-video"
         className="videoTag"
-        src={ videoURL }
+        src={ feedFilePath }
         type="video/mp4"
         width="100%"
         height="100%"

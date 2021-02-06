@@ -6,7 +6,7 @@ import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
 import ArrowForwardRoundedIcon from '@material-ui/icons/ArrowForwardRounded';
 // import PhotoCameraRoundedIcon from '@material-ui/icons/PhotoCameraRounded';
 
-
+ 
 function Camera() {
   const [source, setSource] = useState("");
   const [formData, setFormData] = useState({})
@@ -63,9 +63,7 @@ function Camera() {
         </div>
       ) : (
         <div id="icon-wapper">
-          
           <label htmlFor="icon-button-file" component="span">
-            {/* <PhotoCameraRoundedIcon /> */}
             <img src= {Quokka} alt="Quokka"/>
           </label>
           <h2 className="userAppTitle">맛을 보여주세요!</h2>

@@ -18,7 +18,6 @@ function FlipPages(props) {
       setFeeds(
         objs.reverse().map((obj) => (
           <Slide>
-            {" "}
             <Feed key={obj.id} feed={obj} />
           </Slide>
         ))
@@ -30,7 +29,11 @@ function FlipPages(props) {
     getFeedDatas();
   }, []);
 
-  return <FullPage>{feeds}</FullPage>;
+  return (
+  <FullPage>
+    {feeds}
+  </FullPage> 
+  )
 }
 
 export default withRouter(FlipPages);
