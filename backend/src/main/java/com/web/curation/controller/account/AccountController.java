@@ -3,6 +3,7 @@ package com.web.curation.controller.account;
 import com.web.curation.dao.user.UserDao;
 import com.web.curation.model.user.*;
 //import com.web.curation.service.jwt.JwtService;
+//import com.web.curation.service.security.PasswordEncoding;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,12 @@ public class AccountController {
 		if (userDao.getUserByNickname(nickname) != null)
 			return makeResponse("400", null, "this nickname already exists", HttpStatus.BAD_REQUEST);
 
-		User user = User.builder().email(email).password(password).nickname(nickname).build();
+		User user = User.builder()
+				.email(email)
+//				.password(PasswordEncoding.getEncoder().encode(password))
+				.password(password)
+				.nickname(nickname)
+				.build();
 
 		User savedUser = userDao.save(user);
 

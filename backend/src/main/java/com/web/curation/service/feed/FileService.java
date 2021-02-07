@@ -30,7 +30,6 @@ public class FileService {
     @Autowired
     private FileDao fileDao;
 
-
     private static final String SAVE_PATH = "/var/www/html/dist/single";
     private static final String PREFIX_URL = "https://i4b101.p.ssafy.io/single/";
 

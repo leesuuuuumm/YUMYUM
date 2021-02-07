@@ -48,7 +48,7 @@ public class FeedController {
 	private PlaceDao placeDao;
 
 	@PostMapping(consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_OCTET_STREAM_VALUE })
-	@ApiOperation(value = "게시글 등록")
+	@ApiOperation(value = "피드 등록")
 	public ResponseEntity<?> create(
 			@ModelAttribute @ApiParam(value = "게시글 등록 시 필요한 정보 (음식명 , 날짜 , 식당이름, 장소 , 점수 , 내용)", required = true) CreateFeedRequest request,
 			@RequestParam("file") @Valid @NotNull @NotEmpty MultipartFile mFile) {
@@ -75,7 +75,12 @@ public class FeedController {
 
 		Place savedPlace = placeDao.save(curPlace.get());
 
-		Feed feed = Feed.builder().title(title).score(score).content(content).user(curUser.get()).filePath(url)
+		Feed feed = Feed.builder()
+				.title(title)
+				.score(score)
+				.content(content)
+				.user(curUser.get())
+				.filePath(url)
 				.place(savedPlace).build();
 
 		Feed savedFeed = feedDao.save(feed);
