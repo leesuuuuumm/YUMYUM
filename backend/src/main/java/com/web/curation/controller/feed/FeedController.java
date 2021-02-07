@@ -71,7 +71,7 @@ public class FeedController {
 				|| score == null || "".equals(content)) {
 			return makeResponse("400", null, "data is blank", HttpStatus.BAD_REQUEST);
 		}
-		String url = fileService.upload(mFile);
+		List<String> urls = fileService.upload(mFile);
 
 		Place savedPlace = placeDao.save(curPlace.get());
 
@@ -80,7 +80,8 @@ public class FeedController {
 				.score(score)
 				.content(content)
 				.user(curUser.get())
-				.filePath(url)
+				.videoPath(urls.get(0))
+				.thumbnailPath(urls.get(1))
 				.place(savedPlace).build();
 
 		Feed savedFeed = feedDao.save(feed);
@@ -91,11 +92,9 @@ public class FeedController {
 	@PostMapping(value = "/video", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	@ApiOperation(value = "동영상 등록")
 	public Object uploadVideo(@RequestParam(value = "file", required = false) MultipartFile multipartFile) {
-		String url = fileService.upload(multipartFile);
+		List<String> urls = fileService.upload(multipartFile);
 
-//		fileService.createThumbnail(url);
-
-		return makeResponse("200", url, "success", HttpStatus.OK);
+		return makeResponse("200", urls.get(0) + " / " + urls.get(1), "success", HttpStatus.OK);
 	}
 
 	@PutMapping
