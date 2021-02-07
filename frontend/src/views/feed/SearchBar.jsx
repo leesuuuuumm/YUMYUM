@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link, withRouter } from "react-router-dom";
 import Paper from "@material-ui/core/Paper";
@@ -32,14 +32,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SearchBar = () => {
+const SearchBar = (props) => {
   const classes = useStyles();
   const [inputText , setInputText] = useState("");
   const [searchContent, setSerchContent] = useState("");
+  const [formData, setFormData] = useState(null);
+  const [source , setSource] = useState(null);
+
+  useEffect(()=>{
+    setFormData(props.location.state.formData);
+  },[])
+
+  useEffect(()=>{
+    setSource(props.location.state.source);
+  },[])
 
   const inputTextHandler = (e) => {
     setInputText(e.currentTarget.value);
-  }  
+  }
 
   const handleSubmit= (e) => {
     e.preventDefault();
@@ -53,16 +63,18 @@ const SearchBar = () => {
     setSerchContent(inputText);
     } else {
       alert("음식점 이름을 입력해주세요!")
-    }
-
-    
-    
+    }    
   };
-
   return (
     <>
       <Paper component="form" className={classes.root} onSubmit={handleSubmit}>
-        <Link to="/feed/camera">
+        <Link to= {{
+          pathname : "/feed/camera",
+          state: {
+            preFormData : formData,
+            preSource: source
+          }
+        }}>
           <IconButton className={classes.iconButtonBefore} aria-label="menu">
             <NavigateBeforeIcon />
           </IconButton>
