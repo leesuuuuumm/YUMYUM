@@ -112,13 +112,13 @@ public class EurekaContoller {
     @GetMapping("/near")
     @ApiOperation(value = "거리 기반으로 유레카 리스트 조회")
     public Object getNearEureka(
-            @Valid @RequestBody @ApiParam(value = "거리 기반 유레카 찾기 위한 정보", required = true) FindNearEurekaRequest request) {
+            @Valid @ModelAttribute @ApiParam(value = "거리 기반 유레카 찾기 위한 정보", required = true) FindNearEurekaRequest request) {
 //		TODO::로그인 되어있는지 확인하는 로직 필요.
 
         List<Eureka> searchList = eurekaDao.findAll();
         List<Eureka> resultList = eurekaService.getNearEurekaList(searchList, request);
 
-        return makeResponse("200", convertObjToJson(resultList), "success" + searchList.size(), HttpStatus.OK);
+        return makeResponse("200", convertObjToJson(resultList), "success" + resultList.size(), HttpStatus.OK);
     }
 
     @GetMapping("/list/{email}")
