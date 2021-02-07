@@ -1,7 +1,8 @@
 #total {
-  width: 100vw;
+  width: 56vh;
   height: 100vh;
   background-color:#F4D503;
+  margin: 0 auto;
 }
 
 #icon-wapper {
@@ -30,8 +31,7 @@
 #icon-wapper .userAppTitle {
   background-color: #F4D503;
   position: relative;
-  width: 100%;
-  height: 10%;
+  height: 10vh;
   text-align: center;
 }
 .catchVideo {

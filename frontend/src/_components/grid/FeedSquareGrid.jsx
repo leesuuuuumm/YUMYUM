@@ -31,16 +31,7 @@ function FeedSquareGrid(props) {
   const { title, tileData } = props;
 
   const goDetail = (tile, index) => {
-    if (props.match.path ==="/profile/:email") {
-      props.history.push({
-        pathname: "/feed/flippagesUser",
-        state : {
-          index : index,
-          email : tile.user.email,
-        },
-      });
-    } else {
-      console.log(props.location.state)
+    if (props.match.path ==="/food/feed") {
       const {id, placeName, addressName } = props.location.state;
       props.history.push({
         pathname: "/feed/singlefeed",
@@ -51,6 +42,14 @@ function FeedSquareGrid(props) {
           addressName : addressName
         },
       });
+    } else {
+      props.history.push({
+        pathname: "/feed/flippagesUser",
+        state : {
+          index : index,
+          email : tile.user.email,
+        },
+      });  
     }
   };
 
