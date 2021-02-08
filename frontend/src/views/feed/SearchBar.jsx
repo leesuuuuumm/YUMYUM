@@ -19,16 +19,17 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor : "#8d6e63",
   },
   input: {
-    marginLeft: theme.spacing(1),
+    marginLeft: "3%",
     flex: 1,
     fontFamily: "GmarketSansMedium",
-    padding: "3% 0 2%"
+    padding: "2% 0 2%"
   },
   iconButton: {
-    padding: 10,
+    padding: "2%",
   },
   iconButtonBefore: {
-    padding: 10,
+    padding: 0,
+    marginLeft:"20%"
   },
 }));
 
