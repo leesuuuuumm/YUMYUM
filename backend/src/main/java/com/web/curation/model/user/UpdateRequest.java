@@ -9,10 +9,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class UpdateRequest {
-    
-    String email;
     String introduction;
     String nickname;
-	
-    
 }
