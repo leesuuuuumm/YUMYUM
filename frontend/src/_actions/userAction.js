@@ -22,8 +22,9 @@ export function loginUser(dataToSubmit) {
   }
 
 
-export function resetPassword(dataToSubmit) {
-  const data = request("put", USER_URL + "/password/", dataToSubmit);
+export function resetPassword(dataToSubmit, config) {
+  const data = request("put", USER_URL + "/password/", dataToSubmit, config);
+  console.log(data)
   return {
     type: RESETPASSWORD_USER,
     payload: data,

@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { resetPassword } from "../../_actions/userAction";
 import { withRouter } from "react-router-dom";
 import './CSS/ResetPassword.css'
+import { setToken } from "../../_utils/setToken";
 
 function ResetPassword(props) {
   const [Password, setPassword] = useState("");
@@ -39,13 +40,12 @@ function ResetPassword(props) {
   const onSubmitHandler = (e) => {
     e.preventDefault();
     if (NewPassword === ConfirmPassword) {
-      console.log(localStorage.getItem("loggedInfo").email);
+      const token = setToken()
       let body = {
-        email: email,
         password: Password,
         newPassword: NewPassword,
       };
-      dispatch(resetPassword(body))
+      dispatch(resetPassword(body, token))
         .then((res) => {
           console.log(res);
           if (res.payload) {
