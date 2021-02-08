@@ -68,6 +68,8 @@ function UserFeedPage(props) {
     setValue(newValue);
   };
 
+  console.log(props)
+
   // Modal toggle 함수
   const toggleDrawer = (isOpen) => (event) => {
     if (

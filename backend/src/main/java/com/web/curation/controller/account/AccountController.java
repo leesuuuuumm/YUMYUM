@@ -7,13 +7,17 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
+import static com.web.curation.service.jwt.JwtServiceImpl.logger;
 import static com.web.curation.utils.HttpUtils.convertObjToJson;
 import static com.web.curation.utils.HttpUtils.makeResponse;
 
@@ -70,7 +74,7 @@ public class AccountController {
       // 로그인 했을 때 유저 정보(이메일, 닉네임) 보내주기
       if (curUser.isPresent()) {
          //토큰생성
-         String token=jwtService.create("email", curUser.get().getEmail(),"Authorization");
+         String token = jwtService.create("email", curUser.get().getEmail(),"Authorization");
 
          return makeResponse("200", token, "success", HttpStatus.OK);
       } else {
@@ -81,13 +85,12 @@ public class AccountController {
    @PutMapping("/password")
    @ApiOperation(value = "비밀번호 변경")
    public Object changePassword(
-         @Valid @RequestBody @ApiParam(value = "비밀번호 변경 시 필요한 회원정보(이메일, 기존 비밀번호, 새 비밀번호).", required = true)  ChangePasswordRequest request, HttpServletRequest http) {
+         @Valid @RequestBody @ApiParam(value = "비밀번호 변경 시 필요한 회원정보(이메일, 기존 비밀번호, 새 비밀번호).", required = true) ChangePasswordRequest request, HttpServletRequest http) {
       //이메일 안줬어 토큰만줬어 프론트에서
-      Enumeration<String> jwts = http.getHeaders("Authorization");
-      String jwt = http.getHeader("Authorization");
-      String userEmail = jwtService.getUserEmail();
+//      Enumeration<String> jwts = http.getHeaders("Authorization");
+//      String jwt = http.getHeader("Authorization");
+      String userEmail = request.getUserEmail();
       Optional<User> curUser = userDao.findByEmail(userEmail);
-      System.out.println(jwtService.getUserEmail());
 
       if (!curUser.isPresent()) {
          return makeResponse("404", null, "user not found", HttpStatus.NOT_FOUND);
@@ -130,20 +133,29 @@ public class AccountController {
       return makeResponse("200", convertObjToJson(updateUser), "success", HttpStatus.OK);
    }
 
-   @GetMapping//("/{email}")
+   @GetMapping("/{email}")
    @ApiOperation(value = "회원 조회")
-   public Object getDetailInfo(@Valid @ApiParam(value = "회원 정보 조회", required = true)
-//                           @PathVariable String email,
-          HttpServletRequest request) {
-      //jwt에 대한 인증과정을 거치는 이유
+   public Object getDetailInfo(@PathVariable("email") @ApiParam(value = "인증할 회원의 아이디.", required = true) String email, HttpServletRequest request) {
+      // jwt에 대한 인증과정을 거치는 이유
       // 회원정보조회 이렇게 하면 안되는 이유 -> url만 바꿔주면 남의 정보를 얻게되잖아
       // 아예 email을 배제한체 그냥 토큰만 받을거야
       // 토큰 받아서 너가 디코드해서 (jwtService.getEmail)해서 쓸거야
-//      String token = request.getHeader("access-token");
-      String email=jwtService.getUserEmail();
-      Optional<User> curUser = userDao.findById(email);
-      if (!curUser.isPresent()) {
-         return makeResponse("404", null, "user not found", HttpStatus.NOT_FOUND);
+      // String token = request.getHeader("access-token");
+      HttpStatus status = HttpStatus.ACCEPTED;
+      Optional<User> curUser = null;
+      if (jwtService.isUsable(request.getHeader("access-token"))) {
+         logger.info("사용 가능한 토큰!!!");
+         try {
+            // 로그인 사용자 정보.
+            curUser = userDao.findById(email);
+            status = HttpStatus.ACCEPTED;
+         } catch (Exception e) {
+            logger.error("정보조회 실패 : {}", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+         }
+      } else {
+         logger.error("사용 불가능 토큰!!!");
+         status = HttpStatus.ACCEPTED;
       }
 
       return makeResponse("200", convertObjToJson(curUser.get()), "success", HttpStatus.OK);
@@ -160,6 +172,6 @@ public class AccountController {
 
       userDao.delete(curUser.get());
 
-         return makeResponse("200", curUser.get().getEmail(), "success", HttpStatus.OK);
-            }
+      return makeResponse("200", curUser.get().getEmail(), "success", HttpStatus.OK);
+   }
 }

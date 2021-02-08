@@ -1,6 +1,7 @@
 import { CREATE_FEED, GET_FEED, DELETE_FEED, GET_FEEDCALENDAR_BY_EMAIL, CREATE_VIDEO, GET_FEEDS } from './types';
 import { request } from "../_utils/axios";
-
+import { setToken } from "../../src/_utils/setToken"
+const config = setToken()
 
 const FEED_URL = '/feed';
 
@@ -25,7 +26,7 @@ export function getFeed(dataToSubmit) {
 
 // 모든 feed list
 export function getAllFeed() {
-    const data = request("get", FEED_URL + `/list`);
+    const data = request("get", FEED_URL + `/list`, {}, config);
     return {
       type: GET_FEEDS,
       payload: data,
@@ -56,7 +57,7 @@ export function createVideo(dataToSubmit) {
 // user의 feed를 날짜별로 요청
 export function getFeedCalendarByEmail(dataToSubmit) {
   const email = dataToSubmit
-  const data = request("get", FEED_URL + `/list/${email}`);
+  const data = request("get", FEED_URL + `/list/${email}`, {}, config);
   return {
     type: GET_FEEDCALENDAR_BY_EMAIL,
     payload: data,

@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { resetPassword } from "../../_actions/userAction";
 import { withRouter } from "react-router-dom";
 import './CSS/ResetPassword.css'
-import { setToken } from "../../_utils/setToken";
+import { getEmail } from "../../_utils/setToken"
 
 function ResetPassword(props) {
   const [Password, setPassword] = useState("");
@@ -30,22 +30,22 @@ function ResetPassword(props) {
   };
 
   useEffect(() => {
-    const loggedInfo = localStorage.getItem("loggedInfo");
+    const token = localStorage.getItem("access-token");
 
-    if (loggedInfo) {
-      setEmail(loggedInfo.email);
+    if (token) {
+      setEmail(getEmail());
     }
   }, []);
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
     if (NewPassword === ConfirmPassword) {
-      const token = setToken()
       let body = {
+        userEmail: getEmail(),
         password: Password,
         newPassword: NewPassword,
       };
-      dispatch(resetPassword(body, token))
+      dispatch(resetPassword(body))
         .then((res) => {
           console.log(res);
           if (res.payload) {

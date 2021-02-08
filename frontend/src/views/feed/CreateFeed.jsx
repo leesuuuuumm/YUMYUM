@@ -32,7 +32,7 @@ function CreateFeed(props) {
     setContent(e.currentTarget.value);
   };
   const onLoggedUser = (e) => {
-    setLoggedUser(localStorage.getItem("loggedInfo"));
+    setLoggedUser(localStorage.getItem("access-token"));
   };
   const ratingChanged = (newRating) => {
     setScore(newRating);

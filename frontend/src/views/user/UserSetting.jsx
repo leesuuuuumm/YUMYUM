@@ -12,9 +12,9 @@ function UserSetting(props) {
   const dispatch = useDispatch();
   //TODO 닉네임이랑, 한줄내용을 서버에  보내주는 로직을 작성해야한다.
   useEffect(() => {
-    const loggedInfo = localStorage.getItem("loggedInfo");
-    const emailInfo = loggedInfo.email;
-    dispatch(getUser(emailInfo)).then((res) => {
+    const token = localStorage.getItem("access-token");
+    const email = token.email;
+    dispatch(getUser(email)).then((res) => {
       const userInfo = JSON.parse(res.payload.data);
       setNickName(userInfo.nickname);
       setEmail(userInfo.email);
@@ -46,10 +46,10 @@ function UserSetting(props) {
         if (res.payload) {
           const obj = JSON.parse(res.payload.data);
           const status = JSON.parse(res.payload.status);
-          console.log("login ojb", obj);
-          console.log("login status", JSON.parse(res.payload.status));
+          // console.log("login ojb", obj);
+          // console.log("login status", JSON.parse(res.payload.status));
           if (status == 200) {
-            localStorage.setItem("loggedInfo", JSON.stringify(obj));
+            localStorage.setItem("access-token", JSON.stringify(obj));
             props.history.go(-1);
           }
         } else {

@@ -21,7 +21,7 @@ const ModalList = () => {
   };
 
   const logout = () => {
-    localStorage.removeItem("loggedInfo");
+    localStorage.removeItem("access-token");
     history.push("");
   };
 

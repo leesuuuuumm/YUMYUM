@@ -20,6 +20,7 @@ import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
 import girl from "../../_assets/shoutIcon/girl.svg";
 import "./CSS/UserFeedPage.css";
+import { getEmail } from "../../_utils/setToken"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -80,14 +81,8 @@ function UserFeedPage(props) {
   };
 
   useEffect(() => {
-    const userEmail = localStorage.getItem("loggedInfo").email;
-    const nickname = localStorage.getItem("loggedInfo").nickname;
-    setUsername(nickname);
-    // console.log(
-    //   "hihi",
-    //   localStorage.getItem("loggedInfo").introduction
-    // );
-    setInfo(localStorage.getItem("loggedInfo").introduction);
+    const userEmail = getEmail()
+    console.log(userEmail)
     dispatch(getFeedCalendarByEmail(userEmail));
   }, []);
 
