@@ -100,7 +100,7 @@ function UserFeedPage(props) {
   return (
     <div>
       {/* 유저 프로필 상단 */}
-      <AppBar position="static" color="primary">
+      <AppBar color="primary" className="userAppBar">
         <ProfileInfo>
           <ProfileUser>
             <Avatar
@@ -111,7 +111,7 @@ function UserFeedPage(props) {
             <h2>{username} </h2>
             {/* Todo: - loginuser라면 띄우기 */}
           </ProfileUser>
-          <p>{info}</p>
+          {info ? <p>{info}</p> : <p><br></br></p>}
         </ProfileInfo>
         {/* 탭바 */}
         <Tabs value={value} onChange={handleChange} variant="fullWidth">

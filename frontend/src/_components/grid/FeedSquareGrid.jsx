@@ -14,6 +14,8 @@ const useStyles = makeStyles(() =>
       flexWrap: "wrap",
       justifyContent: "space-around",
       overflow: "hidden",
+      // paddingTop: "160.8px",
+      // paddingBottom: "71.438px"
     },
     gridList: {
       width: 100 + "%",
@@ -28,8 +30,7 @@ const useStyles = makeStyles(() =>
 
 function FeedSquareGrid(props) {
   const classes = useStyles();
-  const { title, tileData } = props;
-
+  const { title, tileData, navheight } = props;
   const goDetail = (tile, index) => {
     if (props.match.path ==="/food/feed") {
       const {id, placeName, addressName } = props.location.state;
@@ -54,7 +55,7 @@ function FeedSquareGrid(props) {
   };
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{ paddingTop : navheight }}>
       <GridList cellHeight={100} className={classes.gridList} cols={3}>
         <GridListTile key="Subheader" cols={3} style={{ height: 3 + "rem" }}>
           <ListSubheader component="div">{title}</ListSubheader>
