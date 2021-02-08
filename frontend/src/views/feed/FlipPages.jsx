@@ -10,7 +10,7 @@ import Slide from "../../_components/pagecomponents/Slide";
 function FlipPages(props) {
   const [feeds, setFeeds] = useState([]);
   const [allFeeds, setAllFeeds] = useState([]);
-  const [nowPages, setNowPages] = useState(1);
+  const [nowPages, setNowPages] = useState(5);
   const [fetching, setFetching] = useState(false); 
   const dispatch = useDispatch();
 
@@ -18,7 +18,7 @@ function FlipPages(props) {
     dispatch(getAllFeed()).then((res) => {
       const objs = JSON.parse(res.payload.data);
       console.log(objs, "전체")
-      const part = objs.slice(0, 10)
+      const part = objs.slice(0, 5)
       setAllFeeds(objs)
       setFeeds(
         part.reverse().map((obj) => (
@@ -33,7 +33,7 @@ function FlipPages(props) {
   
   const fetchMoreFeeds = async () => {
     setFetching(true);
-    const fetchedData = allFeeds.slice(nowPages*10, (nowPages+1)*10)
+    const fetchedData = allFeeds.slice(nowPages, (nowPages+1))
     const addFeeds = (
       fetchedData.reverse().map((obj) => (
         <Slide>
