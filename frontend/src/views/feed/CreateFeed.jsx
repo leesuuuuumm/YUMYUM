@@ -20,6 +20,7 @@ function CreateFeed(props) {
 
   useEffect(() => {
     onLoggedUser();
+    console.log(props.location.state)
   }, []);
 
   const dispatch = useDispatch();
@@ -126,7 +127,12 @@ function CreateFeed(props) {
 
         <div id="feed-button-wapper">
           <a id="goback">
-            <Link to="/feed/camera">
+            <Link to={{
+              pathname:"/feed/feedmap",
+              state: {
+                createFormData: formData,
+              }
+            }}>
               <ArrowBackRoundedIcon fontSize="large" color="disabled" />
             </Link>
           </a>

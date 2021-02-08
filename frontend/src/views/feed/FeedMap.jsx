@@ -18,6 +18,7 @@ const FeedMap = (props) => {
   const [center, setCenter] = useState(null); //현재 위치의 경도,위도가 저장된 변수
   const [detailPlaceInfo, setDetailPlaceInfo] = useState(null); // 선택한 장소의 정보를 담아두는 변수
   const [formData, setFormData] = useState(null);
+  const [createFormData, setCreateFormData] = useState(null);
 
   useEffect(() => {
     createMap();
@@ -25,6 +26,10 @@ const FeedMap = (props) => {
 
   useEffect(() => {
     setFormData(props.location.state.formData);
+  },[])
+
+  useEffect(() =>{
+    setCreateFormData(props.location.state.createFormData);
   },[])
 
   useEffect(() => {
@@ -62,7 +67,7 @@ const FeedMap = (props) => {
       // 정상적으로 검색이 완료됐으면
       // 검색 목록과 마커를 표출합니다
       displayPlaces(data);
-
+      console.log(status)
       // 페이지 번호를 표출합니다
       // displayPagination(pagination)
     } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
@@ -73,6 +78,7 @@ const FeedMap = (props) => {
       return;
     } else { 
       // displayPlaces(sampleMarkers) //TODO: 이부분 수정해야함 나중에 꼭 지울것
+      console.log('검색에러1')
     }
     
   }
@@ -157,10 +163,10 @@ const FeedMap = (props) => {
           position.place_name +
           "</div>"
       );
+      setDetailPlaceInfo(position);
+      setIsList(false);
       infowindow.open(map, marker);
-
       map.setLevel(3);
-
       map.panTo(placePosition);
     });
 
@@ -243,13 +249,23 @@ const FeedMap = (props) => {
   // 리뷰작성 페이지로 넘기고 장소 정보를 함께 담아서 보내는 함수.
   function sendPlaceInfo() {
     if (detailPlaceInfo) {
-        props.history.push({
-          pathname: "/feed/createfeed",
-          state: {
-            detailPlace: detailPlaceInfo,
-            formData: formData,
-          },
-        });
+        if (createFormData){
+            props.history.push({
+              pathname: "/feed/createfeed",
+              state: {
+                detailPlace: detailPlaceInfo,
+                formData: createFormData,
+              },
+            })
+        } else {
+          props.history.push({
+            pathname: "/feed/createfeed",
+            state: {
+              detailPlace: detailPlaceInfo,
+              formData: formData,
+            },
+          })
+        };
     } else {
       alert("식당을 알려주세요!")
     }
@@ -274,7 +290,6 @@ const FeedMap = (props) => {
         {isList && (
           <div id="menu_wrap" className="bg_white">
             <div className="option"></div>
-            <hr />
             <ul id="placesList"></ul>
             <div id="pagination"></div>
           </div>

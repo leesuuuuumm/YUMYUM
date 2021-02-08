@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, withRouter } from "react-router-dom";
 import Quokka from "../../_assets/quokkaCamera.png";
 import "./CSS/Camera.css"
@@ -6,8 +6,8 @@ import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
 import ArrowForwardRoundedIcon from '@material-ui/icons/ArrowForwardRounded';
 // import PhotoCameraRoundedIcon from '@material-ui/icons/PhotoCameraRounded';
 
- 
-function Camera() {
+
+function Camera(props) {
   const [source, setSource] = useState("");
   const [formData, setFormData] = useState({})
   
@@ -19,10 +19,17 @@ function Camera() {
         const formData = new FormData();
         formData.append('file', file);
         setSource(newUrl);     
-        setFormData(formData)
+        setFormData(formData);
       }
     }
   };
+
+  useEffect(()=>{
+    if (props.location.state){
+    setFormData(props.location.state.preFormData)
+    setSource(props.location.state.preSource)
+    }
+  },[props.location.state])
 
   const sourceClear = () => {
     setSource("")
@@ -53,9 +60,10 @@ function Camera() {
                 pathname: "/feed/feedmap",
                 state: {
                   formData: formData,
+                  source: source 
                 }
               }}> 
-                <ArrowForwardRoundedIcon  fontSize="small" color="disabled"/>
+                <ArrowForwardRoundedIcon  fontSize="small" color="disabled" />
                 <h3 id="nextText">Next</h3>
               </Link>
             </button>

@@ -28,4 +28,7 @@ export const displayMarkerNow = (locPosition, map, message) => {
     map.setLevel(3);
     bounds.extend(locPosition);
     map.setBounds(bounds);
+    
+    const nowInfo = [marker, infowindow]
+    return nowInfo 
 }

@@ -41,6 +41,8 @@ const InfoMap = (props) => {
   const [isLocation, setIsLocation] = useState(false);
   const [isdisplayMarkers, setdisplayMarkers] = useState(false);
   const [isgetPlaces, setIsGetPlaces] = useState(false);
+  const [nowMarker, setNowMarker] = useState(null);
+
   const dispatch = useDispatch();
 
   //지도를 불러오는 로직
@@ -59,6 +61,10 @@ const InfoMap = (props) => {
     map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
     setCreateMap(map);
     setdisplayMarkers(true);
+
+    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+      setPlace(null)
+    });
   };
   //지도에 모든 마커를 뽑아주는 함수 
   const displayAllMarkers = React.useCallback(() => {
@@ -80,7 +86,8 @@ const InfoMap = (props) => {
         bounds.extend(placePosition);
 
           kakao.maps.event.addListener(marker, "click", function () {
-            
+            removeNowmarker();
+
             setPlace(markers[i]);
             infowindow.setContent(
               '<div style="padding:5px;font-size:12px;">' +
@@ -109,7 +116,7 @@ const InfoMap = (props) => {
           message = '<div style="padding:5px;">현재 위치</div>'; // 인포윈도우에 표시될 내용입니다
 
         // 마커와 인포윈도우를 표시합니다
-        displayMarkerNow(locPosition, map ,message);
+        setNowMarker(displayMarkerNow(locPosition, map ,message));
       });
     } else {
       // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
@@ -120,6 +127,11 @@ const InfoMap = (props) => {
       displayMarkerNow(locPosition, map, message);
     }
   };
+
+  function removeNowmarker() {
+    nowMarker[0].setMap(null);
+    nowMarker[1].close(map,nowMarker[0]);
+  }
 
   function getPlaces() {
     setIsLocation(true)
@@ -165,10 +177,8 @@ const InfoMap = (props) => {
     <div className="infomap">
       <div id="allmap" style={{ width: "100vw", height: "83vh" }}></div>
     </div>
-    <div>
       <MyLocationIcon  className="location_icon" fontSize="large" onClick={nowLocation} color = "primary" />
       {place && <MapBottomSheet placeInfo={place}/>}
-    </div>
     </>
   );
 };

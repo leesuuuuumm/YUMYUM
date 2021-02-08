@@ -28,11 +28,9 @@ function BottomTab(props) {
   const [loggedUserUrl, setLoggedUserUrl] = useState("");
   const history = useHistory();
 
-  console.log(props.history.location.pathname);
   const handleChange = (event, newValue) => {
     history.push(`${newValue}`);
     setValue(newValue);
-    console.log("????되나?");
     // setValue("");
   };
 
