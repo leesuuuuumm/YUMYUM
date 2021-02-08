@@ -6,6 +6,6 @@
   min-height: 48px;
 }
 
-.userAppBar {
+#userAppBar {
   position: fixed;
 }

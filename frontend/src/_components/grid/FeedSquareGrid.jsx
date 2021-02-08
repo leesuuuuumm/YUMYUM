@@ -15,7 +15,7 @@ const useStyles = makeStyles(() =>
       justifyContent: "space-around",
       overflow: "hidden",
       // paddingTop: "160.8px",
-      // paddingBottom: "71.438px"
+      paddingBottom: "71.438px"
     },
     gridList: {
       width: 100 + "%",
