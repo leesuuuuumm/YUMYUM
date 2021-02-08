@@ -31,15 +31,26 @@ function FeedSquareGrid(props) {
   const { title, tileData } = props;
 
   const goDetail = (tile, index) => {
-    console.log("오지마!");
-    console.log(props);
-    // props.history.push({
-    //   pathname: "/feed/flippages",
-    //   state : {
-    //     index : index,
-    //     tile : tile,
-    //   },
-    // });
+    if (props.match.path ==="/food/feed") {
+      const {id, placeName, addressName } = props.location.state;
+      props.history.push({
+        pathname: "/feed/singlefeed",
+        state : {
+          id : id,
+          placeName : placeName,
+          feed : tile,
+          addressName : addressName
+        },
+      });
+    } else {
+      props.history.push({
+        pathname: "/feed/flippagesUser",
+        state : {
+          index : index,
+          email : tile.user.email,
+        },
+      });  
+    }
   };
 
   return (

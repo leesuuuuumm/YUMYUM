@@ -1,33 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import "./CSS/FlipPages.css";
 import Feed from "./Feed"
-import { getAllFeed } from "../../_actions/feedAction";
+import { getFeedCalendarByEmail } from "../../_actions/feedAction";
 import { useDispatch } from "react-redux";
 import FullPage from '../../_components/pagecomponents/FullPage';
 import Slide  from '../../_components/pagecomponents/Slide';
 import { withRouter } from 'react-router-dom';
 
 function FlipPagesUser(props) {
+  const [flipPages, SetFlipPages] = useState();
   const [feeds, setFeeds] = useState([]);
+  const [idx, setIdx] = useState([]);
   const dispatch = useDispatch();
+  const {index} = props.location.state;
 
-  const getFeedDatas = (e) => {
-    dispatch(getAllFeed())
+  const getFeedDatas = (email) => {
+    dispatch(getFeedCalendarByEmail(email))
     .then((res) => {
       const objs = JSON.parse(res.payload.data);
-      console.log(objs)
-      setFeeds(objs.reverse().map(obj => (<Slide> <Feed key={obj.id} feed={obj} /></Slide>)))
+      console.log(objs, "objs")
+      const feed = objs.map(obj => (<Slide> <Feed key={obj.id} feed={obj} /></Slide>))
+      SetFlipPages( <FullPage initialSlide={idx} duration={500}> {feed} </FullPage>)
     })
   };
 
-  useEffect(() => {    
-    getFeedDatas();
+
+  useEffect(() => {  
+    const {index, email} = props.location.state;
+    console.log(index)
+    idx.push(index)
+    console.log(idx)
+    getFeedDatas(email);
   }, []);
 
   return (
-    <FullPage initialSlide={5}>
-      {feeds}
-    </FullPage>    
+    <div>
+      {flipPages}  
+    </div>
   );
 };
 

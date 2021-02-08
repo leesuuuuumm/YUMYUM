@@ -29,60 +29,50 @@ function Feed(props) {
 
   return (
     <Card id="videobox">
-      <video
-        id="background-video"
-        className="videoTag"
-        // src={ videoURL }
-        src={ feedFilePath }
-        type="video/mp4"
-        width="100%"
-        height="100%"
-        autoPlay
-        loop
-        muted
-      />
-    <div id="textbox">
-      <CardContent onClick={openHandler}>
-        <h1> <FastfoodRoundedIcon id="foodIcon"/> {feed.title} </h1>
-        <a href="">
-          <Link to={{
-                pathname: `${userUrl}`,
-                state: {
-                  nickname: feedUser.nickname,
-                }
-              }}> 
-            <h6> By. {feedUser.nickname} </h6>
-          </Link>
-        </a>
-        <br/>
-        <div className="stars">
-          <ReactStars size={15} edit={false} value={feed.score} />
-        </div>
-      </CardContent>
-      <br/>
-      {/* <CardActions disableSpacing>
-        <IconButton
-          onClick={openHandler}
-        >
-          <ExpandMoreIcon id="scrollDown" />
-        </IconButton>
-      </CardActions> */}
-      <Collapse isOpened={isOpened}>
-        <div className="inblock">
-          <LocalDiningRoundedIcon id="nameIcon" fontSize="small"/> 
-          <h4> {feed.place.placeName} </h4>
-          <div>
-            <StorefrontRoundedIcon id="storeIcon" fontSize="small" />
-            <h5> {feed.place.addressName} </h5>
-            <h5> {feedDate.year}.{feedDate.month.slice(0,3)}.{feedDate.dayOfMonth} / {feedDate.dayOfWeek.slice(0,3)}  </h5>
+        <video
+          className="videoTag"
+          src={ feedFilePath }
+          type="video/mp4"
+          height="100%"
+          autoPlay
+          loop
+          muted
+        />
+        <div id="textbox">
+          <CardContent onClick={openHandler}>
+            <h1> <FastfoodRoundedIcon id="foodIcon"/> {feed.title} </h1>
+            <a href="">
+            <Link to={{
+                  pathname: `${userUrl}`,
+                  state: {
+                    nickname: feedUser.nickname,
+                  }
+                }}> 
+              <h6> By. {feedUser.nickname} </h6>
+            </Link>
+          </a>
+          <br/>
+          <div className="stars">
+            <ReactStars size={15} edit={false} value={feed.score} />
           </div>
-          <hr id="second_line"/>
-            <br />
-          <TextsmsRoundedIcon id="commentIcon"/>
-            <h3> " {feed.content} " </h3>
-        </div>
-      </Collapse>
-    </div>
+        </CardContent>
+        <br/>
+        <Collapse isOpened={isOpened}>
+          <div className="inblock">
+            <LocalDiningRoundedIcon id="nameIcon" fontSize="small"/> 
+            <h4> {feed.place.placeName} </h4>
+            <div>
+              <StorefrontRoundedIcon id="storeIcon" fontSize="small" />
+              <h5> {feed.place.addressName} </h5>
+              <h5> {feedDate.year}.{feedDate.month.slice(0,3)}.{feedDate.dayOfMonth} / {feedDate.dayOfWeek.slice(0,3)}  </h5>
+            </div>
+            <hr id="second_line"/>
+              <br />
+            <TextsmsRoundedIcon id="commentIcon"/>
+              <h3> " {feed.content} " </h3>
+          </div>
+        </Collapse>
+      </div>
   </Card>
   );
 }

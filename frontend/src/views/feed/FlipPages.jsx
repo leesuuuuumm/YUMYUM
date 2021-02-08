@@ -9,16 +9,20 @@ import Slide from "../../_components/pagecomponents/Slide";
 
 function FlipPages(props) {
   const [feeds, setFeeds] = useState([]);
+  const [allFeeds, setAllFeeds] = useState([]);
+  const [nowPages, setNowPages] = useState(5);
+  const [fetching, setFetching] = useState(false); 
   const dispatch = useDispatch();
 
   const getFeedDatas = (e) => {
     dispatch(getAllFeed()).then((res) => {
       const objs = JSON.parse(res.payload.data);
-      console.log(objs);
+      console.log(objs, "전체")
+      const part = objs.slice(0, 5)
+      setAllFeeds(objs)
       setFeeds(
-        objs.reverse().map((obj) => (
+        part.reverse().map((obj) => (
           <Slide>
-            {" "}
             <Feed key={obj.id} feed={obj} />
           </Slide>
         ))
@@ -26,11 +30,48 @@ function FlipPages(props) {
     });
   };
 
+  
+  const fetchMoreFeeds = async () => {
+    setFetching(true);
+    const fetchedData = allFeeds.slice(nowPages, (nowPages+1))
+    const addFeeds = (
+      fetchedData.reverse().map((obj) => (
+        <Slide>
+          <Feed key={obj.id} feed={obj} />
+        </Slide>
+      ))
+    );
+    const mergedData = feeds.concat(...addFeeds);
+    setFeeds(mergedData);
+    setNowPages(nowPages + 1)
+    setFetching(false);
+  };
+  
+  const handleScroll = () => {
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = document.documentElement.scrollTop;
+    const clientHeight = document.documentElement.clientHeight;
+    if (scrollTop + clientHeight + 100 >= scrollHeight && fetching === false) {
+      fetchMoreFeeds();
+    }
+   };
+  
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  });
+
   useEffect(() => {
     getFeedDatas();
   }, []);
 
-  return <FullPage>{feeds}</FullPage>;
+  return (
+  <FullPage>
+    {feeds}
+  </FullPage> 
+  )
 }
 
 export default withRouter(FlipPages);
