@@ -12,7 +12,7 @@ function UserSetting(props) {
   const dispatch = useDispatch();
   //TODO 닉네임이랑, 한줄내용을 서버에  보내주는 로직을 작성해야한다.
   useEffect(() => {
-    const loggedInfo = JSON.parse(localStorage.getItem("loggedInfo"));
+    const loggedInfo = localStorage.getItem("loggedInfo");
     const emailInfo = loggedInfo.email;
     dispatch(getUser(emailInfo)).then((res) => {
       const userInfo = JSON.parse(res.payload.data);

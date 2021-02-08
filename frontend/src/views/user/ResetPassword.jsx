@@ -33,7 +33,7 @@ function ResetPassword(props) {
     const loggedInfo = localStorage.getItem("loggedInfo");
 
     if (loggedInfo) {
-      setEmail(JSON.parse(loggedInfo).email);
+      setEmail(loggedInfo.email);
     }
   }, []);
 

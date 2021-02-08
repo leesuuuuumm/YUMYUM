@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // export const DOMAIN = 'https://i4b101.p.ssafy.io'
-// const PORT = ':9090/'
+// const PORT = ':9090'
 export const DOMAIN = 'http://localhost'
 const PORT = ':8080'
 

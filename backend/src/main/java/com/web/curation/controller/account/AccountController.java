@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Enumeration;
 import java.util.Optional;
 
 import static com.web.curation.utils.HttpUtils.convertObjToJson;
@@ -69,9 +70,9 @@ public class AccountController {
       // 로그인 했을 때 유저 정보(이메일, 닉네임) 보내주기
       if (curUser.isPresent()) {
          //토큰생성
-         String token=jwtService.create("email",curUser.get().getEmail(),"access-token");
+         String token=jwtService.create("email", curUser.get().getEmail(),"access-token");
 
-         return makeResponse("200", convertObjToJson(token), "success", HttpStatus.OK);
+         return makeResponse("200", token, "success", HttpStatus.OK);
       } else {
          return makeResponse("400", null, "mismatch", HttpStatus.BAD_REQUEST);
       }
@@ -82,7 +83,8 @@ public class AccountController {
    public Object changePassword(
          @Valid @RequestBody @ApiParam(value = "비밀번호 변경 시 필요한 회원정보(이메일, 기존 비밀번호, 새 비밀번호).", required = true)  ChangePasswordRequest request, HttpServletRequest http) {
       //이메일 안줬어 토큰만줬어 프론트에서
-      System.out.println(request.get());
+      Enumeration<String> jwts = http.getHeaders("Authorization");
+      String jwt = http.getHeader("Authorization");
       String userEmail = jwtService.getUserEmail();
       Optional<User> curUser = userDao.findByEmail(userEmail);
       

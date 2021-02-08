@@ -80,14 +80,14 @@ function UserFeedPage(props) {
   };
 
   useEffect(() => {
-    const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
-    const nickname = JSON.parse(localStorage.getItem("loggedInfo")).nickname;
+    const userEmail = localStorage.getItem("loggedInfo").email;
+    const nickname = localStorage.getItem("loggedInfo").nickname;
     setUsername(nickname);
-    console.log(
-      "hihi",
-      JSON.parse(localStorage.getItem("loggedInfo")).introduction
-    );
-    setInfo(JSON.parse(localStorage.getItem("loggedInfo")).introduction);
+    // console.log(
+    //   "hihi",
+    //   localStorage.getItem("loggedInfo").introduction
+    // );
+    setInfo(localStorage.getItem("loggedInfo").introduction);
     dispatch(getFeedCalendarByEmail(userEmail));
   }, []);
 
