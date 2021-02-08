@@ -70,7 +70,7 @@ public class AccountController {
       // 로그인 했을 때 유저 정보(이메일, 닉네임) 보내주기
       if (curUser.isPresent()) {
          //토큰생성
-         String token=jwtService.create("email", curUser.get().getEmail(),"access-token");
+         String token=jwtService.create("email", curUser.get().getEmail(),"Authorization");
 
          return makeResponse("200", token, "success", HttpStatus.OK);
       } else {
@@ -87,7 +87,8 @@ public class AccountController {
       String jwt = http.getHeader("Authorization");
       String userEmail = jwtService.getUserEmail();
       Optional<User> curUser = userDao.findByEmail(userEmail);
-      
+      System.out.println(jwtService.getUserEmail());
+
       if (!curUser.isPresent()) {
          return makeResponse("404", null, "user not found", HttpStatus.NOT_FOUND);
       }
