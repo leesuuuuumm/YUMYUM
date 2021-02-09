@@ -20,6 +20,7 @@ import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
 import girl from "../../_assets/shoutIcon/girl.svg";
 import "./CSS/UserFeedPage.css";
+import "./CSS/MyFeedPage.css";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -62,6 +63,7 @@ function UserFeedPage(props) {
   const [username, setUsername] = React.useState("");
   const [info, setInfo] = React.useState("한줄평 입니다");
   const [isModalOpen, setModalOpen] = useState(false);
+  const [navheight, setNavHeight] = useState("");
   const dispatch = useDispatch();
 
   const handleChange = (event, newValue) => {
@@ -91,6 +93,11 @@ function UserFeedPage(props) {
     dispatch(getFeedCalendarByEmail(userEmail));
   }, []);
 
+  useEffect(() => {
+    let element = document.getElementById('myAppBar');
+    setNavHeight(element.clientHeight);
+  },[])
+
   // STORE에 저장된 FEEDS 가져오기
   const feeds = useSelector((state) => {
     return JSON.parse(state.feed.feedsCalenadarInfo.data);
@@ -99,7 +106,7 @@ function UserFeedPage(props) {
   return (
     <div>
       {/* 유저 프로필 상단 */}
-      <AppBar position="static" color="primary">
+      <AppBar color="primary" id="myAppBar">
         <ProfileInfo>
           <ProfileUser>
             <Avatar
@@ -107,7 +114,7 @@ function UserFeedPage(props) {
               src={girl}
               style={{ marginRight: "0.5rem" }}
             />
-            <h2>{username} </h2>
+            <h2>{username}</h2>
             {/* Todo: - loginuser라면 띄우기 */}
 
             <IconButton
@@ -126,8 +133,9 @@ function UserFeedPage(props) {
           <Tab selected label="메뉴별" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
+
       <TabPanel value={value} index={0} dir={theme.direction}>
-        <FeedSquareGrid title="2월" tileData={feeds} style={{ padding: 0 }} />
+        <FeedSquareGrid title="2월" tileData={feeds} navheight={navheight}/>
       </TabPanel>
 
       <TabPanel value={value} index={1} dir={theme.direction}>

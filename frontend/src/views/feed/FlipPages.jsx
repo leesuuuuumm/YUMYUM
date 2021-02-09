@@ -16,12 +16,12 @@ function FlipPages(props) {
 
   const getFeedDatas = (e) => {
     dispatch(getAllFeed()).then((res) => {
-      const objs = JSON.parse(res.payload.data);
-      console.log(objs, "전체")
+      const reversedObjs = JSON.parse(res.payload.data);
+      const objs = reversedObjs.reverse()
       const part = objs.slice(0, 5)
       setAllFeeds(objs)
       setFeeds(
-        part.reverse().map((obj) => (
+        part.map((obj) => (
           <Slide>
             <Feed key={obj.id} feed={obj} />
           </Slide>
@@ -35,7 +35,7 @@ function FlipPages(props) {
     setFetching(true);
     const fetchedData = allFeeds.slice(nowPages, (nowPages+1))
     const addFeeds = (
-      fetchedData.reverse().map((obj) => (
+      fetchedData.map((obj) => (
         <Slide>
           <Feed key={obj.id} feed={obj} />
         </Slide>

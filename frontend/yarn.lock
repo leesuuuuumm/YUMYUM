@@ -9802,6 +9802,11 @@ react-error-overlay@^6.0.8:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.8.tgz#474ed11d04fc6bda3af643447d85e9127ed6b5de"
   integrity sha512-HvPuUQnLp5H7TouGq3kzBeioJmXms1wHy9EGjz2OURWBp4qZO6AfGEcnxts1D/CbwPLRAgTMPCEgYhA3sEM4vw==
 
+react-floating-button-menu@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/react-floating-button-menu/-/react-floating-button-menu-2.1.1.tgz#603221fd8d1b5968c53de34228e529cb03dbd88a"
+  integrity sha512-ycjs3BOudDXdOL14fkXCxm/N9OzR1hGYYax18aP8iOVDDFAy1MDzg0L/6PYXnLoUD56BDItIgAYRLEgBujeK+g==
+
 react-full-page@^0.1.11:
   version "0.1.11"
   resolved "https://registry.yarnpkg.com/react-full-page/-/react-full-page-0.1.11.tgz#1b74fc4d746fb9de4b1a2b026084a82a1858dbd2"

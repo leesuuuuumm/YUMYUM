@@ -1,5 +1,4 @@
 #total {
-  width: 56vh;
   height: 100vh;
   background-color:#F4D503;
   margin: 0 auto;
@@ -40,6 +39,7 @@
 
 #background-video {
   position: relative;
+  object-fit: fill;
 }
 
 #button-wapper {

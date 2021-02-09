@@ -58,7 +58,7 @@ function Login(props) {
           <div className="loginAppTitle">YUM YUM</div>
         </div>
         <p className="loginTitle">회원 서비스 이용을 위해 로그인 해주세요.</p>
-        <div className="input_wrap">
+        <div className="login_input_wrap">
           <div className="email_label">EMAIL</div>
           <form onSubmit={onSubmitHandler}>
             <input
