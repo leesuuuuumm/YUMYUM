@@ -46,6 +46,7 @@ function Camera(props) {
             src={source} 
             type='video/*'
             height="100%"
+            width="100%"
             autoPlay 
             loop 
             muted 

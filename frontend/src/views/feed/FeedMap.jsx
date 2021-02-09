@@ -267,7 +267,21 @@ const FeedMap = (props) => {
           })
         };
     } else {
-      alert("식당을 알려주세요!")
+      const detailPlace = {
+        address_name : "아늑한 우리집",
+        id : -1,
+        phone : "000-000-0000",
+        place_name : "우리집",
+        x : -1,
+        y : -1
+      }
+      props.history.push({
+        pathname: "/feed/createfeed",
+        state: {
+          detailPlace: detailPlace,
+          formData: formData,
+        },
+      })
     }
 
   }
@@ -281,10 +295,13 @@ const FeedMap = (props) => {
   function zoomOut() {
     map.setLevel(map.getLevel() + 1);
   }
-
+  <div onClick={sendPlaceInfo}> 난 어둠이 무서워요 </div>
   return (
     <div className="feedmap">
-      { isList || <ArrowForwardRoundedIcon className="arrowcircle" onClick={sendPlaceInfo} fontSize="large" />}
+      { isList ? 
+        <ArrowForwardRoundedIcon className="arrowcircle" onClick={sendPlaceInfo} fontSize="large" /> : 
+        <div className="arrowcircle" onClick={sendPlaceInfo}> 난 어둠이 무서워요 </div>
+      }
       <div className="map_wrap">
         <div id="map" style={{ width: "100vw", height: "83.5vh" }}></div>
         {isList && (

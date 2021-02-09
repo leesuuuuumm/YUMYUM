@@ -1,4 +1,4 @@
-import { CREATE_FEED, GET_FEED, DELETE_FEED, GET_FEEDCALENDAR_BY_EMAIL, CREATE_VIDEO, GET_FEEDS } from './types';
+import { CREATE_FEED, GET_FEED, DELETE_FEED, GET_FEEDCALENDAR_BY_EMAIL, CREATE_VIDEO, UPDATE_FEED } from './types';
 import { request } from "../_utils/axios";
 
 
@@ -23,11 +23,21 @@ export function getFeed(dataToSubmit) {
     };
   }
 
+// feed수정
+export function updateFeed(dataToSubmit) {
+    const id = dataToSubmit
+    const data = request("put", FEED_URL, dataToSubmit);
+    return {
+      type: GET_FEED,
+      payload: data,
+    };
+  }
+
 // 모든 feed list
 export function getAllFeed() {
     const data = request("get", FEED_URL + `/list`);
     return {
-      type: GET_FEEDS,
+      type: UPDATE_FEED,
       payload: data,
     };
   }
