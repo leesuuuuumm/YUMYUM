@@ -15,8 +15,8 @@ function Feed(props) {
   const { feed } = props
   const feedUser = feed.user
   const feedDate = feed.createdDate
-  const feedFilePath = feed.filePath
-  const feedURL = feed.filePath.split('/')
+  const feedFilePath = feed.videoPath
+  const feedURL = feed.videoPath.split('/')
   const myVideo = feedURL[6]
   const [isOpened, setIsOpened] = useState(false)
   const videoURL = `${DOMAIN}/${myVideo}`

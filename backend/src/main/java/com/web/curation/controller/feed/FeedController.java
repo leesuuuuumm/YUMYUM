@@ -149,7 +149,6 @@ public class FeedController {
 
 		List<Feed> searchlist = feedDao.findAllByUserOrderByIdDesc(curUser.get());
 
-
 		return makeResponse("200", convertObjToJson(GroupFeedsByMonth(searchlist)), "success" + searchlist.size(), HttpStatus.OK);
 	}
 
@@ -157,7 +156,6 @@ public class FeedController {
 		Map<Object, List<Feed>> result = feedList.stream().collect(Collectors.groupingBy(feed -> feed.getCreatedDate()
 		.with(TemporalAdjusters.firstDayOfMonth())));
 
-		System.out.println(result);
 		return result;
 	}
 
@@ -190,9 +188,6 @@ public class FeedController {
 
 		List<Feed> feedList = feedDao.findAllByTitleAndUser_email(title, email);
 
-		System.out.println(feedList);
-
-		System.out.println();
 		return makeResponse("200", convertObjToJson(feedList), "success" + feedList.size(), HttpStatus.OK);
 	}
 

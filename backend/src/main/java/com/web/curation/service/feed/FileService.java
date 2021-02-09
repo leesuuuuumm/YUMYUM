@@ -70,7 +70,7 @@ public class FileService {
             } else {
                 videoUrl = PREFIX_URL + savedVideoName;
             }
-            System.out.println("url : " + videoUrl);
+//            System.out.println("url : " + videoUrl);
 
             saveFile(originFilename, savedVideoName, videoUrl, extName);
         }

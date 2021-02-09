@@ -14,9 +14,9 @@ function SingleFeed(props) {
   const {feed, id, placeName, addressName} = props.location.state;
   const feedUser = feed.user
   const feedDate = feed.createdDate
-  const feedURL = feed.filePath.split('/')
+  const feedURL = feed.videoPath.split('/')
   const myVideo = feedURL[6]
-  const feedFilePath = feed.filePath
+  const feedFilePath = feed.videoPath
   const [isOpened, setIsOpened] = useState(false)
   const videoURL = "http://18.191.183.197:8080/single/" + `${myVideo}`
   const userUrl = "/profile/"+ `${feedUser.email}`
