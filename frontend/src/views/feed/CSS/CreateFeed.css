@@ -3,12 +3,21 @@
   background-color: rgba(128, 128, 128, 0.2);
 }
 
+.createWapper > h2{
+  background-color:#F4D503;
+  position: relative;
+  height: 15%;
+  padding-left: 10%;
+  padding-top: 10vh;
+  color: #8d6e63;
+}
+
 .createWapper .title-box {
   background-color: white;
   position: absolute;
   display: block;
   width: 80%;
-  height: 20%;
+  height: 23vh;
   top: 15%;
   left: 10%;
   border-radius: 10px;
@@ -16,23 +25,30 @@
 
 .createWapper .title-box input{
   text-align: center;
-  margin: 8% 0 3% 10%;
+  margin: 5vh 0 2vh 8vw;
   color: gray;
   width: 80%;
   border-width: 0 0 2px;
-  font-size: 18px;
+  font-size: 20px;
   background: white;
   /* letter-spacing: px; */
 }
 
 .createWapper .title-box .stars{
-  display: block;
-  margin-left: 24%;
+  display: flex;
+  place-content: center;
+  margin-bottom: 2vh;
 }
 
-.createWapper .title-box .stars h3{
+#stars{
+  display: block;
+  margin-left: 8vw;
+}
+
+.createWapper .title-box h3{
+  display: block;
   color:#8d6e63;
-  margin: 2% 0 0 15%;
+  text-align: center;
 }
 
 .createWapper .content-box {
@@ -47,7 +63,7 @@
 }
 
 .createWapper .content-box textarea{
-  margin: 8% 0 3% 8%;
+  margin: 5vh 0 3% 8vw;
   color: gray;
   resize: none;
   width: 83%;
@@ -58,14 +74,7 @@
   background: white;
 }
 
-.createWapper h2{
-  background-color:#F4D503;
-  position: relative;
-  height: 15%;
-  padding-left: 10%;
-  padding-top: 15%;
-  color: #8d6e63;
-}
+
 
 #feed-button-wapper {
   position: fixed;

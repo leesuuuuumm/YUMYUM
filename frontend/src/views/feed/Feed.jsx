@@ -14,7 +14,7 @@ import FloatingButton from "../../_components/common/FloatingButton";
 import { useEffect } from 'react';
 import DoneOutlineIcon from "@material-ui/icons/DoneOutline";
 import { useDispatch } from "react-redux";
-import { updateFeed } from "../../_actions/feedAction";
+import { updateFeed, likeFeed } from "../../_actions/feedAction";
 import  acorn  from "../../_assets/acorn.png";
 import  blankacorn  from "../../_assets/blankacorn.png";
 
@@ -33,24 +33,45 @@ function Feed(props) {
   const [content, setContent] = useState("");
   const [score, setScore] = useState(0);
   const userUrl = "/profile/"+ `${feedUser.email}`
+  const videoId = `${feedVideoPath}`
   const dispatch = useDispatch();
 
   const openHandler = () => {
+    console.log(videoId)
+    console.log(feedVideoPath)
+    console.log(feed.id)
+    console.log(feedUser.email)
     setIsOpened(!isOpened)
   }
 
-  const followHandler = () => {
+  const followHandler = (e) => {
+    e.preventDefault();
     setIsFollowed(!isFollowed)
-    console.log(isFollowed)
-  }
-
-  const feedDelete = (e) => {
-    props.setSomethingDeleted(true)
+    const loggedEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
+    let body = {
+      email: loggedEmail,
+    }
+    dispatch(likeFeed(feed.id, body))
+      .then((res) => {
+        if (res.payload.status) {
+          alert("쪼아요!!");
+        } else {
+          alert("조아요 실패");
+        }
+      })
+      .catch((err) => {
+        console.log("조아요 에러");
+        console.log(err);
+      });
   }
 
   useEffect(() => {
     if (props.match.path ==="/feed/flippagesUser") {
-      setIsThreeDots(true)
+      const loggedEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
+      if (loggedEmail === feedUser.email) {
+        setIsThreeDots(true)
+      }
+
     }
   })
 
@@ -100,12 +121,14 @@ function Feed(props) {
 
   useEffect((e) => {
     if (isDeleted) {
-      feedDelete()
+      const videoBox = document.getElementById(videoId)
+      const mother = videoBox.parentNode;
+      mother.style.display="none";
     }  
   }, [isDeleted])
 
   return (
-    <Card id="videobox" >
+    <Card id="video" id={videoId} >
       <video
         className="videoTag"
         src={ feedVideoPath }
