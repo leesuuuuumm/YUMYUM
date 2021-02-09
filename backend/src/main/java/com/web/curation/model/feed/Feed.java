@@ -41,5 +41,7 @@ public class Feed extends TimeEntity {
 	@JoinColumn(name = "PLACE_ID")
 	private Place place;
 
-	private String filePath;
+	private String videoPath;
+
+	private String thumbnailPath;
 }
