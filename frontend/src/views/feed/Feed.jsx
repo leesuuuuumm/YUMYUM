@@ -22,7 +22,7 @@ function Feed(props) {
   const { feed } = props
   const feedUser = feed.user
   const feedDate = feed.createdDate
-  const feedFilePath = feed.filePath
+  const feedVideoPath = feed.videoPath
   const [feedscore, setFeedScore] = useState(feed.score)
   const [feedContent, setFeedContent] = useState(feed.content)
   const [isOpened, setIsOpened] = useState(false)
@@ -108,7 +108,7 @@ function Feed(props) {
     <Card id="videobox" >
       <video
         className="videoTag"
-        src={ feedFilePath }
+        src={ feedVideoPath }
         type="video/mp4"
         height="100%"
         width="100%"

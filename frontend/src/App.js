@@ -17,7 +17,7 @@ import FlipPagesUser from "./views/feed/FlipPagesUser";
 import SignUpComplete from "./views/user/SignUpComplete";
 import UserSetting from './views/user/UserSetting';
 import InfoMap from './views/map/InfoMap';
-import ShoutPage from './views/shout/ShoutPage';
+import EurekaPage from './views/eureka/EurekaPage';
 import SearchBar from './views/feed/SearchBar';
 import BottomTab from './_components/common/BottomTab';
 import FoodFeed from './views/food/FoodFeed';
@@ -44,7 +44,7 @@ function App() {
           <PrivateRoute exact path="/user/usersetting"  component={UserSetting} />
           <PrivateRoute exact path="/feed/createfeed"  component={CreateFeed}/>
           <PrivateRoute exact path="/feed/camera" component={Camera}/>
-          <Route path='/shout' exact render={() => <ShoutPage />} />
+          <Route path='/eureka' exact render={() => <EurekaPage />} />
           <PrivateRoute exact path='/feed/feedmap' component={SearchBar}/>
           <PrivateRoute exact path="/map/infomap" component={InfoMap} />
           <PrivateRoute exact path="/food/feed" component= {FoodFeed} />

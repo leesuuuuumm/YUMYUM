@@ -270,7 +270,7 @@ const FeedMap = (props) => {
       const detailPlace = {
         address_name : "아늑한 우리집",
         id : -1,
-        phone : "000-000-0000",
+        phone : "프라이버시입니다.",
         place_name : "우리집",
         x : -1,
         y : -1

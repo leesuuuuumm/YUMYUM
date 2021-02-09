@@ -71,7 +71,7 @@ function FeedSquareGrid(props) {
                 id="background-video"
                 className="feedVideo"
                 // src={`${DOMAIN}/single/${tile.filePath.split("/")[6]}`}
-                src={tile.filePath}
+                src={tile.videoPath}
                 type="video/mp4"
                 width="100%"
                 loop

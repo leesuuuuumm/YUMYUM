@@ -34,4 +34,9 @@ public class User extends TimeEntity {
 
   @Column(length=50)
   private String introduction;
+
+  private Integer thumbnail;
+
+  private Double recentY;
+  private Double recentX;
 }
