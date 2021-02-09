@@ -31,7 +31,7 @@
 }
 
 .signUp {
-  height: 86vh;
+  min-height: 97vh;
   padding: 0 30px;
   background-color: #212121;
   display: flex;
