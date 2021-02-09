@@ -86,7 +86,7 @@ const InfoMap = (props) => {
         bounds.extend(placePosition);
 
           kakao.maps.event.addListener(marker, "click", function () {
-            removeNowmarker();
+            // removeNowmarker();
 
             setPlace(markers[i]);
             infowindow.setContent(
@@ -128,10 +128,10 @@ const InfoMap = (props) => {
     }
   };
 
-  function removeNowmarker() {
-    nowMarker[0].setMap(null);
-    nowMarker[1].close(map,nowMarker[0]);
-  }
+  // function removeNowmarker() {
+  //   nowMarker[0].setMap(null);
+  //   nowMarker[1].close(map,nowMarker[0]);
+  // }
 
   function getPlaces() {
     setIsLocation(true)

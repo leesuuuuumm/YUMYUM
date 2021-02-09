@@ -62,6 +62,7 @@ function UserFeedPage(props) {
   const [username, setUsername] = React.useState("");
   const [info, setInfo] = React.useState("");
   const [isModalOpen, setModalOpen] = useState(false);
+  const [navheight, setNavHeight] = useState("");
   const dispatch = useDispatch();
 
   const handleChange = (event, newValue) => {
@@ -92,6 +93,11 @@ function UserFeedPage(props) {
     }
   }, []);
 
+  useEffect(() => {
+    let element = document.getElementById('userAppBar');
+    setNavHeight(element.clientHeight);
+  },[])
+
   // STORE에 저장된 FEEDS 가져오기
   const feeds = useSelector((state) => {
     return JSON.parse(state.feed.feedsCalenadarInfo.data);
@@ -100,7 +106,7 @@ function UserFeedPage(props) {
   return (
     <div>
       {/* 유저 프로필 상단 */}
-      <AppBar position="static" color="primary">
+      <AppBar color="primary" id="userAppBar">
         <ProfileInfo>
           <ProfileUser>
             <Avatar
@@ -111,7 +117,7 @@ function UserFeedPage(props) {
             <h2>{username} </h2>
             {/* Todo: - loginuser라면 띄우기 */}
           </ProfileUser>
-          <p>{info}</p>
+          {info ? <p>{info}</p> : <p><br></br></p>}
         </ProfileInfo>
         {/* 탭바 */}
         <Tabs value={value} onChange={handleChange} variant="fullWidth">
@@ -120,7 +126,7 @@ function UserFeedPage(props) {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0} dir={theme.direction}>
-        <FeedSquareGrid title="2월" tileData={feeds} style={{ padding: 0 }} />
+        <FeedSquareGrid title="2월" tileData={feeds} navheight={navheight} />
       </TabPanel>
 
       <TabPanel value={value} index={1} dir={theme.direction}>
