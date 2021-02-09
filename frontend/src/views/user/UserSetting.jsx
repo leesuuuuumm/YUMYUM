@@ -67,7 +67,7 @@ function UserSetting(props) {
       <div className="settingContainer">
         <p className="settingTitle">유저 정보 변경</p>
         <div className="input_wrap">
-          {/* <SelectAvatar></SelectAvatar> */}
+          <SelectAvatar></SelectAvatar>
           <form onSubmit={onSubmitHandeler}>
             <input
               type="text"
