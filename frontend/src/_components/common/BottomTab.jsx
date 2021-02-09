@@ -6,6 +6,7 @@ import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import AddBox from "@material-ui/icons/AddBox";
 import HomeIcon from "@material-ui/icons/Home";
 import Person from "@material-ui/icons/Person";
+import MoodIcon from "@material-ui/icons/Mood";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import { useSelector } from "react-redux";
 
@@ -71,12 +72,12 @@ function BottomTab(props) {
         icon={<AddBox />}
         className={classes.action}
       />
-      {/* <BottomNavigationAction
+      <BottomNavigationAction
         label="Eureka"
-        value="shout"
+        value="/eureka"
         icon={<MoodIcon />}
         className={classes.action}
-      /> */}
+      />
       <BottomNavigationAction
         label="Pick"
         value="/myprofile"
