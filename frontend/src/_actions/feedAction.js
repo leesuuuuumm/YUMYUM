@@ -1,4 +1,4 @@
-import { CREATE_FEED, GET_FEED, DELETE_FEED, GET_FEEDCALENDAR_BY_EMAIL, CREATE_VIDEO, UPDATE_FEED } from './types';
+import { CREATE_FEED, GET_FEED, DELETE_FEED, GET_FEEDCALENDAR_BY_EMAIL, CREATE_VIDEO, UPDATE_FEED, LIKE_FEED } from './types';
 import { request } from "../_utils/axios";
 
 
@@ -38,6 +38,15 @@ export function getAllFeed() {
     const data = request("get", FEED_URL + `/list`);
     return {
       type: UPDATE_FEED,
+      payload: data,
+    };
+  }
+  
+// 조아요
+export function likeFeed(feedId, dataToSubmit) {
+    const data = request("put", FEED_URL + `/like` + `/${feedId}`, dataToSubmit);
+    return {
+      type: LIKE_FEED,
       payload: data,
     };
   }
