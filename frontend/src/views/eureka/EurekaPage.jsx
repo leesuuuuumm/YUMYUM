@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import girl from "../../_assets/shoutIcon/girl.svg";
+import girl from "../../_assets/eurekaIcon/girl.svg";
 import styled, { keyframes } from "styled-components";
-import "./ShoutPage.css";
-
+import "./EurekaPage.css";
+import { firestore } from "../../_utils/firebase";
 const ShoutPage = () => {
   const [waveVisible, setWaveVisible] = useState(false);
   const [waves, setWaves] = useState([]);
@@ -66,6 +66,23 @@ const ShoutPage = () => {
     setWaveVisible(!waveVisible);
     console.log("hi");
     setWaves((oldArray) => [...oldArray, <Circle />]);
+
+    const data = {
+      stringExample: "Hello, World!",
+      booleanExample: true,
+      numberExample: 3.14159265,
+      // dateExample: admin.firestore.Timestamp.fromDate(
+      //   new Date("December 10, 1815")
+      // ),
+      arrayExample: [5, true, "hello"],
+      nullExample: null,
+      objectExample: {
+        a: 5,
+        b: true,
+      },
+    };
+
+    const cityRef = firestore.collection("data").doc("two").set(data);
   }
 
   return (

@@ -3,8 +3,9 @@ import { useDispatch } from "react-redux";
 import { registerUser } from "../../_actions/userAction";
 import { Link, withRouter } from "react-router-dom";
 import { chkEmail, chkPassword } from "../../_utils/validator";
-import  Quokka  from "../../_assets/quokka1.png";
-import './CSS/SignUp.css';
+import Quokka from "../../_assets/quokka1.png";
+import "./CSS/SignUp.css";
+import SelectAvatar from "../../_components/icon/SelectAvatar";
 
 function SignUp(props) {
   // useState로 현재 state와 state를 변경하는 함수 지정
@@ -58,24 +59,21 @@ function SignUp(props) {
       };
       dispatch(registerUser(body))
         .then((res) => {
-
           if (res.payload.status === "200") {
             props.history.push("/");
           } else if (res.payload.status === "400") {
-            
             if (res.payload.message === "this email already exists") {
-              setErrorMessage("이미 가입되어 있는 이메일입니다.")
+              setErrorMessage("이미 가입되어 있는 이메일입니다.");
             } else {
-              setErrorMessage("닉네임이 중복되었습니다.")
+              setErrorMessage("닉네임이 중복되었습니다.");
             }
-
           } else {
-            alert("회원가입 실패")
+            alert("회원가입 실패");
           }
         })
         .catch((err) => {
           console.log("회원가입 실패 에러");
-          console.log(err)
+          console.log(err);
         });
     } else {
       alert("비밀번호 노일치!!");
@@ -84,15 +82,16 @@ function SignUp(props) {
   return (
     <div className="signUp">
       <div className="signUpContainer">
-        <div className="img_wrap">  
-          <img src={Quokka} alt="쿼카" />
+        <div className="img_wrap">
+          <img className="userLogo" src={Quokka} alt="쿼카" />
           <div className="signUpAppTitle">YUM YUM</div>
         </div>
         <p className="signUpTitle">
           회원 서비스 이용을 위해 회원가입을 해주세요.
         </p>
         <div className="input_wrap">
-        <form onSubmit={onSubmitHandler}>
+          <SelectAvatar></SelectAvatar>
+          <form onSubmit={onSubmitHandler}>
             <input
               type="nickname"
               value={Nickname}
@@ -102,7 +101,7 @@ function SignUp(props) {
               autoCapitalize="off"
               placeholder="닉네임(8글자 이하)"
             />
-            <hr className="signUp_hr"/>
+            <hr className="signUp_hr" />
             <input
               type="email"
               value={Email}
@@ -118,7 +117,7 @@ function SignUp(props) {
             ) : (
               <div></div>
             )}
-            <hr className="signUp_hr"/>
+            <hr className="signUp_hr" />
             <input
               type="password"
               value={Password}
@@ -133,7 +132,7 @@ function SignUp(props) {
             ) : (
               <div></div>
             )}
-            <hr className="signUp_hr"/>
+            <hr className="signUp_hr" />
             <input
               type="password"
               value={ConfirmPassword}
@@ -148,21 +147,23 @@ function SignUp(props) {
             ) : (
               <div></div>
             )}
-            <hr className="signUp_hr"/>
-          <div className="signUpLink">
-            <Link to="/" className="signUpLink">
-              이미 계정이 있으신가요?
-            </Link>
-          </div>
-          {errorMessage && <div className="errorMsgSignUp">{errorMessage}</div>}
-          <div className="btnContainer">
+            <hr className="signUp_hr" />
+            <div className="signUpLink">
+              <Link to="/" className="signUpLink">
+                이미 계정이 있으신가요?
+              </Link>
+            </div>
+            {errorMessage && (
+              <div className="errorMsgSignUp">{errorMessage}</div>
+            )}
+            <div className="btnContainer">
               <div>
                 <button className="signUpButton" type="submit">
                   회원가입하기
                 </button>
               </div>
-          </div>
-        </form>
+            </div>
+          </form>
         </div>
       </div>
     </div>

@@ -38,12 +38,12 @@ function Login(props) {
           console.log("히스토리");
           console.log(props.history);
           props.history.push({
-            pathname: '/feed/flippages',
+            pathname: "/feed/flippages",
             state: { value: "feed/flippages" },
           });
         } else {
           // alert("로그인 실패");
-          setIsLogin(true)
+          setIsLogin(true);
         }
       })
       .catch((err) => {
@@ -54,7 +54,7 @@ function Login(props) {
     <section className="login">
       <div className="loginContainer">
         <div className="img_wrap">
-          <img src={Quokka} alt="쿼카" />
+          <img className="userLogo" src={Quokka} alt="쿼카" />
           <div className="loginAppTitle">YUM YUM</div>
         </div>
         <p className="loginTitle">회원 서비스 이용을 위해 로그인 해주세요.</p>
