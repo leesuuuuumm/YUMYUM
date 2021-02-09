@@ -94,9 +94,9 @@ function UserFeedPage(props) {
   }, []);
 
   useEffect(() => {
-    let element = document.getElementById('userAppBar');
+    let element = document.getElementById("userAppBar");
     setNavHeight(element.clientHeight);
-  },[])
+  }, []);
 
   // STORE에 저장된 FEEDS 가져오기
   const feeds = useSelector((state) => {
@@ -117,7 +117,13 @@ function UserFeedPage(props) {
             <h2>{username} </h2>
             {/* Todo: - loginuser라면 띄우기 */}
           </ProfileUser>
-          {info ? <p>{info}</p> : <p><br></br></p>}
+          {info ? (
+            <p>{info}</p>
+          ) : (
+            <p>
+              <br></br>
+            </p>
+          )}
         </ProfileInfo>
         {/* 탭바 */}
         <Tabs value={value} onChange={handleChange} variant="fullWidth">
@@ -126,11 +132,18 @@ function UserFeedPage(props) {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0} dir={theme.direction}>
-        <FeedSquareGrid title="2월" tileData={feeds} navheight={navheight} />
+        {feeds &&
+          Object.keys(feeds).map((date, i) => (
+            <FeedSquareGrid
+              title={date}
+              tileData={feeds[date]}
+              navheight={navheight}
+            />
+          ))}
       </TabPanel>
 
       <TabPanel value={value} index={1} dir={theme.direction}>
-        <FeedList tileData={feeds} />
+        {/* <FeedList tileData={feeds} /> */}
       </TabPanel>
       {/* 3 dots 클릭 시 모달 */}
       <Drawer anchor="bottom" open={isModalOpen} onClose={toggleDrawer(false)}>

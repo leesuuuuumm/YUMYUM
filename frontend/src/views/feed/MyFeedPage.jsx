@@ -94,9 +94,9 @@ function UserFeedPage(props) {
   }, []);
 
   useEffect(() => {
-    let element = document.getElementById('myAppBar');
+    let element = document.getElementById("myAppBar");
     setNavHeight(element.clientHeight);
-  },[])
+  }, []);
 
   // STORE에 저장된 FEEDS 가져오기
   const feeds = useSelector((state) => {
@@ -135,12 +135,20 @@ function UserFeedPage(props) {
       </AppBar>
 
       <TabPanel value={value} index={0} dir={theme.direction}>
-        <FeedSquareGrid title="2월" tileData={feeds} navheight={navheight}/>
+        {feeds &&
+          Object.keys(feeds).map((date, i) => (
+            <FeedSquareGrid
+              title={date}
+              tileData={feeds[date]}
+              navheight={navheight}
+            />
+          ))}
       </TabPanel>
 
       <TabPanel value={value} index={1} dir={theme.direction}>
-        <FeedList tileData={feeds} />
+        {/* <FeedList tileData={feeds} /> */}
       </TabPanel>
+
       {/* 3 dots 클릭 시 모달 */}
       <Drawer anchor="bottom" open={isModalOpen} onClose={toggleDrawer(false)}>
         <div
