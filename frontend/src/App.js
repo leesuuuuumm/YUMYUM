@@ -24,6 +24,7 @@ import FoodFeed from './views/food/FoodFeed';
 import PrivateRoute from '../src/_components/common/PrivateRoute';
 import LoginRoute from '../src/_components/common/LoginRoute';
 import SingleFeed from "../src/views/feed/SingleFeed";
+import FloatingButton from "./_components/common/FloatingButton";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
           <PrivateRoute exact path="/map/infomap" component={InfoMap} />
           <PrivateRoute exact path="/food/feed" component= {FoodFeed} />
           <PrivateRoute exact path="/feed/singlefeed" component= {SingleFeed} />
+          <PrivateRoute exact path="/buttontest" component= {FloatingButton} />
           <Route path="/error" component={ErrorPage} />
           <Route path="*" component={NotFound} />
         </Switch>

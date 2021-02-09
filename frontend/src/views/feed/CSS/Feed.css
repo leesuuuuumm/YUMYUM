@@ -8,12 +8,14 @@
 #videobox video{ 
   display: flex;
   margin: 0 auto;
+  object-fit: fill;
 }
 
 #textbox { 
+  display: block;
   position: relative; 
   top: -98%;
-  width: calc(100vh * 0.56 * 0.89);
+  width: 89%;
   margin: 0 auto;
   height: 13%;
   min-height: 100px;
@@ -24,8 +26,34 @@
   z-index: 2;
 }
 
+#acorn {
+  right: 4vh;
+  bottom: 5vh;
+  text-align: right;
+  position: relative;
+  height: 15%;
+  z-index: 10;
+  size: 10px
+}
+
 #textbox .MuiCardContent-root {
   padding: 10px ;
+  display: inline-block;
+  width: 50vw;
+}
+
+#threeDots {
+  position: relative;
+  display: inline-flex;
+  float: right;
+  margin: 1vw 1vw 0 0;
+  z-index: 3;
+}
+
+#threeDots *{
+  box-shadow: none;
+  color: white;
+  background: none;
 }
 
 #textbox button {
@@ -51,8 +79,13 @@
   margin: 5px 0 5px 10px;
 }
 
-#textbox a { 
+#writer { 
   color: #8d6e63;
+  float: right;
+  font-weight: bold;
+  margin: 5px;
+  position: relative;;
+  z-index: 2;
 }
 
 #foodIcon {
@@ -60,11 +93,8 @@
 }
 
 #second_line {
-  /* color: rgb(218, 218, 218); */
   size: 1px;
 }
-
-
 
 #textbox hr { 
   width: 95%;
@@ -129,4 +159,3 @@
   align-items: center;
   color: #fff;
 }
-
