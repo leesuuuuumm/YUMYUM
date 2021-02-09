@@ -13,6 +13,7 @@ import { getAllPlace } from "../../_actions/mapAction";
 import MapBottomSheet from "../../_components/map/MapBottomSheet";
 import { displayMarkerNow } from "../../_components/map/displayMarkerNow";
 import acorn from "../../_assets/acorn.png";
+import { getLikeFeeds } from "../../_actions/userAction";
 
 const { kakao } = window;
 
@@ -76,6 +77,7 @@ const InfoMap = (props) => {
   const [likeObject, setLikeObject] = useState([]);
   const [allObject, setAllObject] = useState([]);
   const [toggleBtn, setToggleBtn] = useState(false);
+  const email = JSON.parse(localStorage.getItem("loggedInfo")).email;
   const dispatch = useDispatch();
 
   //지도를 불러오는 로직
@@ -223,13 +225,22 @@ const InfoMap = (props) => {
         let addPlaces = JSON.parse(res.payload.data);
         setMarkers(markers => markers.concat(addPlaces));
         setIsGetPlaces(true);
+        console.log(addPlaces)
       })
+  }
+
+  function getLikePlaces() {
+    dispatch(getLikeFeeds(email))
+    .then((res)=>{
+      let likePlaces = JSON.parse(res.payload.data);
+    })
   }
   
   // 현재 위치로 이동해서 마커를 찍어주는 함수
   useEffect(() => {
     createMap();
     getPlaces();
+    getLikePlaces();
   },[]);
 
   // useEffect(() => {
@@ -237,6 +248,13 @@ const InfoMap = (props) => {
   //       displayAllMarkers();
   //     }
   // }, [isgetPlaces]);
+
+  // useEffect(() => {
+  //   const loggedInfo = localStorage.getItem("loggedInfo");
+  //   if (loggedInfo) {
+  //     setEmail(JSON.parse(loggedInfo).email);
+  //   }
+  // }, []);
 
   useEffect(() => {
     // isLoaction을 줘서 map이 랜더 되기전에 nowLocation이 출력되지 않게 해주었다.

@@ -1,5 +1,4 @@
-import { REGISTER_USER, LOGIN_USER, RESETPASSWORD_USER, LOGOUT_USER, GET_USER_INFO, UPDATE_USER_INFO } from './types';
-
+import { REGISTER_USER, LOGIN_USER, RESETPASSWORD_USER, LOGOUT_USER, GET_USER_INFO, UPDATE_USER_INFO, GET_LIKE_FEEDS_INFO } from './types';
 import { request } from "../_utils/axios";
 
 const USER_URL = '/account';
@@ -54,3 +53,11 @@ export function updateUser(dataToSubmit) {
   }
 }
 
+export function getLikeFeeds(dataToSubmit){
+  const email = dataToSubmit
+  const data = request("get", USER_URL + `/${email}` + "/likeFeeds");
+  return {
+    type: GET_LIKE_FEEDS_INFO,
+    payload: data
+  }
+}
