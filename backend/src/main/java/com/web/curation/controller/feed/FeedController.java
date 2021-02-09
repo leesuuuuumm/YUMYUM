@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.web.curation.dao.feed.LikeDao;
 import com.web.curation.model.feed.*;
 import com.web.curation.model.user.User;
 import com.web.curation.model.map.Place;
@@ -46,6 +47,8 @@ public class FeedController {
 	private FileService fileService;
 	@Autowired
 	private PlaceDao placeDao;
+	@Autowired
+	private LikeDao likeDao;
 
 	@PostMapping(consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_OCTET_STREAM_VALUE })
 	@ApiOperation(value = "피드 등록")
@@ -99,8 +102,7 @@ public class FeedController {
 
 	@PutMapping
 	@ApiOperation(value = "피드 수정")
-	public Object update(
-			@Valid @RequestBody @ApiParam(value = "게시글 정보 수정", required = true) UpdateFeedRequest request) {
+	public Object update(@Valid @RequestBody @ApiParam(value = "게시글 정보 수정", required = true) UpdateFeedRequest request) {
 
 		Optional<Feed> curFeed = feedDao.findById(request.getId());
 
@@ -172,7 +174,7 @@ public class FeedController {
 	@GetMapping("/list/{email}/{title}/")
 	@ApiOperation(value = "한 유저의 하나의 title로 적힌 피드 리스트 조회")
 	public Object titleList(@Valid @ApiParam(value = "title 별로 전체 조회", required = true) @PathVariable String title,
-			@PathVariable String email) {
+							@PathVariable String email) {
 		Optional<User> curUser = userDao.findById(email);
 
 		if (!curUser.isPresent()) {
@@ -195,5 +197,33 @@ public class FeedController {
 		feedDao.delete(curFeed.get());
 
 		return makeResponse("200", convertObjToJson(curFeed.get()), "success", HttpStatus.OK);
+	}
+
+	@PutMapping("/like/{feed_id}")
+	@ApiOperation(value = "피드 좋아요")
+	public Object update(@Valid @ApiParam(value = "feed_id 값으로 피드 좋아요 반영", required = true) @PathVariable String feed_id,
+						 @Valid @RequestBody @ApiParam(value = "게시글 정보 수정", required = true) LikeFeedRequest request) {
+		String userEmail = request.getEmail();
+		Long feedId = Long.parseLong(feed_id);
+		List<Like> curLike = likeDao.findByUser_EmailAndFeed_Id(userEmail, feedId);
+
+		boolean isCurLike = curLike.size() > 0;
+
+		if (!isCurLike) {
+			Like newLike = Like.builder()
+					.feed(feedDao.findById(feedId).get())
+					.user(userDao.findById(userEmail).get())
+					.build();
+			likeDao.save(newLike);
+		} else {
+			likeDao.delete(curLike.get(0));
+		}
+
+		LikeFeedResponse response = LikeFeedResponse.builder()
+				.isLike(!isCurLike)
+				.like_count(likeDao.findAllByFeed_Id(feedId).size())
+				.build();
+
+		return makeResponse("200", convertObjToJson(response), "success", HttpStatus.OK);
 	}
 }

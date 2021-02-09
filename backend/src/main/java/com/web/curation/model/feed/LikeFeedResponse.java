@@ -12,10 +12,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 @Data
 @ToString
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-public class DeleteFeedRequest {
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+public class LikeFeedResponse {
+    private Integer like_count;
+
+    private boolean isLike;
 }
