@@ -139,7 +139,7 @@ public class FeedController {
 	}
 
 	@GetMapping("/list/{email}")
-	@ApiOperation(value = "한 유저의 피드 리스트  시간별로 조회")
+	@ApiOperation(value = "한 유저의 피드 리스트 조회")
 	public Object feedList(@Valid @ApiParam(value = "email 값으로 검색 ", required = true) @PathVariable String email) {
 		Optional<User> curUser = userDao.findById(email);
 
@@ -149,14 +149,7 @@ public class FeedController {
 
 		List<Feed> searchlist = feedDao.findAllByUserOrderByIdDesc(curUser.get());
 
-		return makeResponse("200", convertObjToJson(GroupFeedsByMonth(searchlist)), "success" + searchlist.size(), HttpStatus.OK);
-	}
-
-	private Map<Object, List<Feed>> GroupFeedsByMonth(List<Feed> feedList) {
-		Map<Object, List<Feed>> result = feedList.stream().collect(Collectors.groupingBy(feed -> feed.getCreatedDate()
-		.with(TemporalAdjusters.firstDayOfMonth())));
-
-		return result;
+		return makeResponse("200", convertObjToJson(searchlist), "success" + searchlist.size(), HttpStatus.OK);
 	}
 
 	@GetMapping("/titles/{email}")
