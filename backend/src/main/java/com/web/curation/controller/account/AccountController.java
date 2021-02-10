@@ -1,6 +1,9 @@
 package com.web.curation.controller.account;
 
+import com.web.curation.dao.feed.LikeDao;
 import com.web.curation.dao.user.UserDao;
+import com.web.curation.model.feed.Feed;
+import com.web.curation.model.feed.Like;
 import com.web.curation.model.user.*;
 //import com.web.curation.service.jwt.JwtService;
 //import com.web.curation.service.security.PasswordEncoding;
@@ -11,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static com.web.curation.utils.HttpUtils.convertObjToJson;
@@ -25,9 +30,11 @@ import static com.web.curation.utils.HttpUtils.makeResponse;
 @RestController
 @RequestMapping("/account")
 public class AccountController {
-
 	@Autowired
 	private UserDao userDao;
+
+	@Autowired
+	private LikeDao likeDao;
 
 //	@Autowired
 //	private JwtService jwtService;
@@ -151,5 +158,18 @@ public class AccountController {
 		userDao.delete(curUser.get());
 
 		return makeResponse("200", curUser.get().getEmail(), "success", HttpStatus.OK);
+	}
+
+	@GetMapping("{email}/likeFeeds")
+	@ApiOperation(value = "현재 좋아요한 Feed 조회")
+	public Object getLikeFeeds(@Valid @ApiParam(value = "회원 정보 조회", required = true) @PathVariable String email) {
+		List<Like> likes = likeDao.findAllByUser_Email(email);
+		List<Feed> feeds = new ArrayList<>();
+
+		for (Like like : likes) {
+			feeds.add(like.getFeed());
+		}
+
+		return makeResponse("200", convertObjToJson(feeds), "success", HttpStatus.OK);
 	}
 }

@@ -164,8 +164,6 @@ public class FeedController {
 			return makeResponse("404", null, "User Not Found", HttpStatus.NOT_FOUND);
 		}
 
-//		List<String> titleList = feedDao.findByUser_email(email);
-
 		List<ArrayList<String>> titleList = feedDao.findByUser_email(email);
 
 		return makeResponse("200", convertObjToJson(titleList), "success" + titleList.size(), HttpStatus.OK);
