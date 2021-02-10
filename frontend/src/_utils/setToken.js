@@ -5,7 +5,8 @@ export const setToken = () => {
 
   const config = {
     headers: {
-      'Authorization': `JWT ${token}`
+      
+      "Authorization": `Bearer ${token}`
     }
   }
   return config

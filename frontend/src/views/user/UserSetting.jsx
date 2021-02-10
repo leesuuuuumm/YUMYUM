@@ -44,6 +44,7 @@ function UserSetting(props) {
     dispatch(updateUser(config))
       .then((res) => {
         if (res.payload) {
+          console.log()
           const obj = JSON.parse(res.payload.data);
           const status = JSON.parse(res.payload.status);
           // console.log("login ojb", obj);

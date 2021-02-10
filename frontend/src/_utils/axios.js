@@ -12,10 +12,7 @@ export const request = (method, url, data = {}) => {
     // for (let key of data.keys()) {
     //   console.log(key);
     // }
-    const config = setToken()
-
-    console.log(config)
-    
+    axios.defaults.headers["Authorization"] = localStorage.getItem("loggedInfo");
     return axios({
         method,
         url: DOMAIN + PORT + url,
