@@ -71,7 +71,10 @@ public class JwtServiceImpl implements JwtService {
     public Map<String, Object> get(String key) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
                 .getRequest();
+        System.out.println(request.toString());
         String jwt = request.getHeader("Authorization");
+        System.out.println("bbbb" + request.getHeaderNames());
+        System.out.println("aaaa" + request.getHeaders("Authorization"));
         System.out.println("jwt " + jwt);
         Jws<Claims> claims = null;
         try {

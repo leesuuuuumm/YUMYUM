@@ -3,7 +3,8 @@ export const setToken = () => {
 
   const config = {
     headers: {
-      Authorization: `Bearer ${token}`
+      
+      "Authorization": `Bearer ${token}`
     }
   }
   return config
