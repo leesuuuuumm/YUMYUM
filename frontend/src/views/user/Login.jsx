@@ -27,14 +27,13 @@ function Login(props) {
     dispatch(loginUser(body))
       .then((res) => {
         // console.log("login dispatch", res.payload.object);
-        const obj = JSON.parse(res.payload.data);
-        const status = JSON.parse(res.payload.status);
-        console.log("login ojb", obj);
-        console.log("login status", JSON.parse(res.payload.status));
+        const obj = res.payload.data;
+        const status = res.payload.status;
+        // console.log("login ojb", obj);
+        // console.log("login status", res.payload.status);
         if (status == 200) {
           // alert("로그인 성공!");
-
-          localStorage.setItem("loggedInfo", JSON.stringify(obj));
+          localStorage.setItem("access-token", obj);
           console.log("히스토리");
           console.log(props.history);
           props.history.push({

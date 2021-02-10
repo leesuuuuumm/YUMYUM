@@ -27,6 +27,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.security.auth.message.callback.PrivateKeyCallback.Request;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;

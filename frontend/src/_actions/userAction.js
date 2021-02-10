@@ -1,6 +1,8 @@
 import { REGISTER_USER, LOGIN_USER, RESETPASSWORD_USER, LOGOUT_USER, GET_USER_INFO, UPDATE_USER_INFO } from './types';
 
 import { request } from "../_utils/axios";
+import { setToken } from "../../src/_utils/setToken"
+const config = setToken()
 
 const USER_URL = '/account';
 
@@ -23,7 +25,8 @@ export function loginUser(dataToSubmit) {
 
 
 export function resetPassword(dataToSubmit) {
-  const data = request("put", USER_URL + "/password/", dataToSubmit);
+  const data = request("put", USER_URL + "/password/", dataToSubmit, config);
+  console.log(data)
   return {
     type: RESETPASSWORD_USER,
     payload: data,
@@ -40,7 +43,7 @@ export function getUser(dataToSubmit) {
 }
 
 export function logoutUser() {
-  localStorage.removeItem('loggedInfo')
+  localStorage.removeItem('access-token')
   return { 
     type: LOGOUT_USER 
   };
