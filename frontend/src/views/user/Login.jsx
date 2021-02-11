@@ -33,7 +33,7 @@ function Login(props) {
         // console.log("login status", res.payload.status);
         if (status == 200) {
           // alert("로그인 성공!");
-          localStorage.setItem("access-token", obj);
+          localStorage.setItem("loggedInfo", obj);
           console.log("히스토리");
           console.log(props.history);
           props.history.push({

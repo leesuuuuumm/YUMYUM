@@ -53,5 +53,12 @@
   position: absolute;
   z-index: 2;
   top: 83%;
-  left: 83%;
+  left:83%;
+}
+
+.skip {
+  position: absolute;
+  z-index: 2;
+  top: 83%;
+  left:75%;
 }

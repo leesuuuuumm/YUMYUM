@@ -32,7 +32,7 @@ function CreateFeed(props) {
     setContent(e.currentTarget.value);
   };
   const onLoggedUser = (e) => {
-    setLoggedUser(localStorage.getItem("access-token"));
+    setLoggedUser(localStorage.getItem("loggedInfo"));
   };
   const ratingChanged = (newRating) => {
     setScore(newRating);
@@ -100,7 +100,7 @@ function CreateFeed(props) {
             onChange={onTitleHandler}
             autoFocus
             required
-            placeholder="방금 먹은 음식은 무엇인가요?"
+            placeholder="방금 먹은 음식은?"
           />
           <div className="stars">
             <ReactStars
@@ -110,12 +110,13 @@ function CreateFeed(props) {
               size={35}
               activeColor="#ffd700"
             />
-            <h3> {comment} </h3>
+            <br/>
           </div>
+          <h3> {comment} </h3>
         </div>
         <div className="content-box">
           <textarea
-            rows="5" 
+            rows="4" 
             cols="50"
             type="content"
             value={content}
