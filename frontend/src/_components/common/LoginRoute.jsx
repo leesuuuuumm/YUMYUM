@@ -5,7 +5,7 @@ const LoginRoute = ( {component: Component, rest}) => {
   const [islogin, setIsLogin] = useState("")
   
   useEffect(() => {
-    setIsLogin(localStorage.getItem("access-token"))
+    setIsLogin(localStorage.getItem("loggedInfo"))
   },[])
 
   return (

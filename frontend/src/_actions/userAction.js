@@ -43,7 +43,7 @@ export function getUser(dataToSubmit) {
 }
 
 export function logoutUser() {
-  localStorage.removeItem('access-token')
+  localStorage.removeItem('loggedInfo')
   return { 
     type: LOGOUT_USER 
   };

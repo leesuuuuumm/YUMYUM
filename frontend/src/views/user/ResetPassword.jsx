@@ -30,7 +30,7 @@ function ResetPassword(props) {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("access-token");
+    const token = localStorage.getItem("loggedInfo");
 
     if (token) {
       setEmail(getEmail());
