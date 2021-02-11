@@ -5,7 +5,7 @@ import { setToken } from "../../src/_utils/setToken"
 export const DOMAIN = 'http://localhost'
 const PORT = ':8080'
 
-export const request = (method, url, data = {}) => {
+export const request = (method, url, data = {}, config) => {
     console.log(url, 'axios요청 보냅니다아아아 이 데이터를!', data)
 
     // for (let key of data.keys()) {
