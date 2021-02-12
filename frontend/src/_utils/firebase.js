@@ -12,19 +12,16 @@ const firebaseConfig = {
     appId: "1:950587745855:web:898198ba041c2be97dba8a"
   };
 
-firebase.initializeApp(firebaseConfig);
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
+
+// export default !firebase.apps.length ? firebase.initializeApp(config) : firebase.app();
+
 
 let firestore = firebase.firestore();
 
 export {firestore};
-
-// export function firebaseLogin(email) {
-//     database.ref('messages/'+email).set({});
-//     console.log("firebase test success")
-//     // users에 email 추가
-
-// }
-
 
 // ====================json tree=========================
 // {

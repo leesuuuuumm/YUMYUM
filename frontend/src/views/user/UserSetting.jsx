@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import { getUser, updateUser } from "../../_actions/userAction";
 import SelectAvatar from "../../_components/icon/SelectAvatar";
 import "./CSS/UserSetting.css";
+import { firestore } from "../../_utils/firebase";
 
 function UserSetting(props) {
   const [nickname, setNickName] = useState("");
@@ -50,6 +51,14 @@ function UserSetting(props) {
           console.log("login status", JSON.parse(res.payload.status));
           if (status == 200) {
             localStorage.setItem("loggedInfo", JSON.stringify(obj));
+
+            // 나의 정보 UPDATE
+            const userEmail = obj.email;
+            const nickname = obj.nickname;
+            const data = {
+              nickname: nickname,
+            };
+            firestore.collection("users").doc(userEmail).update(data);
             props.history.go(-1);
           }
         } else {
