@@ -13,16 +13,17 @@ import { getAllPlace } from "../../_actions/mapAction";
 import MapBottomSheet from "../../_components/map/MapBottomSheet";
 import { displayMarkerNow } from "../../_components/map/displayMarkerNow";
 import acorn from "../../_assets/acorn.png";
+import mapMarker from "../../_assets/mapMarker.png";
 import { getLikeFeeds } from "../../_actions/userAction";
 
 const { kakao } = window;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
     margin: '0px auto',
     width: '100%',
-    color : '#8d6e63'
+    color : '#8d6e63',
+    display: 'flex'
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -30,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
   title: {
     color:'white',
     fontFamily: 'GmarketSansMedium',
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: '100%',
   }
 }));
 
@@ -44,36 +48,7 @@ const InfoMap = (props) => {
   const [isLocation, setIsLocation] = useState(false);
   const [isdisplayMarkers, setdisplayMarkers] = useState(false);
   const [isgetPlaces, setIsGetPlaces] = useState(false);
-  const [likeMarkers, setLikeMarkers] = useState([
-    {
-      address_name: "대전 유성구 봉명동 448-5",
-      category_group_code: "FD6",
-      category_group_name: "음식점",
-      category_name: "음식점 > 한식 > 육류,고기 > 곱창,막창",
-      distance: "1108",
-      id: "465516385",
-      phone: "042-825-5792",
-      place_name: "곱창고 봉명점",
-      place_url: "http://place.map.kakao.com/465516385",
-      road_address_name: "대전 유성구 계룡로74번길 20",
-      x: "127.338283006941",
-      y: "36.3537401441578",
-      },
-    {
-      address_name: "대전 유성구 봉명동 553-2",
-      category_group_code: "CE7",
-      category_group_name: "카페",
-      category_name: "음식점 > 카페 > 커피전문점 > 파스쿠찌",
-      distance: "906",
-      id: "1846009136",
-      phone: "042-826-8498",
-      place_name: "파스쿠찌 유성온천역점",
-      place_url: "http://place.map.kakao.com/1846009136",
-      road_address_name: "대전 유성구 계룡로 92",
-      x: "127.340531131558",
-      y: "36.3537175374167",
-    }
-  ])
+  const [likeMarkers, setLikeMarkers] = useState([])
   const [likeObject, setLikeObject] = useState([]);
   const [allObject, setAllObject] = useState([]);
   const [toggleBtn, setToggleBtn] = useState(false);
@@ -108,14 +83,17 @@ const InfoMap = (props) => {
     removeMarker(map,likeObject)
     removeInfoWindow()
     setToggleBtn(true);
+    setPlace(null);
     let bounds = new kakao.maps.LatLngBounds();
 
     for (let i = 0; i < markers.length; i++) {
         let placePosition = new kakao.maps.LatLng(markers[i].y, markers[i].x); 
+        // var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 
         let marker = new kakao.maps.Marker({
           map: map,
           position: placePosition,
+          // image: markerImage
         });
 
         allObject.push(marker)
@@ -142,13 +120,22 @@ const InfoMap = (props) => {
     removeMarker(map,allObject)
     removeInfoWindow()
     setToggleBtn(false);
+    setPlace(null);
+    console.log(likeMarkers);
     let bounds = new kakao.maps.LatLngBounds();
     for (let i = 0; i < likeMarkers.length; i++) {
-        let placePosition = new kakao.maps.LatLng(likeMarkers[i].y, likeMarkers[i].x); 
+        let placePosition = new kakao.maps.LatLng(likeMarkers[i].y, likeMarkers[i].x);
+
+        var imageSrc = 'https://www.flaticon.com/svg/vstatic/svg/785/785114.svg?token=exp=1613144427~hmac=2f1c37240600c53df742058f59a60e5b', // 마커이미지의 주소입니다    
+        imageSize = new kakao.maps.Size(64, 27), // 마커이미지의 크기입니다
+        imageOption = {offset: new kakao.maps.Point(27, 27)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 
         let marker = new kakao.maps.Marker({
           map: map,
           position: placePosition,
+          image: markerImage
         });
 
         likeObject.push(marker)
@@ -164,7 +151,7 @@ const InfoMap = (props) => {
                 likeMarkers[i].placeName +
                 "</div>"
             );
-
+            infowindows.push(infowindow)
             infowindow.open(map, marker);
             
             map.setCenter(placePosition);
@@ -233,6 +220,9 @@ const InfoMap = (props) => {
     dispatch(getLikeFeeds(email))
     .then((res)=>{
       let likePlaces = JSON.parse(res.payload.data);
+      likePlaces.map((places) => {
+         setLikeMarkers(likeMarkers => likeMarkers.concat(places.place))
+      })
     })
   }
   
@@ -276,7 +266,8 @@ const InfoMap = (props) => {
                 <button className="togglebtn" onClick={displayLikeMarkers}>좋아요한 리뷰 보기</button>
               </div>
               ):(
-                <div>
+                <div className="wrap_Btn">
+                  <img className="img_acorn"src={mapMarker} alt="mapMarker" width="24px" height="26.8px" />
                   <button className="togglebtn" onClick={displayAllMarkers}>모든 리뷰 보기 </button>
                 </div>
               )
