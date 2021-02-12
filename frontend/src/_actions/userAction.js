@@ -43,6 +43,7 @@ export function getUser(dataToSubmit) {
 }
 
 export function logoutUser() {
+  localStorage.removeItem('jwt-token')
   localStorage.removeItem('loggedInfo')
   return { 
     type: LOGOUT_USER 

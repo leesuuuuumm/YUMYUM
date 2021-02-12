@@ -100,7 +100,9 @@ public class AccountController {
             //토큰생성
             String token = jwtService.create("email", curUser.get().getEmail(), "Authorization");
 
-            return makeResponse("200", token, "success", HttpStatus.OK);
+            AuthenticationResponse response = new AuthenticationResponse(curUser.get(), token);
+
+            return makeResponse("200", convertObjToJson(response), "success", HttpStatus.OK);
         } else {
             return makeResponse("400", null, "mismatch", HttpStatus.BAD_REQUEST);
         }

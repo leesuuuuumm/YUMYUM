@@ -128,6 +128,7 @@ public class FeedController {
 		if (!curFeed.isPresent()) {
 			return makeResponse("404", null, "No searchResult", HttpStatus.NOT_FOUND);
 		}
+		Feed searchedFeed = curFeed.get();
 
 		return makeResponse("200", convertObjToJson(curFeed.get()), "success", HttpStatus.OK);
 	}
@@ -208,19 +209,28 @@ public class FeedController {
 
 		boolean isCurLike = curLike.size() > 0;
 
+		Feed curFeed = feedDao.findById(feedId).get();
+		User curUser = userDao.findById(userEmail).get();
+		int likeCount = curFeed.getLikeCount();
+
 		if (!isCurLike) {
 			Like newLike = Like.builder()
-					.feed(feedDao.findById(feedId).get())
-					.user(userDao.findById(userEmail).get())
+					.feed(curFeed)
+					.user(curUser)
 					.build();
 			likeDao.save(newLike);
+			likeCount += 1;
 		} else {
 			likeDao.delete(curLike.get(0));
+			likeCount -= 1;
 		}
+
+		curFeed.setLikeCount(likeCount);
+		feedDao.save(curFeed);
 
 		LikeFeedResponse response = LikeFeedResponse.builder()
 				.isLike(!isCurLike)
-				.like_count(likeDao.findAllByFeed_Id(feedId).size())
+				.like_count(likeCount)
 				.build();
 
 		return makeResponse("200", convertObjToJson(response), "success", HttpStatus.OK);

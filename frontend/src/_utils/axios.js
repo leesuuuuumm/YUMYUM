@@ -11,7 +11,7 @@ export const request = (method, url, data = {}, config) => {
     // for (let key of data.keys()) {
     //   console.log(key);
     // }
-    axios.defaults.headers["Authorization"] = localStorage.getItem("loggedInfo");
+    axios.defaults.headers["Authorization"] = localStorage.getItem("jwt-token");
     return axios({
         method,
         url: DOMAIN + PORT + url,

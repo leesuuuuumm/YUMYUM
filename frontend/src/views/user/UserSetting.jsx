@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import { getUser, updateUser } from "../../_actions/userAction";
 import SelectAvatar from "../../_components/icon/SelectAvatar";
 import "./CSS/UserSetting.css";
+import { getEmail } from "../../_utils/setToken"
 
 function UserSetting(props) {
   const [nickname, setNickName] = useState("");
@@ -12,8 +13,8 @@ function UserSetting(props) {
   const dispatch = useDispatch();
   //TODO 닉네임이랑, 한줄내용을 서버에  보내주는 로직을 작성해야한다.
   useEffect(() => {
-    const token = localStorage.getItem("loggedInfo");
-    const email = token.email;
+    // const loggedInfo = localStorage.getItem("loggedInfo");
+    const email = getEmail();
     dispatch(getUser(email)).then((res) => {
       const userInfo = JSON.parse(res.payload.data);
       setNickName(userInfo.nickname);
@@ -50,7 +51,8 @@ function UserSetting(props) {
           // console.log("login ojb", obj);
           // console.log("login status", JSON.parse(res.payload.status));
           if (status == 200) {
-            localStorage.setItem("loggedInfo", JSON.stringify(obj));
+            localStorage.setItem("jwt-token", obj.token);
+            localStorage.setItem("loggedInfo", JSON.stringify(obj.user));
             props.history.go(-1);
           }
         } else {

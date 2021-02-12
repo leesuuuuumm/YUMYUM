@@ -26,16 +26,7 @@ public class JwtInterceptor implements HandlerInterceptor{
     private JwtService jwtService;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-            throws Exception {
-
-
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-
-        Map<String, String> headers = Collections.list(httpRequest.getHeaderNames())
-                .stream()
-                .collect(Collectors.toMap(h -> h, httpRequest::getHeader));
-
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         final String token = request.getHeader(HEADER_AUTH);
 
         if (request.getMethod().equals("OPTIONS")) {
@@ -51,6 +42,5 @@ public class JwtInterceptor implements HandlerInterceptor{
             logger.info("토큰 사용 불가능 : {}", token);
             throw new UnauthorizedException();
         }
-
     }
 }

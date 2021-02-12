@@ -45,7 +45,5 @@ public class Feed extends TimeEntity {
 
 	private String thumbnailPath;
 
-	@JsonInclude()
-	@Transient
 	private Integer likeCount;
 }

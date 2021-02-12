@@ -30,7 +30,7 @@ function ResetPassword(props) {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("loggedInfo");
+    const token = localStorage.getItem("jwt-token");
 
     if (token) {
       setEmail(getEmail());
