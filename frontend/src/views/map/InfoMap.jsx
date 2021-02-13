@@ -15,9 +15,9 @@ import { displayMarkerNow } from "../../_components/map/displayMarkerNow";
 import acorn from "../../_assets/acorn.png";
 import mapMarker from "../../_assets/mapMarker.png";
 import { getLikeFeeds } from "../../_actions/userAction";
+import $ from "jquery";
 
 const { kakao } = window;
-
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: '0px auto',
@@ -52,6 +52,7 @@ const InfoMap = (props) => {
   const [likeObject, setLikeObject] = useState([]);
   const [allObject, setAllObject] = useState([]);
   const [toggleBtn, setToggleBtn] = useState(false);
+  const [clusterer, setClusterer] = useState(null);
   const email = JSON.parse(localStorage.getItem("loggedInfo")).email;
   const dispatch = useDispatch();
 
@@ -64,8 +65,6 @@ const InfoMap = (props) => {
     };
     let map = new kakao.maps.Map(container, options);
 
-    let mapTypeControl = new kakao.maps.MapTypeControl();
-
     setBounds(new kakao.maps.LatLngBounds());
     // map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
     setCreateMap(map);
@@ -77,13 +76,23 @@ const InfoMap = (props) => {
           infowindows[i].close()
       }
     });
+
+    let clus = new kakao.maps.MarkerClusterer({
+      map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
+      averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
+      minLevel: 10 // 클러스터 할 최소 지도 레벨 
+    });
+
+    setClusterer(clus)
   };
   //지도에 모든 마커를 뽑아주는 함수 
   const displayAllMarkers = React.useCallback(() => {
     removeMarker(map,likeObject)
+    setLikeObject([])
     removeInfoWindow()
     setToggleBtn(true);
     setPlace(null);
+    clusterer.clear() // 모든 리뷰 클러스터 삭제를 위한 코드 
     let bounds = new kakao.maps.LatLngBounds();
 
     for (let i = 0; i < markers.length; i++) {
@@ -114,14 +123,17 @@ const InfoMap = (props) => {
             map.setLevel(4);
           });
       }
+      clusterer.addMarkers(allObject)
   })
 
   const displayLikeMarkers = React.useCallback(() => {
     removeMarker(map,allObject)
+    setAllObject([])
     removeInfoWindow()
     setToggleBtn(false);
     setPlace(null);
     console.log(likeMarkers);
+    clusterer.clear() // 모든 리뷰 클러스터 삭제를 위한 코드 
     let bounds = new kakao.maps.LatLngBounds();
     for (let i = 0; i < likeMarkers.length; i++) {
         let placePosition = new kakao.maps.LatLng(likeMarkers[i].y, likeMarkers[i].x);
@@ -158,7 +170,8 @@ const InfoMap = (props) => {
             
             map.setLevel(4);
           });
-      }
+    }
+    clusterer.addMarkers(likeObject)
   })
 
   const removeMarker = (map, markers) => {
@@ -237,6 +250,9 @@ const InfoMap = (props) => {
     getPlaces();
     getLikePlaces();
   },[]);
+
+  useEffect(()=>{
+  })
 
   // useEffect(() => {
   //     if(isgetPlaces){
