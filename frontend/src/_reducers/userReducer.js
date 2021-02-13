@@ -1,5 +1,4 @@
-import { REGISTER_USER, LOGIN_USER, RESETPASSWORD_USER, GET_USER_INFO, UPDATE_USER_INFO } from "../_actions/types";
-
+import { REGISTER_USER, LOGIN_USER, RESETPASSWORD_USER, GET_USER_INFO, UPDATE_USER_INFO, GET_LIKE_FEEDS_INFO } from "../_actions/types";
 
 const userReducer = function(state = {}, action) {
     const { type, payload } = action;
@@ -39,6 +38,13 @@ const userReducer = function(state = {}, action) {
                 data: payload.data,
                 object: payload.object,
             }};
+        case GET_LIKE_FEEDS_INFO:
+          return { ...state, userLikeFeedSuccess: {
+              status: payload.status,
+              message: payload.message,
+              data: payload.data,
+              object: payload.object,
+          }};
         default:
             return state;
     }

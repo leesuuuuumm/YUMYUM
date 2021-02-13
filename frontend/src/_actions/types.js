@@ -7,6 +7,7 @@ export const LOGOUT_USER = "LOGOUT_USER";
 export const GET_USER = "GET_USER";
 export const GET_USER_INFO = "GET_USER_INFO";
 export const UPDATE_USER_INFO = "UPDATE_USER_INFO";
+export const GET_LIKE_FEEDS_INFO = "GET_LIKE_FEEDS_INFO"
 
 // feed
 export const GET_FEEDS = "GET_FEEDS";

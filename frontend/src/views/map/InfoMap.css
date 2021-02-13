@@ -1,6 +1,6 @@
 .infomap {
   text-align: center;
-  position: static;
+  position: relative;
  }
 
 #allmap {
@@ -19,4 +19,54 @@ margin: 0px auto;
 .location_icon:active{
   transform: scale(0.9);
   color:rgba(59, 59, 59, 0.5);
+}
+
+.togglebtn {
+  border: none;
+  outline: none;
+  width: 100%;
+  /* padding: 15px 0; */
+  color: #8d6e63;
+  font-size: 16px;
+  font-family: 'GmarketSansMedium';
+  letter-spacing: 1px;
+  background: rgb(60, 185, 252);
+  background: linear-gradient(
+    82deg,
+    #ffeb3b 0%,
+    #fff59d 86%
+  );
+  /* cursor: pointer; */
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.wrap_Btn {
+  display: flex;
+  margin: 5px;
+  border: none;
+}
+
+.img_acorn{
+  margin-right: 10px ;
+}
+
+.likeListBtn {
+  border: none;
+  outline: none;
+  width: 100%;
+  /* padding: 15px 0; */
+  color: #8d6e63;
+  font-size: 16px;
+  font-family: 'GmarketSansMedium';
+  letter-spacing: 1px;
+  background: rgb(60, 185, 252);
+  background: linear-gradient(
+    82deg,
+    #ffeb3b 0%,
+    #fff59d 86%
+  );
+  /* cursor: pointer; */
+  font-weight: bold;
+  border-radius: 5px;
 }
