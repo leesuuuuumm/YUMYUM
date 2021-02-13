@@ -37,10 +37,6 @@ function Feed(props) {
   const dispatch = useDispatch();
 
   const openHandler = () => {
-    console.log(videoId)
-    console.log(feedVideoPath)
-    console.log(feed.id)
-    console.log(feedUser.email)
     setIsOpened(!isOpened)
   }
 

@@ -51,7 +51,7 @@ function FlipPages(props) {
     const scrollHeight = document.documentElement.scrollHeight;
     const scrollTop = document.documentElement.scrollTop;
     const clientHeight = document.documentElement.clientHeight;
-    if (scrollTop + clientHeight + 100 >= scrollHeight && fetching === false) {
+    if (scrollTop + clientHeight + 300 >= scrollHeight && fetching === false) {
       fetchMoreFeeds();
     }
    };
