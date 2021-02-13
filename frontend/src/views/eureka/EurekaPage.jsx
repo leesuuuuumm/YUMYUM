@@ -81,7 +81,7 @@ const ShoutPage = () => {
       };
       firestore.collection("users").doc(userEmail).update(data);
     });
-  });
+  }, []);
 
   useEffect(() => {
     // 위치 기반 유저 dummy data
