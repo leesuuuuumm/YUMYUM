@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { resetPassword } from "../../_actions/userAction";
 import { withRouter } from "react-router-dom";
 import './CSS/ResetPassword.css'
+import { getEmail } from "../../_utils/setToken"
 
 function ResetPassword(props) {
   const [Password, setPassword] = useState("");
@@ -29,19 +30,18 @@ function ResetPassword(props) {
   };
 
   useEffect(() => {
-    const loggedInfo = localStorage.getItem("loggedInfo");
+    const token = localStorage.getItem("jwt-token");
 
-    if (loggedInfo) {
-      setEmail(JSON.parse(loggedInfo).email);
+    if (token) {
+      setEmail(getEmail());
     }
   }, []);
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
     if (NewPassword === ConfirmPassword) {
-      console.log(localStorage.getItem("loggedInfo").email);
       let body = {
-        email: email,
+        userEmail: getEmail(),
         password: Password,
         newPassword: NewPassword,
       };

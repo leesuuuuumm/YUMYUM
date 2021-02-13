@@ -21,6 +21,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import girl from "../../_assets/eurekaIcon/girl.svg";
 import "./CSS/UserFeedPage.css";
 import "./CSS/MyFeedPage.css";
+import { getEmail } from "../../_utils/setToken"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -82,14 +83,8 @@ function UserFeedPage(props) {
   };
 
   useEffect(() => {
-    const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
-    const nickname = JSON.parse(localStorage.getItem("loggedInfo")).nickname;
-    setUsername(nickname);
-    console.log(
-      "hihi",
-      JSON.parse(localStorage.getItem("loggedInfo")).introduction
-    );
-    setInfo(JSON.parse(localStorage.getItem("loggedInfo")).introduction);
+    const userEmail = getEmail()
+    console.log(userEmail)
     dispatch(getFeedCalendarByEmail(userEmail));
   }, []);
 

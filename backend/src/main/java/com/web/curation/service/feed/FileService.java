@@ -70,7 +70,7 @@ public class FileService {
             } else {
                 videoUrl = PREFIX_URL + savedVideoName;
             }
-            System.out.println("url : " + videoUrl);
+//            System.out.println("url : " + videoUrl);
 
             saveFile(originFilename, savedVideoName, videoUrl, extName);
         }
@@ -125,7 +125,7 @@ public class FileService {
         if (System.getProperty("os.name").contains("Windows")) {
             thumbnailPath = WINDOWS_SAVE_PATH + savedFileName + "_thumbnail.png";
         } else {
-            thumbnailPath = SAVE_PATH + savedFileName + "_thumbnail.png";
+            thumbnailPath = PREFIX_URL + savedFileName + "_thumbnail.png";
         }
         java.io.File thumbnail = new java.io.File(thumbnailPath);
 

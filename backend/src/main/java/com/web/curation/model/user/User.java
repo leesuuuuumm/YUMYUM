@@ -2,6 +2,8 @@
 
 package com.web.curation.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.web.curation.model.TimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,9 +13,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 
 @Entity
 @Data
@@ -31,7 +30,13 @@ public class User extends TimeEntity {
   @JsonIgnore
   private String password;
   private String nickname;
+  private String salt;
 
   @Column(length=50)
   private String introduction;
+
+  private Integer thumbnail;
+
+  private Double recentY;
+  private Double recentX;
 }

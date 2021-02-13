@@ -32,16 +32,19 @@ function Login(props) {
         const obj = JSON.parse(res.payload.data);
         const status = JSON.parse(res.payload.status);
         console.log("login ojb", obj);
-        console.log("login status", JSON.parse(res.payload.status));
+        // console.log("login status", res.payload.status);
         if (status == 200) {
           // alert("로그인 성공!");
 
-          localStorage.setItem("loggedInfo", JSON.stringify(obj));
+          localStorage.setItem("jwt-token", obj.token);
+          localStorage.setItem("loggedInfo", JSON.stringify(obj.user));
+
+          
           // 위치 업데이트
           getPosition().then((res) => {
             // 나의 위치 UPDATE
-            const userEmail = obj.email;
-            const nickname = obj.nickname;
+            const userEmail = obj.user.email;
+            const nickname = obj.user.nickname;
             const data = {
               nickname: nickname,
               position: {
@@ -51,6 +54,8 @@ function Login(props) {
             };
             firestore.collection("users").doc(userEmail).update(data);
           });
+
+
 
           console.log("히스토리");
           console.log(props.history);

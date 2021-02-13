@@ -1,13 +1,9 @@
 package com.web.curation.model.eureka;
 
-import com.web.curation.model.map.Place;
-import com.web.curation.model.user.User;
-import lombok.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @ToString
