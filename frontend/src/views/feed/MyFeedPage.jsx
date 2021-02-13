@@ -62,7 +62,7 @@ function UserFeedPage(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const [username, setUsername] = React.useState("");
-  const [info, setInfo] = React.useState("한줄평 입니다");
+  const [info, setInfo] = React.useState("");
   const [isModalOpen, setModalOpen] = useState(false);
   const [navheight, setNavHeight] = useState("");
   const dispatch = useDispatch();
@@ -87,6 +87,7 @@ function UserFeedPage(props) {
     console.log("안녕난이메일", userEmail);
     dispatch(getUser(userEmail)).then((res) => {
       setUsername(JSON.parse(res.payload.data).nickname);
+      setInfo(JSON.parse(res.payload.data).introduction);
     });
 
     dispatch(getFeedCalendarByEmail(userEmail));
