@@ -21,6 +21,7 @@ import EurekaPage from './views/eureka/EurekaPage';
 import SearchBar from './views/feed/SearchBar';
 import BottomTab from './_components/common/BottomTab';
 import FoodFeed from './views/food/FoodFeed';
+import LikeFeed from './views/food/LikeFeed';
 import PrivateRoute from '../src/_components/common/PrivateRoute';
 import LoginRoute from '../src/_components/common/LoginRoute';
 import SingleFeed from "../src/views/feed/SingleFeed";
@@ -50,6 +51,7 @@ function App() {
           <PrivateRoute exact path="/food/feed" component= {FoodFeed} />
           <PrivateRoute exact path="/feed/singlefeed" component= {SingleFeed} />
           <PrivateRoute exact path="/buttontest" component= {FloatingButton} />
+          <PrivateRoute exact path="/food/likefeed" component= {LikeFeed} />
           <Route path="/error" component={ErrorPage} />
           <Route path="*" component={NotFound} />
         </Switch>
