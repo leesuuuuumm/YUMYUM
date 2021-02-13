@@ -22,7 +22,7 @@ function FlipPages(props) {
       setAllFeeds(objs)
       setFeeds(
         part.map((obj) => (
-          <Slide>
+          <Slide key={obj.id}>
             <Feed key={obj.id} feed={obj} />
           </Slide>
         ))
