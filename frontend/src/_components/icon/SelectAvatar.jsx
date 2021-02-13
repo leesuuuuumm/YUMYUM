@@ -1,32 +1,39 @@
 import React from "react";
 import Avatar from "@material-ui/core/Avatar";
-import person1 from "../../_assets/eurekaIcon/girl.svg";
-import person2 from "../../_assets/eurekaIcon/girl2.svg";
-import person3 from "../../_assets/eurekaIcon/boy.svg";
-import person4 from "../../_assets/eurekaIcon/boy2.svg";
+import q_brown from "../../_assets/eurekaIcon/q_brown.svg";
+import q_yellow from "../../_assets/eurekaIcon/q_yellow.svg";
+import q_pink from "../../_assets/eurekaIcon/q_pink.svg";
+import q_blue from "../../_assets/eurekaIcon/q_blue.svg";
+import q_purple from "../../_assets/eurekaIcon/q_purple.svg";
 
+// clip rect(top right bottom left)
 const SelectAvatar = () => {
   return (
     <div style={{ margin: "0 auto" }}>
       <Avatar
         alt="1"
-        src={person1}
-        style={{ marginRight: "2px", float: "left" }}
+        src={q_brown}
+        style={{ marginRight: "10px", float: "left" }}
       />
       <Avatar
         alt="2"
-        src={person2}
-        style={{ marginRight: "2px", float: "left" }}
+        src={q_yellow}
+        style={{ marginRight: "10px", float: "left" }}
       />
       <Avatar
         alt="3"
-        src={person3}
-        style={{ marginRight: "2px", float: "left" }}
+        src={q_pink}
+        style={{ marginRight: "10px", float: "left" }}
       />
       <Avatar
         alt="4"
-        src={person4}
-        style={{ marginRight: "0.5rem", float: "left" }}
+        src={q_blue}
+        style={{ marginRight: "10px", float: "left" }}
+      />
+      <Avatar
+        alt="5"
+        src={q_purple}
+        style={{ marginRight: "10px", float: "left" }}
       />
     </div>
   );

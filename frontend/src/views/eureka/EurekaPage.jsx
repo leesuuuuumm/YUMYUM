@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import girl from "../../_assets/eurekaIcon/girl.svg";
+import girl from "../../_assets/eurekaIcon/q_brown.svg";
 import styled, { keyframes } from "styled-components";
 import "./EurekaPage.css";
 import { getPosition } from "../../_utils/getLocation";
