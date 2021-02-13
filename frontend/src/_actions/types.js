@@ -16,6 +16,7 @@ export const UPDATE_FEED = "UPDATE_FEED";
 export const CREATE_FEED = "CREATE_FEED";
 export const CREATE_VIDEO = "CREATE_VIDEO";
 export const DELETE_FEED = "DELETE_FEED";
+export const LIKE_FEED = "LIKE_FEED";
 export const GET_FEEDCALENDAR_BY_EMAIL = "GET_FEEDCALENDAR_BY_EMAIL";
 
 // map

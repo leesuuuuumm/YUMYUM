@@ -33,7 +33,7 @@ function App() {
       <MuiThemeProvider theme={theme}>
       <Router>
         <Switch>
-          <LoginRoute exact path="/" component={Login} />
+          <Route exact path="/" component={Login} />
           {/* <PrivateRoute path="/" exact component= {Login} /> */}
           <PrivateRoute exact path="/feed/flippages" component ={FlipPages}/>
           <PrivateRoute exact path="/feed/flippagesUser" component ={FlipPagesUser}/>
@@ -45,7 +45,7 @@ function App() {
           <PrivateRoute exact path="/user/usersetting"  component={UserSetting} />
           <PrivateRoute exact path="/feed/createfeed"  component={CreateFeed}/>
           <PrivateRoute exact path="/feed/camera" component={Camera}/>
-          <Route path='/eureka' exact render={() => <EurekaPage />} />
+          <PrivateRoute path='/eureka' component={EurekaPage} />
           <PrivateRoute exact path='/feed/feedmap' component={SearchBar}/>
           <PrivateRoute exact path="/map/infomap" component={InfoMap} />
           <PrivateRoute exact path="/food/feed" component= {FoodFeed} />

@@ -35,13 +35,6 @@ function BottomTab(props) {
     // setValue("");
   };
 
-  // useEffect(() => {
-  //   if (localStorage.getItem("loggedInfo")) {
-  //     const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
-  //     setLoggedUserUrl("/profile/" + `${userEmail}`);
-  //   }
-  // }, [localStorage.getItem("loggedInfo")]);
-
   if (props.location.pathname === "/") {
     return false;
   } else if (props.location.pathname === "/user/join") {

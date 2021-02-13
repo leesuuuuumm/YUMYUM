@@ -11,7 +11,6 @@ function FlipPagesUser(props) {
   const [flipPages, SetFlipPages] = useState();
   const [feeds, setFeeds] = useState([]);
   const [idx, setIdx] = useState([]);
-  const [someThingDeleted, setSomethingDeleted] = useState(false);
   const dispatch = useDispatch();
 
   const getFeedDatas = (email) => {
@@ -19,7 +18,7 @@ function FlipPagesUser(props) {
     .then((res) => {
       const objs = JSON.parse(res.payload.data);
       console.log(objs, "objs")
-      const feed = objs.map(obj => (<Slide> <Feed key={obj.id} feed={obj} setSomethingDeleted={setSomethingDeleted} /></Slide>))
+      const feed = objs.map(obj => (<Slide> <Feed key={obj.id} feed={obj} /></Slide>))
       SetFlipPages( <FullPage initialSlide={idx} duration={500}> {feed} </FullPage>)
     })
   };
@@ -29,14 +28,6 @@ function FlipPagesUser(props) {
     idx.push(index)
     getFeedDatas(email);
   }, []);
-
-  useEffect(() => {
-    if (setSomethingDeleted) {
-      console.log("오긴오니?")
-      const {index, email} = props.location.state;
-      getFeedCalendarByEmail(email)
-    }
-  },[someThingDeleted])
 
   return (
     <div>
