@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import girl from "../../_assets/eurekaIcon/girl.svg";
 import styled, { keyframes } from "styled-components";
 import "./EurekaPage.css";
-import CircularMenu from "../../_components/circleMenu/CircularMenu";
 import { getPosition } from "../../_utils/getLocation";
 import { firestore } from "../../_utils/firebase";
 import firebase from "firebase/app";
