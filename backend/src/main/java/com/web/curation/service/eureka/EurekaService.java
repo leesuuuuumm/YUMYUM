@@ -2,6 +2,7 @@ package com.web.curation.service.eureka;
 
 import com.web.curation.model.eureka.Eureka;
 import com.web.curation.model.eureka.FindNearEurekaRequest;
+import com.web.curation.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -64,5 +65,14 @@ public class EurekaService {
     // This function converts radians to decimal degrees
     private double rad2deg(double rad) {
         return (rad * 180 / Math.PI);
+    }
+
+    public Eureka buildEureka(String message, User user, Double lat, Double lon) {
+        return Eureka.builder()
+                .message(message)
+                .user(user)
+                .lat(lat)
+                .lon(lon)
+                .build();
     }
 }

@@ -12,6 +12,7 @@ import com.web.curation.dao.feed.LikeDao;
 import com.web.curation.model.feed.*;
 import com.web.curation.model.user.User;
 import com.web.curation.model.map.Place;
+import com.web.curation.service.feed.FeedService;
 import com.web.curation.service.feed.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,6 +48,8 @@ public class FeedController {
 	@Autowired
 	private FileService fileService;
 	@Autowired
+	private FeedService feedService;
+	@Autowired
 	private PlaceDao placeDao;
 	@Autowired
 	private LikeDao likeDao;
@@ -63,30 +66,17 @@ public class FeedController {
 
 		Optional<User> curUser = userDao.findById(userEmail);
 		Optional<Place> curPlace = placeDao.findById(request.getPlaceId());
-		if (!curUser.isPresent()) {
-			return makeResponse("400", null, "User Not found", HttpStatus.BAD_REQUEST);
+
+		ResponseEntity<?> result = feedService.checkBlankWhenCreateFeed(curUser, curPlace, title, content, score);
+		if (result != null) {
+			return result;
 		}
 
-		if (!curPlace.isPresent()) {
-			return makeResponse("400", null, "Place Not found", HttpStatus.BAD_REQUEST);
-		}
-
-		if ("".equals(title) || "".equals(curPlace.get().getAddressName()) || "".equals(curPlace.get().getPlaceName())
-				|| score == null || "".equals(content)) {
-			return makeResponse("400", null, "data is blank", HttpStatus.BAD_REQUEST);
-		}
 		List<String> urls = fileService.upload(mFile);
 
 		Place savedPlace = placeDao.save(curPlace.get());
 
-		Feed feed = Feed.builder()
-				.title(title)
-				.score(score)
-				.content(content)
-				.user(curUser.get())
-				.videoPath(urls.get(0))
-				.thumbnailPath(urls.get(1))
-				.place(savedPlace).build();
+		Feed feed = feedService.buildFeed(title, score, content, curUser.get(), urls, savedPlace);
 
 		Feed savedFeed = feedDao.save(feed);
 
@@ -128,7 +118,6 @@ public class FeedController {
 		if (!curFeed.isPresent()) {
 			return makeResponse("404", null, "No searchResult", HttpStatus.NOT_FOUND);
 		}
-		Feed searchedFeed = curFeed.get();
 
 		return makeResponse("200", convertObjToJson(curFeed.get()), "success", HttpStatus.OK);
 	}
@@ -136,7 +125,6 @@ public class FeedController {
 	@GetMapping("/list")
 	@ApiOperation(value = "모든 유저의 피드 리스트 조회")
 	public Object feedList() {
-//		TODO::로그인 되어있는지 확인하는 로직 필요.
 		List<Feed> searchlist = feedDao.findAll();
 
 		return makeResponse("200", convertObjToJson(searchlist), "success" + searchlist.size(), HttpStatus.OK);
@@ -214,10 +202,7 @@ public class FeedController {
 		int likeCount = curFeed.getLikeCount();
 
 		if (!isCurLike) {
-			Like newLike = Like.builder()
-					.feed(curFeed)
-					.user(curUser)
-					.build();
+			Like newLike = feedService.buildLike(curFeed, curUser);
 			likeDao.save(newLike);
 			likeCount += 1;
 		} else {

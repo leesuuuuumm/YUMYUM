@@ -5,6 +5,7 @@ import com.web.curation.dao.user.UserDao;
 import com.web.curation.model.feed.Feed;
 import com.web.curation.model.feed.Like;
 import com.web.curation.model.user.*;
+import com.web.curation.service.account.AccountService;
 import com.web.curation.service.jwt.JwtService;
 import com.web.curation.utils.SHA256Util;
 import io.swagger.annotations.ApiOperation;
@@ -40,40 +41,27 @@ public class AccountController {
 	@Autowired
     private JwtService jwtService;
 
+	@Autowired
+	private AccountService accountService;
+
 //	@Autowired
 //	private JwtService jwtService;
 	@PostMapping
 	@ApiOperation(value = "회원가입")
 	public Object signup(
 			@Valid @RequestBody @ApiParam(value = "회원가입 시 필요한 회원정보(이메일, 별명, 비밀번호).", required = true) SignupRequest request) {
-        // 이메일, 닉네임 중복처리 필수
-        // 회원가입단을 생성해 보세요.
         String email = request.getEmail().trim();
         String nickname = request.getNickname().trim();
-        String salt = SHA256Util.generateSalt();
 
-        String password = request.getPassword().trim();
-        password = SHA256Util.getEncrypt(password, salt);
+		String salt = SHA256Util.generateSalt();
+        String password = SHA256Util.getEncrypt(request.getPassword().trim(), salt);
 
-        // User curUser = userDao.getUserByEmail(email);
-        // 이메일 중복 체크
-        if (userDao.findById(email).isPresent()) {
-            return makeResponse("400", null, "this email already exists", HttpStatus.BAD_REQUEST);
-        }
-        // 이메일, 별명, 패스워드 비어있는지 확인
-        if ("".equals(email) || "".equals(nickname) || "".equals(password))
-            return makeResponse("400", null, "data is blank", HttpStatus.BAD_REQUEST);
+		Object response = accountService.duplicateAndBlankCheckWhenSignUp(email, nickname, password);
+		if (response != null) {
+			return response;
+		}
 
-        // 별명 체크
-        if (userDao.getUserByNickname(nickname) != null)
-            return makeResponse("400", null, "this nickname already exists", HttpStatus.BAD_REQUEST);
-
-        User user = User.builder()
-                .email(email)
-                .password(password)
-                .nickname(nickname)
-                .salt(salt)
-                .build();
+        User user = accountService.buildUser(email, password, nickname, salt);
 
         User savedUser = userDao.save(user);
         return makeResponse("200", convertObjToJson(savedUser), "success", HttpStatus.OK);
@@ -84,16 +72,12 @@ public class AccountController {
 	public Object login(
 			@RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(아이디, 비밀번호).", required = true) AuthenticationRequest request) {
         String email = request.getEmail().trim();
-        String password = request.getPassword().trim();
+        String rawPassword = request.getPassword().trim();
 
+        String salt = userDao.findByEmail(email).get().getSalt();
 
-        Optional<User> userOpt = userDao.findByEmail(email);
-        String salt = userOpt.get().getSalt();
+        String password = SHA256Util.getEncrypt(rawPassword, salt);
 
-        password = SHA256Util.getEncrypt(password, salt);
-        request.setPassword(password);
-
-        System.out.println(request);
         Optional<User> curUser = userDao.findUserByEmailAndPassword(email, password);
         // 로그인 했을 때 유저 정보(이메일, 닉네임) 보내주기
         if (curUser.isPresent()) {
@@ -112,10 +96,6 @@ public class AccountController {
     @ApiOperation(value = "비밀번호 변경")
     public Object changePassword(
             @Valid @RequestBody @ApiParam(value = "비밀번호 변경 시 필요한 회원정보(이메일, 기존 비밀번호, 새 비밀번호).", required = true) ChangePasswordRequest request, HttpServletRequest http) {
-        //이메일 안줬어 토큰만줬어 프론트에서
-//      Enumeration<String> jwts = http.getHeaders("Authorization");
-//      String jwt = http.getHeader("Authorization");
-
         Optional<User> curUser = userDao.findById(request.getUserEmail());
 
         String salt = curUser.get().getSalt();
@@ -132,7 +112,6 @@ public class AccountController {
         if (!password.equals(updateUser.getPassword())) {
             return makeResponse("400", null, "password is not match", HttpStatus.BAD_REQUEST);
         } else {
-            System.out.println(newPassword);
             newPassword = SHA256Util.getEncrypt(newPassword, salt);
             updateUser.setPassword(newPassword);
             userDao.save(updateUser);
@@ -158,6 +137,7 @@ public class AccountController {
 		updateUser.setNickname(nickname);
 		updateUser.setIntroduction(introduction);
 		userDao.save(updateUser);
+
 		return makeResponse("200", convertObjToJson(updateUser), "success", HttpStatus.OK);
 	}
 

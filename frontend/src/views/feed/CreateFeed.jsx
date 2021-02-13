@@ -33,7 +33,7 @@ function CreateFeed(props) {
     setContent(e.currentTarget.value);
   };
   const onLoggedUser = (e) => {
-    setLoggedUser(localStorage.getItem("loggedInfo"));
+    setLoggedUser(JSON.parse(localStorage.getItem("loggedInfo")));
   };
   const ratingChanged = (newRating) => {
     setScore(newRating);
@@ -52,8 +52,6 @@ function CreateFeed(props) {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    console.log(loggedUser);
-    console.log(getEmail());
     formData.append("title", title);
     formData.append("content", content);
     formData.append("score", score);
