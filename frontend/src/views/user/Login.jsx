@@ -30,11 +30,11 @@ function Login(props) {
         const obj = JSON.parse(res.payload.data);
         const status = JSON.parse(res.payload.status);
         console.log("login ojb", obj);
-        console.log("login status", JSON.parse(res.payload.status));
+        // console.log("login status", res.payload.status);
         if (status == 200) {
           // alert("로그인 성공!");
-
-          localStorage.setItem("loggedInfo", JSON.stringify(obj));
+          localStorage.setItem("jwt-token", obj.token);
+          localStorage.setItem("loggedInfo", JSON.stringify(obj.user));
           console.log("히스토리");
           console.log(props.history);
           props.history.push({

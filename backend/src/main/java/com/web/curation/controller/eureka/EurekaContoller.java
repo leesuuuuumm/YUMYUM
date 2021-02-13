@@ -59,12 +59,7 @@ public class EurekaContoller {
             return makeResponse("400", null, "data is blank", HttpStatus.BAD_REQUEST);
         }
 
-        Eureka eureka = Eureka.builder()
-                .message(message)
-                .user(curUser.get())
-                .lat(lat)
-                .lon(lon)
-                .build();
+        Eureka eureka = eurekaService.buildEureka(message, curUser.get(), lat, lon);
 
         Eureka saevdEureka = eurekaDao.save(eureka);
 
@@ -103,7 +98,6 @@ public class EurekaContoller {
     @GetMapping("/list")
     @ApiOperation(value = "모든 유저의 유레카 리스트 조회")
     public Object getAllEureka() {
-//		TODO::로그인 되어있는지 확인하는 로직 필요.
         List<Eureka> searchlist = eurekaDao.findAll();
 
         return makeResponse("200", convertObjToJson(searchlist), "success" + searchlist.size(), HttpStatus.OK);
@@ -113,8 +107,6 @@ public class EurekaContoller {
     @ApiOperation(value = "거리 기반으로 유레카 리스트 조회")
     public Object getNearEureka(
             @Valid @ModelAttribute @ApiParam(value = "거리 기반 유레카 찾기 위한 정보", required = true) FindNearEurekaRequest request) {
-//		TODO::로그인 되어있는지 확인하는 로직 필요.
-
         List<Eureka> searchList = eurekaDao.findAll();
         List<Eureka> resultList = eurekaService.getNearEurekaList(searchList, request);
 

@@ -21,6 +21,7 @@ const ModalList = () => {
   };
 
   const logout = () => {
+    localStorage.removeItem("jwt-token");
     localStorage.removeItem("loggedInfo");
     history.push("");
   };
