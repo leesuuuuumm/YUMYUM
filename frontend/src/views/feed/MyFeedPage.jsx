@@ -21,7 +21,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import girl from "../../_assets/eurekaIcon/girl.svg";
 import "./CSS/UserFeedPage.css";
 import "./CSS/MyFeedPage.css";
-import { getEmail } from "../../_utils/setToken"
+import { getEmail } from "../../_utils/setToken";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -83,15 +83,19 @@ function UserFeedPage(props) {
   };
 
   useEffect(() => {
-    const userEmail = getEmail()
-    console.log(userEmail)
+    const userEmail = getEmail();
+    console.log("안녕난이메일", userEmail);
+    dispatch(getUser(userEmail)).then((res) => {
+      setUsername(JSON.parse(res.payload.data).nickname);
+    });
+
     dispatch(getFeedCalendarByEmail(userEmail));
   }, []);
 
   useEffect(() => {
-    let element = document.getElementById('myAppBar');
+    let element = document.getElementById("myAppBar");
     setNavHeight(element.clientHeight);
-  },[])
+  }, []);
 
   // STORE에 저장된 FEEDS 가져오기
   const feeds = useSelector((state) => {
@@ -130,7 +134,7 @@ function UserFeedPage(props) {
       </AppBar>
 
       <TabPanel value={value} index={0} dir={theme.direction}>
-        <FeedSquareGrid title="2월" tileData={feeds} navheight={navheight}/>
+        <FeedSquareGrid title="2월" tileData={feeds} navheight={navheight} />
       </TabPanel>
 
       <TabPanel value={value} index={1} dir={theme.direction}>
