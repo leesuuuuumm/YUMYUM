@@ -124,7 +124,7 @@ function UserFeedPage(props) {
               <MoreVertIcon />
             </IconButton>
           </ProfileUser>
-          {info ? <p>{info}</p> : <p>한줄평을 작성해 주세요</p>}
+          {info ? <p>{info}</p> : <p>한 줄 소개를 작성해 주세요</p>}
         </ProfileInfo>
         {/* 탭바 */}
         <Tabs value={value} onChange={handleChange} variant="fullWidth">
