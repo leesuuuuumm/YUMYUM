@@ -44,4 +44,6 @@ public class Feed extends TimeEntity {
 	private String videoPath;
 
 	private String thumbnailPath;
+
+	private Integer likeCount;
 }

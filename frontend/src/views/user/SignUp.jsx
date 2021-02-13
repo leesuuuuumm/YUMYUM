@@ -6,6 +6,8 @@ import { chkEmail, chkPassword } from "../../_utils/validator";
 import Quokka from "../../_assets/quokka1.png";
 import "./CSS/SignUp.css";
 import SelectAvatar from "../../_components/icon/SelectAvatar";
+import { firestore } from "../../_utils/firebase";
+import { getPosition } from "../../_utils/getLocation";
 
 function SignUp(props) {
   // useState로 현재 state와 state를 변경하는 함수 지정
@@ -60,6 +62,20 @@ function SignUp(props) {
       dispatch(registerUser(body))
         .then((res) => {
           if (res.payload.status === "200") {
+            // firebase
+
+            getPosition().then((res) => {
+              // 나의 위치 UPDATE
+              const data = {
+                nickname: Nickname,
+                position: {
+                  y: res.Ma,
+                  x: res.La,
+                },
+              };
+              firestore.collection("users").doc(Email).set(data);
+            });
+
             props.history.push("/");
           } else if (res.payload.status === "400") {
             if (res.payload.message === "this email already exists") {

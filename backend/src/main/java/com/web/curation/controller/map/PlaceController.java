@@ -4,6 +4,7 @@ import com.web.curation.dao.feed.FeedDao;
 import com.web.curation.dao.map.PlaceDao;
 import com.web.curation.model.feed.Feed;
 import com.web.curation.model.map.Place;
+import com.web.curation.service.place.PlaceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -27,6 +28,8 @@ public class PlaceController {
 	private FeedDao feedDao;
 	@Autowired
 	private PlaceDao placeDao;
+	@Autowired
+	private PlaceService placeService;
 
 	@PostMapping
 	@ApiOperation(value = "place 저장")
@@ -38,9 +41,7 @@ public class PlaceController {
 					HttpStatus.OK);
 		}
 
-		Place place = Place.builder().id(id).addressName(request.getAddressName().trim())
-				.phone(request.getPhone().trim()).placeName(request.getPlaceName()).x(request.getX()).y(request.getY())
-				.build();
+		Place place = placeService.buildPlace(request);
 
 		Place savedPlace = placeDao.save(place);
 
@@ -63,20 +64,8 @@ public class PlaceController {
 	@GetMapping("/list")
 	@ApiOperation(value = "모든 place 반환 ")
 	public Object placesList() {
-//		List<Feed> feeds = feedDao.findAll();
-//		List<Feed> resultFeeds = new ArrayList<>();
-//		Set<Long> set = new TreeSet<Long>();
-//		for (int i = 0; i < feeds.size(); ++i) {
-//			Long placeId = feeds.get(i).getPlaceInfo().getId();
-//			if (set.contains(placeId))`
-//				continue;
-//			set.add(placeId);
-//			resultFeeds.add(feeds.get(i));
-//		}
-
 		List<Place> places = placeDao.findAll();
 
-//		System.out.println(resultFeeds);
 		return makeResponse("200", convertObjToJson(places), "success", HttpStatus.OK);
 	}
 }

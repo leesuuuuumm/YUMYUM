@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import girl from "../../_assets/eurekaIcon/girl.svg";
 import styled, { keyframes } from "styled-components";
 import "./EurekaPage.css";
+import { getPosition } from "../../_utils/getLocation";
 import { firestore } from "../../_utils/firebase";
+import firebase from "firebase/app";
+import { useDispatch } from "react-redux";
+
 const ShoutPage = () => {
   const [waveVisible, setWaveVisible] = useState(false);
   const [waves, setWaves] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const dispatch = useDispatch();
   //css
   const center = "translate(-" + 50 + "%, -" + 50 + "%)";
   const btnBg = {
@@ -61,35 +68,115 @@ const ShoutPage = () => {
     z-index: 1;
   `;
 
+  useEffect(() => {
+    getPosition().then((res) => {
+      console.log("pos", res);
+      // 나의 위치 UPDATE
+      const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
+      const data = {
+        position: {
+          y: res.Ma,
+          x: res.La,
+        },
+      };
+      firestore.collection("users").doc(userEmail).update(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    // 위치 기반 유저 dummy data
+    const neighbor = {
+      "www@www.www": "potatoSoup",
+      "qqq@qqq.qqq": "ashoil",
+      "ssafy@ssafy.com": "ssafy",
+      "yeom@yeom.yeom": "yeomyeom",
+      "weekyear@naver.com": "weekyear",
+      "ahyeon@ssafy.com": "ahyeonway",
+    };
+    // 내 위치 주변의 message
+    Object.keys(neighbor).map((email) => {
+      let datas = [];
+      firestore
+        .collection("users")
+        .where("nickname", "==", neighbor[email])
+        .onSnapshot(function (querySnapshot) {
+          var cities = [];
+          querySnapshot.forEach(function (doc) {
+            // console.log(doc.data());
+            cities.push(doc.data());
+          });
+          console.log("안", cities);
+          datas = [...cities];
+          // setMessages([...cities]);
+          console.log("안 datas", datas);
+          console.log("안 messages", messages);
+        });
+      console.log("밖 datas", datas);
+    });
+  }, []);
+
   // btn click 시
   function clickShout() {
     setWaveVisible(!waveVisible);
-    console.log("hi");
     setWaves((oldArray) => [...oldArray, <Circle />]);
 
+    // 나의 message update
+    const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
+
     const data = {
-      stringExample: "Hello, World!",
-      booleanExample: true,
-      numberExample: 3.14159265,
-      // dateExample: admin.firestore.Timestamp.fromDate(
-      //   new Date("December 10, 1815")
-      // ),
-      arrayExample: [5, true, "hello"],
-      nullExample: null,
-      objectExample: {
-        a: 5,
-        b: true,
+      message: {
+        content: "hi",
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       },
     };
-
-    const cityRef = firestore.collection("data").doc("two").set(data);
+    firestore.collection("users").doc(userEmail).update(data);
   }
 
+  function toggleMessageButton() {
+    setIsOpen(!isOpen);
+  }
   return (
     <div className="shoutContainer">
+      {/* {messages}
+      <ul>
+        {messages &&
+          messages.map((data) => {
+            if (data) {
+              <li key={data.id}>{data.nickname}</li>;
+            }
+          })}
+      </ul> */}
       <div style={circle}>
         <button style={btnBg} onClick={clickShout}></button>
         {waves}
+      </div>
+
+      <div className="menuWrapper">
+        <a className="navLink" id="closeLinks" onClick={toggleMessageButton}>
+          메세지
+        </a>
+        <ul className={"circularNav " + (isOpen ? "showLinks" : "hideLinks")}>
+          <li>
+            <a>
+              <i className="fa">배고파</i>
+            </a>
+          </li>
+          <li>
+            <a>
+              <i className="fa">JMT</i>
+            </a>
+          </li>
+          <li>
+            <a>
+              <i className="fa">노맛</i>
+            </a>
+          </li>
+          <li>
+            <a>
+              <i className="fa">Eureka</i>
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
   );
