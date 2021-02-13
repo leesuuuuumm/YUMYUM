@@ -18,8 +18,6 @@ const MapBottomSheet = (props) => {
     return JSON.parse(state.map.placeFeedsInfo.data)
   },shallowEqual)
 
-  console.log(feeds)
-
   const goMapFeed = () => {
     props.history.push({
       pathname: "/food/feed",

@@ -54,7 +54,7 @@ margin: 0px auto;
 .likeListBtn {
   border: none;
   outline: none;
-  width: 100%;
+  width: 123px;
   /* padding: 15px 0; */
   color: #8d6e63;
   font-size: 16px;
@@ -69,4 +69,8 @@ margin: 0px auto;
   /* cursor: pointer; */
   font-weight: bold;
   border-radius: 5px;
+  position: absolute;
+  z-index: 10;
+  margin-top: 10px;
+  left: 65%;
 }

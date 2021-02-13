@@ -72,15 +72,13 @@ const InfoMap = (props) => {
 
     kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
       setPlace(null)
-      for (let i =0; i < infowindows.length; i++) {
-          infowindows[i].close()
-      }
+      removeInfoWindow()
     });
 
     let clus = new kakao.maps.MarkerClusterer({
       map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
       averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
-      minLevel: 10 // 클러스터 할 최소 지도 레벨 
+      minLevel: 8 // 클러스터 할 최소 지도 레벨 
     });
 
     setClusterer(clus)
@@ -298,7 +296,7 @@ const InfoMap = (props) => {
       </AppBar>
     </div>
     <div className="infomap">
-      {toggleBtn ? (null):(<button className="likeListBtn" onClick={goLikeList}>좋아요 목록 보기</button>)}
+      {toggleBtn ? (null):(<button className="likeListBtn" onClick={goLikeList}> 좋아요 목록</button>)}
       <div id="allmap" style={{ width: "100vw", height: "83vh" }}></div>
     </div>
       <MyLocationIcon  className="location_icon" fontSize="large" onClick={nowLocation} color = "primary" />
