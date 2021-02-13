@@ -295,11 +295,12 @@ const InfoMap = (props) => {
         </Toolbar>
       </AppBar>
     </div>
-    <div className="infomap">
-      {toggleBtn ? (null):(<button className="likeListBtn" onClick={goLikeList}> 좋아요 목록</button>)}
-      <div id="allmap" style={{ width: "100vw", height: "83vh" }}></div>
-    </div>
       <MyLocationIcon  className="location_icon" fontSize="large" onClick={nowLocation} color = "primary" />
+    <div className="infomap">
+        {toggleBtn ? (null):(<button className="likeListBtn" onClick={goLikeList}> 좋아요 목록</button>)}
+      <div id="allmap" style={{ width: "100vw", height: "83vh" }}>
+      </div>
+    </div>
       {place && <MapBottomSheet placeInfo={place}/>}
     </>
   );
