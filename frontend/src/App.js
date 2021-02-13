@@ -32,7 +32,7 @@ function App() {
       <MuiThemeProvider theme={theme}>
       <Router>
         <Switch>
-          <LoginRoute exact path="/" component={Login} />
+          <Route exact path="/" component={Login} />
           {/* <PrivateRoute path="/" exact component= {Login} /> */}
           <PrivateRoute exact path="/feed/flippages" component ={FlipPages}/>
           <PrivateRoute exact path="/feed/flippagesUser" component ={FlipPagesUser}/>
