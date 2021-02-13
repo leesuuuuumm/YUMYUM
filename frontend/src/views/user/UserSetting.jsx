@@ -4,7 +4,9 @@ import { withRouter } from "react-router-dom";
 import { getUser, updateUser } from "../../_actions/userAction";
 import SelectAvatar from "../../_components/icon/SelectAvatar";
 import "./CSS/UserSetting.css";
+import { firestore } from "../../_utils/firebase";
 import { getEmail } from "../../_utils/setToken"
+
 
 function UserSetting(props) {
   const [nickname, setNickName] = useState("");
@@ -53,6 +55,16 @@ function UserSetting(props) {
           if (status == 200) {
             localStorage.setItem("jwt-token", obj.token);
             localStorage.setItem("loggedInfo", JSON.stringify(obj.user));
+
+
+            // 나의 정보 UPDATE
+            const userEmail = obj.user.email;
+            const nickname = obj.user.nickname;
+            const data = {
+              nickname: nickname,
+            };
+            firestore.collection("users").doc(userEmail).update(data);
+
             props.history.go(-1);
           }
         } else {

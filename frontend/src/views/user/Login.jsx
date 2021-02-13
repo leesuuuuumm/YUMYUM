@@ -4,6 +4,8 @@ import Quokka from "../../_assets/quokka1.png";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../_actions/userAction";
 import "./CSS/Login.css";
+import { getPosition } from "../../_utils/getLocation";
+import { firestore } from "../../_utils/firebase";
 
 function Login(props) {
   const [Email, setEmail] = useState("");
@@ -33,8 +35,28 @@ function Login(props) {
         // console.log("login status", res.payload.status);
         if (status == 200) {
           // alert("로그인 성공!");
+
           localStorage.setItem("jwt-token", obj.token);
           localStorage.setItem("loggedInfo", JSON.stringify(obj.user));
+
+          
+          // 위치 업데이트
+          getPosition().then((res) => {
+            // 나의 위치 UPDATE
+            const userEmail = obj.user.email;
+            const nickname = obj.user.nickname;
+            const data = {
+              nickname: nickname,
+              position: {
+                y: res.Ma,
+                x: res.La,
+              },
+            };
+            firestore.collection("users").doc(userEmail).update(data);
+          });
+
+
+
           console.log("히스토리");
           console.log(props.history);
           props.history.push({

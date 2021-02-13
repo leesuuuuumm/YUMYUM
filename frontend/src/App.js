@@ -44,7 +44,7 @@ function App() {
           <PrivateRoute exact path="/user/usersetting"  component={UserSetting} />
           <PrivateRoute exact path="/feed/createfeed"  component={CreateFeed}/>
           <PrivateRoute exact path="/feed/camera" component={Camera}/>
-          <Route path='/eureka' exact render={() => <EurekaPage />} />
+          <PrivateRoute path='/eureka' component={EurekaPage} />
           <PrivateRoute exact path='/feed/feedmap' component={SearchBar}/>
           <PrivateRoute exact path="/map/infomap" component={InfoMap} />
           <PrivateRoute exact path="/food/feed" component= {FoodFeed} />
