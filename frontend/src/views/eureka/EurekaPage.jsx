@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import girl from "../../_assets/eurekaIcon/girl.svg";
+import girl from "../../_assets/eurekaIcon/q_brown.svg";
 import styled, { keyframes } from "styled-components";
 import "./EurekaPage.css";
 import { getPosition } from "../../_utils/getLocation";
@@ -11,35 +11,26 @@ const ShoutPage = () => {
   const [waveVisible, setWaveVisible] = useState(false);
   const [waves, setWaves] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [myMessage, setMyMessage] = useState("Eureka!");
   const [messages, setMessages] = useState([]);
   const dispatch = useDispatch();
-  //css
-  const center = "translate(-" + 50 + "%, -" + 50 + "%)";
+
   const btnBg = {
     background: `url(${girl})`,
     backgroundSize: "3rem",
     backgroundColor: "white",
     borderRadius: "50%",
     position: "absolute",
-    left: "50%",
-    top: "50%",
-    transform: center,
+    margin: "auto",
+    left: 0,
+    top: 0,
+    bottom: 0,
+    right: 0,
     height: "3rem",
     width: "3rem",
     border: 0,
     outline: 0,
     zIndex: 10,
-  };
-  const circle = {
-    width: "4rem",
-    height: "4rem",
-    borderRadius: "50%",
-    position: "absolute",
-    left: "50%",
-    top: "50%",
-    transform: center,
-    border: 4 + "px solid #F4D503",
-    zIndex: 8,
   };
 
   const shout = keyframes`
@@ -131,10 +122,17 @@ const ShoutPage = () => {
     };
     firestore.collection("users").doc(userEmail).update(data);
   }
-
+  // 메세지 메뉴 토글
   function toggleMessageButton() {
     setIsOpen(!isOpen);
   }
+
+  // 메세지 변경
+  function clickMessage(e) {
+    setIsOpen(false);
+    setMyMessage(e.target.innerText);
+  }
+
   return (
     <div className="shoutContainer">
       {/* {messages}
@@ -146,32 +144,36 @@ const ShoutPage = () => {
             }
           })}
       </ul> */}
-      <div style={circle}>
-        <button style={btnBg} onClick={clickShout}></button>
-        {waves}
+      <div className="avatarWrapper">
+        <div className="speech-bubble">
+          <p>{myMessage}</p>
+        </div>
+        <div className="avatarCircle">
+          <button style={btnBg} onClick={clickShout}></button>
+          {waves}
+        </div>
       </div>
-
       <div className="menuWrapper">
         <a className="navLink" id="closeLinks" onClick={toggleMessageButton}>
           메세지
         </a>
         <ul className={"circularNav " + (isOpen ? "showLinks" : "hideLinks")}>
-          <li>
+          <li onClick={clickMessage}>
             <a>
               <i className="fa">배고파</i>
             </a>
           </li>
-          <li>
+          <li onClick={clickMessage}>
             <a>
               <i className="fa">JMT</i>
             </a>
           </li>
-          <li>
+          <li onClick={clickMessage}>
             <a>
               <i className="fa">노맛</i>
             </a>
           </li>
-          <li>
+          <li onClick={clickMessage}>
             <a>
               <i className="fa">Eureka</i>
             </a>

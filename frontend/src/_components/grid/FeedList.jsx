@@ -13,7 +13,7 @@ const useStyles = makeStyles(() =>
       justifyContent: "space-around",
       overflow: "hidden",
       paddingTop: "160.8px",
-      paddingBottom: "71.438px"
+      paddingBottom: "71.438px",
     },
     gridList: {
       width: 100 + "%",
@@ -29,6 +29,7 @@ const useStyles = makeStyles(() =>
     },
     feedVideo: {
       width: 100 + "%",
+      objectFit: "cover !important",
     },
     textBox: {
       position: "absolute",
@@ -63,7 +64,7 @@ export default function FeedList(props) {
                   id="background-video"
                   className={classes.feedVideo}
                   // src={`${DOMAIN}/single/${tile.filePath.split("/")[6]}`}
-                  src={ tile.videoPath }
+                  src={tile.videoPath}
                   type="video/mp4"
                   width="100%"
                   loop

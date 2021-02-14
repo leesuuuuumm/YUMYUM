@@ -18,7 +18,7 @@ import FeedList from "../../_components/grid/FeedList";
 import ModalList from "../../_components/modal/ModalList";
 import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
-import girl from "../../_assets/eurekaIcon/girl.svg";
+import girl from "../../_assets/eurekaIcon/q_brown.svg";
 import "./CSS/UserFeedPage.css";
 import "./CSS/MyFeedPage.css";
 import { getEmail } from "../../_utils/setToken";
