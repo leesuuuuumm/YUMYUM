@@ -311,20 +311,6 @@ const FeedMap = (props) => {
             <div id="pagination"></div>
           </div>
         )}
-        <div className="custom_zoomcontrol radius_border">
-          <span onClick={zoomIn}>
-            <img
-              src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png"
-              alt="확대"
-            />
-          </span>
-          <span onClick={zoomOut}>
-            <img
-              src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png"
-              alt="축소"
-            />
-          </span>
-        </div>
       </div>
     </div>
   );

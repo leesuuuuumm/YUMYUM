@@ -18,7 +18,7 @@ import FeedList from "../../_components/grid/FeedList";
 import ModalList from "../../_components/modal/ModalList";
 import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
-import girl from "../../_assets/eurekaIcon/girl.svg";
+import girl from "../../_assets/eurekaIcon/q_brown.svg";
 import "./CSS/UserFeedPage.css";
 import "./CSS/MyFeedPage.css";
 import { getEmail } from "../../_utils/setToken";
@@ -62,7 +62,7 @@ function UserFeedPage(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const [username, setUsername] = React.useState("");
-  const [info, setInfo] = React.useState("한줄평 입니다");
+  const [info, setInfo] = React.useState("");
   const [isModalOpen, setModalOpen] = useState(false);
   const [navheight, setNavHeight] = useState("");
   const dispatch = useDispatch();
@@ -87,6 +87,7 @@ function UserFeedPage(props) {
     console.log("안녕난이메일", userEmail);
     dispatch(getUser(userEmail)).then((res) => {
       setUsername(JSON.parse(res.payload.data).nickname);
+      setInfo(JSON.parse(res.payload.data).introduction);
     });
 
     dispatch(getFeedCalendarByEmail(userEmail));
@@ -134,7 +135,7 @@ function UserFeedPage(props) {
       </AppBar>
 
       <TabPanel value={value} index={0} dir={theme.direction}>
-        <FeedSquareGrid title="2월" tileData={feeds} navheight={navheight} />
+        <FeedSquareGrid tileData={feeds} navheight={navheight} />
       </TabPanel>
 
       <TabPanel value={value} index={1} dir={theme.direction}>

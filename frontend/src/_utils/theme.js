@@ -36,7 +36,12 @@ export const theme = createMuiTheme({
       },
       MuiAvatar: {
           root: {
-            border: "2px solid white"
+            border: "2px solid #F4D503",
+
+          },
+          img: {
+            objectFit: "scale-down",
+            backgroundColor: "#F4D503",
           }
       },
 

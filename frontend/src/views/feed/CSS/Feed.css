@@ -9,7 +9,21 @@
   display: flex;
   margin: 0 auto;
   object-fit: fill;
-  display: inline-block;  
+  display: inline-block;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -1;
+  -webkit-transition: all 1s;
+  -moz-transition: all 1s;
+  -o-transition: all 1s;
+  transition: all 1s;
+  
 }
 
 
