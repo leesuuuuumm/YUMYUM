@@ -19,7 +19,7 @@ function SignUp(props) {
   const [passwordError, setPasswordError] = useState(false);
   const [checkPwdError, setCheckPwdError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
+  const [avatarId, setAvartarId] = useState("");
   // redux store에 설정된 action에 대한 dispatch를 연결하는 훅
   const dispatch = useDispatch();
   const onEmailHandler = (e) => {
@@ -32,9 +32,11 @@ function SignUp(props) {
       setEmailError(false);
     }
   };
+  
   const onNicknameHandler = (e) => {
     setNickname(e.currentTarget.value);
   };
+  
   const onPasswordHandler = (e) => {
     setPassword(e.currentTarget.value);
     if (!chkPassword(e.currentTarget.value)) {
@@ -43,6 +45,7 @@ function SignUp(props) {
       setPasswordError(false);
     }
   };
+  
   const onConfirmPasswordHandler = (e) => {
     setConfirmPassword(e.currentTarget.value);
     if (e.currentTarget.value === Password) {
@@ -51,10 +54,12 @@ function SignUp(props) {
       setCheckPwdError(true);
     }
   };
+  
   const onSubmitHandler = (e) => {
     e.preventDefault();
     if (Password === ConfirmPassword) {
       let body = {
+        avatar: avatarId,
         email: Email,
         nickname: Nickname,
         password: Password,
@@ -95,6 +100,7 @@ function SignUp(props) {
       alert("비밀번호 노일치!!");
     }
   };
+  
   return (
     <div className="signUp">
       <div className="signUpContainer">
@@ -106,7 +112,7 @@ function SignUp(props) {
           회원 서비스 이용을 위해 회원가입을 해주세요.
         </p>
         <div className="input_wrap">
-          <SelectAvatar></SelectAvatar>
+          <SelectAvatar setAvartarId={setAvartarId}></SelectAvatar>
           <form onSubmit={onSubmitHandler}>
             <input
               type="nickname"
