@@ -123,7 +123,7 @@ function UserFeedPage(props) {
         </ProfileInfo>
         {/* 탭바 */}
         <Tabs value={value} onChange={handleChange} variant="fullWidth">
-          <Tab selected label="날짜별" {...a11yProps(0)} />
+          <Tab selected label="최신순" {...a11yProps(0)} />
           <Tab selected label="메뉴별" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
