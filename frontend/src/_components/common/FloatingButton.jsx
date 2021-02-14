@@ -31,28 +31,28 @@ const FloatingButton = (props) => {
     <div id="threeDots">
       <FloatingMenu
         slideSpeed={500}
-        size={50}
+        size={30}
         isOpen={isButtonOpen}
-        spacing={8}
+        spacing={6}
         direction={Directions.Left}
       >
         <MainButton
           isOpen={isButtonOpen}
           iconResting={<MoreHorizIcon style={{ fontSize: 30 }} />}
-          iconActive={<ClearAllIcon style={{ fontSize: 20 }} />}
+          iconActive={<ClearAllIcon style={{ fontSize: 30 }} />}
           onClick={openButtonHandler}
-          size={56}
+          size={40}
         />
         <ChildButton
           icon={<DeleteIcon style={{ fontSize: 20 }} />}
           onClick={() => { if (window.confirm('삭제하실거에염?')) deleteHandler()} } 
           background="linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)"
-          size={40}
+          size={30}
         />
         <ChildButton
           icon={<EditIcon style={{ fontSize: 20 }} />}
           background="linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)"
-          size={40}
+          size={30}
           onClick={()=> editHandler()}
         />
       </FloatingMenu>
