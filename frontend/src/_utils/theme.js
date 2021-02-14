@@ -30,7 +30,7 @@ export const theme = createMuiTheme({
       },
       MuiAppBar: {
           root: {
-            backgroundColor: '#F4D503',
+            backgroundColor: 'white',
             boxShadow: "none"
           }
       },
@@ -41,7 +41,7 @@ export const theme = createMuiTheme({
           },
           img: {
             objectFit: "scale-down",
-            backgroundColor: "#F4D503",
+            backgroundColor: "white",
           }
       },
 
