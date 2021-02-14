@@ -169,11 +169,9 @@ const ShoutPage = () => {
                 top: `${Math.floor(Math.random() * 100)}vh`,
               }}
             >
-              <div>
-                <p style={{ fontSize: "10px" }}>{data.content}</p>
-              </div>
+              <p>{data.content}</p>
               <img src={q_blue} alt={data.nickname}></img>
-              <p style={{ fontSize: "10px" }}>{data.nickname}</p>
+              <p>{data.nickname}</p>
             </div>
           );
         })}

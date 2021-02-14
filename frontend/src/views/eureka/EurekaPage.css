@@ -14,6 +14,13 @@
 .freinds {
   position: absolute;
 }
+.freinds > img {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+.freinds > p {
+  font-size: 10px;
+}
 .avatarCircle {
   width: 4rem;
   height: 4rem;
