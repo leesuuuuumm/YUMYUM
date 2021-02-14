@@ -1,21 +1,39 @@
 #videobox { 
-  width: 100%; 
-  height: 100%; 
+  /* height: 100vh; 
+  width: 100vw;  */
   position: absolute; 
-  display: block;
+  /* display: block; */
 }
 
 #videobox video{ 
   display: flex;
   margin: 0 auto;
   object-fit: fill;
+  display: inline-block;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -1;
+  -webkit-transition: all 1s;
+  -moz-transition: all 1s;
+  -o-transition: all 1s;
+  transition: all 1s;
+  
 }
 
 
 #textbox { 
-  display: block;
-  position: relative; 
-  bottom: 120vh;
+  display: inline-block;
+  position: sticky; 
+  bottom: 87%;
+  /* padding-bottom: 5px; */
+  left: 5%;
+  /* top: 5vh; */
   width: 89%;
   margin: 0 auto;
   height: 13vh;
@@ -23,11 +41,12 @@
   border-radius: 10px;
   background-color: black;
   background-color: rgba(0, 0, 0, 0.30);
-  z-index: 2;
+  z-index: 100;
 }
 
 
 #acorn {
+  display: block;
   right: 4vh;
   bottom: 5vh;
   text-align: right;
@@ -35,6 +54,11 @@
   height: 15%;
   z-index: 10;
   size: 10px
+}
+
+#likeText {
+  display: inline;
+  float: right;
 }
 
 #textbox .MuiCardContent-root {
@@ -71,6 +95,7 @@
   background-color: black;
   background-color: rgba(0, 0, 0, 0.30);
   padding-top: 2%;
+  padding-bottom: 3%;
 }
 
 #textbox h1 { 
@@ -160,3 +185,22 @@
   align-items: center;
   color: #fff;
 }
+
+/* img:hover {
+  animation: shake 1s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+} */

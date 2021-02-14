@@ -33,7 +33,7 @@ function Login(props) {
         const status = JSON.parse(res.payload.status);
         console.log("login ojb", obj);
         // console.log("login status", res.payload.status);
-        if (status == 200) {
+        if (status === 200) {
           // alert("로그인 성공!");
 
           localStorage.setItem("jwt-token", obj.token);

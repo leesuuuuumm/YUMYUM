@@ -128,7 +128,7 @@ function UserFeedPage(props) {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0} dir={theme.direction}>
-        <FeedSquareGrid title="2월" tileData={feeds} navheight={navheight} />
+        <FeedSquareGrid tileData={feeds} navheight={navheight} />
       </TabPanel>
 
       <TabPanel value={value} index={1} dir={theme.direction}>

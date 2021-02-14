@@ -63,9 +63,11 @@ function FeedSquareGrid(props) {
   return (
     <div className={classes.root} style={{ paddingTop : navheight }}>
       <GridList cellHeight={100} className={classes.gridList} cols={3}>
-        <GridListTile key="Subheader" cols={3} style={{ height: 3 + "rem" }}>
-          <ListSubheader component="div">{title}</ListSubheader>
-        </GridListTile>
+        {title ? 
+          (<GridListTile key="Subheader" cols={3} style={{ height: 3 + "rem" }}>
+            <ListSubheader component="div">{title}</ListSubheader>
+          </GridListTile>) : 
+          (null) }
         {tileData &&
           tileData.map((tile, index) => (
             <GridListTile

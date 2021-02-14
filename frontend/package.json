@@ -20,6 +20,7 @@
     "firebase": "^8.2.6",
     "firebase-app": "^0.0.1",
     "framer-motion": "^3.2.2-rc.1",
+    "jquery": "^3.5.1",
     "jwt-decode": "^3.1.2",
     "react": "^17.0.1",
     "react-bottom-sheet": "^1.1.1",
