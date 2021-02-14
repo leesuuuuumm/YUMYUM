@@ -73,7 +73,7 @@ function Camera(props) {
       ) : (
         <div id="icon-wapper">
           <label htmlFor="icon-button-file" component="span">
-            <img src= {Quokka} alt="Quokka"/>
+            <img src= {Quokka} alt="Quokka" id="quokkaImg"/>
           </label>
           <h2 className="userAppTitle">맛을 보여주세요!</h2>
 
