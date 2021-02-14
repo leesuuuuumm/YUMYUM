@@ -24,25 +24,34 @@ function Feed(props) {
   const feedDate = feed.createdDate
   const feedVideoPath = feed.videoPath
   const [feedscore, setFeedScore] = useState(feed.score)
+  const [likeNum, setLikeNum] = useState(feed.likeCount)
   const [feedContent, setFeedContent] = useState(feed.content)
   const [isOpened, setIsOpened] = useState(false)
-  const [isFollowed, setIsFollowed] = useState(false)
+  const [isFollowed, setIsFollowed] = useState(feed.isLikeUser)
   const [isThreeDots, setIsThreeDots] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
   const [isDeleted, setIsDeleted] = useState(false)
   const [content, setContent] = useState("");
   const [score, setScore] = useState(0);
+  const [wobble, setWobble] = useState(0)
   const userUrl = "/profile/"+ `${feedUser.email}`
   const videoId = `${feedVideoPath}`
   const dispatch = useDispatch();
 
   const openHandler = () => {
     setIsOpened(!isOpened)
+    console.log(feed)
   }
 
   const followHandler = (e) => {
     e.preventDefault();
     setIsFollowed(!isFollowed)
+    setWobble(1)
+    if (isFollowed) {
+      setLikeNum(likeNum - 1)
+    } else {
+      setLikeNum(likeNum + 1)
+    }
     const loggedEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
     let body = {
       email: loggedEmail,
@@ -50,7 +59,8 @@ function Feed(props) {
     dispatch(likeFeed(feed.id, body))
       .then((res) => {
         if (res.payload.status) {
-          alert("쪼아요!!");
+          console.log(res)
+          // alert("쪼아요!!");
         } else {
           alert("조아요 실패");
         }
@@ -129,7 +139,7 @@ function Feed(props) {
         className="videoTag"
         src={ feedVideoPath }
         type="video/mp4"
-        height="100%"
+        // height="100%"
         width="100%"
         autoPlay
         loop
@@ -165,7 +175,11 @@ function Feed(props) {
           <br/>
         </CardContent>
         <div id="acorn" >
-          { isFollowed ? <img onClick={followHandler} src={acorn} alt="acorn"/> : <img onClick={followHandler} src={blankacorn} alt="blankacorn"/>}
+          { isFollowed ? 
+            <img onClick={followHandler} src={acorn} alt="acorn" wobble={wobble}/> : 
+            <img onClick={followHandler} src={blankacorn} alt="blankacorn" wobble={wobble}/>
+          }
+          <h3 id="likeText">  {likeNum}  </h3>
         </div>
         <Collapse isOpened={isOpened}>
           <div className="inblock">
@@ -183,27 +197,29 @@ function Feed(props) {
           </div>
         </Collapse>
         <Collapse isOpened={isEdit}>
-          <div className="inblock">
-            <h3> "수정하쉴?" </h3>
+          <div className="inblock" id="editform">
+            <h3> 글 수정해염 </h3>
+            <hr/>
             <form onSubmit={onSubmitHandler}>
               <ReactStars
                 id="stars"
                 count={5}
+                value={feedscore}
                 onChange={ratingChanged}
                 size={35}
                 activeColor="#ffd700"
               />
               <textarea
-                rows="5" 
-                cols="50"
+                rows="4" 
+                cols="43"
                 type="content"
                 value={content}
                 onChange={onContentHandler}
                 required
-                placeholder="feed.content"
+                placeholder={feed.content}
               />
               <button id="final" type="submit">
-                <DoneOutlineIcon fontSize="large" />
+                <DoneOutlineIcon />
               </button>
             </form>
           </div>

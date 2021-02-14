@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
@@ -30,7 +30,6 @@ const useStyles = makeStyles(() =>
 
 function FeedSquareGrid(props) {
   const classes = useStyles();
-  const [isItVideo, setIsItVideo] = useState(false)
   const { title, tileData, navheight } = props;
   const goDetail = (tile, index) => {
     if (props.match.path ==="/food/feed") {
@@ -55,10 +54,6 @@ function FeedSquareGrid(props) {
     }
   };
 
-  const videoChange = (tile) => {
-    setIsItVideo(!isItVideo)
-    console.log(tile.thumbnailPath, " 경로")
-  }
 
   return (
     <div className={classes.root} style={{ paddingTop : navheight }}>
@@ -74,35 +69,18 @@ function FeedSquareGrid(props) {
               key={tile.id}
               className={classes.gridtile}
               onClick={() => goDetail(tile, index)}
-        
-              onTouchMove={() => setIsItVideo(tile)}
-              // onTouchStart={() => setIsItVideo(tile, true)}
-              // onTouchEnd={() => setIsItVideo(tile, false)}
             >
-              { isItVideo ? 
               <video
                 id="background-video"
                 className="feedVideo"
-                // src={`${DOMAIN}/single/${tile.filePath.split("/")[6]}`}
                 src={tile.videoPath}
                 type="video/mp4"
                 width="100%"
                 loop
                 muted
-                autoPlay
-                // onMouseOver={(event) => event.target.play()}
-                onTouchMove={() => setIsItVideo(tile)}
-                // onTouchStart={(event) => videoChange}
-                // onMouseOut={(event) => event.target.pause()}
-                // onTouchEnd={(event) => event.target.pause()}
-              /> :
-              <img 
-                id="background-video"
-                className="feedVideo"
-                src={tile.thumbnailPath}
-                width="100%"
-              />
-                }
+                onTouchStart={(event) => event.target.play()}
+                onTouchEnd={(event) => event.target.pause()}
+              /> 
               {tile.id}
             </GridListTile>
           ))}
