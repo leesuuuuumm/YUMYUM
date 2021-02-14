@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import girl from "../../_assets/eurekaIcon/q_brown.svg";
+import q_brown from "../../_assets/eurekaIcon/q_brown.svg";
+import q_blue from "../../_assets/eurekaIcon/q_blue.svg";
+import q_pink from "../../_assets/eurekaIcon/q_pink.svg";
+import q_purple from "../../_assets/eurekaIcon/q_purple.svg";
+import q_yellow from "../../_assets/eurekaIcon/q_yellow.svg";
 import styled, { keyframes } from "styled-components";
 import "./EurekaPage.css";
 import { getPosition } from "../../_utils/getLocation";
@@ -11,12 +15,12 @@ const ShoutPage = () => {
   const [waveVisible, setWaveVisible] = useState(false);
   const [waves, setWaves] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [myMessage, setMyMessage] = useState("Eureka!");
+  const [myMessage, setMyMessage] = useState("Eureka");
   const [messages, setMessages] = useState([]);
   const dispatch = useDispatch();
 
   const btnBg = {
-    background: `url(${girl})`,
+    background: `url(${q_brown})`,
     backgroundSize: "3rem",
     backgroundColor: "white",
     borderRadius: "50%",
