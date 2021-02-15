@@ -18,7 +18,7 @@ import FeedList from "../../_components/grid/FeedList";
 import ModalList from "../../_components/modal/ModalList";
 import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
-import girl from "../../_assets/eurekaIcon/q_brown.svg";
+import q_brown from "../../_assets/eurekaIcon/q_brown.svg";
 import "./CSS/UserFeedPage.css";
 import "./CSS/MyFeedPage.css";
 import { getEmail } from "../../_utils/setToken";
@@ -65,6 +65,7 @@ function UserFeedPage(props) {
   const [info, setInfo] = React.useState("");
   const [isModalOpen, setModalOpen] = useState(false);
   const [navheight, setNavHeight] = useState("");
+  const [avatarId, setAvatarId] = useState("");
   const dispatch = useDispatch();
 
   const handleChange = (event, newValue) => {
@@ -88,6 +89,7 @@ function UserFeedPage(props) {
     dispatch(getUser(userEmail)).then((res) => {
       setUsername(JSON.parse(res.payload.data).nickname);
       setInfo(JSON.parse(res.payload.data).introduction);
+      setAvatarId(JSON.parse(res.payload.data).avatar);
     });
 
     dispatch(getFeedCalendarByEmail(userEmail));
@@ -111,7 +113,7 @@ function UserFeedPage(props) {
           <ProfileUser>
             <Avatar
               alt={username}
-              src={girl}
+              src={q_brown}
               style={{ marginRight: "0.5rem" }}
             />
             <h2>{username}</h2>
