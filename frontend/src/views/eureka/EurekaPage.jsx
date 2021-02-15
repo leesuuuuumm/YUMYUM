@@ -174,7 +174,7 @@ const ShoutPage = () => {
                 top: `${Math.floor(Math.random() * 70)}vh`,
               }}
             >
-              <p>{data.content}</p>
+              <p>{data.message.content}</p>
               <img src={avatar[data.avatar]} alt={data.nickname}></img>
               <p>{data.nickname}</p>
             </div>
@@ -192,7 +192,7 @@ const ShoutPage = () => {
                 top: `${Math.floor(Math.random() * 70)}vh`,
               }}
             >
-              <p>{data.content}</p>
+              <p>{data.message.content}</p>
               <img src={avatar[data.avatar]} alt={data.nickname}></img>
               <p>{data.nickname}</p>
             </div>
