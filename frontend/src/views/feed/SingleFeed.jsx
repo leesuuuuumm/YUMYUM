@@ -37,14 +37,25 @@ function SingleFeed(props) {
 
   const goBack = () => {
     console.log(props.location.state)
-    props.history.push({
-      pathname: "/food/feed",
-      state : {
-        id : id,
-        placeName : placeName,
-        addressName : addressName
-      },
-    });
+    console.log(addressName)
+    if (addressName) {
+      props.history.push({
+        pathname: "/food/feed",
+        state : {
+          id : id,
+          placeName : placeName,
+          addressName : addressName
+        },
+      });
+    } else {
+      const loggedEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
+      props.history.push({
+        pathname: "/food/likefeed",
+        state : {
+          email: loggedEmail
+        },
+      });
+    }
   }
 
   const followHandler = (e) => {
@@ -81,7 +92,7 @@ function SingleFeed(props) {
         className="videoTag"
         src={ feedVideoPath }
         type="video/mp4"
-        height="100%"
+        // height="100%"
         width="100%"
         autoPlay
         loop

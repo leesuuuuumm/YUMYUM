@@ -43,6 +43,13 @@ function FeedSquareGrid(props) {
           addressName : addressName
         },
       });
+    } else if (props.match.path === "/food/likefeed") {
+      props.history.push({
+        pathname: "/feed/singlefeed",
+        state : {
+          feed : tile,
+        },
+      });
     } else {
       props.history.push({
         pathname: "/feed/flippagesUser",

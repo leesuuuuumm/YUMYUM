@@ -9,15 +9,13 @@ import "./EurekaPage.css";
 import { getPosition } from "../../_utils/getLocation";
 import { firestore, geofire } from "../../_utils/firebase";
 import firebase from "firebase/app";
-import { useDispatch } from "react-redux";
-import { distance } from "./distance";
 
 const avatar = {
-  0: q_yellow,
-  1: q_brown,
-  2: q_blue,
-  3: q_purple,
-  4: q_pink,
+  0: q_brown,
+  1: q_yellow,
+  2: q_pink,
+  3: q_blue,
+  4: q_purple,
 };
 const ShoutPage = () => {
   const neighbor = [
@@ -49,15 +47,9 @@ const ShoutPage = () => {
   const [waves, setWaves] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [myMessage, setMyMessage] = useState("유레카!");
-  const [messages, setMessages] = useState(neighbor);
-  const dispatch = useDispatch();
-
-  const btnBg = {
-    background: `url(${q_brown})`,
-    backgroundSize: "3rem",
-    backgroundColor: "white",
-    borderRadius: "50%",
-  };
+  const [messages, setMessages] = useState([]);
+  const [myNeighbor, setMyNeighbor] = useState(neighbor);
+  const [myPos, setMyPos] = useState("");
 
   const shout = keyframes`
   0% {
@@ -86,34 +78,42 @@ const ShoutPage = () => {
   `;
 
   useEffect(() => {
-    console.log("message", messages);
     getPosition().then((res) => {
       // 나의 위치 UPDATE
       const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
+      const pos = geofire.geohashForLocation([res.Ma, res.La]).substring(0, 5);
       const data = {
         lat: res.Ma, //y
         lng: res.La, //x
-        geohash: geofire.geohashForLocation([res.Ma, res.La]),
+        geohash: pos,
       };
       firestore.collection("users").doc(userEmail).update(data);
+
+      setMyPos(pos);
+
+      // 메세지 snapshot
+      firestore
+        .collection("users")
+        .where("geohash", "==", pos)
+        .onSnapshot(function (querySnapshot) {
+          var datas = [];
+          querySnapshot.forEach(function (doc) {
+            datas.push(doc.data());
+            console.log("띵동", datas);
+          });
+          setMessages(datas);
+        });
+      console.log("띵동 message", messages);
     });
   }, []);
 
-  useEffect(() => {
-    // 내 위치 주변의 message
-    // Object.keys(neighbor).map((email) => {
-    // let datas = [];
-    // firestore
-    //   .collection("users")
-    //   .where(distance("position", { x: 37.45, y: 126.89 }), "<", 0.5)
-    //   .onSnapshot(function (querySnapshot) {
-    //     var datas = [];
-    //     querySnapshot.forEach(function (doc) {
-    //       datas.push(doc.data());
-    //       console.log("띵동", datas);
-    //     });
-    //   });
-  }, []);
+  const avatarId = JSON.parse(localStorage.getItem("loggedInfo")).avatar;
+
+  // 내 근처 위치
+  // useEffect(() => {
+  //   const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
+  //   const myPos = firestore.collection("users").doc(userEmail);
+  // }, []);
 
   // btn click 시
   function clickShout() {
@@ -131,6 +131,22 @@ const ShoutPage = () => {
       },
     };
     firestore.collection("users").doc(userEmail).update(data);
+
+    // 나의 이웃 update
+    firestore
+      .collection("users")
+      .where("geohash", "==", myPos)
+      .get()
+      .then(function (querySnapshot) {
+        var datas = [];
+        querySnapshot.forEach(function (doc) {
+          // doc.data() is never undefined for query doc snapshots
+          console.log("neighbor => ", doc.data());
+          datas.push(doc.data());
+        });
+        setMyNeighbor(datas);
+      });
+
     setTimeout(function () {
       setDidEureka(false);
     }, 7000);
@@ -148,8 +164,7 @@ const ShoutPage = () => {
 
   return (
     <div className="shoutContainer">
-      {didEureka &&
-        messages &&
+      {messages &&
         messages.map((data, i) => {
           return (
             <div
@@ -159,12 +174,31 @@ const ShoutPage = () => {
                 top: `${Math.floor(Math.random() * 70)}vh`,
               }}
             >
-              <p>{data.content}</p>
+              <p>{data.message.content}</p>
               <img src={avatar[data.avatar]} alt={data.nickname}></img>
               <p>{data.nickname}</p>
             </div>
           );
         })}
+
+      {didEureka &&
+        myNeighbor &&
+        myNeighbor.map((data, i) => {
+          return (
+            <div
+              className="freinds"
+              style={{
+                left: `${10 + Math.floor(Math.random() * 80)}vw`,
+                top: `${Math.floor(Math.random() * 70)}vh`,
+              }}
+            >
+              <p>{data.message.content}</p>
+              <img src={avatar[data.avatar]} alt={data.nickname}></img>
+              <p>{data.nickname}</p>
+            </div>
+          );
+        })}
+
       <div className="avatarWrapper">
         <div
           className="speech-bubble"
@@ -175,7 +209,12 @@ const ShoutPage = () => {
         <div className="avatarCircle">
           <button
             className="avatar"
-            style={btnBg}
+            style={{
+              background: `url(${avatar[avatarId]})`,
+              backgroundSize: "3rem",
+              backgroundColor: "white",
+              borderRadius: "50%",
+            }}
             onClick={clickShout}
           ></button>
           {waves}
