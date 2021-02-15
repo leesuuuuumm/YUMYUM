@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Data
@@ -45,5 +46,10 @@ public class Feed extends TimeEntity {
 
 	private String thumbnailPath;
 
+	@ColumnDefault("0")
 	private Integer likeCount;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@Transient
+	private Boolean isLikeUser;
 }
