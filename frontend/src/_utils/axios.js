@@ -25,9 +25,14 @@ export const request = (method, url, data = {}, config) => {
     })
     .catch((error) => {
       console.log('axios 에러ㅜㅜ')
-      console.log(error.response)
-      if (error.response) {
-        return error.response.data
+      if (error.response.data) {
+
+        if(error.response.data.message === "jwt unauthorized"){
+          localStorage.removeItem("jwt-token");
+          localStorage.removeItem("loggedInfo");
+        } else {
+          return error.response.data
+        }
       }
     });
 };

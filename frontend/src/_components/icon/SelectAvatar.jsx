@@ -1,42 +1,56 @@
-import React from "react";
+import React, { useEffect,useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
+import { useDispatch } from "react-redux";
 import q_brown from "../../_assets/eurekaIcon/q_brown.svg";
 import q_yellow from "../../_assets/eurekaIcon/q_yellow.svg";
 import q_pink from "../../_assets/eurekaIcon/q_pink.svg";
 import q_blue from "../../_assets/eurekaIcon/q_blue.svg";
 import q_purple from "../../_assets/eurekaIcon/q_purple.svg";
-import { makeStyles } from "@material-ui/core/styles";
+import { getUser }  from "../../_actions/userAction";
 import "./SelectAvatar.css"
-
-const useStyles = makeStyles({ 
-    img : {
-      backgroundColor: "yellow"
-    }
-});
+import { getEmail } from "../../_utils/setToken";
 
 // clip rect(top right bottom left)
 const SelectAvatar = (props) => {
-  const classes = useStyles();
+
+  const [keepId, setKeepId] = useState();
+
+  const dispatch = useDispatch();
 
   const chooseAvatar = (index) =>{
-    props.setAvartarId(index)
+    props.setAvartarId(index) // 부모요소로 넘겨주는 함수
+    colorAvatar(index)
+  }
+
+  const colorAvatar = (index) => {
     for (let i = 0; i < 5 ; i ++) {
       if (i === Number(index)){
-        let element = document.getElementById("Avatar"+index).children;
+        let element = document.getElementById("Avatar"+ index).children;
         element[0].style.backgroundColor="yellow"
       } else {
-        let element = document.getElementById("Avatar"+i).children;
+        let element = document.getElementById("Avatar"+ i).children;
         element[0].style.backgroundColor="white"
-        console.log(i)
       }
     }
   }
+
+  useEffect(()=>{
+    const email = getEmail();
+    dispatch(getUser(email))
+      .then((res) => {
+        const userInfo = JSON.parse(res.payload.data)
+        setKeepId(userInfo.avatar);
+        if (keepId) {
+          colorAvatar(keepId)
+        }
+      });
+  },[keepId])
+
   return (
     <div style={{ margin: "0 auto" }}>
       <Avatar
         alt="0"
         id = "Avatar0"
-        className={classes.imgProps}
         src={q_brown}
         style={{ marginRight: "10px", float: "left" }}
         onClick={() => chooseAvatar("0")}
