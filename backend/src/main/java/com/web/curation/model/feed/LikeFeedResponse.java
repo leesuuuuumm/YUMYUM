@@ -14,7 +14,9 @@ import lombok.ToString;
 @ToString
 @Builder
 public class LikeFeedResponse {
-    private Integer like_count;
+    private Feed feed;
+
+    private Integer likeCount;
 
     private boolean isLike;
 }

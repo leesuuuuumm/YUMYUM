@@ -1,5 +1,6 @@
 package com.web.curation.service.feed;
 
+import com.web.curation.dao.feed.LikeDao;
 import com.web.curation.dao.user.UserDao;
 import com.web.curation.model.feed.Feed;
 import com.web.curation.model.feed.Like;
@@ -20,6 +21,9 @@ public class FeedService {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private LikeDao likeDao;
+
     public ResponseEntity<?> checkBlankWhenCreateFeed(Optional<User> user, Optional<Place> place, String title, String content, Integer score) {
         if (!user.isPresent()) {
             return makeResponse("400", null, "User Not found", HttpStatus.BAD_REQUEST);
@@ -37,14 +41,14 @@ public class FeedService {
         return null;
     }
 
-    public Feed buildFeed(String title, Integer score, String content, User user, List<String> urls, Place place) {
+    public Feed buildFeed(String title, Integer score, String content, User user, String videoUrl, Place place) {
         return Feed.builder()
                 .title(title)
                 .score(score)
                 .content(content)
                 .user(user)
-                .videoPath(urls.get(0))
-                .thumbnailPath(urls.get(1))
+                .videoPath(videoUrl)
+                .likeCount(0)
                 .place(place).build();
     }
 
@@ -53,5 +57,9 @@ public class FeedService {
                 .feed(feed)
                 .user(user)
                 .build();
+    }
+
+    public boolean isLikeFeedOfUser(String userEmail, Feed feed) {
+        return !likeDao.findByUser_EmailAndFeed_Id(userEmail, feed.getId()).isEmpty();
     }
 }

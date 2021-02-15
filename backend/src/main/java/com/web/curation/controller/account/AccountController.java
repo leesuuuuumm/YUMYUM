@@ -52,6 +52,7 @@ public class AccountController {
 			@Valid @RequestBody @ApiParam(value = "회원가입 시 필요한 회원정보(이메일, 별명, 비밀번호).", required = true) SignupRequest request) {
         String email = request.getEmail().trim();
         String nickname = request.getNickname().trim();
+        Integer avatar = request.getAvatar();
 
 		String salt = SHA256Util.generateSalt();
         String password = SHA256Util.getEncrypt(request.getPassword().trim(), salt);
@@ -61,7 +62,7 @@ public class AccountController {
 			return response;
 		}
 
-        User user = accountService.buildUser(email, password, nickname, salt);
+        User user = accountService.buildUser(email, password, nickname, salt, avatar);
 
         User savedUser = userDao.save(user);
         return makeResponse("200", convertObjToJson(savedUser), "success", HttpStatus.OK);
@@ -131,11 +132,13 @@ public class AccountController {
 
 		String nickname = request.getNickname().trim();
 		String introduction = request.getIntroduction().trim();
+		Integer avatar = request.getAvatar();
 
 		User updateUser = curUser.get();
 
 		updateUser.setNickname(nickname);
 		updateUser.setIntroduction(introduction);
+		updateUser.setAvatar(avatar);
 		userDao.save(updateUser);
 
 		return makeResponse("200", convertObjToJson(updateUser), "success", HttpStatus.OK);

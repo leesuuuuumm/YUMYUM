@@ -11,5 +11,7 @@ import lombok.*;
 public class UpdateRequest {
     String email;
     String introduction;
+
+    Integer avatar;
     String nickname;
 }
