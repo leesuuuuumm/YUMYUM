@@ -10,8 +10,8 @@
   padding: 5%;
 }
 
-.bottomsheet h2 {
-  margin: 2%;
+.bottomsheet .storename {
+  width: 80vw;
 }
 
 .bottomsheet hr {

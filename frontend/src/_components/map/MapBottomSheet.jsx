@@ -5,6 +5,7 @@ import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import "./MapBottomSheet.css";
 import StorefrontRoundedIcon from '@material-ui/icons/StorefrontRounded';
 import {getPlaceFeed} from '../../_actions/mapAction';
+import { Textfit } from 'react-textfit';
 
 const MapBottomSheet = (props) => {
   const { id, placeName, addressName} = props.placeInfo;
@@ -38,7 +39,7 @@ const MapBottomSheet = (props) => {
   return (  
     <div className="bottomsheet">
       <StorefrontRoundedIcon id="storeIcon" fontSize="medium" />
-      <h2>{placeName}</h2>
+      <Textfit className="storename" mode="single"  forceSingleModeWidth={false} max="30" >{placeName}</Textfit>
 
       <hr/>
       <h4>{addressName}</h4>

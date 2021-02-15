@@ -14,21 +14,23 @@
 #textbox { 
   display: inline-block;
   position: sticky; 
-  bottom: 87%;
+  bottom: 83vh;
   /* padding-bottom: 5px; */
   left: 5vw;
   /* top: 5vh; */
   width: 89%;
   margin: 0 auto;
   height: 13vh;
-  min-height: 100px;
+  min-height: 90px;
   border-radius: 10px;
   background-color: black;
   background-color: rgba(0, 0, 0, 0.30);
   z-index: 100;
 }
 
-
+.MuiCard-root {
+  height: 100vh;
+}
 #acorn {
   display: block;
   right: 4vh;
