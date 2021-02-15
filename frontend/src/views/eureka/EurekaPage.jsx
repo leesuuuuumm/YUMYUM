@@ -81,33 +81,39 @@ const ShoutPage = () => {
     getPosition().then((res) => {
       // 나의 위치 UPDATE
       const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
-      setMyPos(geofire.geohashForLocation([res.Ma, res.La]).substring(0, 5));
+      const pos = geofire.geohashForLocation([res.Ma, res.La]).substring(0, 5);
       const data = {
         lat: res.Ma, //y
         lng: res.La, //x
-        geohash: myPos,
+        geohash: pos,
       };
       firestore.collection("users").doc(userEmail).update(data);
+
+      setMyPos(pos);
+
+      // 메세지 snapshot
+      firestore
+        .collection("users")
+        .where("geohash", "==", pos)
+        .onSnapshot(function (querySnapshot) {
+          var datas = [];
+          querySnapshot.forEach(function (doc) {
+            datas.push(doc.data());
+            console.log("띵동", datas);
+          });
+          setMessages(datas);
+        });
+      console.log("띵동 message", messages);
     });
   }, []);
 
   const avatarId = JSON.parse(localStorage.getItem("loggedInfo")).avatar;
 
   // 내 근처 위치
-  useEffect(() => {
-    firestore
-      .collection("users")
-      .where("geohash", "==", myPos)
-      .onSnapshot(function (querySnapshot) {
-        var datas = [];
-        querySnapshot.forEach(function (doc) {
-          datas.push(doc.data());
-          console.log("띵동", datas);
-        });
-        setMessages(datas);
-      });
-    console.log("띵동 message", messages);
-  }, []);
+  // useEffect(() => {
+  //   const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
+  //   const myPos = firestore.collection("users").doc(userEmail);
+  // }, []);
 
   // btn click 시
   function clickShout() {
