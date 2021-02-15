@@ -11,10 +11,18 @@ import { firestore } from "../../_utils/firebase";
 import firebase from "firebase/app";
 import { useDispatch } from "react-redux";
 
+const avatar = {
+  0: q_yellow,
+  1: q_brown,
+  2: q_blue,
+  3: q_purple,
+  4: q_pink,
+};
 const ShoutPage = () => {
   const neighbor = [
     {
       nickname: "ashoil",
+      avatar: 0,
       content: "유레카!",
       createdAt: "2021년 2월 15일 오전 3시 13분 4초 UTC+9",
       position: {
@@ -24,6 +32,7 @@ const ShoutPage = () => {
     },
     {
       nickname: "yeomyeom",
+      avatar: 1,
       content: "맛없엉!",
       createdAt: "2021년 2월 15일 오전 3시 13분 4초 UTC+9",
 
@@ -34,6 +43,7 @@ const ShoutPage = () => {
     },
     {
       nickname: "weekyear",
+      avatar: 2,
       content: "배고팡!",
       createdAt: "2021년 2월 15일 오전 3시 13분 4초 UTC+9",
 
@@ -44,6 +54,18 @@ const ShoutPage = () => {
     },
     {
       nickname: "ahyeonway",
+      avatar: 3,
+      content: "JMT!",
+      createdAt: "2021년 2월 15일 오전 3시 13분 4초 UTC+9",
+
+      position: {
+        x: 127.35065540000001,
+        y: 36.353231199999996,
+      },
+    },
+    {
+      nickname: "sum:",
+      avatar: 4,
       content: "JMT!",
       createdAt: "2021년 2월 15일 오전 3시 13분 4초 UTC+9",
 
@@ -170,7 +192,7 @@ const ShoutPage = () => {
               }}
             >
               <p>{data.content}</p>
-              <img src={q_blue} alt={data.nickname}></img>
+              <img src={avatar[data.avatar]} alt={data.nickname}></img>
               <p>{data.nickname}</p>
             </div>
           );
