@@ -45,15 +45,20 @@ function FlipPages(props) {
     setFeeds(mergedData);
     setNowPages(nowPages + 1)
     setFetching(false);
+    console.log(nowPages)
+    console.log(feeds.length)
   };
   
   const handleScroll = () => {
     const scrollHeight = document.documentElement.scrollHeight;
     const scrollTop = document.documentElement.scrollTop;
     const clientHeight = document.documentElement.clientHeight;
-    if (scrollTop + clientHeight + 300 >= scrollHeight && fetching === false) {
+    if (scrollTop + clientHeight + clientHeight >= scrollHeight && fetching === false) {
       fetchMoreFeeds();
     }
+    // if (scrollTop + clientHeight + clientHeight >= scrollHeight && fetching === false) {
+    //   fetchMoreFeeds();
+    // }
    };
   
   useEffect(() => {

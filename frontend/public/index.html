@@ -11,16 +11,36 @@
     <meta name="description" content="Web site created using create-react-app" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-
+    <style>
+        .errormessage {
+            text-align: center;
+            position: fixed;
+            top: 30vh;
+        }
+        .rotate {
+            animation: rotation 1s infinite linear;
+            }
+        @keyframes rotation {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(359deg);
+            }
+        }
+    </style>
     <title>React App</title>
 </head>
 
 <body>
     <!-- <noscript>You need to enable JavaScript to run this app.</noscript> -->
     <div id="root">
-        <section className="login">
-            <div className="errormessage">
+        <section class="login">
+            <div class="errormessage">
                 <h2>쿼카가 열심히 도토리를 찾는 중입니다!</h2>
+                <img src="./acorn.svg" class="rotate" width="100" height="100" />
+                <img src="./acorn.svg" class="rotate" width="100" height="100" />
+                <img src="./acorn.svg" class="rotate" width="100" height="100" />
             </div>
         </section>
     </div>
