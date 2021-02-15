@@ -30,12 +30,13 @@ public class AccountService {
         return null;
     }
 
-    public User buildUser(String email, String password, String nickname, String salt) {
+    public User buildUser(String email, String password, String nickname, String salt, Integer avatar) {
         return User.builder()
                 .email(email)
                 .password(password)
                 .nickname(nickname)
                 .salt(salt)
+                .avatar(avatar)
                 .build();
     }
 }

@@ -1,35 +1,24 @@
 package com.web.curation.service.feed;
 
 import com.web.curation.dao.feed.FileDao;
-import com.web.curation.exception.StorageException;
 import com.web.curation.model.feed.File;
-import lombok.var;
 import org.jcodec.api.FrameGrab;
 import org.jcodec.api.JCodecException;
 import org.jcodec.common.model.Picture;
 import org.jcodec.scale.AWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import javax.swing.filechooser.FileSystemView;
 import javax.transaction.Transactional;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.sql.SQLTransactionRollbackException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.UUID;
 
 @Service
 public class FileService {
@@ -43,7 +32,7 @@ public class FileService {
     private static final String WINDOWS_PREFIX_URL = FileSystemView.getFileSystemView().getHomeDirectory().toString() + "/single/";
 
 
-    public ArrayList<String> upload(MultipartFile multipartFile) {
+    public String upload(MultipartFile multipartFile) {
         String videoUrl;
         String thumbnailUrl;
 
@@ -63,7 +52,7 @@ public class FileService {
 //            System.out.println("saveFileName : " + savedVideoName);
             String videoPath = writeFile(multipartFile, savedVideoName);
 
-            thumbnailUrl = createThumnail(videoPath, savedFileName);
+//            thumbnailUrl = createThumnail(videoPath, savedFileName);
 
             if (System.getProperty("os.name").contains("Windows")) {
                 videoUrl = WINDOWS_PREFIX_URL + savedVideoName;
@@ -80,7 +69,7 @@ public class FileService {
             // throw new FileUploadException();
             throw new RuntimeException(e);
         }
-        return new ArrayList<>(Arrays.asList(videoUrl, thumbnailUrl));
+        return videoUrl;
     }
 
 
