@@ -9,11 +9,18 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
-const ModalList = () => {
+const ModalList = (props) => {
   const history = useHistory();
+  const avatarId = props.avatarId
+
 
   const clickSetting = () => {
-    history.push(`/user/usersetting`);
+    history.push({
+      pathname:`/user/usersetting`,
+      state:{
+        avatarId : avatarId
+      }
+    });
   };
 
   const resetPassword = () => {
@@ -52,4 +59,4 @@ const ModalList = () => {
   );
 };
 
-export default ModalList;
+export default withRouter(ModalList);

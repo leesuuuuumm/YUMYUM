@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { withRouter, useLocation } from "react-router-dom";
 import { getUser, updateUser } from "../../_actions/userAction";
 import SelectAvatar from "../../_components/icon/SelectAvatar";
 import "./CSS/UserSetting.css";
@@ -11,6 +11,8 @@ function UserSetting(props) {
   const [nickname, setNickName] = useState("");
   const [introduction, setIntroduction] = useState("");
   const [email, setEmail] = useState("");
+  const [avatarId, setAvartarId] = useState("");
+  const location = useLocation();
   const dispatch = useDispatch();
   //TODO 닉네임이랑, 한줄내용을 서버에  보내주는 로직을 작성해야한다.
   useEffect(() => {
@@ -28,6 +30,10 @@ function UserSetting(props) {
     });
   }, []);
 
+  useEffect(()=>{
+    setAvartarId(location.state.avatarId)
+  },[])
+
   const onNicknameHandler = (e) => {
     setNickName(e.target.value);
   };
@@ -39,6 +45,7 @@ function UserSetting(props) {
   const onSubmitHandeler = (e) => {
     e.preventDefault();
     const config = {
+      avatar: avatarId,
       email: email,
       nickname: nickname,
       introduction: introduction,
@@ -79,7 +86,7 @@ function UserSetting(props) {
       <div className="settingContainer">
         <p className="settingTitle">유저 정보 변경</p>
         <div className="input_wrap">
-          <SelectAvatar></SelectAvatar>
+          <SelectAvatar setAvartarId={setAvartarId} avatarInfo={avatarId}></SelectAvatar>
           <form onSubmit={onSubmitHandeler}>
             <input
               type="text"

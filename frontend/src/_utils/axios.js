@@ -24,10 +24,16 @@ export const request = (method, url, data = {}, config) => {
         return res.data
     })
     .catch((error) => {
-      if (error.response) {
-        return error.response.data
-      }
       console.log('axios 에러ㅜㅜ')
+      if (error.response.data) {
+
+        if(error.response.data.message === "jwt unauthorized"){
+          localStorage.removeItem("jwt-token");
+          localStorage.removeItem("loggedInfo");
+        } else {
+          return error.response.data
+        }
+      }
     });
 };
 

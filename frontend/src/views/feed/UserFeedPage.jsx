@@ -18,7 +18,11 @@ import FeedList from "../../_components/grid/FeedList";
 import ModalList from "../../_components/modal/ModalList";
 import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
-import girl from "../../_assets/eurekaIcon/girl.svg";
+import q_brown from "../../_assets/eurekaIcon/q_brown.svg";
+import q_yellow from "../../_assets/eurekaIcon/q_yellow.svg";
+import q_pink from "../../_assets/eurekaIcon/q_pink.svg";
+import q_blue from "../../_assets/eurekaIcon/q_blue.svg";
+import q_purple from "../../_assets/eurekaIcon/q_purple.svg";
 import "./CSS/UserFeedPage.css";
 
 function TabPanel(props) {
@@ -63,6 +67,8 @@ function UserFeedPage(props) {
   const [info, setInfo] = React.useState("");
   const [isModalOpen, setModalOpen] = useState(false);
   const [navheight, setNavHeight] = useState("");
+  const [avatarId, setAvatarId] = useState("");
+  const [selectAvatar, setSelectAvatar] = useState("");
   const dispatch = useDispatch();
 
   const handleChange = (event, newValue) => {
@@ -86,11 +92,16 @@ function UserFeedPage(props) {
     console.log("url", window.location.href);
     let userEmail = props.match.params.email;
     if (userEmail) {
-      dispatch(getUser(userEmail)).then((res) => {
+      dispatch(getUser(userEmail))
+        .then((res) => {
         setUsername(JSON.parse(res.payload.data).nickname);
         setInfo(JSON.parse(res.payload.data).introduction);
-        console.log("info", info);
-      });
+        setAvatarId(JSON.parse(res.payload.data).avatar);  
+        })
+        .catch((err) =>{
+          console.log(err)
+          console.log("에러나욧!!")
+        })
       dispatch(getFeedCalendarByEmail(userEmail));
     }
   }, []);
@@ -99,6 +110,20 @@ function UserFeedPage(props) {
     let element = document.getElementById('userAppBar');
     setNavHeight(element.clientHeight);
   },[])
+
+  useEffect(()=> {
+    if (avatarId === 0){
+      setSelectAvatar(q_brown)
+    } else if(avatarId === 1){
+      setSelectAvatar(q_yellow)
+    } else if(avatarId === 2){
+      setSelectAvatar(q_pink)
+    } else if(avatarId === 3){
+      setSelectAvatar(q_blue)
+    } else if (avatarId === 4){
+      setSelectAvatar(q_purple)
+    } 
+  },[avatarId])
 
   // STORE에 저장된 FEEDS 가져오기
   const feeds = useSelector((state) => {
@@ -113,7 +138,7 @@ function UserFeedPage(props) {
           <ProfileUser>
             <Avatar
               alt={username}
-              src={girl}
+              src={selectAvatar}
               style={{ marginRight: "0.5rem" }}
             />
             <h2>{username} </h2>
