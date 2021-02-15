@@ -15,7 +15,6 @@ import { displayMarkerNow } from "../../_components/map/displayMarkerNow";
 import acorn from "../../_assets/acorn.png";
 import mapMarker from "../../_assets/mapMarker.png";
 import { getLikeFeeds } from "../../_actions/userAction";
-import $ from "jquery";
 
 const { kakao } = window;
 const useStyles = makeStyles((theme) => ({
@@ -136,8 +135,8 @@ const InfoMap = (props) => {
     for (let i = 0; i < likeMarkers.length; i++) {
         let placePosition = new kakao.maps.LatLng(likeMarkers[i].y, likeMarkers[i].x);
 
-        var imageSrc = 'https://www.flaticon.com/svg/vstatic/svg/785/785114.svg?token=exp=1613144427~hmac=2f1c37240600c53df742058f59a60e5b', // 마커이미지의 주소입니다    
-        imageSize = new kakao.maps.Size(64, 27), // 마커이미지의 크기입니다
+        var imageSrc = acorn, // 마커이미지의 주소입니다    
+        imageSize = new kakao.maps.Size(27, 27), // 마커이미지의 크기입니다
         imageOption = {offset: new kakao.maps.Point(27, 27)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
         var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
