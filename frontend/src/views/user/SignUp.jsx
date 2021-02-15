@@ -6,7 +6,7 @@ import { chkEmail, chkPassword } from "../../_utils/validator";
 import Quokka from "../../_assets/quokka1.png";
 import "./CSS/SignUp.css";
 import SelectAvatar from "../../_components/icon/SelectAvatar";
-import { firestore } from "../../_utils/firebase";
+import { firestore, geofire } from "../../_utils/firebase";
 import { getPosition } from "../../_utils/getLocation";
 
 function SignUp(props) {
@@ -32,11 +32,11 @@ function SignUp(props) {
       setEmailError(false);
     }
   };
-  
+
   const onNicknameHandler = (e) => {
     setNickname(e.currentTarget.value);
   };
-  
+
   const onPasswordHandler = (e) => {
     setPassword(e.currentTarget.value);
     if (!chkPassword(e.currentTarget.value)) {
@@ -45,7 +45,7 @@ function SignUp(props) {
       setPasswordError(false);
     }
   };
-  
+
   const onConfirmPasswordHandler = (e) => {
     setConfirmPassword(e.currentTarget.value);
     if (e.currentTarget.value === Password) {
@@ -54,7 +54,7 @@ function SignUp(props) {
       setCheckPwdError(true);
     }
   };
-  
+
   const onSubmitHandler = (e) => {
     e.preventDefault();
     if (Password === ConfirmPassword) {
@@ -73,10 +73,9 @@ function SignUp(props) {
               // 나의 위치 UPDATE
               const data = {
                 nickname: Nickname,
-                position: {
-                  y: res.Ma,
-                  x: res.La,
-                },
+                lat: res.Ma, //y
+                lng: res.La, //x
+                geohash: geofire.geohashForLocation([res.Ma, res.La]),
               };
               firestore.collection("users").doc(Email).set(data);
             });
@@ -100,7 +99,7 @@ function SignUp(props) {
       alert("비밀번호 노일치!!");
     }
   };
-  
+
   return (
     <div className="signUp">
       <div className="signUpContainer">
