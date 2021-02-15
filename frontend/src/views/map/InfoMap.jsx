@@ -22,7 +22,10 @@ const useStyles = makeStyles((theme) => ({
     margin: '0px auto',
     width: '100%',
     color : '#8d6e63',
-    display: 'flex'
+    display: 'flex',
+  },
+  appbar:{
+    boxShadow: "2px 2px 2px rgba(0,0,0,0.5)"
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -33,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     width: '100%',
+    textShadow: "2px 2px 2px rgba(255, 235, 59, 0.5)"
   }
 }));
 
@@ -251,19 +255,6 @@ const InfoMap = (props) => {
   useEffect(()=>{
   })
 
-  // useEffect(() => {
-  //     if(isgetPlaces){
-  //       displayAllMarkers();
-  //     }
-  // }, [isgetPlaces]);
-
-  // useEffect(() => {
-  //   const loggedInfo = localStorage.getItem("loggedInfo");
-  //   if (loggedInfo) {
-  //     setEmail(JSON.parse(loggedInfo).email);
-  //   }
-  // }, []);
-
   useEffect(() => {
     // isLoaction을 줘서 map이 랜더 되기전에 nowLocation이 출력되지 않게 해주었다.
     if (isLocation){
@@ -274,19 +265,19 @@ const InfoMap = (props) => {
   return (
     <>
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar className={classes.appbar} position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
             리뷰 보기
             {toggleBtn ? (
               <div className="wrap_Btn">
                 <img className="img_acorn"src={acorn} alt="acorn"/>
-                <button className="togglebtn" onClick={displayLikeMarkers}>좋아요한 리뷰 보기</button>
+                <button className="like_btn" onClick={displayLikeMarkers}>좋아요한 리뷰 보기</button>
               </div>
               ):(
                 <div className="wrap_Btn">
                   <img className="img_acorn"src={mapMarker} alt="mapMarker" width="24px" height="26.8px" />
-                  <button className="togglebtn" onClick={displayAllMarkers}>모든 리뷰 보기 </button>
+                  <button className="all_btn" onClick={displayAllMarkers}>모든 리뷰 보기 </button>
                 </div>
               )
             }  
