@@ -18,37 +18,13 @@ const avatar = {
   4: q_purple,
 };
 const ShoutPage = () => {
-  const neighbor = [
-    {
-      nickname: "weekyear",
-      avatar: 2,
-      content: "배고팡!",
-      createdAt: "2021년 2월 15일 오전 3시 13분 4초 UTC+9",
-
-      position: {
-        lng: 127.35065540000001,
-        lat: 36.353231199999996,
-      },
-    },
-    {
-      nickname: "ahyeonway",
-      avatar: 3,
-      content: "JMT!",
-      createdAt: "2021년 2월 15일 오전 3시 13분 4초 UTC+9",
-
-      position: {
-        lng: 127.35065540000001,
-        lat: 36.353231199999996,
-      },
-    },
-  ];
   const [waveVisible, setWaveVisible] = useState(false);
   const [didEureka, setDidEureka] = useState(false);
   const [waves, setWaves] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [myMessage, setMyMessage] = useState("유레카!");
   const [messages, setMessages] = useState([]);
-  const [myNeighbor, setMyNeighbor] = useState(neighbor);
+  const [myNeighbor, setMyNeighbor] = useState([]);
   const [myPos, setMyPos] = useState("");
 
   const shout = keyframes`
@@ -140,11 +116,10 @@ const ShoutPage = () => {
       .then(function (querySnapshot) {
         var datas = [];
         querySnapshot.forEach(function (doc) {
-          // doc.data() is never undefined for query doc snapshots
-          console.log("neighbor => ", doc.data());
           datas.push(doc.data());
         });
         setMyNeighbor(datas);
+        console.log("neighbor => ", myNeighbor);
       });
 
     setTimeout(function () {
