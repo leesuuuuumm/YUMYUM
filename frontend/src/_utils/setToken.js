@@ -12,7 +12,9 @@ export const setToken = () => {
 }
 
 export const getEmail = () => {
-  let token = localStorage.getItem("jwt-token");
-  let decode = jwt_decode(token);
-  return decode.email;
+  if(localStorage.getItem("jwt-token")){
+    let token = localStorage.getItem("jwt-token");
+    let decode = jwt_decode(token);
+    return decode.email;
+  }
 }

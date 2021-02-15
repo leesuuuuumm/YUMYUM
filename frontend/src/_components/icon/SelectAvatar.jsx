@@ -36,6 +36,7 @@ const SelectAvatar = (props) => {
 
   useEffect(()=>{
     const email = getEmail();
+    if (email) {
     dispatch(getUser(email))
       .then((res) => {
         const userInfo = JSON.parse(res.payload.data)
@@ -44,6 +45,7 @@ const SelectAvatar = (props) => {
           colorAvatar(keepId)
         }
       });
+    }
   },[keepId])
 
   return (
