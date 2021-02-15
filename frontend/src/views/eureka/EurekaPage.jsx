@@ -7,9 +7,10 @@ import q_yellow from "../../_assets/eurekaIcon/q_yellow.svg";
 import styled, { keyframes } from "styled-components";
 import "./EurekaPage.css";
 import { getPosition } from "../../_utils/getLocation";
-import { firestore } from "../../_utils/firebase";
+import { firestore, geofire } from "../../_utils/firebase";
 import firebase from "firebase/app";
 import { useDispatch } from "react-redux";
+import { distance } from "./distance";
 
 const avatar = {
   0: q_yellow,
@@ -21,35 +22,14 @@ const avatar = {
 const ShoutPage = () => {
   const neighbor = [
     {
-      nickname: "ashoil",
-      avatar: 0,
-      content: "유레카!",
-      createdAt: "2021년 2월 15일 오전 3시 13분 4초 UTC+9",
-      position: {
-        x: 127.35065540000001,
-        y: 36.353231199999996,
-      },
-    },
-    {
-      nickname: "yeomyeom",
-      avatar: 1,
-      content: "맛없엉!",
-      createdAt: "2021년 2월 15일 오전 3시 13분 4초 UTC+9",
-
-      position: {
-        x: 127.35065540000001,
-        y: 36.353231199999996,
-      },
-    },
-    {
       nickname: "weekyear",
       avatar: 2,
       content: "배고팡!",
       createdAt: "2021년 2월 15일 오전 3시 13분 4초 UTC+9",
 
       position: {
-        x: 127.35065540000001,
-        y: 36.353231199999996,
+        lng: 127.35065540000001,
+        lat: 36.353231199999996,
       },
     },
     {
@@ -59,19 +39,8 @@ const ShoutPage = () => {
       createdAt: "2021년 2월 15일 오전 3시 13분 4초 UTC+9",
 
       position: {
-        x: 127.35065540000001,
-        y: 36.353231199999996,
-      },
-    },
-    {
-      nickname: "sum:",
-      avatar: 4,
-      content: "JMT!",
-      createdAt: "2021년 2월 15일 오전 3시 13분 4초 UTC+9",
-
-      position: {
-        x: 127.35065540000001,
-        y: 36.353231199999996,
+        lng: 127.35065540000001,
+        lat: 36.353231199999996,
       },
     },
   ];
@@ -122,10 +91,9 @@ const ShoutPage = () => {
       // 나의 위치 UPDATE
       const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
       const data = {
-        position: {
-          y: res.Ma,
-          x: res.La,
-        },
+        lat: res.Ma, //y
+        lng: res.La, //x
+        geohash: geofire.geohashForLocation([res.Ma, res.La]),
       };
       firestore.collection("users").doc(userEmail).update(data);
     });
@@ -134,17 +102,17 @@ const ShoutPage = () => {
   useEffect(() => {
     // 내 위치 주변의 message
     // Object.keys(neighbor).map((email) => {
-    //   let datas = [];
-    //   firestore
-    //     .collection("users")
-    //     .where("nickname", "==", neighbor[email])
-    //     .onSnapshot(function (querySnapshot) {
-    //       var datas = [];
-    //       querySnapshot.forEach(function (doc) {
-    //         datas.push(doc.data());
-    //       });
+    // let datas = [];
+    // firestore
+    //   .collection("users")
+    //   .where(distance("position", { x: 37.45, y: 126.89 }), "<", 0.5)
+    //   .onSnapshot(function (querySnapshot) {
+    //     var datas = [];
+    //     querySnapshot.forEach(function (doc) {
+    //       datas.push(doc.data());
+    //       console.log("띵동", datas);
     //     });
-    // });
+    //   });
   }, []);
 
   // btn click 시
@@ -187,8 +155,8 @@ const ShoutPage = () => {
             <div
               className="freinds"
               style={{
-                left: `${Math.floor(Math.random() * 100)}vw`,
-                top: `${Math.floor(Math.random() * 100)}vh`,
+                left: `${10 + Math.floor(Math.random() * 80)}vw`,
+                top: `${Math.floor(Math.random() * 70)}vh`,
               }}
             >
               <p>{data.content}</p>

@@ -20,43 +20,6 @@ const firebaseConfig = {
 
 
 let firestore = firebase.firestore();
+const geofire = require('geofire-common');
 
-export {firestore};
-
-// ====================json tree=========================
-// {
-//     "users": {
-//       "ahyeon@ssafy.com": {
-//         "nickname": "ahyeonway"
-//       },
-//       "weekyear@ssafy.com": {
-//         "nickname": "weekyear"
-//       },
-//     },
-//     "messages": {
-//       "ahyeon@ssafy.com": {
-//         "m1": {
-//              "sender": "weekyear@ssafy.com",   
-//              "text": "hi",   
-//              "timestamp": "20210208",   
-//          },
-//         "m2": {
-//              "sender": "ahyeon@ssafy.com",   
-//              "text": "hihihi",   
-//              "timestamp": "20210208",   
-//          },
-//       },
-//       "weekyear@ssafy.com": {
-//         "m1": {
-//              "sender": "weekyear@ssafy.com",   
-//              "text": "hi",   
-//              "timestamp": "20210208",   
-//          },
-//         "m2": {
-//              "sender": "ahyeon@ssafy.com",   
-//              "text": "hihihi",   
-//              "timestamp": "20210208",   
-//          },
-//       },
-//     }
-//   }
+export {firestore, geofire};
