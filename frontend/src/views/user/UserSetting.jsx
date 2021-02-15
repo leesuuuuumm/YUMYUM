@@ -30,9 +30,9 @@ function UserSetting(props) {
     });
   }, []);
 
-  useEffect(()=>{
-    setAvartarId(location.state.avatarId)
-  },[])
+  useEffect(() => {
+    setAvartarId(location.state.avatarId);
+  }, []);
 
   const onNicknameHandler = (e) => {
     setNickName(e.target.value);
@@ -66,6 +66,7 @@ function UserSetting(props) {
             const nickname = obj.nickname;
             const data = {
               nickname: nickname,
+              avatar: avatarId,
             };
             firestore.collection("users").doc(userEmail).update(data);
 
@@ -86,7 +87,10 @@ function UserSetting(props) {
       <div className="settingContainer">
         <p className="settingTitle">유저 정보 변경</p>
         <div className="input_wrap">
-          <SelectAvatar setAvartarId={setAvartarId} avatarInfo={avatarId}></SelectAvatar>
+          <SelectAvatar
+            setAvartarId={setAvartarId}
+            avatarInfo={avatarId}
+          ></SelectAvatar>
           <form onSubmit={onSubmitHandeler}>
             <input
               type="text"

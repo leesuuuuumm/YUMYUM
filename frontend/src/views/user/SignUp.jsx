@@ -64,15 +64,16 @@ function SignUp(props) {
         nickname: Nickname,
         password: Password,
       };
+
       dispatch(registerUser(body))
         .then((res) => {
           if (res.payload.status === "200") {
             // firebase
-
             getPosition().then((res) => {
               // 나의 위치 UPDATE
               const data = {
                 nickname: Nickname,
+                avatar: avatarId,
                 lat: res.Ma, //y
                 lng: res.La, //x
                 geohash: geofire.geohashForLocation([res.Ma, res.La]),
