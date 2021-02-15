@@ -49,11 +49,9 @@ function Login(props) {
               avatar: obj.user.avatar,
               lat: res.Ma, //y
               lng: res.La, //x
-              geohash: geofire.geohashForLocation([res.Ma, res.La]),
-              message: {
-                content: "",
-                createdAt: "",
-              },
+              geohash: geofire
+                .geohashForLocation([res.Ma, res.La])
+                .substring(0, 4),
             };
             firestore.collection("users").doc(userEmail).update(data);
           });
