@@ -33,7 +33,7 @@ function Feed(props) {
   const [isThreeDots, setIsThreeDots] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
   const [isDeleted, setIsDeleted] = useState(false)
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(feed.content);
   const [score, setScore] = useState(feed.score);
   const [shake, setShake] = useState(0)
   const userUrl = "/profile/"+ `${feedUser.email}`
@@ -139,7 +139,7 @@ function Feed(props) {
         className="videoTag"
         src={ feedVideoPath }
         type="video/mp4"
-        height="100%"
+        // height="100%"
         width="100%"
         autoPlay
         loop
