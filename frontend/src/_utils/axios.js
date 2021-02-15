@@ -24,10 +24,11 @@ export const request = (method, url, data = {}, config) => {
         return res.data
     })
     .catch((error) => {
+      console.log('axios 에러ㅜㅜ')
+      console.log(error.response)
       if (error.response) {
         return error.response.data
       }
-      console.log('axios 에러ㅜㅜ')
     });
 };
 
