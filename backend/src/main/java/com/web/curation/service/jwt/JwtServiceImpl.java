@@ -98,7 +98,7 @@ public class JwtServiceImpl implements JwtService {
 
 
     @Override
-    public String getUserEmail() {
-        return (String)this.get("email").get("email");
+    public String getUserEmail(String key) {
+        return this.get(key).get("email").toString();
     }
 }
