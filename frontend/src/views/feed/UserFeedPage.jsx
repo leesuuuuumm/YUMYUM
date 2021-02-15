@@ -54,9 +54,15 @@ const ProfileUser = styled.div`
   flex-direction: row;
 `;
 const useStyles = makeStyles({
-  fullList: {
-    width: "auto",
+  appbar : {
+    boxShadow: "2px 2px 2px rgba(0,0,0,0.5)"
   },
+  fullList: {
+    width: "auto"
+  },
+  tablistbar:{
+    border: "1px solid gold"
+  }
 });
 
 function UserFeedPage(props) {
@@ -133,7 +139,7 @@ function UserFeedPage(props) {
   return (
     <div>
       {/* 유저 프로필 상단 */}
-      <AppBar color="primary" id="userAppBar">
+      <AppBar className={classes.appbar}color="primary" id="userAppBar">
         <ProfileInfo>
           <ProfileUser>
             <Avatar
