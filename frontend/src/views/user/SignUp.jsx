@@ -77,6 +77,10 @@ function SignUp(props) {
                 lat: res.Ma, //y
                 lng: res.La, //x
                 geohash: geofire.geohashForLocation([res.Ma, res.La]),
+                message: {
+                  content: "",
+                  createdAt: "",
+                },
               };
               firestore.collection("users").doc(Email).set(data);
             });

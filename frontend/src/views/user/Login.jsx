@@ -46,9 +46,14 @@ function Login(props) {
             const nickname = obj.user.nickname;
             const data = {
               nickname: nickname,
+              avatar: obj.user.avatar,
               lat: res.Ma, //y
               lng: res.La, //x
               geohash: geofire.geohashForLocation([res.Ma, res.La]),
+              message: {
+                content: "",
+                createdAt: "",
+              },
             };
             firestore.collection("users").doc(userEmail).update(data);
           });
