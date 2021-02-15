@@ -11,6 +11,16 @@
   list-style: none;
 }
 
+.freinds {
+  position: absolute;
+}
+.freinds > img {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+.freinds > p {
+  font-size: 10px;
+}
 .avatarCircle {
   width: 4rem;
   height: 4rem;
@@ -25,11 +35,22 @@
   z-index: 8;
 }
 
+.avatar {
+  position: absolute;
+  margin: auto;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  height: 3rem;
+  width: 3rem;
+  border: 0;
+  outline: 0;
+  z-index: 10;
+}
 .speech-bubble {
   position: absolute;
-  background: #f4d503;
   border-radius: 0.4em;
-  width: 4rem;
   height: fit-content;
   text-align: center;
   margin: auto;
@@ -61,6 +82,7 @@
   bottom: 10%;
   position: absolute;
   height: 200px;
+  z-index: 10;
 }
 
 .navLink,

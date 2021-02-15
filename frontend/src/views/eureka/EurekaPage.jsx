@@ -11,12 +11,76 @@ import { firestore } from "../../_utils/firebase";
 import firebase from "firebase/app";
 import { useDispatch } from "react-redux";
 
+const avatar = {
+  0: q_yellow,
+  1: q_brown,
+  2: q_blue,
+  3: q_purple,
+  4: q_pink,
+};
 const ShoutPage = () => {
+  const neighbor = [
+    {
+      nickname: "ashoil",
+      avatar: 0,
+      content: "유레카!",
+      createdAt: "2021년 2월 15일 오전 3시 13분 4초 UTC+9",
+      position: {
+        x: 127.35065540000001,
+        y: 36.353231199999996,
+      },
+    },
+    {
+      nickname: "yeomyeom",
+      avatar: 1,
+      content: "맛없엉!",
+      createdAt: "2021년 2월 15일 오전 3시 13분 4초 UTC+9",
+
+      position: {
+        x: 127.35065540000001,
+        y: 36.353231199999996,
+      },
+    },
+    {
+      nickname: "weekyear",
+      avatar: 2,
+      content: "배고팡!",
+      createdAt: "2021년 2월 15일 오전 3시 13분 4초 UTC+9",
+
+      position: {
+        x: 127.35065540000001,
+        y: 36.353231199999996,
+      },
+    },
+    {
+      nickname: "ahyeonway",
+      avatar: 3,
+      content: "JMT!",
+      createdAt: "2021년 2월 15일 오전 3시 13분 4초 UTC+9",
+
+      position: {
+        x: 127.35065540000001,
+        y: 36.353231199999996,
+      },
+    },
+    {
+      nickname: "sum:",
+      avatar: 4,
+      content: "JMT!",
+      createdAt: "2021년 2월 15일 오전 3시 13분 4초 UTC+9",
+
+      position: {
+        x: 127.35065540000001,
+        y: 36.353231199999996,
+      },
+    },
+  ];
   const [waveVisible, setWaveVisible] = useState(false);
+  const [didEureka, setDidEureka] = useState(false);
   const [waves, setWaves] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [myMessage, setMyMessage] = useState("Eureka");
-  const [messages, setMessages] = useState([]);
+  const [myMessage, setMyMessage] = useState("유레카!");
+  const [messages, setMessages] = useState(neighbor);
   const dispatch = useDispatch();
 
   const btnBg = {
@@ -24,17 +88,6 @@ const ShoutPage = () => {
     backgroundSize: "3rem",
     backgroundColor: "white",
     borderRadius: "50%",
-    position: "absolute",
-    margin: "auto",
-    left: 0,
-    top: 0,
-    bottom: 0,
-    right: 0,
-    height: "3rem",
-    width: "3rem",
-    border: 0,
-    outline: 0,
-    zIndex: 10,
   };
 
   const shout = keyframes`
@@ -48,8 +101,8 @@ const ShoutPage = () => {
   }
 `;
   const Circle = styled.div`
-    width: 4rem;
-    height: 4rem;
+    width: 5rem;
+    height: 5rem;
     margin: auto;
     left: 0;
     top: 0;
@@ -64,8 +117,8 @@ const ShoutPage = () => {
   `;
 
   useEffect(() => {
+    console.log("message", messages);
     getPosition().then((res) => {
-      console.log("pos", res);
       // 나의 위치 UPDATE
       const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
       const data = {
@@ -79,39 +132,24 @@ const ShoutPage = () => {
   }, []);
 
   useEffect(() => {
-    // 위치 기반 유저 dummy data
-    const neighbor = {
-      "www@www.www": "potatoSoup",
-      "qqq@qqq.qqq": "ashoil",
-      "ssafy@ssafy.com": "ssafy",
-      "yeom@yeom.yeom": "yeomyeom",
-      "weekyear@naver.com": "weekyear",
-      "ahyeon@ssafy.com": "ahyeonway",
-    };
     // 내 위치 주변의 message
-    Object.keys(neighbor).map((email) => {
-      let datas = [];
-      firestore
-        .collection("users")
-        .where("nickname", "==", neighbor[email])
-        .onSnapshot(function (querySnapshot) {
-          var cities = [];
-          querySnapshot.forEach(function (doc) {
-            // console.log(doc.data());
-            cities.push(doc.data());
-          });
-          console.log("안", cities);
-          datas = [...cities];
-          // setMessages([...cities]);
-          console.log("안 datas", datas);
-          console.log("안 messages", messages);
-        });
-      console.log("밖 datas", datas);
-    });
+    // Object.keys(neighbor).map((email) => {
+    //   let datas = [];
+    //   firestore
+    //     .collection("users")
+    //     .where("nickname", "==", neighbor[email])
+    //     .onSnapshot(function (querySnapshot) {
+    //       var datas = [];
+    //       querySnapshot.forEach(function (doc) {
+    //         datas.push(doc.data());
+    //       });
+    //     });
+    // });
   }, []);
 
   // btn click 시
   function clickShout() {
+    setDidEureka(true);
     setWaveVisible(!waveVisible);
     setWaves((oldArray) => [...oldArray, <Circle />]);
 
@@ -120,11 +158,14 @@ const ShoutPage = () => {
 
     const data = {
       message: {
-        content: "hi",
+        content: myMessage,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       },
     };
     firestore.collection("users").doc(userEmail).update(data);
+    setTimeout(function () {
+      setDidEureka(false);
+    }, 7000);
   }
   // 메세지 메뉴 토글
   function toggleMessageButton() {
@@ -139,21 +180,36 @@ const ShoutPage = () => {
 
   return (
     <div className="shoutContainer">
-      {/* {messages}
-      <ul>
-        {messages &&
-          messages.map((data) => {
-            if (data) {
-              <li key={data.id}>{data.nickname}</li>;
-            }
-          })}
-      </ul> */}
+      {didEureka &&
+        messages &&
+        messages.map((data, i) => {
+          return (
+            <div
+              className="freinds"
+              style={{
+                left: `${Math.floor(Math.random() * 100)}vw`,
+                top: `${Math.floor(Math.random() * 100)}vh`,
+              }}
+            >
+              <p>{data.content}</p>
+              <img src={avatar[data.avatar]} alt={data.nickname}></img>
+              <p>{data.nickname}</p>
+            </div>
+          );
+        })}
       <div className="avatarWrapper">
-        <div className="speech-bubble">
+        <div
+          className="speech-bubble"
+          style={{ background: "#f4d503", width: "4rem" }}
+        >
           <p>{myMessage}</p>
         </div>
         <div className="avatarCircle">
-          <button style={btnBg} onClick={clickShout}></button>
+          <button
+            className="avatar"
+            style={btnBg}
+            onClick={clickShout}
+          ></button>
           {waves}
         </div>
       </div>
@@ -164,22 +220,22 @@ const ShoutPage = () => {
         <ul className={"circularNav " + (isOpen ? "showLinks" : "hideLinks")}>
           <li onClick={clickMessage}>
             <a>
-              <i className="fa">배고파</i>
+              <i className="fa">배고팡!</i>
             </a>
           </li>
           <li onClick={clickMessage}>
             <a>
-              <i className="fa">JMT</i>
+              <i className="fa">JMT!</i>
             </a>
           </li>
           <li onClick={clickMessage}>
             <a>
-              <i className="fa">노맛</i>
+              <i className="fa">맛없엉!</i>
             </a>
           </li>
           <li onClick={clickMessage}>
             <a>
-              <i className="fa">Eureka</i>
+              <i className="fa">유레카!</i>
             </a>
           </li>
         </ul>
