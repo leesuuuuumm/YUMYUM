@@ -35,7 +35,6 @@ const useDebouncedRippleCleanUp = (rippleCount, duration, cleanUpFunction) => {
 
 const ShoutPage = () => {
   const [waveVisible, setWaveVisible] = useState(false);
-  const [didEureka, setDidEureka] = useState(false);
   const [ripples, setRipples] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [myMessage, setMyMessage] = useState("유레카!");
@@ -50,6 +49,7 @@ const ShoutPage = () => {
   // ripple 없애기
   useDebouncedRippleCleanUp(ripples.length, 1000, () => {
     setRipples([]);
+    setMyNeighbor([]);
   });
 
   // 실시간 메세지 update
@@ -87,7 +87,6 @@ const ShoutPage = () => {
   // button 클릭 시 ripple 생성
   function showRipple(e) {
     setRipples((oldArray) => [...oldArray, <span></span>]);
-    setDidEureka(true);
     setWaveVisible(!waveVisible);
 
     // 나의 message update
@@ -107,6 +106,10 @@ const ShoutPage = () => {
       });
     }, 5000);
 
+    // 이미 유레카를 외쳐 이웃이 있다면 return
+    if (myNeighbor.length > 0) {
+      return;
+    }
     // 이웃 update
     firestore
       .collection("users")
@@ -117,16 +120,27 @@ const ShoutPage = () => {
         querySnapshot.forEach(function (doc) {
           const data = doc.data();
           if (data.nickname !== userNickname) {
-            datas.push(doc.data());
+            // datas.push(doc.data());
+            const friend = (
+              <div
+                className="freinds"
+                style={{
+                  left: `${10 + Math.floor(Math.random() * 80)}vw`,
+                  top: `${Math.floor(Math.random() * 70)}vh`,
+                }}
+              >
+                {data.message && <p>{data.message.content}</p>}
+
+                <img src={avatar[data.avatar]} alt={data.nickname}></img>
+                <p>{data.nickname}</p>
+              </div>
+            );
+            datas.push(friend);
           }
         });
         setMyNeighbor(datas);
-        console.log("neighbor => ", myNeighbor);
+        // console.log("neighbor => ", myNeighbor);
       });
-
-    setTimeout(function () {
-      setDidEureka(false);
-    }, 7000);
   }
 
   // 메세지 메뉴 토글
@@ -158,25 +172,8 @@ const ShoutPage = () => {
             </div>
           );
         })}
+      {myNeighbor}
 
-      {didEureka &&
-        myNeighbor &&
-        myNeighbor.map((data, i) => {
-          return (
-            <div
-              className="freinds"
-              style={{
-                left: `${10 + Math.floor(Math.random() * 80)}vw`,
-                top: `${Math.floor(Math.random() * 70)}vh`,
-              }}
-            >
-              {data.message && <p>{data.message.content}</p>}
-
-              <img src={avatar[data.avatar]} alt={data.nickname}></img>
-              <p>{data.nickname}</p>
-            </div>
-          );
-        })}
       {/* 나의 아바타 */}
       <div className="avatarWrapper">
         <div
@@ -195,11 +192,8 @@ const ShoutPage = () => {
               backgroundColor: "white",
               borderRadius: "50%",
             }}
-            // onClick={clickShout}
-            // 누를때
+            // ripple 생성
             onMouseDown={showRipple}
-            // 뗄때
-            // onMouseUp={debounce(cleanUp, 2000)}
           ></button>
           {/* ripple */}
           <div className="ripple-container">{ripples}</div>
