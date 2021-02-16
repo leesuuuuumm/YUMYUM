@@ -58,14 +58,10 @@ function UserSetting(props) {
     dispatch(updateUser(config))
       .then((res) => {
         if (res.payload) {
-          console.log();
           const obj = JSON.parse(res.payload.data);
           const status = JSON.parse(res.payload.status);
-          console.log("login ojb", obj);
-          // console.log("login status", JSON.parse(res.payload.status));
           if (status == 200) {
             localStorage.setItem("loggedInfo", JSON.stringify(obj));
-
             // 나의 정보 UPDATE
             const userEmail = obj.email;
             const nickname = obj.nickname;
@@ -82,7 +78,6 @@ function UserSetting(props) {
         }
       })
       .catch((err) => {
-        console.log("변경 실패");
         console.log(err);
       });
   };

@@ -17,7 +17,6 @@ function FlipPagesUser(props) {
     dispatch(getFeedCalendarByEmail(email))
     .then((res) => {
       const objs = JSON.parse(res.payload.data);
-      console.log(objs, "objs")
       const feed = objs.map(obj => (<Slide> <Feed key={obj.id} feed={obj} /></Slide>))
       SetFlipPages( <FullPage initialSlide={idx} duration={500}> {feed} </FullPage>)
     })

@@ -52,7 +52,6 @@ function ResetPassword(props) {
       };
       dispatch(resetPassword(body))
         .then((res) => {
-          console.log(res);
           if (res.payload) {
             alert("변경 성공!");
             props.history.go(-1);
@@ -61,7 +60,6 @@ function ResetPassword(props) {
           }
         })
         .catch((err) => {
-          console.log("변경 실패 에러");
           console.log(err);
         });
     } else {

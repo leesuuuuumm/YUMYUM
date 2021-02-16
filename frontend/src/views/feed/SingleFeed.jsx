@@ -32,12 +32,9 @@ function SingleFeed(props) {
 
   const openHandler = () => {
     setIsOpened(!isOpened)
-    console.log(isOpened)
   }
 
   const goBack = () => {
-    console.log(props.location.state)
-    console.log(addressName)
     if (addressName) {
       props.history.push({
         pathname: "/food/feed",
@@ -74,14 +71,12 @@ function SingleFeed(props) {
     dispatch(likeFeed(feed.id, body))
       .then((res) => {
         if (res.payload.status) {
-          console.log(res)
           // alert("쪼아요!!");
         } else {
           alert("조아요 실패");
         }
       })
       .catch((err) => {
-        console.log("조아요 에러");
         console.log(err);
       });
   }

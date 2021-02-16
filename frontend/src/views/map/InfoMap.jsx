@@ -133,7 +133,6 @@ const InfoMap = (props) => {
     removeInfoWindow()
     setToggleBtn(false);
     setPlace(null);
-    console.log(likeMarkers);
     clusterer.clear() // 모든 리뷰 클러스터 삭제를 위한 코드 
     let bounds = new kakao.maps.LatLngBounds();
     for (let i = 0; i < likeMarkers.length; i++) {
@@ -222,11 +221,9 @@ const InfoMap = (props) => {
     setIsLocation(true)
       dispatch(getAllPlace())
       .then((res) => {
-        console.log(res)
         let addPlaces = JSON.parse(res.payload.data);
         setMarkers(markers => markers.concat(addPlaces));
         setIsGetPlaces(true);
-        console.log(addPlaces)
       })
   }
 
@@ -234,7 +231,6 @@ const InfoMap = (props) => {
     dispatch(getLikeFeeds(email))
     .then((res)=>{
       let likePlaces = JSON.parse(res.payload.data);
-      console.log(likePlaces)
       likePlaces.map((places) => {
          setLikeMarkers(likeMarkers => likeMarkers.concat(places.place))
       })
@@ -245,7 +241,6 @@ const InfoMap = (props) => {
   const init= () =>{
     const likeBtn = document.querySelector('.like_btn');
     const allBtn = document.querySelector('.all_btn');
-    console.log(likeBtn,allBtn,'grap conponent')
   }
   init();
   // 
