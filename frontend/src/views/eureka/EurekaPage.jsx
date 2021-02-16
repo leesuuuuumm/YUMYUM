@@ -75,7 +75,23 @@ const ShoutPage = () => {
           querySnapshot.forEach(function (doc) {
             const data = doc.data();
             if (data.nickname !== userNickname && data.message) {
-              datas.push(doc.data());
+              const message = (
+                <div
+                  className="freinds"
+                  style={{
+                    left: `${10 + Math.floor(Math.random() * 80)}vw`,
+                    top: `${Math.floor(Math.random() * 70)}vh`,
+                  }}
+                >
+                  <div className="friend-bubble">
+                    <p>{data.message.content}</p>
+                  </div>
+                  <img src={avatar[data.avatar]} alt={data.nickname}></img>
+                  <p>{data.nickname}</p>
+                </div>
+              );
+              // datas.push(doc.data());
+              datas.push(message);
             }
           });
           setMessages(datas);
@@ -126,12 +142,16 @@ const ShoutPage = () => {
                 className="freinds"
                 style={{
                   left: `${10 + Math.floor(Math.random() * 80)}vw`,
-                  top: `${Math.floor(Math.random() * 70)}vh`,
+                  top: `${15 + Math.floor(Math.random() * 55)}vh`,
                 }}
               >
                 {data.message && <p>{data.message.content}</p>}
 
-                <img src={avatar[data.avatar]} alt={data.nickname}></img>
+                <img
+                  className="friendsImg"
+                  src={avatar[data.avatar]}
+                  alt={data.nickname}
+                ></img>
                 <p>{data.nickname}</p>
               </div>
             );
@@ -156,29 +176,14 @@ const ShoutPage = () => {
 
   return (
     <div className="shoutContainer">
-      {messages &&
-        messages.map((data, i) => {
-          return (
-            <div
-              className="freinds"
-              style={{
-                left: `${10 + Math.floor(Math.random() * 80)}vw`,
-                top: `${Math.floor(Math.random() * 70)}vh`,
-              }}
-            >
-              <p>{data.message.content}</p>
-              <img src={avatar[data.avatar]} alt={data.nickname}></img>
-              <p>{data.nickname}</p>
-            </div>
-          );
-        })}
+      {messages}
       {myNeighbor}
 
       {/* 나의 아바타 */}
       <div className="avatarWrapper">
         <div
           className="speech-bubble"
-          style={{ background: "#f4d503", width: "4rem" }}
+          style={{ background: "#f4d503", width: "4rem", bottom: "7rem" }}
         >
           <p>{myMessage}</p>
         </div>
