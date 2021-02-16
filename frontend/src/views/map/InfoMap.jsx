@@ -241,6 +241,15 @@ const InfoMap = (props) => {
     })
   }
 
+  // 
+  const init= () =>{
+    const likeBtn = document.querySelector('.like_btn');
+    const allBtn = document.querySelector('.all_btn');
+    console.log(likeBtn,allBtn,'grap conponent')
+  }
+  init();
+  // 
+
   const goLikeList = () => {
     props.history.push('/food/likefeed')
   }
@@ -269,7 +278,7 @@ const InfoMap = (props) => {
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
             리뷰 보기
-            {toggleBtn ? (
+             {toggleBtn ? (
               <div className="wrap_Btn">
                 <img className="img_acorn"src={acorn} alt="acorn"/>
                 <button className="like_btn" onClick={displayLikeMarkers}>좋아요한 리뷰 보기</button>
@@ -280,7 +289,17 @@ const InfoMap = (props) => {
                   <button className="all_btn" onClick={displayAllMarkers}>모든 리뷰 보기 </button>
                 </div>
               )
-            }  
+            }
+              {/* <div className="btn_wrap">
+                  <div className="wrap_Btn">
+                    <img className="img_acorn"src={acorn} alt="acorn"/>
+                    <button className="like_btn" onClick={displayLikeMarkers}>좋아요한 리뷰 보기</button>
+                  </div>
+                  <div className="wrap_Btn">
+                    <img className="img_acorn"src={mapMarker} alt="mapMarker" width="24px" height="26.8px" />
+                    <button className="all_btn" onClick={displayAllMarkers}>모든 리뷰 보기 </button>
+                  </div>
+              </div> */}
           </Typography>
         </Toolbar>
       </AppBar>

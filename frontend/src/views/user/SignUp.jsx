@@ -57,7 +57,6 @@ function SignUp(props) {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    if (Password === ConfirmPassword) {
       let body = {
         avatar: avatarId,
         email: Email,
@@ -82,7 +81,6 @@ function SignUp(props) {
               };
               firestore.collection("users").doc(Email).set(data);
             });
-
             props.history.push("/");
           } else if (res.payload.status === "400") {
             if (res.payload.message === "this email already exists") {
@@ -91,16 +89,13 @@ function SignUp(props) {
               setErrorMessage("닉네임이 중복되었습니다.");
             }
           } else {
-            alert("회원가입 실패");
+            setErrorMessage("아바타를 선택해주세요.");
           }
         })
         .catch((err) => {
           console.log("회원가입 실패 에러");
           console.log(err);
         });
-    } else {
-      alert("비밀번호 노일치!!");
-    }
   };
 
   return (
