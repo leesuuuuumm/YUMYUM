@@ -66,6 +66,7 @@ const ShoutPage = () => {
             if (data.nickname !== userNickname && data.message) {
               const message = (
                 <div
+                  id={dataKey}
                   className="freinds"
                   style={{
                     left: `${10 + Math.floor(Math.random() * 80)}vw`,
@@ -75,7 +76,7 @@ const ShoutPage = () => {
                   <div className="friend-bubble">
                     <p>{data.message.content}</p>
                   </div>
-                  <img src={avatar[data.avatar]} alt={data.nickname}></img>
+                  <img className="newmessage" src={avatar[data.avatar]} alt={data.nickname}></img>
                   <p>{data.nickname}</p>
                 </div>
               );
@@ -89,7 +90,7 @@ const ShoutPage = () => {
 
   // button 클릭 시 ripple 생성
   function showRipple(e) {
-    setRipples((oldArray) => [...oldArray, <span></span>]);
+    setRipples((oldArray) => [...oldArray, <span id={e.timeStamp}></span>]);
     setWaveVisible(!waveVisible);
 
     getPosition().then((res) => {
@@ -106,10 +107,10 @@ const ShoutPage = () => {
     };
     firestore.collection("users").doc(userEmail).update(data);
 
-    // 3초뒤 삭제
+    // 6초 뒤 삭제
     setTimeout(function () {
       var userRef = firestore.collection("users").doc(userEmail);
-      var removeMessage = userRef.update({
+      userRef.update({
         message: firebase.firestore.FieldValue.delete(),
       });
     }, 6000);
@@ -126,9 +127,9 @@ const ShoutPage = () => {
           const dataKey = doc.id
           const data = doc.data();
           if (data.nickname !== userNickname) {
-            // datas.push(doc.data());
             const friend = (
               <div
+                id={dataKey}
                 className="freinds"
                 style={{
                   left: `${10 + Math.floor(Math.random() * 80)}vw`,
@@ -143,7 +144,6 @@ const ShoutPage = () => {
           }
         });
         setMyNeighbor(datas);
-        // console.log("neighbor => ", myNeighbor);
       });
 
     })
@@ -162,13 +162,12 @@ const ShoutPage = () => {
 
   return (
     <div className="shoutContainer">
-      {/* {messages && messages.map((data)=>{
-        return Object.values(data)
-      })} */}
-      {messages && Object.keys(messages).map(email=>{
+      {/* 띵동! new message */}
+      {messages && Object.keys(messages).map((email, id)=>{
         return messages[email]
       })}
-      {myNeighbor && Object.keys(myNeighbor).map(email=>{
+      {/* 내 주변 이웃 */}
+      {myNeighbor && Object.keys(myNeighbor).map((email, id)=>{
         if (Object.keys(messages).includes(email)){
           return <></>
         }
