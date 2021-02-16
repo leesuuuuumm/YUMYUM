@@ -53,7 +53,7 @@
 }
 
 #button-wapper .MuiSvgIcon-colorDisabled{
-  color: white;
+  color: black;
   float: left;
 }
 
@@ -66,12 +66,12 @@
   border-radius: 10px;
   width: 80px;
   float: right;
-  background-color: rgba(255, 255, 255, 0);
+  background-color: rgba(244, 213, 3, 0.7);
 }
 
 #nextText {
   margin-top: 5px;
-  color: #fff;
+  color: black;
 }
 
 #retry {
@@ -81,13 +81,13 @@
   border-width: 2px;
   border-radius: 10px;
   height: 40px;
-  background-color: rgba(255, 255, 255, 0);
+  background-color: rgba(244, 213, 3, 0.7);
 }
 
 #retry h3 {
   margin: 3px;
   float: right;
-  color: #fff;
+  color: black;
 }
 
 
