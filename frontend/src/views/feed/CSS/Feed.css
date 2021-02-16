@@ -45,6 +45,7 @@
 #likeText {
   display: inline;
   float: right;
+  line-height: 15px;
 }
 
 #textbox .MuiCardContent-root {
@@ -75,7 +76,6 @@
 
 .ReactCollapse--collapse {
   width: 89vw;
-  height: auto;
 }
 
 .inblock {
@@ -124,13 +124,11 @@
   color: white;
   margin: 5px;
   padding: 0px;
-  line-height: 20px;
 }
 
 #textbox h4 { 
-  /* float: left; */
   color: white;
-  margin: 8px;
+  margin: 0px;
 }
 
 #nameIcon {
@@ -154,12 +152,13 @@
 #textbox h6 { 
   float: right;
   font-weight: bold;
-  margin: 5px;
+  margin: 2%;
 }
 
 #textbox .stars { 
   float: left;
   margin-left: 3%;
+  margin-top: 1%;
 }
 
 #textbox .stars .react-stars-wrapper-08600322498934483{ 

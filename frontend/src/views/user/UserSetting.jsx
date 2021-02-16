@@ -6,6 +6,7 @@ import SelectAvatar from "../../_components/icon/SelectAvatar";
 import "./CSS/UserSetting.css";
 import { firestore } from "../../_utils/firebase";
 import { getEmail } from "../../_utils/setToken";
+import CloseIcon from '@material-ui/icons/Close';
 
 function UserSetting(props) {
   const [nickname, setNickName] = useState("");
@@ -41,6 +42,10 @@ function UserSetting(props) {
   const onIntroductionHandler = (e) => {
     setIntroduction(e.target.value);
   };
+
+  const goback = () => {
+    props.history.go(-1)
+  }
 
   const onSubmitHandeler = (e) => {
     e.preventDefault();
@@ -116,6 +121,7 @@ function UserSetting(props) {
           </form>
         </div>
       </div>
+      <CloseIcon className="goback" fontSize="large" onClick={()=>goback()} />
     </section>
   );
 }

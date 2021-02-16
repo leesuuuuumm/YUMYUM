@@ -26,7 +26,7 @@ const SelectAvatar = (props) => {
     for (let i = 0; i < 5 ; i ++) {
       if (i === Number(index)){
         let element = document.getElementById("Avatar"+ index).children;
-        element[0].style.backgroundColor="yellow"
+        element[0].style.backgroundColor="green"
       } else {
         let element = document.getElementById("Avatar"+ i).children;
         element[0].style.backgroundColor="white"

@@ -32,6 +32,7 @@
     "react-full-page": "^0.1.11",
     "react-id-swiper": "^4.0.0",
     "react-modal-sheet": "^1.2.0",
+    "react-overlay-component": "^1.0.2",
     "react-page-scroller": "^2.0.11-beta",
     "react-planet": "^1.0.1",
     "react-rating-stars-component": "^2.2.0",

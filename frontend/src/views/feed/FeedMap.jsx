@@ -300,7 +300,7 @@ const FeedMap = (props) => {
     <div className="feedmap">
       { isList ? <></> :  detailPlaceInfo ? 
         <ArrowForwardRoundedIcon className="arrowcircle" onClick={sendPlaceInfo} fontSize="large" /> : 
-        <div className="skip" onClick={sendPlaceInfo}> 직접 해먹었어요! </div>
+        <div className="skip" onClick={sendPlaceInfo}> 집에서 먹었어요! </div>
       }
       <div className="map_wrap">
         <div id="map" style={{ width: "100vw", height: "83.5vh" }}></div>
