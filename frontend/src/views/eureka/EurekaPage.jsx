@@ -53,11 +53,15 @@ const ShoutPage = () => {
     z-index: 1;
   `;
 
+  const avatarId = JSON.parse(localStorage.getItem("loggedInfo")).avatar;
+  const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
+  const userNickname = JSON.parse(localStorage.getItem("loggedInfo")).nickname;
+
+  // 실시간 메세지 update
   useEffect(() => {
+    // 나의 위치 UPDATE
     getPosition().then((res) => {
-      // 나의 위치 UPDATE
-      const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
-      const pos = geofire.geohashForLocation([res.Ma, res.La]).substring(0, 5);
+      const pos = geofire.geohashForLocation([res.Ma, res.La]).substring(0, 4);
       const data = {
         lat: res.Ma, //y
         lng: res.La, //x
@@ -74,22 +78,16 @@ const ShoutPage = () => {
         .onSnapshot(function (querySnapshot) {
           var datas = [];
           querySnapshot.forEach(function (doc) {
-            datas.push(doc.data());
-            console.log("띵동", datas);
+            const data = doc.data();
+            if (data.nickname !== userNickname && data.message) {
+              datas.push(doc.data());
+            }
           });
           setMessages(datas);
         });
       console.log("띵동 message", messages);
     });
   }, []);
-
-  const avatarId = JSON.parse(localStorage.getItem("loggedInfo")).avatar;
-
-  // 내 근처 위치
-  // useEffect(() => {
-  //   const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
-  //   const myPos = firestore.collection("users").doc(userEmail);
-  // }, []);
 
   // btn click 시
   function clickShout() {
@@ -98,8 +96,6 @@ const ShoutPage = () => {
     setWaves((oldArray) => [...oldArray, <Circle />]);
 
     // 나의 message update
-    const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
-
     const data = {
       message: {
         content: myMessage,
@@ -108,7 +104,15 @@ const ShoutPage = () => {
     };
     firestore.collection("users").doc(userEmail).update(data);
 
-    // 나의 이웃 update
+    // 3초뒤 삭제
+    setTimeout(function () {
+      var userRef = firestore.collection("users").doc(userEmail);
+      var removeMessage = userRef.update({
+        message: firebase.firestore.FieldValue.delete(),
+      });
+    }, 3000);
+
+    // 이웃 update
     firestore
       .collection("users")
       .where("geohash", "==", myPos)
@@ -116,7 +120,10 @@ const ShoutPage = () => {
       .then(function (querySnapshot) {
         var datas = [];
         querySnapshot.forEach(function (doc) {
-          datas.push(doc.data());
+          const data = doc.data();
+          if (data.nickname !== userNickname) {
+            datas.push(doc.data());
+          }
         });
         setMyNeighbor(datas);
         console.log("neighbor => ", myNeighbor);
@@ -167,7 +174,8 @@ const ShoutPage = () => {
                 top: `${Math.floor(Math.random() * 70)}vh`,
               }}
             >
-              <p>{data.message.content}</p>
+              {data.message && <p>{data.message.content}</p>}
+
               <img src={avatar[data.avatar]} alt={data.nickname}></img>
               <p>{data.nickname}</p>
             </div>

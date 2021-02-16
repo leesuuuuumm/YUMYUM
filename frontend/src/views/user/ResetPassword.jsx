@@ -4,6 +4,7 @@ import { resetPassword } from "../../_actions/userAction";
 import { withRouter } from "react-router-dom";
 import './CSS/ResetPassword.css'
 import { getEmail } from "../../_utils/setToken"
+import CloseIcon from '@material-ui/icons/Close';
 
 function ResetPassword(props) {
   const [Password, setPassword] = useState("");
@@ -36,6 +37,10 @@ function ResetPassword(props) {
       setEmail(getEmail());
     }
   }, []);
+
+  const goback = () => {
+    props.history.go(-1)
+  }
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
@@ -109,6 +114,7 @@ function ResetPassword(props) {
           </form>
         </div>
       </div>
+      <CloseIcon className="goback" fontSize="large" onClick={()=>goback()} />
     </section>
   );
 }

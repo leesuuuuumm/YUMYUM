@@ -176,7 +176,9 @@ public class AccountController {
 		List<Feed> feeds = new ArrayList<>();
 
 		for (Like like : likes) {
-			feeds.add(like.getFeed());
+			Feed curFeed = like.getFeed();
+			curFeed.setIsLikeUser(true);
+			feeds.add(curFeed);
 		}
 
 		return makeResponse("200", convertObjToJson(feeds), "success", HttpStatus.OK);

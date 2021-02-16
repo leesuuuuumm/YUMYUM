@@ -17,10 +17,8 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
 //        registry.addInterceptor(jwtInterceptor).addPathPatterns("/*")// 기본 적용 경로
 //                .excludePathPatterns(EXCLUDE_PATHS);// 적용 제외 경로
-		registry.addInterceptor(jwtInterceptor).addPathPatterns("/feed/**", "/map/**", "/eureka/**") // 기본 적용 경로
+		registry.addInterceptor(jwtInterceptor).addPathPatterns("/feed/**", "/map/**") // 기본 적용 경로
         .excludePathPatterns(Arrays.asList("/account/**", "/error/"));// 적용 제외 경로
-//         registry.addInterceptor(jwtInterceptor).addPathPatterns("/eureka/**") // 기본 적용 경로
-//        .excludePathPatterns(Arrays.asList("/account/**", "/error/", "/feed/**", "/map/**"));// 적용 제외 경로
     }
 
     //  Interceptor를 이용해서 처리하므로 전역의 Corss Origin 처리를 해준다.
@@ -30,5 +28,4 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addMapping("/**").allowedOrigins("*").allowedMethods("*").allowedHeaders("*")
 				.exposedHeaders("Authorization");
     }
-
 }

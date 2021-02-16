@@ -27,7 +27,7 @@
 }
 
 .setting .settingContainer {
-  margin-top: 15%;
+  margin-top: 20vh;
   width: 100%;
   height: 100%;
   display: flex;
@@ -40,6 +40,12 @@
   font-size: 14px;
   color: gray;
 }
+
+.setting .goback {
+  color: black;
+  margin-top: 8%;
+}
+
 
 .setting .settingContainer label {
   color: white;

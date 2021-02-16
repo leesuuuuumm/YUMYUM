@@ -73,7 +73,7 @@
 }
 .wrap_Btn {
   display: flex;
-  margin: 5px;
+  /* margin: 5px; */
   border: none;
 }
 
@@ -103,4 +103,3 @@
   margin-top: 10px;
   right: 5%;
 }
-

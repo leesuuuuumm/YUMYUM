@@ -116,7 +116,7 @@ public class FeedController {
 			return makeResponse("404", null, "No searchResult", HttpStatus.NOT_FOUND);
 		}
 
-		String userEmail = jwtService.get(request.getHeader("Authorization")).get("email").toString();
+		String userEmail = jwtService.getUserEmail(request.getHeader("Authorization"));
 		boolean isLikeFeedOfUser = feedService.isLikeFeedOfUser(userEmail, curFeed.get());
 
 		curFeed.get().setIsLikeUser(isLikeFeedOfUser);
@@ -129,7 +129,7 @@ public class FeedController {
 	public Object feedList(HttpServletRequest request) {
 		List<Feed> searchlist = feedDao.findAll();
 
-		String userEmail = jwtService.get(request.getHeader("Authorization")).get("email").toString();
+		String userEmail = jwtService.getUserEmail(request.getHeader("Authorization"));
 
 		for (Feed feed : searchlist) {
 			feed.setIsLikeUser(feedService.isLikeFeedOfUser(userEmail, feed));
@@ -150,7 +150,7 @@ public class FeedController {
 
 		List<Feed> searchlist = feedDao.findAllByUserOrderByIdDesc(curUser.get());
 
-		String userEmail = jwtService.get(request.getHeader("Authorization")).get("email").toString();
+		String userEmail = jwtService.getUserEmail(request.getHeader("Authorization"));
 
 		for (Feed feed : searchlist) {
 			feed.setIsLikeUser(feedService.isLikeFeedOfUser(userEmail, feed));
@@ -187,7 +187,7 @@ public class FeedController {
 
 		List<Feed> feedList = feedDao.findAllByTitleAndUser_email(title, email);
 
-		String userEmail = jwtService.get(request.getHeader("Authorization")).get("email").toString();
+		String userEmail = jwtService.getUserEmail(request.getHeader("Authorization"));
 
 		for (Feed feed : feedList) {
 			feed.setIsLikeUser(feedService.isLikeFeedOfUser(userEmail, feed));
