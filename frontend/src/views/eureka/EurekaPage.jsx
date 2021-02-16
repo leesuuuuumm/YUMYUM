@@ -22,13 +22,11 @@ const useDebouncedRippleCleanUp = (rippleCount, duration, cleanUpFunction) => {
     let bounce = null;
     if (rippleCount > 0) {
       clearTimeout(bounce);
-
       bounce = setTimeout(() => {
         cleanUpFunction();
         clearTimeout(bounce);
       }, duration * 2);
     }
-
     return () => clearTimeout(bounce);
   }, [rippleCount, duration, cleanUpFunction]);
 };
@@ -38,7 +36,7 @@ const ShoutPage = () => {
   const [ripples, setRipples] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [myMessage, setMyMessage] = useState("유레카!");
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState({});
   const [myNeighbor, setMyNeighbor] = useState([]);
   const [myPos, setMyPos] = useState("");
 
@@ -57,22 +55,13 @@ const ShoutPage = () => {
     // 나의 위치 UPDATE
     getPosition().then((res) => {
       const pos = geofire.geohashForLocation([res.Ma, res.La]).substring(0, 4);
-      const data = {
-        lat: res.Ma, //y
-        lng: res.La, //x
-        geohash: pos,
-      };
-      firestore.collection("users").doc(userEmail).update(data);
-
       setMyPos(pos);
 
       // 메세지 snapshot
-      firestore
-        .collection("users")
-        .where("geohash", "==", pos)
-        .onSnapshot(function (querySnapshot) {
-          var datas = [];
+      firestore.collection("users").where("geohash", "==", pos).onSnapshot(function (querySnapshot) {
+          var datas = {};
           querySnapshot.forEach(function (doc) {
+            const dataKey = doc.id;
             const data = doc.data();
             if (data.nickname !== userNickname && data.message) {
               const message = (
@@ -90,13 +79,11 @@ const ShoutPage = () => {
                   <p>{data.nickname}</p>
                 </div>
               );
-              // datas.push(doc.data());
-              datas.push(message);
+              datas[dataKey] = message;
             }
           });
           setMessages(datas);
         });
-      console.log("띵동 message", messages);
     });
   }, []);
 
@@ -105,8 +92,13 @@ const ShoutPage = () => {
     setRipples((oldArray) => [...oldArray, <span></span>]);
     setWaveVisible(!waveVisible);
 
+    getPosition().then((res) => {
+      const pos = geofire.geohashForLocation([res.Ma, res.La]).substring(0, 4);
+      setMyPos(pos);
+
     // 나의 message update
     const data = {
+      geohash: pos,
       message: {
         content: myMessage,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -120,20 +112,18 @@ const ShoutPage = () => {
       var removeMessage = userRef.update({
         message: firebase.firestore.FieldValue.delete(),
       });
-    }, 5000);
+    }, 6000);
 
     // 이미 유레카를 외쳐 이웃이 있다면 return
-    if (myNeighbor.length > 0) {
+    if (Object.keys(myNeighbor).length > 0) {
       return;
     }
     // 이웃 update
-    firestore
-      .collection("users")
-      .where("geohash", "==", myPos)
-      .get()
+    firestore.collection("users").where("geohash", "==", myPos).get()
       .then(function (querySnapshot) {
         var datas = [];
         querySnapshot.forEach(function (doc) {
+          const dataKey = doc.id
           const data = doc.data();
           if (data.nickname !== userNickname) {
             // datas.push(doc.data());
@@ -145,22 +135,18 @@ const ShoutPage = () => {
                   top: `${15 + Math.floor(Math.random() * 55)}vh`,
                 }}
               >
-                {data.message && <p>{data.message.content}</p>}
-
-                <img
-                  className="friendsImg"
-                  src={avatar[data.avatar]}
-                  alt={data.nickname}
-                ></img>
+                <img className="friendsImg" src={avatar[data.avatar]} alt={data.nickname}></img>
                 <p>{data.nickname}</p>
               </div>
             );
-            datas.push(friend);
+            datas[dataKey] = friend;
           }
         });
         setMyNeighbor(datas);
         // console.log("neighbor => ", myNeighbor);
       });
+
+    })
   }
 
   // 메세지 메뉴 토글
@@ -176,15 +162,23 @@ const ShoutPage = () => {
 
   return (
     <div className="shoutContainer">
-      {messages}
-      {myNeighbor}
+      {/* {messages && messages.map((data)=>{
+        return Object.values(data)
+      })} */}
+      {messages && Object.keys(messages).map(email=>{
+        return messages[email]
+      })}
+      {myNeighbor && Object.keys(myNeighbor).map(email=>{
+        if (Object.keys(messages).includes(email)){
+          return <></>
+        }
+        return myNeighbor[email]
+      })}
+
 
       {/* 나의 아바타 */}
       <div className="avatarWrapper">
-        <div
-          className="speech-bubble"
-          style={{ background: "#f4d503", width: "4rem", bottom: "7rem" }}
-        >
+        <div className="speech-bubble" style={{ background: "#f4d503", width: "4rem", bottom: "7rem" }}>
           <p>{myMessage}</p>
         </div>
         <div className="avatarCircle">
@@ -205,30 +199,12 @@ const ShoutPage = () => {
         </div>
       </div>
       <div className="menuWrapper">
-        <a className="navLink" id="closeLinks" onClick={toggleMessageButton}>
-          메세지
-        </a>
+        <a className="navLink" id="closeLinks" onClick={toggleMessageButton}>메세지</a>
         <ul className={"circularNav " + (isOpen ? "showLinks" : "hideLinks")}>
-          <li onClick={clickMessage}>
-            <a>
-              <i className="fa">배고팡!</i>
-            </a>
-          </li>
-          <li onClick={clickMessage}>
-            <a>
-              <i className="fa">JMT!</i>
-            </a>
-          </li>
-          <li onClick={clickMessage}>
-            <a>
-              <i className="fa">맛없엉!</i>
-            </a>
-          </li>
-          <li onClick={clickMessage}>
-            <a>
-              <i className="fa">유레카!</i>
-            </a>
-          </li>
+          <li onClick={clickMessage}><a><i className="fa">배고팡!</i></a></li>
+          <li onClick={clickMessage}><a><i className="fa">JMT!</i></a></li>
+          <li onClick={clickMessage}><a><i className="fa">맛없엉!</i></a></li>
+          <li onClick={clickMessage}><a><i className="fa">유레카!</i></a></li>
         </ul>
       </div>
     </div>
