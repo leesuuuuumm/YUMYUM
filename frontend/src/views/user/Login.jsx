@@ -6,6 +6,7 @@ import { loginUser } from "../../_actions/userAction";
 import "./CSS/Login.css";
 import { getPosition } from "../../_utils/getLocation";
 import { firestore, geofire } from "../../_utils/firebase";
+import firebase from "firebase/app";
 import Overlay from "react-overlay-component";
 import Howto from "../../_components/common/Howto";
 
@@ -53,11 +54,12 @@ function Login(props) {
               avatar: obj.user.avatar,
               lat: res.Ma, //y
               lng: res.La, //x
-              geohash: geofire
-                .geohashForLocation([res.Ma, res.La])
-                .substring(0, 4),
+              geohash: geofire.geohashForLocation([res.Ma, res.La]).substring(0, 5),
             };
             firestore.collection("users").doc(userEmail).update(data);
+            firestore.collection("users").doc(userEmail).update({
+              message: firebase.firestore.FieldValue.delete(),
+            });
           });
 
           props.history.push({

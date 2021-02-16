@@ -8,7 +8,7 @@ import "./EurekaPage.css";
 import { getPosition } from "../../_utils/getLocation";
 import { firestore, geofire } from "../../_utils/firebase";
 import firebase from "firebase/app";
-
+import {neighbours} from "../../_utils/getNeighbors"
 const avatar = {
   0: q_brown,
   1: q_yellow,
@@ -54,11 +54,14 @@ const ShoutPage = () => {
   useEffect(() => {
     // 나의 위치 UPDATE
     getPosition().then((res) => {
-      const pos = geofire.geohashForLocation([res.Ma, res.La]).substring(0, 4);
+      const pos = geofire.geohashForLocation([res.Ma, res.La]).substring(0, 5);
       setMyPos(pos);
 
+      const myneighbor = neighbours(pos)
+      console.log(myneighbor)
+
       // 메세지 snapshot
-      firestore.collection("users").where("geohash", "==", pos).onSnapshot(function (querySnapshot) {
+      firestore.collection("users").where("geohash", "in", myneighbor).onSnapshot(function (querySnapshot) {
           var datas = {};
           querySnapshot.forEach(function (doc) {
             const dataKey = doc.id;
@@ -94,7 +97,7 @@ const ShoutPage = () => {
     setWaveVisible(!waveVisible);
 
     getPosition().then((res) => {
-      const pos = geofire.geohashForLocation([res.Ma, res.La]).substring(0, 4);
+      const pos = geofire.geohashForLocation([res.Ma, res.La]).substring(0, 5);
       setMyPos(pos);
 
     // 나의 message update
@@ -107,20 +110,21 @@ const ShoutPage = () => {
     };
     firestore.collection("users").doc(userEmail).update(data);
 
-    // 6초 뒤 삭제
+    // 3초 뒤 삭제
     setTimeout(function () {
       var userRef = firestore.collection("users").doc(userEmail);
       userRef.update({
         message: firebase.firestore.FieldValue.delete(),
       });
-    }, 6000);
+    }, 2000);
 
     // 이미 유레카를 외쳐 이웃이 있다면 return
     if (Object.keys(myNeighbor).length > 0) {
       return;
     }
+    const myneighbor = neighbours(pos)
     // 이웃 update
-    firestore.collection("users").where("geohash", "==", myPos).get()
+    firestore.collection("users").where("geohash", "in", myneighbor).get()
       .then(function (querySnapshot) {
         var datas = [];
         querySnapshot.forEach(function (doc) {
