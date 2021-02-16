@@ -3,7 +3,7 @@ import { setToken } from "../../src/_utils/setToken"
 import React from "react";
 
 export const DOMAIN = 'https://i4b101.p.ssafy.io'
-const PORT = ':9090'
+const PORT = ':8800'
 // export const DOMAIN = 'http://localhost'
 // const PORT = ':8080'
 
