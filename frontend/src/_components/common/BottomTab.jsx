@@ -17,6 +17,7 @@ const useStyles = makeStyles({
     position: "fixed",
     bottom: 0,
     zIndex: "100",
+    boxShadow: "0px -5px 11px -2px rgba(0,0,0,0.1)"
   },
   action: {
     minWidth: 20 + "px",
