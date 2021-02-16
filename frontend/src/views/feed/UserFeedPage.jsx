@@ -91,8 +91,6 @@ function UserFeedPage(props) {
     setValue(newValue);
   };
 
-  console.log(props)
-
   // Modal toggle 함수
   const toggleDrawer = (isOpen) => (event) => {
     if (
@@ -105,7 +103,6 @@ function UserFeedPage(props) {
   };
 
   useEffect(() => {
-    console.log("url", window.location.href);
     let userEmail = props.match.params.email;
     if (userEmail) {
       dispatch(getUser(userEmail))
@@ -116,7 +113,6 @@ function UserFeedPage(props) {
         })
         .catch((err) =>{
           console.log(err)
-          console.log("에러나욧!!")
         })
       dispatch(getFeedCalendarByEmail(userEmail));
     }

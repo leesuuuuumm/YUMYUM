@@ -1,12 +1,12 @@
 import './App.css';
-import React, {useState, useEffect} from "react";
+import React from "react";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import { theme } from './_utils/theme'
 import Login from './views/user/Login';
 import SignUp from './views/user/SignUp';
 import NotFound from './views/error/NotFound';
 import ErrorPage from './views/error/ErrorPage';
-import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import ResetPassword from './views/user/ResetPassword';
 import CreateFeed from "./views/feed/CreateFeed";
 import UserFeedPage from './views/feed/UserFeedPage';
@@ -14,7 +14,6 @@ import MyFeedPage from './views/feed/MyFeedPage';
 import Camera from "./views/feed/Camera";
 import FlipPages from "./views/feed/FlipPages";
 import FlipPagesUser from "./views/feed/FlipPagesUser";
-import SignUpComplete from "./views/user/SignUpComplete";
 import UserSetting from './views/user/UserSetting';
 import InfoMap from './views/map/InfoMap';
 import EurekaPage from './views/eureka/EurekaPage';
@@ -38,7 +37,6 @@ function App() {
           <PrivateRoute exact path="/feed/flippages" component ={FlipPages}/>
           <PrivateRoute exact path="/feed/flippagesUser" component ={FlipPagesUser}/>
           <Route path="/user/join" exact render={() => <SignUp />}/>
-          <Route path="/user/complete" exact render={() => <SignUpComplete />}/>
           <PrivateRoute path="/profile/:email" component={UserFeedPage}/>
           <PrivateRoute exact path="/myprofile" component={MyFeedPage}/>
           <PrivateRoute exact path="/user/resetpassword" component={ResetPassword}/>

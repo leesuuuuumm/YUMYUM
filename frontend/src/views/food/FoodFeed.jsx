@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
 const FoodFeed = (props) => {
   const classes = useStyles();
   const {id, placeName, addressName } = props.location.state;
-  console.log(props.location.state);
   const dispatch = useDispatch();
   
   useEffect(() => {

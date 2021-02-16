@@ -108,7 +108,6 @@ function UserFeedPage(props) {
 
   useEffect(() => {
     const userEmail = getEmail();
-    console.log("안녕난이메일", userEmail);
     dispatch(getUser(userEmail))
       .then((res) => {
         setUsername(JSON.parse(res.payload.data).nickname);
@@ -117,7 +116,6 @@ function UserFeedPage(props) {
       })
       .catch((err) =>{
         console.log(err)
-        console.log("에러나욧!!")
       })
     dispatch(getFeedCalendarByEmail(userEmail));
   }, []);

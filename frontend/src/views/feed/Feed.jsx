@@ -42,7 +42,6 @@ function Feed(props) {
 
   const openHandler = () => {
     setIsOpened(!isOpened)
-    console.log(feed)
   }
 
   const followHandler = (e) => {
@@ -111,7 +110,6 @@ function Feed(props) {
     dispatch(updateFeed(body))
       .then((res) => {
         if (res.payload.status) {
-          alert("수정완료!");
           setFeedContent(content)
           setFeedScore(score)
           setIsEdit(false)
@@ -216,7 +214,6 @@ function Feed(props) {
                 onChange={onContentHandler}
                 placeholder={feed.content}
               >
-                웨안되지?
               </textarea>
               <button type="submit">
                 <DoneOutlineIcon />
