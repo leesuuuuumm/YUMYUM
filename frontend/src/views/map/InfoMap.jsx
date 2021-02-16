@@ -86,90 +86,94 @@ const InfoMap = (props) => {
   };
   //지도에 모든 마커를 뽑아주는 함수 
   const displayAllMarkers = React.useCallback(() => {
-    removeMarker(map,likeObject)
-    setLikeObject([])
-    removeInfoWindow()
-    setToggleBtn(true);
-    setPlace(null);
-    clusterer.clear() // 모든 리뷰 클러스터 삭제를 위한 코드 
-    let bounds = new kakao.maps.LatLngBounds();
-
-    for (let i = 0; i < markers.length; i++) {
-        let placePosition = new kakao.maps.LatLng(markers[i].y, markers[i].x); 
-        // var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-
-        let marker = new kakao.maps.Marker({
-          map: map,
-          position: placePosition,
-          // image: markerImage
-        });
-
-        allObject.push(marker)
-
-        bounds.extend(placePosition);
-
-          kakao.maps.event.addListener(marker, "click", function () {
-            setPlace(markers[i]);
-            infowindow.setContent(
-              '<div style="padding:5px;font-size:12px;">' +
-                markers[i].placeName +
-                "</div>"
-            );
-            infowindows.push(infowindow)
-            infowindow.open(map, marker);
-            map.setCenter(placePosition);
-
-            map.setLevel(4);
+    setTimeout(() => {
+      removeMarker(map,likeObject)
+      setLikeObject([])
+      removeInfoWindow()
+      setToggleBtn(true);
+      setPlace(null);
+      clusterer.clear() // 모든 리뷰 클러스터 삭제를 위한 코드 
+      let bounds = new kakao.maps.LatLngBounds();
+  
+      for (let i = 0; i < markers.length; i++) {
+          let placePosition = new kakao.maps.LatLng(markers[i].y, markers[i].x); 
+          // var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+  
+          let marker = new kakao.maps.Marker({
+            map: map,
+            position: placePosition,
+            // image: markerImage
           });
-      }
-      clusterer.addMarkers(allObject)
+  
+          allObject.push(marker)
+  
+          bounds.extend(placePosition);
+  
+            kakao.maps.event.addListener(marker, "click", function () {
+              setPlace(markers[i]);
+              infowindow.setContent(
+                '<div style="padding:5px;font-size:12px;">' +
+                  markers[i].placeName +
+                  "</div>"
+              );
+              infowindows.push(infowindow)
+              infowindow.open(map, marker);
+              map.setCenter(placePosition);
+  
+              map.setLevel(4);
+            });
+        }
+        clusterer.addMarkers(allObject)
+    }, 100);
   })
 
   const displayLikeMarkers = React.useCallback(() => {
-    removeMarker(map,allObject)
-    setAllObject([])
-    removeInfoWindow()
-    setToggleBtn(false);
-    setPlace(null);
-    clusterer.clear() // 모든 리뷰 클러스터 삭제를 위한 코드 
-    let bounds = new kakao.maps.LatLngBounds();
-    for (let i = 0; i < likeMarkers.length; i++) {
-        let placePosition = new kakao.maps.LatLng(likeMarkers[i].y, likeMarkers[i].x);
-
-        var imageSrc = acorn, // 마커이미지의 주소입니다    
-        imageSize = new kakao.maps.Size(27, 27), // 마커이미지의 크기입니다
-        imageOption = {offset: new kakao.maps.Point(27, 27)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-
-        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-
-        let marker = new kakao.maps.Marker({
-          map: map,
-          position: placePosition,
-          image: markerImage
-        });
-
-        likeObject.push(marker)
-
-        bounds.extend(placePosition);
-
-          kakao.maps.event.addListener(marker, "click", function () {
-            // removeNowmarker();
-
-            setPlace(likeMarkers[i]);
-            infowindow.setContent(
-              '<div style="padding:5px;font-size:12px;">' +
-                likeMarkers[i].placeName +
-                "</div>"
-            );
-            infowindows.push(infowindow)
-            infowindow.open(map, marker);
-            
-            map.setCenter(placePosition);
-            
-            map.setLevel(4);
+    setTimeout(() => {
+      removeMarker(map,allObject)
+      setAllObject([])
+      removeInfoWindow()
+      setToggleBtn(false);
+      setPlace(null);
+      clusterer.clear() // 모든 리뷰 클러스터 삭제를 위한 코드 
+      let bounds = new kakao.maps.LatLngBounds();
+      for (let i = 0; i < likeMarkers.length; i++) {
+          let placePosition = new kakao.maps.LatLng(likeMarkers[i].y, likeMarkers[i].x);
+  
+          var imageSrc = acorn, // 마커이미지의 주소입니다    
+          imageSize = new kakao.maps.Size(27, 27), // 마커이미지의 크기입니다
+          imageOption = {offset: new kakao.maps.Point(27, 27)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+  
+          var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+  
+          let marker = new kakao.maps.Marker({
+            map: map,
+            position: placePosition,
+            image: markerImage
           });
-    }
-    clusterer.addMarkers(likeObject)
+  
+          likeObject.push(marker)
+  
+          bounds.extend(placePosition);
+  
+            kakao.maps.event.addListener(marker, "click", function () {
+              // removeNowmarker();
+  
+              setPlace(likeMarkers[i]);
+              infowindow.setContent(
+                '<div style="padding:5px;font-size:12px;">' +
+                  likeMarkers[i].placeName +
+                  "</div>"
+              );
+              infowindows.push(infowindow)
+              infowindow.open(map, marker);
+              
+              map.setCenter(placePosition);
+              
+              map.setLevel(4);
+            });
+      }
+      clusterer.addMarkers(likeObject)
+    }, 100);
   })
 
   const removeMarker = (map, markers) => {
