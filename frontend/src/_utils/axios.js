@@ -1,17 +1,16 @@
 import axios from 'axios';
 import { setToken } from "../../src/_utils/setToken"
+import React from "react";
 
 export const DOMAIN = 'https://i4b101.p.ssafy.io'
 const PORT = ':9090'
 // export const DOMAIN = 'http://localhost'
 // const PORT = ':8080'
 
-export const request = (method, url, data = {}, config) => {
+export const request = (method, url, data = {}, config, props) => {
     console.log(url, 'axios요청 보냅니다아아아 이 데이터를!', data)
 
-    // for (let key of data.keys()) {
-    //   console.log(key);
-    // }
+    console.log(props)
     axios.defaults.headers["Authorization"] = localStorage.getItem("jwt-token");
     return axios({
         method,
@@ -30,6 +29,7 @@ export const request = (method, url, data = {}, config) => {
         if(error.response.data.message === "jwt unauthorized"){
           localStorage.removeItem("jwt-token");
           localStorage.removeItem("loggedInfo");
+          window.history.pushState('v1','','#/')
         } else {
           return error.response.data
         }

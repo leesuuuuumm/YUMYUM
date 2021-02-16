@@ -66,6 +66,7 @@ const useStyles = makeStyles({
   tablistbar:{
     borderTop: "1px solid rgba(0,0,0,0.7)",
     backgroundColor: "white",
+    color: "#8d6e63"
   },
   tableft:{
     borderRight: "1px solid rgba(0,0,0,0.7)",

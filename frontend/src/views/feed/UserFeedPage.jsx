@@ -55,13 +55,23 @@ const ProfileUser = styled.div`
 `;
 const useStyles = makeStyles({
   appbar : {
-    boxShadow: "2px 2px 2px rgba(0,0,0,0.5)"
+    boxShadow: "2px 2px 2px rgba(0,0,0,0.7)",
   },
   fullList: {
     width: "auto"
   },
   tablistbar:{
-    border: "1px solid gold"
+    borderTop: "1px solid rgba(0,0,0,0.7)",
+    backgroundColor: "white",
+  },
+  tableft:{
+    borderRight: "1px solid rgba(0,0,0,0.7)",
+    color: "gray",
+    fontFamily: "GmarketSansMedium"
+  },
+  tabright:{
+    color: "gray",
+    fontFamily: "GmarketSansMedium"
   }
 });
 
@@ -153,9 +163,9 @@ function UserFeedPage(props) {
           {info ? <p>{info}</p> : <p><br></br></p>}
         </ProfileInfo>
         {/* 탭바 */}
-        <Tabs value={value} onChange={handleChange} variant="fullWidth">
-          <Tab selected label="최신순" {...a11yProps(0)} />
-          <Tab selected label="메뉴별" {...a11yProps(1)} />
+        <Tabs className={classes.tablistbar} textColor="primary" value={value} onChange={handleChange} variant="fullWidth">
+          <Tab className={classes.tableft} selected label="최신순" selected label="최신순" {...a11yProps(0)} />
+          <Tab className={classes.tabright} selected label="메뉴별" selected label="메뉴별" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0} dir={theme.direction}>

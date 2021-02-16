@@ -61,7 +61,6 @@ function FeedSquareGrid(props) {
     }
   };
 
-
   return (
     <div className={classes.root} style={{ paddingTop : navheight }}>
       <GridList cellHeight={100} className={classes.gridList} cols={3}>
