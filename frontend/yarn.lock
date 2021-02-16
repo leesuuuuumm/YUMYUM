@@ -10434,6 +10434,11 @@ react-motion@^0.4.5:
     prop-types "^15.5.8"
     raf "^3.1.0"
 
+react-overlay-component@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-overlay-component/-/react-overlay-component-1.0.2.tgz#fd06d7c2ed75ce07c40f3844548a99404473484b"
+  integrity sha512-UQ57RDCu8pDCvKpG8RRoGwBqFLpKqvdRaUUGE06cIwZLJx5pOlDQNT77/2l3GcAu1rm57zgflGPTCRN1cw+TbQ==
+
 react-page-scroller@^2.0.11-beta:
   version "2.0.11-beta"
   resolved "https://registry.yarnpkg.com/react-page-scroller/-/react-page-scroller-2.0.11-beta.tgz#1b5593b9dad07b70df85d7caab31c4bf77b006a1"

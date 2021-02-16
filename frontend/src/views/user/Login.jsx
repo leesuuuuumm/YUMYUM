@@ -6,10 +6,13 @@ import { loginUser } from "../../_actions/userAction";
 import "./CSS/Login.css";
 import { getPosition } from "../../_utils/getLocation";
 import { firestore, geofire } from "../../_utils/firebase";
+import Overlay from "react-overlay-component";
+import Howto from "../../_components/common/Howto";
 
 function Login(props) {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
+  const [isOpen, setOverlay] = useState(false);
   const [islogin, setIsLogin] = useState(false);
   // redux store에 설정된 action에 대한 dispatch를 연결하는 훅
   const dispatch = useDispatch();
@@ -19,6 +22,15 @@ function Login(props) {
   };
   const onPasswordHandler = (e) => {
     setPassword(e.currentTarget.value);
+  };
+
+  const closeOverlay = () => setOverlay(false);
+
+  const configs = {
+      animate: true,
+      // clickDismiss: false,
+      // escapeDismiss: false,
+      // focusOutline: false,
   };
   const onSubmitHandler = (e) => {
     e.preventDefault();
@@ -76,10 +88,16 @@ function Login(props) {
   return (
     <section className="login">
       <div className="loginContainer">
-        <div className="img_wrap">
+        <div className="img_wrap" onClick={() => {setOverlay(true);}}>
           <img className="userLogo" src={Quokka} alt="쿼카" />
           <div className="loginAppTitle">YUM YUM</div>
         </div>
+        <Overlay id="howto" configs={configs} isOpen={isOpen} closeOverlay={closeOverlay}>
+          <h2>YUM? YUM! 사용설명서</h2>
+          <hr/>
+          <Howto />
+
+        </Overlay>
         <p className="loginTitle">회원 서비스 이용을 위해 로그인 해주세요.</p>
         <div className="login_input_wrap">
           <div className="email_label">EMAIL</div>

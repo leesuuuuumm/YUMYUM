@@ -70,7 +70,6 @@ function CreateFeed(props) {
           dispatch(createFeed(formData))
             .then((res) => {
               if (res.payload.status) {
-                alert("피드가 작성되었습니다!");
                 props.history.push("/feed/flippages");
               } else {
                 alert("피드 생성 실패");
@@ -117,7 +116,7 @@ function CreateFeed(props) {
         </div>
         <div className="content-box">
           <textarea
-            rows="4" 
+            rows="3" 
             cols="50"
             type="content"
             value={content}

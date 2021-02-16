@@ -138,7 +138,7 @@ function Feed(props) {
       <video
         className="videoTag"
         src={ feedVideoPath }
-        type="video/mp4"
+        type="video/*"
         // height="100%"
         width="100%"
         autoPlay
@@ -170,7 +170,7 @@ function Feed(props) {
           <Textfit id="feedTitle" mode="single" max="30"> <FastfoodRoundedIcon id="foodIcon"/> {feed.title} </Textfit>
           <br/>
           <div className="stars">
-            <ReactStars size={15} edit={false} value={feedscore} />
+            <ReactStars size={20} edit={false} value={feedscore} />
           </div>
           <br/>
         </CardContent>
