@@ -18,10 +18,27 @@
   margin: 0;
 }
 
-.bottomsheet a {
-  display: block;
-  text-align: right;
+.bottom_review_btn {
+  border: none;
+  outline: none;
+  width: 30%;
   color: #8d6e63;
+  font-size: 16px;
+  font-family: 'GmarketSansMedium';
+  letter-spacing: 1px;
+  background: linear-gradient(
+    82deg,
+    #ffeb3b 0%,
+    #fff59d 86%
+  );
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.wrap_bottom_btn {
+  text-align: right;
 }
 
 .bottomsheet #storeIcon {

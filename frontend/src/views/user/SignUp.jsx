@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../_actions/userAction";
 import { Link, withRouter } from "react-router-dom";
@@ -32,7 +32,7 @@ function SignUp(props) {
       setEmailError(false);
     }
   };
-
+  
   const onNicknameHandler = (e) => {
     setNickname(e.currentTarget.value);
   };
@@ -96,18 +96,17 @@ function SignUp(props) {
           console.log(err);
         });
   };
-
   return (
     <div className="signUp">
       <div className="signUpContainer">
-        <div className="img_wrap">
+        <div className="signup_img_wrap">
           <img className="userLogo" src={Quokka} alt="쿼카" />
           <div className="signUpAppTitle">YUM YUM</div>
         </div>
         <p className="signUpTitle">
           회원 서비스 이용을 위해 회원가입을 해주세요.
         </p>
-        <div className="input_wrap">
+        <div className="signup_input_wrap">
           <SelectAvatar setAvartarId={setAvartarId}></SelectAvatar>
           <form onSubmit={onSubmitHandler}>
             <input

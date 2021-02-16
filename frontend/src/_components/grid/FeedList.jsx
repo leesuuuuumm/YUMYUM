@@ -4,6 +4,7 @@ import { createStyles, makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import { DOMAIN } from "../../_utils/axios";
+import { ContactSupportOutlined } from "@material-ui/icons";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -12,7 +13,6 @@ const useStyles = makeStyles(() =>
       flexWrap: "wrap",
       justifyContent: "space-around",
       overflow: "hidden",
-      paddingTop: "160.8px",
       paddingBottom: "71.438px",
     },
     gridList: {
@@ -47,10 +47,10 @@ const useStyles = makeStyles(() =>
 
 export default function FeedList(props) {
   const classes = useStyles();
-  const { tileData } = props;
-
+  const { tileData, navheight } = props;
+  const calheight = navheight+3
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{ paddingTop : calheight }}>
       <GridList cellHeight={100} className={classes.gridList} cols={1}>
         {tileData &&
           tileData.map((tile) => (

@@ -6,8 +6,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import { withRouter } from "react-router-dom";
 import { getAllPlace } from "../../_actions/mapAction";
 import MapBottomSheet from "../../_components/map/MapBottomSheet";
@@ -238,11 +236,11 @@ const InfoMap = (props) => {
   }
 
   // 
-  const init= () =>{
-    const likeBtn = document.querySelector('.like_btn');
-    const allBtn = document.querySelector('.all_btn');
-  }
-  init();
+  // const init= () =>{
+  //   const likeBtn = document.querySelector('.like_btn');
+  //   const allBtn = document.querySelector('.all_btn');
+  // }
+  // init();
   // 
 
   const goLikeList = () => {
@@ -274,25 +272,19 @@ const InfoMap = (props) => {
           <Typography variant="h6" className={classes.title}>
             리뷰 보기
              {toggleBtn ? (
-              <div className="wrap_Btn">
-                <img className="img_acorn"src={acorn} alt="acorn"/>
-                <button className="like_btn" onClick={displayLikeMarkers}>좋아요한 리뷰 보기</button>
+              <div className="like_wrap_Btn">
+                <button className="like_btn" onClick={displayLikeMarkers}><img className="img_acorn"src={acorn} alt="acorn"/>좋아요한 리뷰 보기</button>
               </div>
               ):(
-                <div className="wrap_Btn">
-                  <img className="img_acorn"src={mapMarker} alt="mapMarker" width="24px" height="26.8px" />
-                  <button className="all_btn" onClick={displayAllMarkers}>모든 리뷰 보기 </button>
+                <div className="all_wrap_Btn">
+                  <button className="all_btn" onClick={displayAllMarkers}><img className="img_acorn"src={mapMarker} alt="mapMarker" width="24px" height="26.8px" />모든 리뷰 보기 </button>
                 </div>
               )
             }
               {/* <div className="btn_wrap">
                   <div className="wrap_Btn">
-                    <img className="img_acorn"src={acorn} alt="acorn"/>
-                    <button className="like_btn" onClick={displayLikeMarkers}>좋아요한 리뷰 보기</button>
-                  </div>
-                  <div className="wrap_Btn">
-                    <img className="img_acorn"src={mapMarker} alt="mapMarker" width="24px" height="26.8px" />
-                    <button className="all_btn" onClick={displayAllMarkers}>모든 리뷰 보기 </button>
+                    <button className="like_btn" onClick={displayLikeMarkers}><img className="img_acorn"src={acorn} alt="acorn"/>좋아요한 리뷰 보기</button>
+                    <button className="all_btn" onClick={displayAllMarkers}><img className="img_acorn"src={mapMarker} alt="mapMarker" width="24px" height="26.8px" />모든 리뷰 보기 </button>
                   </div>
               </div> */}
           </Typography>
