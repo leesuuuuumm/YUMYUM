@@ -54,14 +54,8 @@ const SearchBar = (props) => {
 
   const handleSubmit= (e) => {
     e.preventDefault();
-
-
-    if (searchContent === inputText) {
-      console.log("이걸보내요!")
-    }
-
-    if (inputText){
-    setSerchContent(inputText);
+    if (inputText) {
+      setSerchContent(inputText);
     } else {
       alert("음식점 이름을 입력해주세요!")
     }    

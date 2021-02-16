@@ -45,8 +45,6 @@ function FlipPages(props) {
     setFeeds(mergedData);
     setNowPages(nowPages + 1)
     setFetching(false);
-    console.log(nowPages)
-    console.log(feeds.length)
   };
   
   const handleScroll = () => {

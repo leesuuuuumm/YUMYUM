@@ -67,7 +67,6 @@ const FeedMap = (props) => {
       // 정상적으로 검색이 완료됐으면
       // 검색 목록과 마커를 표출합니다
       displayPlaces(data);
-      console.log(status)
       // 페이지 번호를 표출합니다
       // displayPagination(pagination)
     } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
@@ -118,7 +117,6 @@ const FeedMap = (props) => {
 
         itemEl.onclick = function () {
           setDetailPlaceInfo(places[i]);
-          console.log(places[i]);
           displayInfowindow(marker, title);
           map.setLevel(3);
           map.panTo(placePosition);

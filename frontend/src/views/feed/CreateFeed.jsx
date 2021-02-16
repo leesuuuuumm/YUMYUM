@@ -21,7 +21,6 @@ function CreateFeed(props) {
 
   useEffect(() => {
     onLoggedUser();
-    console.log(props.location.state)
   }, []);
 
   const dispatch = useDispatch();

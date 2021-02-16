@@ -28,9 +28,6 @@ function Login(props) {
 
   const configs = {
       animate: true,
-      // clickDismiss: false,
-      // escapeDismiss: false,
-      // focusOutline: false,
   };
   const onSubmitHandler = (e) => {
     e.preventDefault();
@@ -40,14 +37,9 @@ function Login(props) {
     };
     dispatch(loginUser(body))
       .then((res) => {
-        // console.log("login dispatch", res.payload.object);
         const obj = JSON.parse(res.payload.data);
         const status = JSON.parse(res.payload.status);
-        console.log("login ojb", obj);
-        // console.log("login status", res.payload.status);
         if (status === 200) {
-          // alert("로그인 성공!");
-
           localStorage.setItem("jwt-token", obj.token);
           localStorage.setItem("loggedInfo", JSON.stringify(obj.user));
 
@@ -68,8 +60,6 @@ function Login(props) {
             firestore.collection("users").doc(userEmail).update(data);
           });
 
-          console.log("히스토리");
-          console.log(props.history);
           props.history.push({
             pathname: "/feed/flippages",
             state: { value: "feed/flippages" },
