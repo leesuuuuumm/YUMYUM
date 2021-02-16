@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import q_brown from "../../_assets/eurekaIcon/q_brown.svg";
 import q_blue from "../../_assets/eurekaIcon/q_blue.svg";
 import q_pink from "../../_assets/eurekaIcon/q_pink.svg";
 import q_purple from "../../_assets/eurekaIcon/q_purple.svg";
 import q_yellow from "../../_assets/eurekaIcon/q_yellow.svg";
-import styled, { keyframes } from "styled-components";
 import "./EurekaPage.css";
 import { getPosition } from "../../_utils/getLocation";
 import { firestore, geofire } from "../../_utils/firebase";
@@ -17,45 +16,41 @@ const avatar = {
   3: q_blue,
   4: q_purple,
 };
+
+const useDebouncedRippleCleanUp = (rippleCount, duration, cleanUpFunction) => {
+  useLayoutEffect(() => {
+    let bounce = null;
+    if (rippleCount > 0) {
+      clearTimeout(bounce);
+
+      bounce = setTimeout(() => {
+        cleanUpFunction();
+        clearTimeout(bounce);
+      }, duration * 2);
+    }
+
+    return () => clearTimeout(bounce);
+  }, [rippleCount, duration, cleanUpFunction]);
+};
+
 const ShoutPage = () => {
   const [waveVisible, setWaveVisible] = useState(false);
   const [didEureka, setDidEureka] = useState(false);
-  const [waves, setWaves] = useState([]);
+  const [ripples, setRipples] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [myMessage, setMyMessage] = useState("유레카!");
   const [messages, setMessages] = useState([]);
   const [myNeighbor, setMyNeighbor] = useState([]);
   const [myPos, setMyPos] = useState("");
 
-  const shout = keyframes`
-  0% {
-    transform: scale(1);
-    opacity: 0.3;
-  }
-  100% {
-    transform: scale(8);
-    opacity: 0.3;
-  }
-`;
-  const Circle = styled.div`
-    width: 5rem;
-    height: 5rem;
-    margin: auto;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    position: absolute;
-    border-radius: 50%;
-    background-color: #f4d503;
-    opacity: 0;
-    animation: ${shout} 3s;
-    z-index: 1;
-  `;
-
   const avatarId = JSON.parse(localStorage.getItem("loggedInfo")).avatar;
   const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
   const userNickname = JSON.parse(localStorage.getItem("loggedInfo")).nickname;
+
+  // ripple 없애기
+  useDebouncedRippleCleanUp(ripples.length, 1000, () => {
+    setRipples([]);
+  });
 
   // 실시간 메세지 update
   useEffect(() => {
@@ -89,11 +84,11 @@ const ShoutPage = () => {
     });
   }, []);
 
-  // btn click 시
-  function clickShout() {
+  // button 클릭 시 ripple 생성
+  function showRipple(e) {
+    setRipples((oldArray) => [...oldArray, <span></span>]);
     setDidEureka(true);
     setWaveVisible(!waveVisible);
-    setWaves((oldArray) => [...oldArray, <Circle />]);
 
     // 나의 message update
     const data = {
@@ -110,7 +105,7 @@ const ShoutPage = () => {
       var removeMessage = userRef.update({
         message: firebase.firestore.FieldValue.delete(),
       });
-    }, 3000);
+    }, 5000);
 
     // 이웃 update
     firestore
@@ -133,6 +128,7 @@ const ShoutPage = () => {
       setDidEureka(false);
     }, 7000);
   }
+
   // 메세지 메뉴 토글
   function toggleMessageButton() {
     setIsOpen(!isOpen);
@@ -181,7 +177,7 @@ const ShoutPage = () => {
             </div>
           );
         })}
-
+      {/* 나의 아바타 */}
       <div className="avatarWrapper">
         <div
           className="speech-bubble"
@@ -190,17 +186,23 @@ const ShoutPage = () => {
           <p>{myMessage}</p>
         </div>
         <div className="avatarCircle">
+          {/* 유레카 버튼 */}
           <button
             className="avatar"
             style={{
               background: `url(${avatar[avatarId]})`,
-              backgroundSize: "3rem",
+              backgroundSize: "100%",
               backgroundColor: "white",
               borderRadius: "50%",
             }}
-            onClick={clickShout}
+            // onClick={clickShout}
+            // 누를때
+            onMouseDown={showRipple}
+            // 뗄때
+            // onMouseUp={debounce(cleanUp, 2000)}
           ></button>
-          {waves}
+          {/* ripple */}
+          <div className="ripple-container">{ripples}</div>
         </div>
       </div>
       <div className="menuWrapper">

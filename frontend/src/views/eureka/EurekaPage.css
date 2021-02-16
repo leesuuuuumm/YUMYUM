@@ -19,6 +19,7 @@
   height: 2rem;
 }
 .freinds > p {
+  margin: 0;
   font-size: 10px;
 }
 .avatarCircle {
@@ -42,8 +43,8 @@
   top: 0;
   bottom: 0;
   right: 0;
-  height: 3rem;
-  width: 3rem;
+  height: 4rem;
+  width: 4rem;
   border: 0;
   outline: 0;
   z-index: 10;
@@ -76,7 +77,7 @@
   margin-left: -0.312em;
   margin-bottom: -0.312em;
 }
-
+/* 메세지 메뉴 */
 .menuWrapper {
   width: 100%;
   bottom: 10%;
@@ -102,7 +103,7 @@
   line-height: 70px;
   z-index: 10;
 }
-
+/* 발바닥 */
 .circularNav {
   position: relative;
   width: 100%;
@@ -216,5 +217,34 @@
     -o-transform: rotate(180deg);
     -webkit-transform: rotate(180deg);
     transform: rotate(180deg);
+  }
+}
+
+.ripple-container {
+  width: 4rem;
+  height: 4rem;
+}
+.ripple-container span {
+  animation: ripple 1000ms;
+  margin: auto;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  border-radius: 50%;
+  background-color: #f4d503;
+  opacity: 0.5;
+  z-index: 0;
+}
+
+@keyframes ripple {
+  to {
+    opacity: 0;
+    -moz-transform: scale(8);
+    -ms-transform: scale(8);
+    -o-transform: scale(8);
+    -webkit-transform: scale(8);
+    transform: scale(8);
   }
 }
