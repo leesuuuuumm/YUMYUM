@@ -8,7 +8,6 @@ const PORT = ':8800'
 // const PORT = ':8080'
 
 export const request = (method, url, data = {}, config, props) => {
-    console.log(url, 'axios요청 보냅니다아아아 이 데이터를!', data)
     axios.defaults.headers["Authorization"] = localStorage.getItem("jwt-token");
     return axios({
         method,
@@ -17,8 +16,7 @@ export const request = (method, url, data = {}, config, props) => {
         config
     })
     .then((res) => {
-        console.log('axios응답', res.data)
-        localStorage.setItem("jwt-token", res.data.token);
+        // localStorage.setItem("jwt-token", JSON.parse(res.data.data).token);
         return res.data
     })
     .catch((error) => {
