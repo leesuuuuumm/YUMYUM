@@ -13,14 +13,19 @@ import { getLikeFeeds } from '../../_actions/userAction';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    marginBottom: "4px"
   },
   menuButton: {
     marginRight: theme.spacing(2),
   },
+  appbar:{
+    boxShadow: "2px 2px 2px rgba(0,0,0,0.5)"
+  },
   title: {
     color:'white',
     fontSize : '1.25em',
-    fontFamily : 'GmarketSansMedium'
+    fontFamily : 'GmarketSansMedium',
+    textShadow: "2px 2px 2px rgba(255, 235, 59, 0.5)"
   }
 }));
 
@@ -41,7 +46,7 @@ const LikeFeed = (props) => {
   return (
     <>
     <div className={classes.root}>
-      <AppBar position="static" style = {{ background: '#8d6e63' }}>
+      <AppBar className={classes.appbar}position="static" style = {{ background: '#8d6e63' }}>
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="primary" aria-label="menu">
             <Link to='/map/infomap'><NavigateBeforeIcon /></Link>
