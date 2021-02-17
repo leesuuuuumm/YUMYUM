@@ -65,3 +65,4 @@ export function getLikeFeeds(dataToSubmit){
     payload: data
   }
 }
+
