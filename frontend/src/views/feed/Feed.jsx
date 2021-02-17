@@ -142,6 +142,7 @@ function Feed(props) {
         autoPlay
         loop
         muted
+        playsinline
       />
       <div id="textbox">
         { isThreeDots ? 

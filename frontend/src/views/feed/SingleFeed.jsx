@@ -92,6 +92,7 @@ function SingleFeed(props) {
         autoPlay
         loop
         muted
+        playsinline
       />
       <div id="textbox">
         <a >

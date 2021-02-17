@@ -49,7 +49,8 @@ function Camera(props) {
             width="100%"
             autoPlay 
             loop 
-            muted 
+            muted
+            playsinline
           />
           <div id="button-wapper">
             <button id="retry" onClick={sourceClear}>

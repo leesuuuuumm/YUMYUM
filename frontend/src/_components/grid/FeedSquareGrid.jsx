@@ -83,6 +83,7 @@ function FeedSquareGrid(props) {
                 width="100%"
                 loop
                 muted
+                playsinline
                 onTouchStart={(event) => event.target.play()}
                 onTouchEnd={(event) => event.target.pause()}
               /> 
