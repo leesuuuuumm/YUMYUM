@@ -16,6 +16,7 @@ export const request = (method, url, data = {}, config, props) => {
         config
     })
     .then((res) => {
+        // localStorage.setItem("jwt-token", JSON.parse(res.data.data).token);
         return res.data
     })
     .catch((error) => {

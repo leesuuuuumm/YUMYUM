@@ -171,7 +171,17 @@ public class FeedController {
 
 		List<ArrayList<String>> titleList = feedDao.findByUser_email(email);
 
-		return makeResponse("200", convertObjToJson(titleList), "success" + titleList.size(), HttpStatus.OK);
+		List<TitleResponse> titleResList = new ArrayList<>();
+
+		for (ArrayList<String> titleInfo : titleList) {
+			TitleResponse titleResponse = TitleResponse.builder()
+					.title(titleInfo.get(0))
+					.videoPath(titleInfo.get(1))
+					.build();
+			titleResList.add(titleResponse);
+		}
+
+		return makeResponse("200", convertObjToJson(titleResList), "success" + titleList.size(), HttpStatus.OK);
 	}
 
 	@GetMapping("/list/{email}/{title}/")
