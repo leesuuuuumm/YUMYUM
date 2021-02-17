@@ -2,7 +2,8 @@ import {
     CREATE_FEED,
     GET_FEED, 
     DELETE_FEED, 
-    GET_FEEDCALENDAR_BY_EMAIL, 
+    GET_FEEDCALENDAR_BY_EMAIL,
+    GET_FEEDS_MENU,
     CREATE_VIDEO, 
     GET_FEEDS } from "../_actions/types";
 
@@ -20,6 +21,14 @@ const feedReducer = function(state = initialState, action) {
         case GET_FEED:
             return { ...state, feedInfo: payload };
 
+        case GET_FEEDS_MENU:
+            return { ...state, 
+                feedsMenuInfo: {
+                status: payload.status,
+                message: payload.message,
+                data: payload.data,
+                object: payload.object,
+            }};
         case GET_FEEDCALENDAR_BY_EMAIL:
             return { ...state, 
                 feedsCalenadarInfo: {
