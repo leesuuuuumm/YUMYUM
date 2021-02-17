@@ -35,7 +35,7 @@ function SingleFeed(props) {
   }
 
   const goBack = () => {
-    if (addressName) {
+    if (props.location.state.addressName) {
       props.history.push({
         pathname: "/food/feed",
         state : {
@@ -92,6 +92,7 @@ function SingleFeed(props) {
         autoPlay
         loop
         muted
+        playsinline
       />
       <div id="textbox">
         <a >
@@ -132,7 +133,7 @@ function SingleFeed(props) {
             <hr id="second_line"/>
               <br />
             <TextsmsRoundedIcon id="commentIcon"/>
-              <h3> " {feedContent} " </h3>
+              <Textfit id="contentText"> " {feedContent} " </Textfit>
           </div>
         </Collapse>
       </div>
