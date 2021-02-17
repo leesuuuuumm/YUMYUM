@@ -32,7 +32,6 @@ const useDebouncedRippleCleanUp = (rippleCount, duration, cleanUpFunction) => {
 };
 
 const ShoutPage = () => {
-  const [waveVisible, setWaveVisible] = useState(false);
   const [ripples, setRipples] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [myMessage, setMyMessage] = useState("유레카!");
@@ -97,7 +96,6 @@ const ShoutPage = () => {
   // button 클릭 시 ripple 생성
   function showRipple(e) {
     setRipples((oldArray) => [...oldArray, <span id={e.timeStamp}></span>]);
-    setWaveVisible(!waveVisible);
 
     getPosition().then((res) => {
       let lat = 0
