@@ -113,12 +113,13 @@ function UserFeedPage(props) {
         setUsername(JSON.parse(res.payload.data).nickname);
         setInfo(JSON.parse(res.payload.data).introduction);
         setAvatarId(JSON.parse(res.payload.data).avatar);
+        dispatch(getFeedCalendarByEmail(userEmail));
+        dispatch(getFeedMenu(userEmail));
       })
       .catch((err) =>{
         console.log(err)
       })
-    dispatch(getFeedCalendarByEmail(userEmail))
-    dispatch(getFeedMenu(userEmail))
+
   }, []);
 
   useEffect(() => {
@@ -139,12 +140,12 @@ function UserFeedPage(props) {
       setSelectAvatar(q_purple)
     } 
   },[avatarId])
+  
   // STORE에 저장된 FEEDS 가져오기
-  const feeds = useSelector((state) => {
-    return JSON.parse(state.feed.feedsCalenadarInfo.data);
-  }, shallowEqual);
-  const feedsByMenu = useSelector((state) => {
-    return JSON.parse(state.feed.feedsMenuInfo.data);
+  const {feeds, feedsByMenu} = useSelector((state) => {
+    return {
+      feeds: JSON.parse(state.feed.feedsCalenadarInfo.data),
+      feedsByMenu : JSON.parse(state.feed.feedsMenuInfo.data)};
   }, shallowEqual);
 
   return (
