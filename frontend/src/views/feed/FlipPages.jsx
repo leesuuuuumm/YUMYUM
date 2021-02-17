@@ -51,7 +51,7 @@ function FlipPages(props) {
     const fetchedData = allFeeds.slice(nowPages, (nowPages+1))
     const addFeeds = (
       fetchedData.map((obj) => (
-        <Slide>
+        <Slide key={obj.id}>
           <Feed key={obj.id} feed={obj} />
         </Slide>
       ))
@@ -79,13 +79,12 @@ function FlipPages(props) {
   });
 
   useEffect(() => {
-    if (props.location.state) {
-      const {email, title} = props.location.state
-      console.log("다른곳에서 와쓰요")
-      console.log(title)
-      getFeedByTitle(email, title)
-    } else {
+    console.log(props)
+    if (!props.location.state || props.location.state.value) {
       getFeedDatas();
+    } else {
+      const {email, title} = props.location.state
+      getFeedByTitle(email, title)
     }
   }, []);
 

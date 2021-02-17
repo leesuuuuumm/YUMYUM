@@ -32,15 +32,12 @@ function FlipPagesUser(props) {
   }
 
   useEffect(() => {  
-    if (props.location.state.index) {
-      console.log(props)
+    if (props.location.state.index || props.location.state.index===0) {
       const {index, email} = props.location.state;
       idx.push(index)
       getFeedDatas(email);
     } else {
       const {email, title} = props.location.state
-      console.log("다른곳에서 와쓰요")
-      console.log(title)
       getFeedByTitle(email, title)
     }
   }, []);
