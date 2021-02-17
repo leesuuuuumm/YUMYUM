@@ -43,7 +43,9 @@ const MapBottomSheet = (props) => {
 
       <hr/>
       <h4>{addressName}</h4>
-      <a onClick={goMapFeed}>리뷰보기</a>
+      <div className="wrap_bottom_btn">
+        <button className="bottom_review_btn" onClick={goMapFeed}>리뷰보기</button>
+      </div>
     </div>
   );
 }

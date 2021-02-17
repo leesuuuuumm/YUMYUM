@@ -1,5 +1,6 @@
 .shoutContainer {
-  max-width: 100vh;
+  max-width: 100vw;
+  min-width: 100vw;
   max-height: 100vh;
   min-height: 100vh;
   display: flex;
@@ -10,15 +11,47 @@
   padding: 0;
   list-style: none;
 }
+.newmessage {
+  animation: shake 2s infinite;
+}
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
 
 .freinds {
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 5;
 }
+
 .freinds > img {
-  width: 2rem;
   height: 2rem;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+}
+
+.friendsImg {
+  opacity: 0.7;
 }
 .freinds > p {
+  margin: 0;
+  color: lightgray;
   font-size: 10px;
 }
 .avatarCircle {
@@ -42,12 +75,44 @@
   top: 0;
   bottom: 0;
   right: 0;
-  height: 3rem;
-  width: 3rem;
+  height: 4rem;
+  width: 4rem;
   border: 0;
   outline: 0;
   z-index: 10;
 }
+.friend-bubble {
+  position: relative;
+  border-radius: 0.4em;
+  height: fit-content;
+  text-align: center;
+  /* background: #f4d503; */
+  border: #f4d503;
+  border-style: solid;
+  border-width: medium;
+  width: 3rem;
+  margin-bottom: 0.3em;
+}
+.friend-bubble > p {
+  margin: 0;
+  color: black;
+  font-size: 13px;
+}
+
+.friend-bubble:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border: 0.513em solid transparent;
+  border-top-color: #f4d503;
+  border-bottom: 0;
+  margin-left: -0.512em;
+  margin-bottom: -0.512em;
+}
+
 .speech-bubble {
   position: absolute;
   border-radius: 0.4em;
@@ -56,7 +121,6 @@
   margin: auto;
   left: 0;
   top: 0;
-  bottom: 7rem;
   right: 0;
 }
 .speech-bubble > p {
@@ -70,13 +134,13 @@
   left: 50%;
   width: 0;
   height: 0;
-  border: 0.313em solid transparent;
+  border: 0.513em solid transparent;
   border-top-color: #f4d503;
   border-bottom: 0;
-  margin-left: -0.312em;
-  margin-bottom: -0.312em;
+  margin-left: -0.512em;
+  margin-bottom: -0.512em;
 }
-
+/* 메세지 메뉴 */
 .menuWrapper {
   width: 100%;
   bottom: 10%;
@@ -102,7 +166,7 @@
   line-height: 70px;
   z-index: 10;
 }
-
+/* 발바닥 */
 .circularNav {
   position: relative;
   width: 100%;
@@ -216,5 +280,34 @@
     -o-transform: rotate(180deg);
     -webkit-transform: rotate(180deg);
     transform: rotate(180deg);
+  }
+}
+
+.ripple-container {
+  width: 4rem;
+  height: 4rem;
+}
+.ripple-container span {
+  animation: ripple 1000ms;
+  margin: auto;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  border-radius: 50%;
+  background-color: #f4d503;
+  opacity: 0.5;
+  z-index: 0;
+}
+
+@keyframes ripple {
+  to {
+    opacity: 0;
+    -moz-transform: scale(10);
+    -ms-transform: scale(10);
+    -o-transform: scale(10);
+    -webkit-transform: scale(10);
+    transform: scale(10);
   }
 }
