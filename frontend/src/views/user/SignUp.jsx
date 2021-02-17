@@ -75,9 +75,7 @@ function SignUp(props) {
                 avatar: avatarId,
                 lat: res.Ma, //y
                 lng: res.La, //x
-                geohash: geofire
-                  .geohashForLocation([res.Ma, res.La])
-                  .substring(0, 4),
+                geohash: geofire.geohashForLocation([res.Ma, res.La]).substring(0, 5),
               };
               firestore.collection("users").doc(Email).set(data);
             });
