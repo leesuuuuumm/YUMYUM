@@ -38,7 +38,6 @@ const ShoutPage = () => {
   const [myMessage, setMyMessage] = useState("유레카!");
   const [messages, setMessages] = useState({});
   const [myNeighbor, setMyNeighbor] = useState([]);
-  const [myPos, setMyPos] = useState("");
 
   const avatarId = JSON.parse(localStorage.getItem("loggedInfo")).avatar;
   const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
@@ -54,11 +53,15 @@ const ShoutPage = () => {
   useEffect(() => {
     // 나의 위치 UPDATE
     getPosition().then((res) => {
-      const pos = geofire.geohashForLocation([res.Ma, res.La]).substring(0, 5);
-      setMyPos(pos);
+      let lat = 0
+      let lng = 0
+      if (res) {
+        lat = res.Ma
+        lng = res.La
+      }
+      const pos = geofire.geohashForLocation([lat, lng]).substring(0, 5);
 
       const myneighbor = neighbours(pos)
-      console.log(myneighbor)
 
       // 메세지 snapshot
       firestore.collection("users").where("geohash", "in", myneighbor).onSnapshot(function (querySnapshot) {
@@ -97,9 +100,13 @@ const ShoutPage = () => {
     setWaveVisible(!waveVisible);
 
     getPosition().then((res) => {
-      const pos = geofire.geohashForLocation([res.Ma, res.La]).substring(0, 5);
-      setMyPos(pos);
-
+      let lat = 0
+      let lng = 0
+      if (res) {
+        lat = res.Ma
+        lng = res.La
+      }
+      const pos = geofire.geohashForLocation([lat, lng]).substring(0, 5);
     // 나의 message update
     const data = {
       geohash: pos,
