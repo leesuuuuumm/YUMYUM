@@ -248,7 +248,9 @@ const InfoMap = (props) => {
   // 
 
   const goLikeList = () => {
-    props.history.push('/food/likefeed')
+    setTimeout(() => {
+      props.history.push('/food/likefeed')  
+    }, 200);
   }
   
   // 현재 위치로 이동해서 마커를 찍어주는 함수
@@ -297,7 +299,7 @@ const InfoMap = (props) => {
     </div>
       <MyLocationIcon  className="location_icon" fontSize="large" onClick={nowLocation} color = "primary" />
     <div className="infomap">
-        {toggleBtn ? (null):(<button className="likeListBtn" onClick={goLikeList}> 좋아요 목록</button>)}
+        {toggleBtn ? (null):(<button className="likeListBtn" onClick={goLikeList}>좋아요 목록</button>)}
       <div id="allmap" style={{ width: "100vw", height: "83vh" }}>
       </div>
     </div>
