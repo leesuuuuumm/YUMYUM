@@ -140,7 +140,7 @@ function UserFeedPage(props) {
       setSelectAvatar(q_purple)
     } 
   },[avatarId])
-  
+
   // STORE에 저장된 FEEDS 가져오기
   const {feeds, feedsByMenu} = useSelector((state) => {
     return {
@@ -184,7 +184,7 @@ function UserFeedPage(props) {
       </TabPanel>
 
       <TabPanel value={value} index={1} dir={theme.direction}>
-        <FeedList tileData={feeds} navheight={navheight} />
+        <FeedList tileData={feedsByMenu} navheight={navheight} />
       </TabPanel>
       {/* 3 dots 클릭 시 모달 */}
       <Drawer anchor="bottom" open={isModalOpen} onClose={toggleDrawer(false)}>
