@@ -49,12 +49,18 @@ function Login(props) {
             // 나의 위치 UPDATE
             const userEmail = obj.user.email;
             const nickname = obj.user.nickname;
+            let lat = 0
+            let lng = 0
+            if (res) {
+              lat = res.Ma
+              lng = res.La
+            }
             const data = {
               nickname: nickname,
               avatar: obj.user.avatar,
-              lat: res.Ma, //y
-              lng: res.La, //x
-              geohash: geofire.geohashForLocation([res.Ma, res.La]).substring(0, 5),
+              lat: lat, //y
+              lng: lng, //x
+              geohash: geofire.geohashForLocation([lat, lng]).substring(0, 5),
             };
             firestore.collection("users").doc(userEmail).update(data);
             firestore.collection("users").doc(userEmail).update({

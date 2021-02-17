@@ -69,13 +69,20 @@ function SignUp(props) {
           if (res.payload.status === "200") {
             // firebase
             getPosition().then((res) => {
+              let lat = 0
+              let lng = 0
+              if (res) {
+                lat = res.Ma
+                lng = res.La
+              }
+
               // 나의 위치 UPDATE
               const data = {
                 nickname: Nickname,
                 avatar: avatarId,
-                lat: res.Ma, //y
-                lng: res.La, //x
-                geohash: geofire.geohashForLocation([res.Ma, res.La]).substring(0, 5),
+                lat: lat, //y
+                lng: lng, //x
+                geohash: geofire.geohashForLocation([lat, lng]).substring(0, 5),
               };
               firestore.collection("users").doc(Email).set(data);
             });
