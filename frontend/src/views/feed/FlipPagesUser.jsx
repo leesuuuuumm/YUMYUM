@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import "./CSS/FlipPages.css";
 import Feed from "./Feed"
-import { getFeedCalendarByEmail } from "../../_actions/feedAction";
+import { getFeedCalendarByEmail,getFeedMenuDetail } from "../../_actions/feedAction";
 import { useDispatch } from "react-redux";
 import FullPage from '../../_components/pagecomponents/FullPage';
 import Slide  from '../../_components/pagecomponents/Slide';
@@ -22,10 +22,27 @@ function FlipPagesUser(props) {
     })
   };
 
+  const getFeedByTitle = (email, title) => {
+    dispatch(getFeedMenuDetail(email, title)).then((res) => {
+      const reversedObjs = JSON.parse(res.payload.data);
+      const objs = reversedObjs.reverse()
+      const feed = objs.map(obj => (<Slide> <Feed key={obj.id} feed={obj} /></Slide>))
+      SetFlipPages( <FullPage initialSlide={idx} duration={500}> {feed} </FullPage>)
+    });
+  }
+
   useEffect(() => {  
-    const {index, email} = props.location.state;
-    idx.push(index)
-    getFeedDatas(email);
+    if (props.location.state.index) {
+      console.log(props)
+      const {index, email} = props.location.state;
+      idx.push(index)
+      getFeedDatas(email);
+    } else {
+      const {email, title} = props.location.state
+      console.log("다른곳에서 와쓰요")
+      console.log(title)
+      getFeedByTitle(email, title)
+    }
   }, []);
 
   return (
