@@ -32,6 +32,7 @@ function FlipPages(props) {
 
   const getFeedByTitle = (email, title) => {
     dispatch(getFeedMenuDetail(email, title)).then((res) => {
+      console.log(res)
       const reversedObjs = JSON.parse(res.payload.data);
       const objs = reversedObjs.reverse()
       const part = objs.slice(0, 5)
