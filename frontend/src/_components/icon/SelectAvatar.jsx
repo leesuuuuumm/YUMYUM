@@ -9,18 +9,24 @@ import q_purple from "../../_assets/eurekaIcon/q_purple.svg";
 import { getUser }  from "../../_actions/userAction";
 import "./SelectAvatar.css"
 import { getEmail } from "../../_utils/setToken";
+import soundYUM from "../../_assets/soundeffect/YUMYUM_1.wav";
 
 // clip rect(top right bottom left)
 const SelectAvatar = (props) => {
-
   const [keepId, setKeepId] = useState();
-
   const dispatch = useDispatch();
+  const likeAudio = new Audio(soundYUM);
 
   const chooseAvatar = (index) =>{
     props.setAvartarId(index) // 부모요소로 넘겨주는 함수
     colorAvatar(index)
+    playSound(likeAudio)
   }
+
+  const playSound = (audioFile) => {
+    console.log("사운드")
+    audioFile.play();
+  };
 
   const colorAvatar = (index) => {
     for (let i = 0; i < 5 ; i ++) {

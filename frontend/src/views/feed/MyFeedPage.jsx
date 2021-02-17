@@ -184,7 +184,7 @@ function UserFeedPage(props) {
       </TabPanel>
 
       <TabPanel value={value} index={1} dir={theme.direction}>
-        <FeedList tileData={feedsByMenu} navheight={navheight} />
+        <FeedList tileData={feeds} navheight={navheight} />
       </TabPanel>
       {/* 3 dots 클릭 시 모달 */}
       <Drawer anchor="bottom" open={isModalOpen} onClose={toggleDrawer(false)}>
