@@ -54,9 +54,6 @@ function FlipPages(props) {
     if (scrollTop + clientHeight + clientHeight >= scrollHeight && fetching === false) {
       fetchMoreFeeds();
     }
-    // if (scrollTop + clientHeight + clientHeight >= scrollHeight && fetching === false) {
-    //   fetchMoreFeeds();
-    // }
    };
   
   useEffect(() => {
