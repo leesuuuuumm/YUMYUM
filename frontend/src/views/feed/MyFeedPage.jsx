@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 // import { getFeedByEmail } from "../../_actions/feedAction";
 import { getUser } from "../../_actions/userAction";
-import { getFeedCalendarByEmail, getFeedMenu } from "../../_actions/feedAction";
+import { getFeedCalendarByEmail } from "../../_actions/feedAction";
 import Drawer from "@material-ui/core/Drawer";
 import { useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -118,7 +118,6 @@ function UserFeedPage(props) {
         console.log(err)
       })
     dispatch(getFeedCalendarByEmail(userEmail))
-    dispatch(getFeedMenu(userEmail))
   }, []);
 
   useEffect(() => {
@@ -142,9 +141,6 @@ function UserFeedPage(props) {
   // STORE에 저장된 FEEDS 가져오기
   const feeds = useSelector((state) => {
     return JSON.parse(state.feed.feedsCalenadarInfo.data);
-  }, shallowEqual);
-  const feedsByMenu = useSelector((state) => {
-    return JSON.parse(state.feed.feedsMenuInfo.data);
   }, shallowEqual);
 
   return (
@@ -183,7 +179,7 @@ function UserFeedPage(props) {
       </TabPanel>
 
       <TabPanel value={value} index={1} dir={theme.direction}>
-        <FeedList tileData={feedsByMenu} navheight={navheight} />
+        <FeedList tileData={feeds} navheight={navheight} />
       </TabPanel>
       {/* 3 dots 클릭 시 모달 */}
       <Drawer anchor="bottom" open={isModalOpen} onClose={toggleDrawer(false)}>
