@@ -1,4 +1,4 @@
-import { CREATE_FEED, GET_FEED, DELETE_FEED, GET_FEEDCALENDAR_BY_EMAIL, CREATE_VIDEO, UPDATE_FEED, LIKE_FEED } from './types';
+import { CREATE_FEED, GET_FEED, DELETE_FEED, GET_FEEDCALENDAR_BY_EMAIL, CREATE_VIDEO, UPDATE_FEED, LIKE_FEED, GET_FEEDS_MENU } from './types';
 import { request } from "../_utils/axios";
 import { setToken } from "../../src/_utils/setToken"
 const config = setToken()
@@ -79,6 +79,17 @@ export function getFeedCalendarByEmail(dataToSubmit) {
   const data = request("get", FEED_URL + `/list/${email}`, {}, config);
   return {
     type: GET_FEEDCALENDAR_BY_EMAIL,
+    payload: data,
+  };
+}
+
+
+// user의 feed를 메뉴별로 요청
+export function getFeedMenu(dataToSubmit) {
+  const email = dataToSubmit
+  const data = request("get", FEED_URL + `/titles/${email}`, {}, config);
+  return {
+    type: GET_FEEDS_MENU,
     payload: data,
   };
 }

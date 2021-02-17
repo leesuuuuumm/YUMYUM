@@ -2,7 +2,6 @@
 export const REGISTER_USER = "REGISTER_USER";
 export const LOGIN_USER = "LOGIN_USER";
 export const RESETPASSWORD_USER = "RESSETPASSWORD_USER";
-// Todo: 수정필요
 export const LOGOUT_USER = "LOGOUT_USER";
 export const GET_USER = "GET_USER";
 export const GET_USER_INFO = "GET_USER_INFO";
@@ -18,6 +17,7 @@ export const CREATE_VIDEO = "CREATE_VIDEO";
 export const DELETE_FEED = "DELETE_FEED";
 export const LIKE_FEED = "LIKE_FEED";
 export const GET_FEEDCALENDAR_BY_EMAIL = "GET_FEEDCALENDAR_BY_EMAIL";
+export const GET_FEEDS_MENU = "GET_FEEDS_MENU";
 
 // map
 export const CREATE_PLACE = "CREATE_PLACE";
