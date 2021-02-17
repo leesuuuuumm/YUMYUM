@@ -69,6 +69,7 @@ export default function FeedList(props) {
                   width="100%"
                   loop
                   muted
+                  playsinline
                   // onMouseOver={(event) => event.target.play()}
                   onTouchStart={(event) => event.target.play()}
                   // onMouseOut={(event) => event.target.pause()}
