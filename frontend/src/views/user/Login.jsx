@@ -40,7 +40,6 @@ function Login(props) {
         const obj = JSON.parse(res.payload.data);
         const status = JSON.parse(res.payload.status);
         if (status === 200) {
-          localStorage.setItem("jwt-token", obj.token);
           localStorage.setItem("loggedInfo", JSON.stringify(obj.user));
 
           // 위치 업데이트

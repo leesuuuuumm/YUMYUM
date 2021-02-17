@@ -20,6 +20,7 @@ export const request = (method, url, data = {}, config, props) => {
     })
     .then((res) => {
         console.log('axios응답', res.data)
+        localStorage.setItem("jwt-token", res.data.token);
         return res.data
     })
     .catch((error) => {
@@ -29,7 +30,7 @@ export const request = (method, url, data = {}, config, props) => {
         if(error.response.data.message === "jwt unauthorized"){
           localStorage.removeItem("jwt-token");
           localStorage.removeItem("loggedInfo");
-          window.history.pushState('v1','','#/')
+          window.location.reload();
         } else {
           return error.response.data
         }
