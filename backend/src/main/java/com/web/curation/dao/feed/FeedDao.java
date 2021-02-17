@@ -11,19 +11,6 @@ import java.util.List;
 
 public interface FeedDao extends JpaRepository<Feed, Long> {
 
-	//List<Feed> findAllByUser(User user);
-
-
-//	List<Feed> findDistinctPeopleByLastnameOrFirstname(String lastname, String firstname);
-	
-//	List<Feed> findDistinctByUserOrderByTitle(User user);
-//	List<Feed> findDistinctTitleByUser(String email);
-
-//	List<Feed> findTitleByUser_emailOrderByTitle(String user_email);
-	
-//	@Query("SELECT DISTINCT title FROM Feed where user_email=?1 ORDER BY title")
-//	List<String> findByUser_email(String email);
-
 	List<Feed> findByPlace(Place place);
 
 
@@ -32,8 +19,6 @@ public interface FeedDao extends JpaRepository<Feed, Long> {
 	List<Feed> findAllByTitleAndUser_email(String title,String email);
 
 //	select title,file_path from Feed where id in (select max(id) from Feed group by title);
-	@Query(value="SELECT title,file_path from Feed where id in (select max(id) from Feed group by title) order by title" ,nativeQuery=true)
+	@Query(value="SELECT title, video_path from feed where id in (select max(id) from feed group by title) order by title" ,nativeQuery=true)
 	List<ArrayList<String>> findByUser_email(String email);
-	
-	
 }
