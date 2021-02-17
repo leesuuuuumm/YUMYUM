@@ -45,7 +45,6 @@ const SelectAvatar = (props) => {
   }
 
   const playSound = (audioFile) => {
-    console.log("사운드")
     audioFile.play();
   };
 
