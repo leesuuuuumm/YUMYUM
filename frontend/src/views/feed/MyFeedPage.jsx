@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 // import { getFeedByEmail } from "../../_actions/feedAction";
 import { getUser } from "../../_actions/userAction";
-import { getFeedCalendarByEmail } from "../../_actions/feedAction";
+import { getFeedCalendarByEmail, getFeedMenu } from "../../_actions/feedAction";
 import Drawer from "@material-ui/core/Drawer";
 import { useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
