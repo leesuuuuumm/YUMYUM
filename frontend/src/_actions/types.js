@@ -18,6 +18,7 @@ export const DELETE_FEED = "DELETE_FEED";
 export const LIKE_FEED = "LIKE_FEED";
 export const GET_FEEDCALENDAR_BY_EMAIL = "GET_FEEDCALENDAR_BY_EMAIL";
 export const GET_FEEDS_MENU = "GET_FEEDS_MENU";
+export const GET_FEEDS_MENU_DETAIL = "GET_FEEDS_MENU_DETAIL";
 
 // map
 export const CREATE_PLACE = "CREATE_PLACE";
