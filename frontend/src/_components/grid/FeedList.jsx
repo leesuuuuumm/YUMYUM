@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
+import { withRouter } from "react-router-dom";
 import { DOMAIN } from "../../_utils/axios";
 import { ContactSupportOutlined } from "@material-ui/icons";
 
@@ -45,10 +46,23 @@ const useStyles = makeStyles(() =>
   })
 );
 
-export default function FeedList(props) {
+function FeedList(props) {
   const classes = useStyles();
   const { tileData, navheight } = props;
   const calheight = navheight+3
+
+  const goDetail = (title) => {
+    const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
+    props.history.push({
+      pathname: "feed/flippagesUser",
+      state : {
+        title : title,
+        email : userEmail
+      },
+    });
+
+  };
+
   return (
     <div className={classes.root} style={{ paddingTop : calheight }}>
       <GridList cellHeight={100} className={classes.gridList} cols={1}>
@@ -58,6 +72,7 @@ export default function FeedList(props) {
               key={tile.id}
               cols={1}
               style={{ height: 5.8 + "rem" }}
+              onClick={() => goDetail(tile.title)}
             >
               <div className={classes.tileBox}>
                 <video
@@ -92,3 +107,5 @@ FeedList.propTypes = {
 FeedList.defaultProps = {
   tileData: {},
 };
+
+export default withRouter(FeedList);
