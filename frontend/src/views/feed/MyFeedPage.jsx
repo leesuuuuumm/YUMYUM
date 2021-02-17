@@ -143,6 +143,7 @@ function UserFeedPage(props) {
   const feeds = useSelector((state) => {
     return JSON.parse(state.feed.feedsCalenadarInfo.data);
   }, shallowEqual);
+
   const feedsByMenu = useSelector((state) => {
     return JSON.parse(state.feed.feedsMenuInfo.data);
   }, shallowEqual);
