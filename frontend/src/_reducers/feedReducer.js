@@ -11,6 +11,9 @@ const initialState = {
     feedsCalenadarInfo: {
         data: null,
     },
+    feedsMenuInfo: {
+        data: null,
+    },
 }
 
 const feedReducer = function(state = initialState, action) {
@@ -27,7 +30,6 @@ const feedReducer = function(state = initialState, action) {
                 status: payload.status,
                 message: payload.message,
                 data: payload.data,
-                object: payload.object,
             }};
         case GET_FEEDCALENDAR_BY_EMAIL:
             return { ...state, 
