@@ -31,6 +31,7 @@
 - 프론트 개발자
   - 프론트엔드 파트 구현
   - UI/UX 고안 후 구현
+- [README](./doc/AHYEON.md) 
 
 ### <img src="README.assets/image-20210214220501394.png" alt="image-20210214220501394" width="37" height="45" /> 염성훈
 
