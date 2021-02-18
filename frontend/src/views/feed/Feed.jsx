@@ -193,7 +193,7 @@ function Feed(props) {
             <hr id="second_line"/>
               <br />
             <TextsmsRoundedIcon id="commentIcon"/>
-            <Textfit id="contentText"> " {feedContent} " </Textfit>
+            <Textfit id="contentText" max="20"> " {feedContent} " </Textfit>
           </div>
         </Collapse>
         <Collapse isOpened={isEdit}>
