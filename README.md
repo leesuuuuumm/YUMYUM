@@ -2,7 +2,7 @@
 
 ![image-20210214173817990](README.assets/image-20210214173817990.png)
 
-### <img src="README.assets/image-20210214215803089.png" alt="image-20210214215803089" style="zoom: 5.5%;" /> 정준현
+### <img src="README.assets/image-20210214215803089.png" alt="image-20210214215803089" width="37" height="45" /> 정준현
 
  - PM(Project Manager)
     - 프론트엔드와 백엔드를 포함하는 프로젝트 전체를 리드
@@ -12,7 +12,7 @@
     - 백엔드 코드 취합
     - 서버 관리
 
-### <img src="README.assets/image-20210214220255220.png" alt="image-20210214220255220" style="zoom:5.5%;" /> 김재유
+### <img src="README.assets/image-20210214220255220.png" alt="image-20210214220255220" width="37" height="45" /> 김재유
 
 - 프론트엔드 PL(Proejct Leader)
   - 프론트엔드 파트 를 리드하고 백엔드와의 협업을 위한 소통을 담당
@@ -21,8 +21,9 @@
 - 프론트 개발자
   - 프론트엔드 파트 구현
   - UI/UX 고안 후 구현
+- [README](./doc/JAEYU.md)
 
-### <img src="README.assets/image-20210214220127535.png" alt="image-20210214220127535" style="zoom:5.5%;" /> 길아현
+### <img src="README.assets/image-20210214220127535.png" alt="image-20210214220127535" width="37" height="45" /> 길아현
 
 - CTO (Chief Technology Officer)
   - API, 외부 라이브러리 도입 등을 결정
@@ -31,7 +32,7 @@
   - 프론트엔드 파트 구현
   - UI/UX 고안 후 구현
 
-### <img src="README.assets/image-20210214220501394.png" alt="image-20210214220501394" style="zoom:5.5%;" /> 염성훈
+### <img src="README.assets/image-20210214220501394.png" alt="image-20210214220501394" width="37" height="45" /> 염성훈
 
 - 마스코트
   - YUM? YUM! 쿼카 이미지 모티브 제공
@@ -40,7 +41,7 @@
   - 외부 API(카카오지도)
   - UI/UX 고안 후 구현
 
-### <img src="README.assets/image-20210214220202651.png" alt="image-20210214220202651" style="zoom:5.5%;" /> 이수민
+### <img src="README.assets/image-20210214220202651.png" alt="image-20210214220202651" width="37" height="45" /> 이수민
 
 - 백엔드 PL(Proejct Leader)
   - 백엔드 파트를 리드하고 프론트엔드와의 협업을 위한 소통을 담당
