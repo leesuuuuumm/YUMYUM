@@ -80,7 +80,7 @@ function Camera(props) {
             <br/>
             <img src= {Quokka} alt="Quokka" id="quokkaImg"/>
           </label>
-          <Textfit className="userAppTitle" max="45">맛을 보여주세요!</Textfit>
+          <Textfit className="userAppTitle" max="30">맛을 보여주세요!</Textfit>
 
           <input
             accept="video/*"
