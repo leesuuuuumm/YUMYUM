@@ -9,44 +9,19 @@ import q_purple from "../../_assets/eurekaIcon/q_purple.svg";
 import { getUser }  from "../../_actions/userAction";
 import "./SelectAvatar.css"
 import { getEmail } from "../../_utils/setToken";
-import sound1 from "../../_assets/soundeffect/YUMYUM_1.wav";
-import sound2 from "../../_assets/soundeffect/YUMYUM_2.wav";
-import sound3 from "../../_assets/soundeffect/YUMYUM_3.wav";
-import sound4 from "../../_assets/soundeffect/YUMYUM_4.wav";
-import sound5 from "../../_assets/soundeffect/YUMYUM_5.wav";
 import { List } from "@material-ui/icons";
+import { sound_yumyum } from "../../_utils/soundeffect";
 
 // clip rect(top right bottom left)
 const SelectAvatar = (props) => {
   const [keepId, setKeepId] = useState();
   const dispatch = useDispatch();
-  const quokka0 = new Audio(sound1);
-  const quokka1 = new Audio(sound2);
-  const quokka2 = new Audio(sound3);
-  const quokka3 = new Audio(sound4);
-  const quokka4 = new Audio(sound5);
-
-
 
   const chooseAvatar = (index) =>{
     props.setAvartarId(index) // 부모요소로 넘겨주는 함수
     colorAvatar(index)
-    if (index === "0") {
-      playSound(quokka0)
-    } else if (index === "1") {
-      playSound(quokka1)
-    } else if (index === "2") {
-      playSound(quokka2)
-    } else if (index === "3") {
-      playSound(quokka3)
-    } else if (index === "4") {
-      playSound(quokka4)
-    }
+    sound_yumyum[index].play()
   }
-
-  const playSound = (audioFile) => {
-    audioFile.play();
-  };
 
   const colorAvatar = (index) => {
     for (let i = 0; i < 5 ; i ++) {

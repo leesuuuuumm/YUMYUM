@@ -9,6 +9,8 @@ import { getPosition } from "../../_utils/getLocation";
 import { firestore, geofire } from "../../_utils/firebase";
 import firebase from "firebase/app";
 import {neighbours} from "../../_utils/getNeighbors"
+import { quokka_sound } from "../../_utils/soundeffect";
+
 const avatar = {
   0: q_brown,
   1: q_yellow,
@@ -16,6 +18,7 @@ const avatar = {
   3: q_blue,
   4: q_purple,
 };
+
 
 const useDebouncedRippleCleanUp = (rippleCount, duration, cleanUpFunction) => {
   useLayoutEffect(() => {
@@ -169,6 +172,11 @@ const ShoutPage = () => {
     setMyMessage(e.target.innerText);
   }
 
+  const yell = () => {
+    quokka_sound[avatarId][myMessage].play()
+  }
+  
+
   return (
     <div className="shoutContainer">
       {/* 띵동! new message */}
@@ -201,6 +209,7 @@ const ShoutPage = () => {
             }}
             // ripple 생성
             onMouseDown={showRipple}
+            onClick={() => yell()}
           ></button>
           {/* ripple */}
           <div className="ripple-container">{ripples}</div>
