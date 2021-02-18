@@ -40,6 +40,7 @@
   - 프론트엔드 파트 구현
   - 외부 API(카카오지도)
   - UI/UX 고안 후 구현
+  - [README](./doc/SUNGHUN.md)
 
 ### <img src="README.assets/image-20210214220202651.png" alt="image-20210214220202651" width="37" height="45" /> 이수민
 
