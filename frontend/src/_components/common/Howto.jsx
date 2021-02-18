@@ -15,7 +15,7 @@ function Howto() {
       <br/>
       <Textfit max="30"> - 유레카 </Textfit>
       <Textfit max="20"> "YUMYUM" 에서 유저간 소통하는 방법입니다. </Textfit>
-      <Textfit max="20"> 주변유저와 실시간으로 소통가능하며, 온전히 음식에 집중할 수 있도록 어쩌구 저쩌구 </Textfit>
+      <Textfit max="20"> 주변유저와 실시간으로 소통가능하며, 음식에 관한 간단한 대화들을 주고 받을 수 있어요! </Textfit>
       <br/>
       <Textfit max="30"> - 주의사항 </Textfit>
       <Textfit max="20"> 모바일 디바이스를 위한 서비스입니다. WEB을 이용할 경우 주소장에 있는 "+"를 눌러서 사용하실 수 있어요.</Textfit>
