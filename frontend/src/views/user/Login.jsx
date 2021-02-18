@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, withRouter } from "react-router-dom";
-import Quokka from "../../_assets/quokka1.png";
+import Quokka from "../../_assets/quokka.svg";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../_actions/userAction";
 import "./CSS/Login.css";
