@@ -15,7 +15,6 @@ export function registerUser(dataToSubmit) {
 
 export function loginUser(dataToSubmit) {
     const data = request("post", USER_URL + "/login/", dataToSubmit);
-    console.log(data, '로그인data')
     return {
       type: LOGIN_USER,
       payload: data,
@@ -25,7 +24,6 @@ export function loginUser(dataToSubmit) {
 
 export function resetPassword(dataToSubmit) {
   const data = request("put", USER_URL + "/password/", dataToSubmit, config);
-  console.log(data)
   return {
     type: RESETPASSWORD_USER,
     payload: data,
