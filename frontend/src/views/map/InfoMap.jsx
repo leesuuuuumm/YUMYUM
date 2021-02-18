@@ -128,7 +128,6 @@ const InfoMap = (props) => {
   })
 
   const displayLikeMarkers = React.useCallback(() => {
-    setTimeout(() => {
       removeMarker(map,allObject)
       setAllObject([])
       removeInfoWindow()
@@ -173,7 +172,6 @@ const InfoMap = (props) => {
             });
       }
       clusterer.addMarkers(likeObject)
-    }, 100);
   })
 
   const removeMarker = (map, markers) => {
@@ -214,11 +212,6 @@ const InfoMap = (props) => {
     }
   };
 
-  // function removeNowmarker() {
-  //   nowMarker[0].setMap(null);
-  //   nowMarker[1].close(map,nowMarker[0]);
-  // }
-
   function getPlaces() {
     setIsLocation(true)
       dispatch(getAllPlace())
@@ -239,14 +232,6 @@ const InfoMap = (props) => {
     })
   }
 
-  // 
-  // const init= () =>{
-  //   const likeBtn = document.querySelector('.like_btn');
-  //   const allBtn = document.querySelector('.all_btn');
-  // }
-  // init();
-  // 
-
   const goLikeList = () => {
     setTimeout(() => {
       props.history.push('/food/likefeed')  
@@ -260,15 +245,18 @@ const InfoMap = (props) => {
     getLikePlaces();
   },[]);
 
-  useEffect(()=>{
-  })
-
   useEffect(() => {
     // isLoaction을 줘서 map이 랜더 되기전에 nowLocation이 출력되지 않게 해주었다.
     if (isLocation){
       nowLocation();
     }
   },[isLocation])
+
+  useEffect(()=>{
+    if(isgetPlaces){
+      displayAllMarkers();
+    }
+  },[isgetPlaces])
 
   return (
     <>
