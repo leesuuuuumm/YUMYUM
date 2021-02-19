@@ -2,17 +2,11 @@ import React, {useState, useEffect} from 'react';
 import {Route, Redirect} from 'react-router-dom';
 
 const LoginRoute = ( {component: Component, rest}) => {
-  const [islogin, setIsLogin] = useState("")
-  
-  useEffect(() => {
-    setIsLogin(JSON.parse(localStorage.getItem("loggedInfo")))
-  },[])
-
   return (
     <Route
       {...rest}
       render={props => {
-        if(islogin) {
+        if(localStorage.getItem("loggedInfo")) {
           return <Redirect to='/feed/flippages' />
         }
 

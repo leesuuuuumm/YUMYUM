@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link, withRouter } from "react-router-dom";
 import Paper from "@material-ui/core/Paper";
@@ -6,6 +6,7 @@ import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import FeedMap from "./FeedMap.jsx";
 
 const useStyles = makeStyles((theme) => ({
@@ -13,46 +14,64 @@ const useStyles = makeStyles((theme) => ({
     padding: "2px 4px",
     display: "flex",
     alignItems: "center",
-    width: 400,
+    width: '98%',
     margin: "0px auto",
+    backgroundColor : "#8d6e63",
   },
   input: {
-    marginLeft: theme.spacing(1),
+    marginLeft: "3%",
     flex: 1,
+    fontFamily: "GmarketSansMedium",
+    padding: "2% 0 2%"
   },
   iconButton: {
-    padding: 10,
+    padding: "2%",
   },
   iconButtonBefore: {
-    padding: 10,
+    padding: 0,
+    marginLeft:"20%"
   },
 }));
 
-const SearchBar = () => {
+const SearchBar = (props) => {
   const classes = useStyles();
   const [inputText , setInputText] = useState("");
   const [searchContent, setSerchContent] = useState("");
+  const [formData, setFormData] = useState(null);
+  const [source , setSource] = useState(null);
+
+  useEffect(()=>{
+    setFormData(props.location.state.formData);
+  },[])
+
+  useEffect(()=>{
+    setSource(props.location.state.source);
+  },[])
 
   const inputTextHandler = (e) => {
     setInputText(e.currentTarget.value);
-  }  
+  }
 
   const handleSubmit= (e) => {
     e.preventDefault();
-    if (inputText){
-    setSerchContent(inputText);
-    setInputText("");
+    if (inputText) {
+      setSerchContent(inputText);
     } else {
       alert("음식점 이름을 입력해주세요!")
-    }
+    }    
   };
-
   return (
     <>
       <Paper component="form" className={classes.root} onSubmit={handleSubmit}>
-        <Link to="/feed/camera">
+        <Link to= {{
+          pathname : "/feed/camera",
+          state: {
+            preFormData : formData,
+            preSource: source
+          }
+        }}>
           <IconButton className={classes.iconButtonBefore} aria-label="menu">
-            <CameraAltIcon />
+            <NavigateBeforeIcon />
           </IconButton>
         </Link>
         <InputBase
@@ -67,7 +86,6 @@ const SearchBar = () => {
           type="submit"
           className={classes.iconButton}
           aria-label="search"
-          // onClick={searchPlaces}//TODO : 시연 끝나고 이주석으로 다시 변경
         >
           <SearchIcon/>
         </IconButton>

@@ -6,7 +6,6 @@ function ErrorCatch({ history }) {
   };
 
   useEffect(() => {
-    console.log(history);
     const unblock = history.block("정말 떠나실건가요?");
     return () => {
       unblock();

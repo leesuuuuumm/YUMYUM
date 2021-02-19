@@ -30,13 +30,18 @@ export const theme = createMuiTheme({
       },
       MuiAppBar: {
           root: {
-            backgroundColor: '#F4D503',
+            backgroundColor: 'white',
             boxShadow: "none"
           }
       },
       MuiAvatar: {
           root: {
-            border: "2px solid white"
+            border: "2px solid #F4D503",
+
+          },
+          img: {
+            objectFit: "scale-down",
+            backgroundColor: "white",
           }
       },
 

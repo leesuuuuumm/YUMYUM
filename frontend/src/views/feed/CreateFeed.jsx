@@ -7,6 +7,7 @@ import "./CSS/CreateFeed.css";
 import ReactStars from "react-rating-stars-component";
 import ArrowBackRoundedIcon from "@material-ui/icons/ArrowBackRounded";
 import DoneOutlineIcon from "@material-ui/icons/DoneOutline";
+import { getEmail } from "../../_utils/setToken"
 
 function CreateFeed(props) {
   const [loggedUser, setLoggedUser] = useState("");
@@ -53,7 +54,7 @@ function CreateFeed(props) {
     formData.append("title", title);
     formData.append("content", content);
     formData.append("score", score);
-    formData.append("userEmail", loggedUser.email);
+    formData.append("userEmail", getEmail());
     formData.append("placeId", placeInfo.id);
     place.addressName = placeInfo.address_name;
     place.id = placeInfo.id;
@@ -68,7 +69,6 @@ function CreateFeed(props) {
           dispatch(createFeed(formData))
             .then((res) => {
               if (res.payload.status) {
-                alert("피드가 작성되었습니다!");
                 props.history.push("/feed/flippages");
               } else {
                 alert("피드 생성 실패");
@@ -99,7 +99,7 @@ function CreateFeed(props) {
             onChange={onTitleHandler}
             autoFocus
             required
-            placeholder="방금 먹은 음식은 무엇인가요?"
+            placeholder="방금 먹은 음식은?"
           />
           <div className="stars">
             <ReactStars
@@ -109,12 +109,13 @@ function CreateFeed(props) {
               size={35}
               activeColor="#ffd700"
             />
-            <h3> {comment} </h3>
+            <br/>
           </div>
+          <h3> {comment} </h3>
         </div>
         <div className="content-box">
           <textarea
-            rows="5" 
+            rows="3" 
             cols="50"
             type="content"
             value={content}
@@ -126,7 +127,12 @@ function CreateFeed(props) {
 
         <div id="feed-button-wapper">
           <a id="goback">
-            <Link to="/feed/camera">
+            <Link to={{
+              pathname:"/feed/feedmap",
+              state: {
+                createFormData: formData,
+              }
+            }}>
               <ArrowBackRoundedIcon fontSize="large" color="disabled" />
             </Link>
           </a>

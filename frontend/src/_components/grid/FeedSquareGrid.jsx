@@ -14,6 +14,7 @@ const useStyles = makeStyles(() =>
       flexWrap: "wrap",
       justifyContent: "space-around",
       overflow: "hidden",
+      paddingBottom: "71.438px"
     },
     gridList: {
       width: 100 + "%",
@@ -28,26 +29,45 @@ const useStyles = makeStyles(() =>
 
 function FeedSquareGrid(props) {
   const classes = useStyles();
-  const { title, tileData } = props;
-
+  const { title, tileData, navheight } = props;
   const goDetail = (tile, index) => {
-    console.log("오지마!");
-    console.log(props);
-    // props.history.push({
-    //   pathname: "/feed/flippages",
-    //   state : {
-    //     index : index,
-    //     tile : tile,
-    //   },
-    // });
+    if (props.match.path ==="/food/feed") {
+      const {id, placeName, addressName } = props.location.state;
+      props.history.push({
+        pathname: "/feed/singlefeed",
+        state : {
+          id : id,
+          placeName : placeName,
+          feed : tile,
+          addressName : addressName
+        },
+      });
+    } else if (props.match.path === "/food/likefeed") {
+      props.history.push({
+        pathname: "/feed/singlefeed",
+        state : {
+          feed : tile,
+        },
+      });
+    } else {
+      props.history.push({
+        pathname: "/feed/flippagesUser",
+        state : {
+          index : index,
+          email : tile.user.email,
+        },
+      });  
+    }
   };
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{ paddingTop : navheight }}>
       <GridList cellHeight={100} className={classes.gridList} cols={3}>
-        <GridListTile key="Subheader" cols={3} style={{ height: 3 + "rem" }}>
-          <ListSubheader component="div">{title}</ListSubheader>
-        </GridListTile>
+        {title ? 
+          (<GridListTile key="Subheader" cols={3} style={{ height: 3 + "rem" }}>
+            <ListSubheader component="div">{title}</ListSubheader>
+          </GridListTile>) : 
+          (null) }
         {tileData &&
           tileData.map((tile, index) => (
             <GridListTile
@@ -58,17 +78,15 @@ function FeedSquareGrid(props) {
               <video
                 id="background-video"
                 className="feedVideo"
-                // src={`${DOMAIN}/single/${tile.filePath.split("/")[6]}`}
-                src={tile.filePath}
+                src={tile.videoPath}
                 type="video/mp4"
                 width="100%"
                 loop
                 muted
-                // onMouseOver={(event) => event.target.play()}
+                playsinline
                 onTouchStart={(event) => event.target.play()}
-                // onMouseOut={(event) => event.target.pause()}
                 onTouchEnd={(event) => event.target.pause()}
-              />
+              /> 
               {tile.id}
             </GridListTile>
           ))}

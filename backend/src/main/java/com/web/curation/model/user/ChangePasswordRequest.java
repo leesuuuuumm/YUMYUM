@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class ChangePasswordRequest {
-    String email;
+    String userEmail;
     String password;
     String newPassword;
 }

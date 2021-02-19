@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, withRouter } from "react-router-dom";
-import Quokka from "../../_assets/quokkaCamera.png";
+import Quokka from "../../_assets/camera.svg";
 import "./CSS/Camera.css"
 import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
 import ArrowForwardRoundedIcon from '@material-ui/icons/ArrowForwardRounded';
-// import PhotoCameraRoundedIcon from '@material-ui/icons/PhotoCameraRounded';
+import { Textfit } from 'react-textfit';
 
 
-function Camera() {
+function Camera(props) {
   const [source, setSource] = useState("");
   const [formData, setFormData] = useState({})
   
@@ -19,10 +19,17 @@ function Camera() {
         const formData = new FormData();
         formData.append('file', file);
         setSource(newUrl);     
-        setFormData(formData)
+        setFormData(formData);
       }
     }
   };
+
+  useEffect(()=>{
+    if (props.location.state){
+    setFormData(props.location.state.preFormData)
+    setSource(props.location.state.preSource)
+    }
+  },[props.location.state])
 
   const sourceClear = () => {
     setSource("")
@@ -39,9 +46,11 @@ function Camera() {
             src={source} 
             type='video/*'
             height="100%"
+            width="100%"
             autoPlay 
             loop 
-            muted 
+            muted
+            playsinline
           />
           <div id="button-wapper">
             <button id="retry" onClick={sourceClear}>
@@ -53,9 +62,10 @@ function Camera() {
                 pathname: "/feed/feedmap",
                 state: {
                   formData: formData,
+                  source: source 
                 }
               }}> 
-                <ArrowForwardRoundedIcon  fontSize="small" color="disabled"/>
+                <ArrowForwardRoundedIcon  fontSize="small" color="disabled" />
                 <h3 id="nextText">Next</h3>
               </Link>
             </button>
@@ -63,12 +73,14 @@ function Camera() {
         </div>
       ) : (
         <div id="icon-wapper">
-          
           <label htmlFor="icon-button-file" component="span">
-            {/* <PhotoCameraRoundedIcon /> */}
-            <img src= {Quokka} alt="Quokka"/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <img src= {Quokka} alt="Quokka" id="quokkaImg"/>
           </label>
-          <h2 className="userAppTitle">맛을 보여주세요!</h2>
+          <Textfit className="userAppTitle" max="30">맛을 보여주세요!</Textfit>
 
           <input
             accept="video/*"

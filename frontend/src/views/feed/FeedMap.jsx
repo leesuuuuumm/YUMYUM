@@ -18,6 +18,7 @@ const FeedMap = (props) => {
   const [center, setCenter] = useState(null); //현재 위치의 경도,위도가 저장된 변수
   const [detailPlaceInfo, setDetailPlaceInfo] = useState(null); // 선택한 장소의 정보를 담아두는 변수
   const [formData, setFormData] = useState(null);
+  const [createFormData, setCreateFormData] = useState(null);
 
   useEffect(() => {
     createMap();
@@ -25,6 +26,10 @@ const FeedMap = (props) => {
 
   useEffect(() => {
     setFormData(props.location.state.formData);
+  },[])
+
+  useEffect(() =>{
+    setCreateFormData(props.location.state.createFormData);
   },[])
 
   useEffect(() => {
@@ -62,7 +67,6 @@ const FeedMap = (props) => {
       // 정상적으로 검색이 완료됐으면
       // 검색 목록과 마커를 표출합니다
       displayPlaces(data);
-
       // 페이지 번호를 표출합니다
       // displayPagination(pagination)
     } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
@@ -73,6 +77,7 @@ const FeedMap = (props) => {
       return;
     } else { 
       // displayPlaces(sampleMarkers) //TODO: 이부분 수정해야함 나중에 꼭 지울것
+      console.log('검색에러1')
     }
     
   }
@@ -112,7 +117,6 @@ const FeedMap = (props) => {
 
         itemEl.onclick = function () {
           setDetailPlaceInfo(places[i]);
-          console.log(places[i]);
           displayInfowindow(marker, title);
           map.setLevel(3);
           map.panTo(placePosition);
@@ -157,10 +161,10 @@ const FeedMap = (props) => {
           position.place_name +
           "</div>"
       );
+      setDetailPlaceInfo(position);
+      setIsList(false);
       infowindow.open(map, marker);
-
       map.setLevel(3);
-
       map.panTo(placePosition);
     });
 
@@ -206,16 +210,21 @@ const FeedMap = (props) => {
   }
   // 현재위치에 마커를 찍는 함수
   function displayMarkerNow(map, locPosition, message) {
+    var imageSrc = 'https://cdn.icon-icons.com/icons2/2073/PNG/128/location_map_twitter_icon_127126.png', // 마커이미지의 주소입니다    
+    imageSize = new kakao.maps.Size(50, 50), // 마커이미지의 크기입니다
+    imageOption = {offset: new kakao.maps.Point(27, 50)};
+
+    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+
     let marker = new kakao.maps.Marker({
       map: map,
       position: locPosition,
+      image : markerImage
     });
-    let iwContent = message, // 인포윈도우에 표시할 내용
-      iwRemoveable = true;
+    let iwContent = message; // 인포윈도우에 표시할 내용
 
     let infowindow = new kakao.maps.InfoWindow({
       content: iwContent,
-      removable: iwRemoveable,
     });
 
     setNowMarker(marker);
@@ -243,56 +252,57 @@ const FeedMap = (props) => {
   // 리뷰작성 페이지로 넘기고 장소 정보를 함께 담아서 보내는 함수.
   function sendPlaceInfo() {
     if (detailPlaceInfo) {
-        props.history.push({
-          pathname: "/feed/createfeed",
-          state: {
-            detailPlace: detailPlaceInfo,
-            formData: formData,
-          },
-        });
+        if (createFormData){
+            props.history.push({
+              pathname: "/feed/createfeed",
+              state: {
+                detailPlace: detailPlaceInfo,
+                formData: createFormData,
+              },
+            })
+        } else {
+          props.history.push({
+            pathname: "/feed/createfeed",
+            state: {
+              detailPlace: detailPlaceInfo,
+              formData: formData,
+            },
+          })
+        };
     } else {
-      alert("식당을 알려주세요!")
+      const detailPlace = {
+        address_name : "아늑한 우리집",
+        id : -1,
+        phone : "프라이버시입니다.",
+        place_name : "우리집",
+        x : -1,
+        y : -1
+      }
+      props.history.push({
+        pathname: "/feed/createfeed",
+        state: {
+          detailPlace: detailPlace,
+          formData: formData,
+        },
+      })
     }
 
   }
-
-  // 지도 확대, 축소 컨트롤에서 확대 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
-  function zoomIn() {
-    map.setLevel(map.getLevel() - 1);
-  }
-
-  // 지도 확대, 축소 컨트롤에서 축소 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
-  function zoomOut() {
-    map.setLevel(map.getLevel() + 1);
-  }
-
   return (
     <div className="feedmap">
-      { isList || <ArrowForwardRoundedIcon className="arrowcircle" onClick={sendPlaceInfo} fontSize="large" />}
+      { isList ? <></> :  detailPlaceInfo ? 
+        <ArrowForwardRoundedIcon className="arrowcircle" onClick={sendPlaceInfo} fontSize="large" /> : 
+        <div className="skip" onClick={sendPlaceInfo}> 집에서 먹었어요! </div>
+      }
       <div className="map_wrap">
         <div id="map" style={{ width: "100vw", height: "83.5vh" }}></div>
         {isList && (
           <div id="menu_wrap" className="bg_white">
             <div className="option"></div>
-            <hr />
             <ul id="placesList"></ul>
             <div id="pagination"></div>
           </div>
         )}
-        <div className="custom_zoomcontrol radius_border">
-          <span onClick={zoomIn}>
-            <img
-              src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png"
-              alt="확대"
-            />
-          </span>
-          <span onClick={zoomOut}>
-            <img
-              src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png"
-              alt="축소"
-            />
-          </span>
-        </div>
       </div>
     </div>
   );

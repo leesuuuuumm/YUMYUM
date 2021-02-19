@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { withRouter, useLocation } from "react-router-dom";
 import { getUser, updateUser } from "../../_actions/userAction";
 import SelectAvatar from "../../_components/icon/SelectAvatar";
 import "./CSS/UserSetting.css";
+import { firestore } from "../../_utils/firebase";
+import { getEmail } from "../../_utils/setToken";
+import CloseIcon from '@material-ui/icons/Close';
 
 function UserSetting(props) {
   const [nickname, setNickName] = useState("");
   const [introduction, setIntroduction] = useState("");
   const [email, setEmail] = useState("");
+  const [avatarId, setAvartarId] = useState("");
+  const location = useLocation();
   const dispatch = useDispatch();
   //TODO 닉네임이랑, 한줄내용을 서버에  보내주는 로직을 작성해야한다.
   useEffect(() => {
-    const loggedInfo = JSON.parse(localStorage.getItem("loggedInfo"));
-    const emailInfo = loggedInfo.email;
-    dispatch(getUser(emailInfo)).then((res) => {
+    // const loggedInfo = localStorage.getItem("loggedInfo");
+    const email = getEmail();
+    dispatch(getUser(email)).then((res) => {
       const userInfo = JSON.parse(res.payload.data);
       setNickName(userInfo.nickname);
       setEmail(userInfo.email);
@@ -26,6 +31,10 @@ function UserSetting(props) {
     });
   }, []);
 
+  useEffect(() => {
+    setAvartarId(location.state.avatarId);
+  }, []);
+
   const onNicknameHandler = (e) => {
     setNickName(e.target.value);
   };
@@ -34,9 +43,14 @@ function UserSetting(props) {
     setIntroduction(e.target.value);
   };
 
+  const goback = () => {
+    props.history.go(-1)
+  }
+
   const onSubmitHandeler = (e) => {
     e.preventDefault();
     const config = {
+      avatar: avatarId,
       email: email,
       nickname: nickname,
       introduction: introduction,
@@ -46,10 +60,17 @@ function UserSetting(props) {
         if (res.payload) {
           const obj = JSON.parse(res.payload.data);
           const status = JSON.parse(res.payload.status);
-          console.log("login ojb", obj);
-          console.log("login status", JSON.parse(res.payload.status));
           if (status == 200) {
             localStorage.setItem("loggedInfo", JSON.stringify(obj));
+            // 나의 정보 UPDATE
+            const userEmail = obj.email;
+            const nickname = obj.nickname;
+            const data = {
+              nickname: nickname,
+              avatar: avatarId,
+            };
+            firestore.collection("users").doc(userEmail).update(data);
+
             props.history.go(-1);
           }
         } else {
@@ -57,7 +78,6 @@ function UserSetting(props) {
         }
       })
       .catch((err) => {
-        console.log("변경 실패");
         console.log(err);
       });
   };
@@ -67,7 +87,10 @@ function UserSetting(props) {
       <div className="settingContainer">
         <p className="settingTitle">유저 정보 변경</p>
         <div className="input_wrap">
-          {/* <SelectAvatar></SelectAvatar> */}
+          <SelectAvatar
+            setAvartarId={setAvartarId}
+            avatarInfo={avatarId}
+          ></SelectAvatar>
           <form onSubmit={onSubmitHandeler}>
             <input
               type="text"
@@ -93,6 +116,7 @@ function UserSetting(props) {
           </form>
         </div>
       </div>
+      <CloseIcon className="goback" fontSize="large" onClick={()=>goback()} />
     </section>
   );
 }

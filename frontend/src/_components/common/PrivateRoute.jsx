@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {Route, Redirect} from 'react-router-dom';
 
 const PrivateRoute = ( {component: Component, ...rest}) => {
@@ -6,7 +6,7 @@ const PrivateRoute = ( {component: Component, ...rest}) => {
       <Route
           {...rest}
           render = {props => 
-              localStorage.getItem('loggedInfo')?(
+              localStorage.getItem('jwt-token')?(
                   <Component {...props} />
               ) : ( 
                   <Redirect to={{

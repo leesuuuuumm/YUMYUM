@@ -1,25 +1,26 @@
-
-
 #total {
-  width: 100vw;
   height: 100vh;
   background-color:#F4D503;
+  /* margin: 0 auto; */
+  padding: auto 0 ;
 }
 
 #icon-wapper {
   width: 100%;
-  height: 100%;
-}
-
-#icon-wapper img {
-  margin-top: 30%;
-  margin-left: 8%;
   height: 50%;
 }
 
-#circle {
-  border-radius: 50%;
-  border: 2px;
+#icon-wapper br{
+  display: block;
+  margin: 10px 0;
+}
+
+
+#icon-wapper img {
+  display: flex;
+  margin: auto;
+  height: 80%;
+  width: 80%;
 }
 
 #icon-wapper label .MuiSvgIcon-root {
@@ -32,8 +33,8 @@
 #icon-wapper .userAppTitle {
   background-color: #F4D503;
   position: relative;
-  height: 10%;
-  padding-left: 30%;
+  height: 10vh;
+  text-align: center;
 }
 .catchVideo {
   height: 100%;
@@ -41,6 +42,7 @@
 
 #background-video {
   position: relative;
+  object-fit: fill;
 }
 
 #button-wapper {
@@ -51,7 +53,7 @@
 }
 
 #button-wapper .MuiSvgIcon-colorDisabled{
-  color: white;
+  color: black;
   float: left;
 }
 
@@ -64,12 +66,12 @@
   border-radius: 10px;
   width: 80px;
   float: right;
-  background-color: rgba(255, 255, 255, 0);
+  background-color: rgba(244, 213, 3, 0.7);
 }
 
 #nextText {
   margin-top: 5px;
-  color: #fff;
+  color: black;
 }
 
 #retry {
@@ -79,11 +81,13 @@
   border-width: 2px;
   border-radius: 10px;
   height: 40px;
-  background-color: rgba(255, 255, 255, 0);
+  background-color: rgba(244, 213, 3, 0.7);
 }
 
 #retry h3 {
   margin: 3px;
   float: right;
-  color: #fff;
+  color: black;
 }
+
+

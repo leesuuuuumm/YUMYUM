@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../_actions/userAction";
 import { Link, withRouter } from "react-router-dom";
 import { chkEmail, chkPassword } from "../../_utils/validator";
-import  Quokka  from "../../_assets/quokka1.png";
-import './CSS/SignUp.css';
+import Quokka from "../../_assets/quokka.svg";
+import "./CSS/SignUp.css";
+import SelectAvatar from "../../_components/icon/SelectAvatar";
+import { firestore, geofire } from "../../_utils/firebase";
+import { getPosition } from "../../_utils/getLocation";
 
 function SignUp(props) {
   // useState로 현재 state와 state를 변경하는 함수 지정
@@ -16,7 +19,7 @@ function SignUp(props) {
   const [passwordError, setPasswordError] = useState(false);
   const [checkPwdError, setCheckPwdError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
+  const [avatarId, setAvartarId] = useState("");
   // redux store에 설정된 action에 대한 dispatch를 연결하는 훅
   const dispatch = useDispatch();
   const onEmailHandler = (e) => {
@@ -29,9 +32,11 @@ function SignUp(props) {
       setEmailError(false);
     }
   };
+  
   const onNicknameHandler = (e) => {
     setNickname(e.currentTarget.value);
   };
+
   const onPasswordHandler = (e) => {
     setPassword(e.currentTarget.value);
     if (!chkPassword(e.currentTarget.value)) {
@@ -40,6 +45,7 @@ function SignUp(props) {
       setPasswordError(false);
     }
   };
+
   const onConfirmPasswordHandler = (e) => {
     setConfirmPassword(e.currentTarget.value);
     if (e.currentTarget.value === Password) {
@@ -48,51 +54,66 @@ function SignUp(props) {
       setCheckPwdError(true);
     }
   };
+
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    if (Password === ConfirmPassword) {
       let body = {
+        avatar: avatarId,
         email: Email,
         nickname: Nickname,
         password: Password,
       };
+
       dispatch(registerUser(body))
         .then((res) => {
-
           if (res.payload.status === "200") {
+            // firebase
+            getPosition().then((res) => {
+              let lat = 0
+              let lng = 0
+              if (res) {
+                lat = res.Ma
+                lng = res.La
+              }
+
+              // 나의 위치 UPDATE
+              const data = {
+                nickname: Nickname,
+                avatar: avatarId,
+                lat: lat, //y
+                lng: lng, //x
+                geohash: geofire.geohashForLocation([lat, lng]).substring(0, 5),
+              };
+              firestore.collection("users").doc(Email).set(data);
+            });
             props.history.push("/");
           } else if (res.payload.status === "400") {
-            
             if (res.payload.message === "this email already exists") {
-              setErrorMessage("이미 가입되어 있는 이메일입니다.")
+              setErrorMessage("이미 가입되어 있는 이메일입니다.");
             } else {
-              setErrorMessage("닉네임이 중복되었습니다.")
+              setErrorMessage("닉네임이 중복되었습니다.");
             }
-
           } else {
-            alert("회원가입 실패")
+            setErrorMessage("아바타를 선택해주세요.");
           }
         })
         .catch((err) => {
-          console.log("회원가입 실패 에러");
-          console.log(err)
+          console.log(err);
         });
-    } else {
-      alert("비밀번호 노일치!!");
-    }
   };
   return (
     <div className="signUp">
       <div className="signUpContainer">
-        <div className="img_wrap">  
-          <img src={Quokka} alt="쿼카" />
+        <div className="signup_img_wrap">
+          <img className="userLogo" src={Quokka} alt="쿼카" />
           <div className="signUpAppTitle">YUM YUM</div>
         </div>
         <p className="signUpTitle">
           회원 서비스 이용을 위해 회원가입을 해주세요.
         </p>
-        <div className="input_wrap">
-        <form onSubmit={onSubmitHandler}>
+        <div className="signup_input_wrap">
+          <SelectAvatar setAvartarId={setAvartarId}></SelectAvatar>
+          <form onSubmit={onSubmitHandler}>
             <input
               type="nickname"
               value={Nickname}
@@ -102,7 +123,7 @@ function SignUp(props) {
               autoCapitalize="off"
               placeholder="닉네임(8글자 이하)"
             />
-            <hr className="signUp_hr"/>
+            <hr className="signUp_hr" />
             <input
               type="email"
               value={Email}
@@ -118,7 +139,7 @@ function SignUp(props) {
             ) : (
               <div></div>
             )}
-            <hr className="signUp_hr"/>
+            <hr className="signUp_hr" />
             <input
               type="password"
               value={Password}
@@ -133,7 +154,7 @@ function SignUp(props) {
             ) : (
               <div></div>
             )}
-            <hr className="signUp_hr"/>
+            <hr className="signUp_hr" />
             <input
               type="password"
               value={ConfirmPassword}
@@ -148,21 +169,23 @@ function SignUp(props) {
             ) : (
               <div></div>
             )}
-            <hr className="signUp_hr"/>
-          <div className="signUpLink">
-            <Link to="/" className="signUpLink">
-              이미 계정이 있으신가요?
-            </Link>
-          </div>
-          {errorMessage && <div className="errorMsgSignUp">{errorMessage}</div>}
-          <div className="btnContainer">
+            <hr className="signUp_hr" />
+            <div className="signUpLink">
+              <Link to="/" className="signUpLink">
+                이미 계정이 있으신가요?
+              </Link>
+            </div>
+            {errorMessage && (
+              <div className="errorMsgSignUp">{errorMessage}</div>
+            )}
+            <div className="btnContainer">
               <div>
                 <button className="signUpButton" type="submit">
                   회원가입하기
                 </button>
               </div>
-          </div>
-        </form>
+            </div>
+          </form>
         </div>
       </div>
     </div>

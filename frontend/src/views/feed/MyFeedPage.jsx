@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 // import { getFeedByEmail } from "../../_actions/feedAction";
 import { getUser } from "../../_actions/userAction";
-import { getFeedCalendarByEmail } from "../../_actions/feedAction";
+import { getFeedCalendarByEmail, getFeedMenu } from "../../_actions/feedAction";
 import Drawer from "@material-ui/core/Drawer";
 import { useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -18,8 +18,15 @@ import FeedList from "../../_components/grid/FeedList";
 import ModalList from "../../_components/modal/ModalList";
 import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
-import girl from "../../_assets/shoutIcon/girl.svg";
+import q_brown from "../../_assets/eurekaIcon/q_brown.svg";
+import q_yellow from "../../_assets/eurekaIcon/q_yellow.svg";
+import q_pink from "../../_assets/eurekaIcon/q_pink.svg";
+import q_blue from "../../_assets/eurekaIcon/q_blue.svg";
+import q_purple from "../../_assets/eurekaIcon/q_purple.svg";
+
 import "./CSS/UserFeedPage.css";
+import "./CSS/MyFeedPage.css";
+import { getEmail } from "../../_utils/setToken";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -50,9 +57,26 @@ const ProfileUser = styled.div`
   flex-direction: row;
 `;
 const useStyles = makeStyles({
-  fullList: {
-    width: "auto",
+  appbar : {
+    boxShadow: "2px 2px 2px rgba(0,0,0,0.7)",
   },
+  fullList: {
+    width: "auto"
+  },
+  tablistbar:{
+    borderTop: "1px solid rgba(0,0,0,0.7)",
+    backgroundColor: "white",
+    color: "#8d6e63"
+  },
+  tableft:{
+    borderRight: "1px solid rgba(0,0,0,0.7)",
+    color: "gray",
+    fontFamily: "GmarketSansMedium"
+  },
+  tabright:{
+    color: "gray",
+    fontFamily: "GmarketSansMedium"
+  }
 });
 
 function UserFeedPage(props) {
@@ -60,8 +84,11 @@ function UserFeedPage(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const [username, setUsername] = React.useState("");
-  const [info, setInfo] = React.useState("한줄평 입니다");
+  const [info, setInfo] = React.useState("");
   const [isModalOpen, setModalOpen] = useState(false);
+  const [navheight, setNavHeight] = useState("");
+  const [avatarId, setAvatarId] = useState("");
+  const [selectAvatar, setSelectAvatar] = useState("");
   const dispatch = useDispatch();
 
   const handleChange = (event, newValue) => {
@@ -80,34 +107,59 @@ function UserFeedPage(props) {
   };
 
   useEffect(() => {
-    const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
-    const nickname = JSON.parse(localStorage.getItem("loggedInfo")).nickname;
-    setUsername(nickname);
-    console.log(
-      "hihi",
-      JSON.parse(localStorage.getItem("loggedInfo")).introduction
-    );
-    setInfo(JSON.parse(localStorage.getItem("loggedInfo")).introduction);
-    dispatch(getFeedCalendarByEmail(userEmail));
+    const userEmail = getEmail();
+    dispatch(getUser(userEmail))
+      .then((res) => {
+        setUsername(JSON.parse(res.payload.data).nickname);
+        setInfo(JSON.parse(res.payload.data).introduction);
+        setAvatarId(JSON.parse(res.payload.data).avatar);
+        dispatch(getFeedCalendarByEmail(userEmail));
+        dispatch(getFeedMenu(userEmail));
+      })
+      .catch((err) =>{
+        console.log(err)
+      })
+
   }, []);
 
+  useEffect(() => {
+    let element = document.getElementById("myAppBar");
+    setNavHeight(element.clientHeight);
+  }, []);
+
+  useEffect(()=> {
+    if (avatarId === 0){
+      setSelectAvatar(q_brown)
+    } else if(avatarId === 1){
+      setSelectAvatar(q_yellow)
+    } else if(avatarId === 2){
+      setSelectAvatar(q_pink)
+    } else if(avatarId === 3){
+      setSelectAvatar(q_blue)
+    } else if (avatarId === 4){
+      setSelectAvatar(q_purple)
+    } 
+  },[avatarId])
+
   // STORE에 저장된 FEEDS 가져오기
-  const feeds = useSelector((state) => {
-    return JSON.parse(state.feed.feedsCalenadarInfo.data);
+  const {feeds, feedsByMenu} = useSelector((state) => {
+    return {
+      feeds: JSON.parse(state.feed.feedsCalenadarInfo.data),
+      feedsByMenu : JSON.parse(state.feed.feedsMenuInfo.data)};
   }, shallowEqual);
 
   return (
     <div>
       {/* 유저 프로필 상단 */}
-      <AppBar position="static" color="primary">
+      <AppBar className={classes.appbar} color="primary" id="myAppBar">
         <ProfileInfo>
           <ProfileUser>
             <Avatar
               alt={username}
-              src={girl}
+              src={selectAvatar}
               style={{ marginRight: "0.5rem" }}
             />
-            <h2>{username} </h2>
+            <h2>{username}</h2>
             {/* Todo: - loginuser라면 띄우기 */}
 
             <IconButton
@@ -118,20 +170,21 @@ function UserFeedPage(props) {
               <MoreVertIcon />
             </IconButton>
           </ProfileUser>
-          {info ? <p>{info}</p> : <p>한줄평을 작성해 주세요</p>}
+          {info ? <p>{info}</p> : <p>한 줄 소개를 작성해 주세요</p>}
         </ProfileInfo>
         {/* 탭바 */}
-        <Tabs value={value} onChange={handleChange} variant="fullWidth">
-          <Tab selected label="날짜별" {...a11yProps(0)} />
-          <Tab selected label="메뉴별" {...a11yProps(1)} />
+        <Tabs className={classes.tablistbar} textColor="primary" value={value} onChange={handleChange} variant="fullWidth">
+          <Tab className={classes.tableft} selected label="최신순" {...a11yProps(0)} />
+          <Tab className={classes.tabright} selected label="메뉴별" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
+
       <TabPanel value={value} index={0} dir={theme.direction}>
-        <FeedSquareGrid title="2월" tileData={feeds} style={{ padding: 0 }} />
+        <FeedSquareGrid tileData={feeds} navheight={navheight} />
       </TabPanel>
 
       <TabPanel value={value} index={1} dir={theme.direction}>
-        <FeedList tileData={feeds} />
+        <FeedList tileData={feedsByMenu} navheight={navheight} />
       </TabPanel>
       {/* 3 dots 클릭 시 모달 */}
       <Drawer anchor="bottom" open={isModalOpen} onClose={toggleDrawer(false)}>
@@ -141,7 +194,7 @@ function UserFeedPage(props) {
           onClick={toggleDrawer(false)}
           onKeyDown={toggleDrawer(false)}
         >
-          <ModalList></ModalList>
+          <ModalList avatarId={avatarId}></ModalList>
         </div>
       </Drawer>
     </div>

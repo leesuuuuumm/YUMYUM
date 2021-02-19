@@ -6,6 +6,7 @@ import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import AddBox from "@material-ui/icons/AddBox";
 import HomeIcon from "@material-ui/icons/Home";
 import Person from "@material-ui/icons/Person";
+import MoodIcon from "@material-ui/icons/Mood";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import { useSelector } from "react-redux";
 
@@ -16,6 +17,7 @@ const useStyles = makeStyles({
     position: "fixed",
     bottom: 0,
     zIndex: "100",
+    boxShadow: "0px -5px 11px -2px rgba(0,0,0,0.1)"
   },
   action: {
     minWidth: 20 + "px",
@@ -28,20 +30,11 @@ function BottomTab(props) {
   const [loggedUserUrl, setLoggedUserUrl] = useState("");
   const history = useHistory();
 
-  console.log(props.history.location.pathname);
   const handleChange = (event, newValue) => {
     history.push(`${newValue}`);
     setValue(newValue);
-    console.log("????되나?");
     // setValue("");
   };
-
-  // useEffect(() => {
-  //   if (localStorage.getItem("loggedInfo")) {
-  //     const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
-  //     setLoggedUserUrl("/profile/" + `${userEmail}`);
-  //   }
-  // }, [localStorage.getItem("loggedInfo")]);
 
   if (props.location.pathname === "/") {
     return false;
@@ -73,12 +66,12 @@ function BottomTab(props) {
         icon={<AddBox />}
         className={classes.action}
       />
-      {/* <BottomNavigationAction
+      <BottomNavigationAction
         label="Eureka"
-        value="shout"
+        value="/eureka"
         icon={<MoodIcon />}
         className={classes.action}
-      /> */}
+      />
       <BottomNavigationAction
         label="Pick"
         value="/myprofile"
