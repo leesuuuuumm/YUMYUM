@@ -84,7 +84,6 @@ public class AccountController {
         if (curUser.isPresent()) {
             //토큰생성
             String token = jwtService.create("email", curUser.get().getEmail(), "Authorization");
-
             AuthenticationResponse response = new AuthenticationResponse(curUser.get(), token);
 
             return makeResponse("200", convertObjToJson(response), "success", HttpStatus.OK);

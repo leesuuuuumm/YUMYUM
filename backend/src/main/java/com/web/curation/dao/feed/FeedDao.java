@@ -32,8 +32,8 @@ public interface FeedDao extends JpaRepository<Feed, Long> {
 	List<Feed> findAllByTitleAndUser_email(String title,String email);
 
 //	select title,file_path from Feed where id in (select max(id) from Feed group by title);
-	@Query(value="SELECT title,file_path from Feed where id in (select max(id) from Feed group by title) order by title" ,nativeQuery=true)
+	@Query(value="SELECT title,video_path from Feed where user_email=?1 and id in (select max(id) from Feed group by title) order by title" ,nativeQuery=true)
 	List<ArrayList<String>> findByUser_email(String email);
-	
-	
+
+
 }
