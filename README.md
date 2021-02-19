@@ -11,6 +11,7 @@
     - 백엔드 파트 구현
     - 백엔드 코드 취합
     - 서버 관리
+- [README](./doc/JUNHYEON.md)
 
 ### <img src="README.assets/image-20210214220255220.png" alt="image-20210214220255220" width="37" height="45" /> 김재유
 
