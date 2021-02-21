@@ -286,7 +286,6 @@ const FeedMap = (props) => {
         },
       })
     }
-
   }
   return (
     <div className="feedmap">
