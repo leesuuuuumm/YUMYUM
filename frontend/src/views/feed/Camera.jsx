@@ -49,7 +49,8 @@ function Camera(props) {
             width="100%"
             autoPlay 
             loop 
-            muted 
+            muted
+            playsinline
           />
           <div id="button-wapper">
             <button id="retry" onClick={sourceClear}>
@@ -75,9 +76,11 @@ function Camera(props) {
           <label htmlFor="icon-button-file" component="span">
             <br/>
             <br/>
+            <br/>
+            <br/>
             <img src= {Quokka} alt="Quokka" id="quokkaImg"/>
           </label>
-          <Textfit className="userAppTitle" max="45">맛을 보여주세요!</Textfit>
+          <Textfit className="userAppTitle" max="30">맛을 보여주세요!</Textfit>
 
           <input
             accept="video/*"

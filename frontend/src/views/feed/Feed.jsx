@@ -142,6 +142,7 @@ function Feed(props) {
         autoPlay
         loop
         muted
+        playsinline
       />
       <div id="textbox">
         { isThreeDots ? 
@@ -186,13 +187,13 @@ function Feed(props) {
             <h4> {feed.place.placeName} </h4>
             <div>
               <StorefrontRoundedIcon id="storeIcon" fontSize="small" />
-              <h5> {feed.place.addressName} </h5>
+              <h4> {feed.place.addressName} </h4>
               <h5> {feedDate.year}.{feedDate.month.slice(0,3)}.{feedDate.dayOfMonth} / {feedDate.dayOfWeek.slice(0,3)}  </h5>
             </div>
             <hr id="second_line"/>
               <br />
             <TextsmsRoundedIcon id="commentIcon"/>
-              <h3> " {feedContent} " </h3>
+            <Textfit id="contentText" max="20"> " {feedContent} " </Textfit>
           </div>
         </Collapse>
         <Collapse isOpened={isEdit}>

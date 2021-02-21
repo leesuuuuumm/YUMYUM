@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import "./CSS/FlipPages.css";
 import Feed from "./Feed";
-import { getAllFeed } from "../../_actions/feedAction";
+import { getAllFeed, getFeedMenuDetail } from "../../_actions/feedAction";
 import { useDispatch } from "react-redux";
 import FullPage from "../../_components/pagecomponents/FullPage";
 import Slide from "../../_components/pagecomponents/Slide";
@@ -30,13 +30,28 @@ function FlipPages(props) {
     });
   };
 
-  
+  const getFeedByTitle = (email, title) => {
+    dispatch(getFeedMenuDetail(email, title)).then((res) => {
+      const reversedObjs = JSON.parse(res.payload.data);
+      const objs = reversedObjs.reverse()
+      const part = objs.slice(0, 5)
+      setAllFeeds(objs)
+      setFeeds(
+        part.map((obj) => (
+          <Slide key={obj.id}>
+            <Feed key={obj.id} feed={obj} />
+          </Slide>
+        ))
+      );
+    });
+  };
+
   const fetchMoreFeeds = async () => {
     setFetching(true);
     const fetchedData = allFeeds.slice(nowPages, (nowPages+1))
     const addFeeds = (
       fetchedData.map((obj) => (
-        <Slide>
+        <Slide key={obj.id}>
           <Feed key={obj.id} feed={obj} />
         </Slide>
       ))
@@ -64,7 +79,12 @@ function FlipPages(props) {
   });
 
   useEffect(() => {
-    getFeedDatas();
+    if (!props.location.state || props.location.state.value) {
+      getFeedDatas();
+    } else {
+      const {email, title} = props.location.state
+      getFeedByTitle(email, title)
+    }
   }, []);
 
   return (

@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { registerUser } from "../../_actions/userAction";
 import { Link, withRouter } from "react-router-dom";
 import { chkEmail, chkPassword } from "../../_utils/validator";
-import Quokka from "../../_assets/quokka1.png";
+import Quokka from "../../_assets/quokka.svg";
 import "./CSS/SignUp.css";
 import SelectAvatar from "../../_components/icon/SelectAvatar";
 import { firestore, geofire } from "../../_utils/firebase";

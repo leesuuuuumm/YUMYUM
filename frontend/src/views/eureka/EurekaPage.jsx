@@ -9,6 +9,9 @@ import { getPosition } from "../../_utils/getLocation";
 import { firestore, geofire } from "../../_utils/firebase";
 import firebase from "firebase/app";
 import {neighbours} from "../../_utils/getNeighbors"
+import { quokka_sound } from "../../_utils/soundeffect";
+import { keys } from "@material-ui/core/styles/createBreakpoints";
+
 const avatar = {
   0: q_brown,
   1: q_yellow,
@@ -16,6 +19,7 @@ const avatar = {
   3: q_blue,
   4: q_purple,
 };
+
 
 const useDebouncedRippleCleanUp = (rippleCount, duration, cleanUpFunction) => {
   useLayoutEffect(() => {
@@ -32,7 +36,6 @@ const useDebouncedRippleCleanUp = (rippleCount, duration, cleanUpFunction) => {
 };
 
 const ShoutPage = () => {
-  const [waveVisible, setWaveVisible] = useState(false);
   const [ripples, setRipples] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [myMessage, setMyMessage] = useState("유레카!");
@@ -97,7 +100,6 @@ const ShoutPage = () => {
   // button 클릭 시 ripple 생성
   function showRipple(e) {
     setRipples((oldArray) => [...oldArray, <span id={e.timeStamp}></span>]);
-    setWaveVisible(!waveVisible);
 
     getPosition().then((res) => {
       let lat = 0
@@ -168,8 +170,13 @@ const ShoutPage = () => {
   // 메세지 변경
   function clickMessage(e) {
     setIsOpen(false);
-    setMyMessage(e.target.innerText);
+    setMyMessage(e.target.id);
   }
+
+  const yell = () => {
+    quokka_sound[avatarId][myMessage].play()
+  }
+  
 
   return (
     <div className="shoutContainer">
@@ -203,6 +210,7 @@ const ShoutPage = () => {
             }}
             // ripple 생성
             onMouseDown={showRipple}
+            onClick={() => yell()}
           ></button>
           {/* ripple */}
           <div className="ripple-container">{ripples}</div>
@@ -211,10 +219,10 @@ const ShoutPage = () => {
       <div className="menuWrapper">
         <a className="navLink" id="closeLinks" onClick={toggleMessageButton}>메세지</a>
         <ul className={"circularNav " + (isOpen ? "showLinks" : "hideLinks")}>
-          <li onClick={clickMessage}><a><i className="fa">배고팡!</i></a></li>
-          <li onClick={clickMessage}><a><i className="fa">JMT!</i></a></li>
-          <li onClick={clickMessage}><a><i className="fa">맛없엉!</i></a></li>
-          <li onClick={clickMessage}><a><i className="fa">유레카!</i></a></li>
+          <li onClick={clickMessage}><a id={"배고팡!"}>배고팡!</a></li>
+          <li onClick={clickMessage}><a id={"JMT!"}>JMT!</a></li>
+          <li onClick={clickMessage}><a id={"맛없엉!"}>맛없엉!</a></li>
+          <li onClick={clickMessage}><a id={"유레카!"}>유레카!</a></li>
         </ul>
       </div>
     </div>

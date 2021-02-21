@@ -2,7 +2,7 @@
 
 ![image-20210214173817990](README.assets/image-20210214173817990.png)
 
-### <img src="README.assets/image-20210214215803089.png" alt="image-20210214215803089" style="zoom: 5.5%;" /> 정준현
+### <img src="README.assets/image-20210214215803089.png" alt="image-20210214215803089" width="37" height="45" /> 정준현
 
  - PM(Project Manager)
     - 프론트엔드와 백엔드를 포함하는 프로젝트 전체를 리드
@@ -11,8 +11,9 @@
     - 백엔드 파트 구현
     - 백엔드 코드 취합
     - 서버 관리
+- [README](./doc/JUNHYEON.md)
 
-### <img src="README.assets/image-20210214220255220.png" alt="image-20210214220255220" style="zoom:5.5%;" /> 김재유
+### <img src="README.assets/image-20210214220255220.png" alt="image-20210214220255220" width="37" height="45" /> 김재유
 
 - 프론트엔드 PL(Proejct Leader)
   - 프론트엔드 파트 를 리드하고 백엔드와의 협업을 위한 소통을 담당
@@ -21,8 +22,9 @@
 - 프론트 개발자
   - 프론트엔드 파트 구현
   - UI/UX 고안 후 구현
+- [README](./doc/JAEYU.md)
 
-### <img src="README.assets/image-20210214220127535.png" alt="image-20210214220127535" style="zoom:5.5%;" /> 길아현
+### <img src="README.assets/image-20210214220127535.png" alt="image-20210214220127535" width="37" height="45" /> 길아현
 
 - CTO (Chief Technology Officer)
   - API, 외부 라이브러리 도입 등을 결정
@@ -30,8 +32,9 @@
 - 프론트 개발자
   - 프론트엔드 파트 구현
   - UI/UX 고안 후 구현
+- [README](./doc/AHYEON.md) 
 
-### <img src="README.assets/image-20210214220501394.png" alt="image-20210214220501394" style="zoom:5.5%;" /> 염성훈
+### <img src="README.assets/image-20210214220501394.png" alt="image-20210214220501394" width="37" height="45" /> 염성훈
 
 - 마스코트
   - YUM? YUM! 쿼카 이미지 모티브 제공
@@ -39,8 +42,9 @@
   - 프론트엔드 파트 구현
   - 외부 API(카카오지도)
   - UI/UX 고안 후 구현
+- [README](./doc/SUNGHUN.md)
 
-### <img src="README.assets/image-20210214220202651.png" alt="image-20210214220202651" style="zoom:5.5%;" /> 이수민
+### <img src="README.assets/image-20210214220202651.png" alt="image-20210214220202651" width="37" height="45" /> 이수민
 
 - 백엔드 PL(Proejct Leader)
   - 백엔드 파트를 리드하고 프론트엔드와의 협업을 위한 소통을 담당
@@ -49,7 +53,7 @@
    - 백엔드 파트 구현
    - DB 스키마 설계
 
-
+- [README](./doc/SUMIN.md)
 
 # ✨ 프로젝트 개요
 
@@ -595,163 +599,45 @@ See also: #456, #789
 
 # ⚙️ Install and Usage
 
-<br>
+### Frontend
 
-<details>
-  <summary>코드 다운로드 [접기/펼치기]</summary>
+- frontend 폴더로 들어와 필요한 패키지를 설치합니다.
 
-## 코드 다운로드
+  ```bash
+  yarn
+  ```
 
-1. Clone 을 선택 후 빨간 동그라미 부분을 클릭하여 주소를 복사
+- frontend app을 실행합니다.
 
-<img src="README.assets/image-20210215172548367.png" alt="image-20210215172548367" style="zoom: 67%;" />  
+  ```bash
+  yarn start
+  ```
 
 
 
-2. 폴더를 하나 생성 및 git bash 연 후 **git clone 복사한 주소** 치고 Enter!
 
-<img src="README.assets/image-20210215174622305.png" alt="image-20210215174622305" style="zoom:60%;" /> 
+### Backend
 
+- Java (Open JDK 14)를 설치합니다.
+- Maven을 설치합니다.
+  - VSCode에서 Maven 하단의 webcuration에서 우클릭 후 install
+- VS Code에서 Spring Boot Extension Pack 설치합니다.
+- Docker를 설치합니다.
 
-</details>
+> Maria DB 컨테이너 실행
 
-<br>
+- `docker run --name-db -p 3306:3306 -e MYSQL_ROOT_PASSWORD={패스워드} -d mariddb`
+  - 패스워드를 칠 때는, 대괄호를 지우고 칩니다.
+- `docker exec -it maria-db mysql -u root -p`
+  - docker를 켜고, maria-db를 실행하기 위한 코드입니다.
 
-<details>
-  <summary>Frontend [접기/펼치기]</summary>
+> DB 테이블 생성
 
-## Front-end
+- DB 테이블을 생성합니다.
 
-### VS Code
+> backend 앱을 실행합니다.
 
-1. VS Code 다운로드 : https://code.visualstudio.com/download
-2. VS Code 실행
-
-![image-20210215175957937](README.assets/image-20210215175957937-1613437588442.png)
-
-> git Clone한 폴더부터 front 폴더까지 들어간 후 ->  오른쪽 마우스 -> Vscode로 열기 -> 상단 바 Terminal 클릭 -> New Teminal 선택  
->
-> yarn install -> yarn add firebase -> yarn start로 실행!
-
-
-
-3. localhost:3000/으로 실행
-
-<img src="README.assets/image-20210215180708815.png" alt="image-20210215180708815" style="zoom: 67%;" /> 
-
-> yarn start를 하게 되면 자동적으로 YUM YUM 페이지가 뜸
-
-</details>
-
-<br>
-
-<details>
-  <summary>Backend [접기/펼치기]</summary>
-
-## Back-end
-
-### Docker
-
-1. 도커 다운로드 주소 :  https://docs.docker.com/docker-for-windows/install/
-
-> 윈도우 10에서 Docker는 Docker For Windows 를 통해 설치한다. 설치 시 가상화에 필요한 요소인 Hyper-V도 함께 설치해야한다.
-
-2. 도커가 설치된 후 아래의 명령어로 설치 여부를 확인한다.
-
-```
-Docker -v
-```
-
-
-
-3. Docker를 실행한 후 명령 프롬프트에서 아래의 명령어를 실행하여 MariaDB 컨테이너를 실행한다. Run 명령어를 통해 MariaDB 이미지를 자동으로 다운받습니다.
-
-```
-docker run --name maria-db -p 3306:3306 -e MYSQL_ROOT_PASSWORD={패스워드} -d mariadb
-```
-
-
-
-4. Docker 명령어를 통해 DB에 접속해봅니다. 
-
-```
-docker exec -it maria-db mysql -u root -p
-```
-
-
-
-### Intellij
-
-1. 인텔리제이 다운로드 주소 : https://www.jetbrains.com/ko-kr/idea/download/#section=windows
-
-
-
-2. 실행후  상단 바 File -> Open -> Clone했던 파일의 backend까지 선택 
-
-![image-20210215220953180](README.assets/image-20210215220953180.png)
-
-
-
-3. backend/src/main/resources에 application.properties 파일이 없다면 doc 폴더의 application.properties를 추가시켜준다.
-
-
-
-4. Lombok 설치 및 세팅
-
-> 상단 바 File ->Settings -> Plugins -> Lombok Install ->Intellij Restart 
-
-<img src="README.assets/image-20210215222721874.png" alt="image-20210215222721874" style="zoom:80%;" />
-
-
-
-5. Enable annotation 설정
-
-> 상단 바 File ->Settings -> Compiler -> Annotation Processors -> 빨간 박스부분 Enable annoation processing  체크!
-
-![image-20210215225220399](README.assets/image-20210215225220399.png)
-
-
-
-6. 빨간색 부분 자신의 디비에 맞게 schema , DB id , DB password를 설정
-
-![image-20210215230050882](README.assets/image-20210215230050882.png)
-
-> 첫번째 실행 시킬때 create로 스키마에 넣은 table들을 자동적으로 생성 
->
-> 그 후 밑에 코드인 validate나 update로 변경 
-
-```
-spring.jpa.hibernate.ddl-auto=validate
-```
-
-
-
-7. application.properties 설정
-
-> 로컬로 동작시킬 때에 맞는 설정
->
-> 배포할 때는 배포에 맞는 설정을 반영하고 배포해야 한다.
-
-![image-20210216201700615](README.assets/image-20210216201700615.png)
-
-
-
-8. MySql Workbench 실행
-
-![image-20210215230858879](README.assets/image-20210215230858879.png) 
-
-```sql
- create database ssafydb;
-```
-
-
-
-8. WebCurationApplication 실행
-
-![image-20210216205056943](README.assets/image-20210216205056943.png)
-
-</details>
-
+- `./mvnw spring-boot:run`
 
 # 💡 아이디어 기획
 
@@ -788,7 +674,7 @@ spring.jpa.hibernate.ddl-auto=validate
 
 ### 4) DB 스키마
 
-![DB_schema_20210216](README.assets/DB_schema_20210216.png)
+<img src="https://cdn.discordapp.com/attachments/792408179072958467/801311319214522378/unknown.png" height="400px"/>
 
 > 현재 기획된 서비스 내에서 필요한 스키마는 전부 구현되어있는 상황입니다.
 >
@@ -897,21 +783,33 @@ spring.jpa.hibernate.ddl-auto=validate
 
 > 음식 영상과 간단 리뷰내용으로 구성
 
-#### 좋아요 기능
+#### 메인 FEED and LIKE
 
-#### 리뷰 내용
+<img src="README.assets/image-20210218191649593.png" alt="image-20210218191649593" style="zoom: 67%;" />
 
-#### 상세페이지
+#### 리뷰 내용 펼치기
 
-#### 피드 CRUD
+<img src="README.assets/image-20210218191810605.png" alt="image-20210218191810605" style="zoom: 67%;" />
 
 
+
+#### 피드 생성
+
+![image-20210218194113299](README.assets/image-20210218194113299.png)
 
 ### 마이페이지
 
+#### **기본 페이지**
+
+<img src="README.assets/image-20210218194552399.png" alt="image-20210218194552399" style="zoom: 67%;" />![image-20210218194640284](README.assets/image-20210218194640284.png)
+
 #### 유저정보변경
 
+<img src="README.assets/image-20210218194647022.png" alt="image-20210218194647022" style="zoom: 67%;" />
+
 #### 비밀번호 변경
+
+<img src="README.assets/image-20210218194705135.png" style="zoom:67%;" />
 
 
 
@@ -919,11 +817,19 @@ spring.jpa.hibernate.ddl-auto=validate
 
 #### 좋아요, 모든리뷰 구분
 
+<img src="README.assets/image-20210218195011719.png" alt="image-20210218195011719" style="zoom: 67%;" />
+
 #### 바텀시트
+
+<img src="README.assets/image-20210218195551880.png" alt="image-20210218195551880" style="zoom:67%;" />
 
 ####  좋아요 리뷰 목록
 
+<img src="README.assets/image-20210218195706327.png" alt="image-20210218195706327" style="zoom:67%;" />
+
 #### 클러스터
+
+<img src="README.assets/image-20210218195807410.png" alt="image-20210218195807410" style="zoom:67%;" />
 
 
 
@@ -931,6 +837,8 @@ spring.jpa.hibernate.ddl-auto=validate
 
 #### 유레카 클릭 애니메이션
 
-#### 메세지 출력화면
+<img src="README.assets/image-20210218195933498.png" alt="image-20210218195933498" style="zoom: 80%;" />
 
 #### 4가지 메세지 선택
+
+<img src="README.assets/image-20210218195957910.png" alt="image-20210218195957910" style="zoom:67%;" />

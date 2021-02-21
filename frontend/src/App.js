@@ -35,6 +35,7 @@ function App() {
           <LoginRoute exact path="/" component={Login} />
           {/* <PrivateRoute path="/" exact component= {Login} /> */}
           <PrivateRoute exact path="/feed/flippages" component ={FlipPages}/>
+          <PrivateRoute exact path="/feed/flippages/titlefeed" component ={FlipPages}/>
           <PrivateRoute exact path="/feed/flippagesUser" component ={FlipPagesUser}/>
           <Route path="/user/join" exact render={() => <SignUp />}/>
           <PrivateRoute path="/profile/:email" component={UserFeedPage}/>

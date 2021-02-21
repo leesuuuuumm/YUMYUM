@@ -13,12 +13,10 @@ const FloatingButton = (props) => {
 
   const openButtonHandler = (e) => {
     setIsButtonpen(!isButtonOpen)
-    console.log(isButtonOpen)
   }
 
   const editHandler = (e) => {
     props.setIsEdit(!props.isEdit)
-    console.log(props.isEdit)
   }
 
   const deleteHandler = (e) => {
