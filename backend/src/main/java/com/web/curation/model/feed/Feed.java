@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Data
@@ -36,10 +37,19 @@ public class Feed extends TimeEntity {
 	@ManyToOne
 	@JoinColumn(name = "USER_EMAIL")
 	private User user;
-	
+
 	@ManyToOne
-	@JoinColumn(name="PLACE_ID")
+	@JoinColumn(name = "PLACE_ID")
 	private Place place;
 
-	private String filePath;
+	private String videoPath;
+
+	private String thumbnailPath;
+
+	@ColumnDefault("0")
+	private Integer likeCount;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@Transient
+	private Boolean isLikeUser;
 }

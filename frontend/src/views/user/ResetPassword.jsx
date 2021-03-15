@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import { resetPassword } from "../../_actions/userAction";
 import { withRouter } from "react-router-dom";
 import './CSS/ResetPassword.css'
+import { getEmail } from "../../_utils/setToken"
+import CloseIcon from '@material-ui/icons/Close';
 
 function ResetPassword(props) {
   const [Password, setPassword] = useState("");
@@ -10,8 +12,7 @@ function ResetPassword(props) {
   const [ConfirmPassword, setConfirmPassword] = useState("");
   const [email, setEmail] = useState("");
   const [checkPwdError, setCheckPwdError] = useState(false);
-
-  // redux store에 설정된 action에 대한 dispatch를 연결하는 훅
+  
   const dispatch = useDispatch();
 
   const onPasswordHandler = (e) => {
@@ -29,28 +30,28 @@ function ResetPassword(props) {
     }
   };
 
-  // 중요!!!
-  // 함수형 컴포넌트에서 componentDidMount와 같은 함수
   useEffect(() => {
-    const loggedInfo = localStorage.getItem("loggedInfo");
+    const token = localStorage.getItem("jwt-token");
 
-    if (loggedInfo) {
-      setEmail(JSON.parse(loggedInfo).email);
+    if (token) {
+      setEmail(getEmail());
     }
   }, []);
+
+  const goback = () => {
+    props.history.go(-1)
+  }
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
     if (NewPassword === ConfirmPassword) {
-      console.log(localStorage.getItem("loggedInfo").email);
       let body = {
-        email: email,
+        userEmail: getEmail(),
         password: Password,
         newPassword: NewPassword,
       };
       dispatch(resetPassword(body))
         .then((res) => {
-          console.log(res);
           if (res.payload) {
             alert("변경 성공!");
             props.history.go(-1);
@@ -59,7 +60,6 @@ function ResetPassword(props) {
           }
         })
         .catch((err) => {
-          console.log("변경 실패 에러");
           console.log(err);
         });
     } else {
@@ -112,6 +112,7 @@ function ResetPassword(props) {
           </form>
         </div>
       </div>
+      <CloseIcon className="goback" fontSize="large" onClick={()=>goback()} />
     </section>
   );
 }

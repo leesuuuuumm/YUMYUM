@@ -6,19 +6,24 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
-import { Link } from "react-router-dom";
-import { getAllPlace } from "../../_actions/mapAction"
+import { withRouter } from "react-router-dom";
+import { getAllPlace } from "../../_actions/mapAction";
+import MapBottomSheet from "../../_components/map/MapBottomSheet";
+import { displayMarkerNow } from "../../_components/map/displayMarkerNow";
+import acorn from "../../_assets/acorn.png";
+import mapMarker from "../../_assets/mapMarker.png";
+import { getLikeFeeds } from "../../_actions/userAction";
 
 const { kakao } = window;
-
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
     margin: '0px auto',
     width: '100%',
-    color : '#8d6e63'
+    color : '#8d6e63',
+    display: 'flex',
+  },
+  appbar:{
+    boxShadow: "2px 2px 2px rgba(0,0,0,0.5)"
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -26,19 +31,30 @@ const useStyles = makeStyles((theme) => ({
   title: {
     color:'white',
     fontFamily: 'GmarketSansMedium',
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: '100%',
+    textShadow: "2px 2px 2px rgba(255, 235, 59, 0.5)"
   }
 }));
 
 const InfoMap = (props) => {
   const classes = useStyles();
-  const [map, setMap] = useState(null);
-  const [infowindow, setInfowindow] = useState(null);
+  const [map, setCreateMap] = useState(null);
+  const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
+  const [infowindows, setInfoWindows] = useState([]);
   const [bounds, setBounds] = useState(null);
   const [markers, setMarkers] = useState([]);
-  const [email, setEmail] = useState(null);
+  const [place, setPlace] = useState(null);
   const [isLocation, setIsLocation] = useState(false);
   const [isdisplayMarkers, setdisplayMarkers] = useState(false);
   const [isgetPlaces, setIsGetPlaces] = useState(false);
+  const [likeMarkers, setLikeMarkers] = useState([])
+  const [likeObject, setLikeObject] = useState([]);
+  const [allObject, setAllObject] = useState([]);
+  const [toggleBtn, setToggleBtn] = useState(false);
+  const [clusterer, setClusterer] = useState(null);
+  const email = JSON.parse(localStorage.getItem("loggedInfo")).email;
   const dispatch = useDispatch();
 
   //지도를 불러오는 로직
@@ -47,57 +63,127 @@ const InfoMap = (props) => {
     let options = {
       center: new kakao.maps.LatLng(37.506502, 127.053617),
       level: 7,
-      draggable: true,
     };
-    let myMap = new kakao.maps.Map(container, options);
+    let map = new kakao.maps.Map(container, options);
 
-    let mapTypeControl = new kakao.maps.MapTypeControl();
-    setInfowindow(new kakao.maps.InfoWindow({ zIndex: 1 }));
     setBounds(new kakao.maps.LatLngBounds());
-    myMap.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
-    setMap(myMap);
+    // map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+    setCreateMap(map);
     setdisplayMarkers(true);
+
+    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+      setPlace(null)
+      removeInfoWindow()
+    });
+
+    let clus = new kakao.maps.MarkerClusterer({
+      map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
+      averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
+      minLevel: 8 // 클러스터 할 최소 지도 레벨 
+    });
+
+    setClusterer(clus)
   };
   //지도에 모든 마커를 뽑아주는 함수 
   const displayAllMarkers = React.useCallback(() => {
-    console.log(markers)
-    let imageSrc = "https://cdn2.iconfinder.com/data/icons/default-1/100/.svg-4-512.png",
-    imageSize = new kakao.maps.Size(36, 37),
-    imageOption = {offset: new kakao.maps.Point(27, 69)};
-
-    let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+    setTimeout(() => {
+      removeMarker(map,likeObject)
+      setLikeObject([])
+      removeInfoWindow()
+      setToggleBtn(true);
+      setPlace(null);
+      clusterer.clear() // 모든 리뷰 클러스터 삭제를 위한 코드 
+      let bounds = new kakao.maps.LatLngBounds();
+  
       for (let i = 0; i < markers.length; i++) {
-        let placePosition = new kakao.maps.LatLng(markers[i].y, markers[i].x),
-          marker = new kakao.maps.Marker({
+          let placePosition = new kakao.maps.LatLng(markers[i].y, markers[i].x); 
+          // var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+  
+          let marker = new kakao.maps.Marker({
             map: map,
             position: placePosition,
-            image : markerImage
+            // image: markerImage
           });
-          kakao.maps.event.addListener(marker, "click", function () {
-            infowindow.setContent(
-              '<div style="padding:5px;font-size:12px;">' +
-                markers[i].placeName +
-                "</div>"
-            );
-            infowindow.open(map, marker);
-            map.setCenter(placePosition);
-            map.setLevel(4);
-
-            
-          });
-      }    
+  
+          allObject.push(marker)
+  
+          bounds.extend(placePosition);
+  
+            kakao.maps.event.addListener(marker, "click", function () {
+              setPlace(markers[i]);
+              infowindow.setContent(
+                '<div style="padding:5px;font-size:12px;">' +
+                  markers[i].placeName +
+                  "</div>"
+              );
+              infowindows.push(infowindow)
+              infowindow.open(map, marker);
+              map.setCenter(placePosition);
+  
+              map.setLevel(4);
+            });
+        }
+        clusterer.addMarkers(allObject)
+    }, 100);
   })
-  //현재위치에 마커를 찍는 함수
-  function displayMarkerNow(locPosition, message) {
-    // 마커를 생성합니다
-    let marker = new kakao.maps.Marker({
-      map: map,
-      position: locPosition,
-    });
-    map.panTo(locPosition);
-    map.setLevel(3);
-    bounds.extend(locPosition);
-    map.setBounds(bounds);
+
+  const displayLikeMarkers = React.useCallback(() => {
+      removeMarker(map,allObject)
+      setAllObject([])
+      removeInfoWindow()
+      setToggleBtn(false);
+      setPlace(null);
+      clusterer.clear() // 모든 리뷰 클러스터 삭제를 위한 코드 
+      let bounds = new kakao.maps.LatLngBounds();
+      for (let i = 0; i < likeMarkers.length; i++) {
+          let placePosition = new kakao.maps.LatLng(likeMarkers[i].y, likeMarkers[i].x);
+  
+          var imageSrc = acorn, // 마커이미지의 주소입니다    
+          imageSize = new kakao.maps.Size(27, 27), // 마커이미지의 크기입니다
+          imageOption = {offset: new kakao.maps.Point(27, 27)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+  
+          var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+  
+          let marker = new kakao.maps.Marker({
+            map: map,
+            position: placePosition,
+            image: markerImage
+          });
+  
+          likeObject.push(marker)
+  
+          bounds.extend(placePosition);
+  
+            kakao.maps.event.addListener(marker, "click", function () {
+              // removeNowmarker();
+  
+              setPlace(likeMarkers[i]);
+              infowindow.setContent(
+                '<div style="padding:5px;font-size:12px;">' +
+                  likeMarkers[i].placeName +
+                  "</div>"
+              );
+              infowindows.push(infowindow)
+              infowindow.open(map, marker);
+              
+              map.setCenter(placePosition);
+              
+              map.setLevel(4);
+            });
+      }
+      clusterer.addMarkers(likeObject)
+  })
+
+  const removeMarker = (map, markers) => {
+    for (var i = 0; i < markers.length; i++) {
+      markers[i].setMap(null);
+    }           
+  }
+
+  const removeInfoWindow = () => {
+    for (let i =0; i < infowindows.length; i++) {
+      infowindows[i].close()
+    } 
   }
   // 현재위치 버튼 클릭시 호출되는 메서드
   const nowLocation = () => {
@@ -112,7 +198,8 @@ const InfoMap = (props) => {
           message = '<div style="padding:5px;">현재 위치</div>'; // 인포윈도우에 표시될 내용입니다
 
         // 마커와 인포윈도우를 표시합니다
-        displayMarkerNow(locPosition, message);
+        let nowInfo=displayMarkerNow(locPosition, map ,message)
+        infowindows.push(nowInfo[1])
       });
     } else {
       // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
@@ -120,7 +207,8 @@ const InfoMap = (props) => {
       let locPosition = new kakao.maps.LatLng(33.450701, 126.570667),
         message = "geolocation을 사용할수 없어요..";
 
-      displayMarkerNow(locPosition, message);
+    displayMarkerNow(locPosition, map, message);
+     
     }
   };
 
@@ -133,50 +221,79 @@ const InfoMap = (props) => {
         setIsGetPlaces(true);
       })
   }
+
+  function getLikePlaces() {
+    dispatch(getLikeFeeds(email))
+    .then((res)=>{
+      let likePlaces = JSON.parse(res.payload.data);
+      likePlaces.map((places) => {
+         setLikeMarkers(likeMarkers => likeMarkers.concat(places.place))
+      })
+    })
+  }
+
+  const goLikeList = () => {
+    setTimeout(() => {
+      props.history.push('/food/likefeed')  
+    }, 200);
+  }
   
-  // 현재 위치로 이동해서 마커를 찍어주는 함
+  // 현재 위치로 이동해서 마커를 찍어주는 함수
   useEffect(() => {
     createMap();
-  }, []);
-
-  useEffect(() => {
-      if(isgetPlaces){
-        displayAllMarkers();
-      }
-  }, [isgetPlaces]);
-
-  useEffect(() => {
-    const loggedInfo = localStorage.getItem("loggedInfo");
-    if (loggedInfo) {
-      setEmail(JSON.parse(loggedInfo).email);
-    }
     getPlaces();
-  },[])
+    getLikePlaces();
+  },[]);
 
   useEffect(() => {
     // isLoaction을 줘서 map이 랜더 되기전에 nowLocation이 출력되지 않게 해주었다.
     if (isLocation){
       nowLocation();
     }
-  })
+  },[isLocation])
+
+  useEffect(()=>{
+    if(isgetPlaces){
+      displayAllMarkers();
+    }
+  },[isgetPlaces])
 
   return (
     <>
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar className={classes.appbar} position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            내 근처 리뷰 
+            리뷰 보기
+             {toggleBtn ? (
+              <div className="like_wrap_Btn">
+                <button className="like_btn" onClick={displayLikeMarkers}><img className="img_acorn"src={acorn} alt="acorn"/>좋아요한 리뷰 보기</button>
+              </div>
+              ):(
+                <div className="all_wrap_Btn">
+                  <button className="all_btn" onClick={displayAllMarkers}><img className="img_acorn"src={mapMarker} alt="mapMarker" width="24px" height="26.8px" />모든 리뷰 보기 </button>
+                </div>
+              )
+            }
+              {/* <div className="btn_wrap">
+                  <div className="wrap_Btn">
+                    <button className="like_btn" onClick={displayLikeMarkers}><img className="img_acorn"src={acorn} alt="acorn"/>좋아요한 리뷰 보기</button>
+                    <button className="all_btn" onClick={displayAllMarkers}><img className="img_acorn"src={mapMarker} alt="mapMarker" width="24px" height="26.8px" />모든 리뷰 보기 </button>
+                  </div>
+              </div> */}
           </Typography>
         </Toolbar>
       </AppBar>
     </div>
+      <MyLocationIcon  className="location_icon" fontSize="large" onClick={nowLocation} color = "primary" />
     <div className="infomap">
-      <div id="allmap" style={{ width: "100vw", height: "83vh" }}></div>
-      <div className="location_icon"><MyLocationIcon fontSize="large" onClick={nowLocation} color = "primary" /></div>
+        {toggleBtn ? (null):(<button className="likeListBtn" onClick={goLikeList}>좋아요 목록</button>)}
+      <div id="allmap" style={{ width: "100vw", height: "83vh" }}>
+      </div>
     </div>
+      {place && <MapBottomSheet placeInfo={place}/>}
     </>
   );
 };
 
-export default InfoMap;
+export default withRouter(InfoMap);

@@ -1,62 +1,40 @@
 import React, { useEffect, useState } from "react";
 import "./CSS/FeedMap.css";
-import { Link, withRouter } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import InputBase from "@material-ui/core/InputBase";
-import IconButton from "@material-ui/core/IconButton";
-import SearchIcon from "@material-ui/icons/Search";
-import CameraAltIcon from "@material-ui/icons/CameraAlt";
+import { withRouter } from "react-router-dom";
 import ArrowForwardRoundedIcon from "@material-ui/icons/ArrowForwardRounded";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    padding: "2px 4px",
-    display: "flex",
-    alignItems: "center",
-    width: 400,
-    margin: "0px auto",
-  },
-  input: {
-    marginLeft: theme.spacing(1),
-    flex: 1,
-  },
-  iconButton: {
-    padding: 10,
-  },
-  iconButtonNext: {
-    padding: 10,
-    backgroundColor: "#F4D503",
-  },
-  iconButtonBefore: {
-    padding: 10,
-  },
-  divider: {
-    height: 28,
-    margin: 4,
-  },
-}));
+import { getListItem } from "../../_components/map/getListItem";
 
 const { kakao } = window;
 
 const FeedMap = (props) => {
-  const classes = useStyles();
+  const {searchContent} = props
   const [map, setCreateMap] = useState(null);
   let [markers, setMarkers] = useState([]); //marker들을 저장하는 배열
-  const [searchContent, setSerchContent] = useState("");
   const [infowindow, setInfowindow] = useState(null); //검색 결과 목록이나 마커를 클릭 했을때 장소명을 표출할 인포 객체
   const [ps, setPs] = useState(null); // 장소 저장 검색 객체
   const [nowMarker, setNowMarker] = useState(null); //현재위치마커 객체 변수
   const [nowInfoWindow, setNowInfoWindow] = useState(null); //현재 위치 인포 객체 변수
   const [isList, setIsList] = useState(false);
   const [center, setCenter] = useState(null); //현재 위치의 경도,위도가 저장된 변수
-  const [selectPlace, setSelectPlace] = useState(false); // 목록에서 장소를 선택했는지 확인하는 방법
   const [detailPlaceInfo, setDetailPlaceInfo] = useState(null); // 선택한 장소의 정보를 담아두는 변수
-  const formData = props.location.state.formData;
+  const [formData, setFormData] = useState(null);
+  const [createFormData, setCreateFormData] = useState(null);
 
   useEffect(() => {
     createMap();
   }, []);
+
+  useEffect(() => {
+    setFormData(props.location.state.formData);
+  },[])
+
+  useEffect(() =>{
+    setCreateFormData(props.location.state.createFormData);
+  },[])
+
+  useEffect(() => {
+    searchPlaces();
+  },[searchContent])
 
   const createMap = () => {
     let container = document.getElementById("map");
@@ -71,36 +49,24 @@ const FeedMap = (props) => {
     setCreateMap(map);
     nowLocation(map); // map을 nowLocation에 넘겨줘야 정상적으로 동작되게할 수 있다. 중요!! 잊지말것
   };
-  // 검색을 제어하는 함수
-  const searchContenthandeler = (e) => {
-    e.preventDefault();
-    setSerchContent(e.currentTarget.value);
-  };
   // 장소 검색 함수
-  function searchPlaces(e) {
-    e.preventDefault();
-    let keyword = document.getElementById("keyword").value;
-    if (!keyword.replace(/^\s+|\s+$/g, "")) {
-      alert("찾을 장소를 입력해주세요!");
-      return false;
-    }
-
+  function searchPlaces() {
+    if (searchContent) {
     // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다.
     ps.keywordSearch(searchContent, placesSearchCB, {
       location: center,
       sort: kakao.maps.services.SortBy.DISTANCE,
     });
-    setSerchContent("");
     setIsList(true);
+    }
   }
-
+  
   // 검색이 성공했을때 아래 콜백함수가 호출된다.
   function placesSearchCB(data, status, pagination) {
     if (status === kakao.maps.services.Status.OK) {
       // 정상적으로 검색이 완료됐으면
       // 검색 목록과 마커를 표출합니다
       displayPlaces(data);
-
       // 페이지 번호를 표출합니다
       // displayPagination(pagination)
     } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
@@ -109,11 +75,16 @@ const FeedMap = (props) => {
     } else if (status === kakao.maps.services.Status.ERROR) {
       alert("검색 결과 중 오류가 발생했습니다.");
       return;
+    } else { 
+      // displayPlaces(sampleMarkers) //TODO: 이부분 수정해야함 나중에 꼭 지울것
+      console.log('검색에러1')
     }
+    
   }
 
   //검색된 자
-  function displayPlaces(places) {
+  function displayPlaces(places) { 
+
     let bounds = new kakao.maps.LatLngBounds(),
       listEl = document.getElementById("placesList"),
       menuEl = document.getElementById("menu_wrap"),
@@ -146,7 +117,6 @@ const FeedMap = (props) => {
 
         itemEl.onclick = function () {
           setDetailPlaceInfo(places[i]);
-          console.log(places[i]);
           displayInfowindow(marker, title);
           map.setLevel(3);
           map.panTo(placePosition);
@@ -166,39 +136,8 @@ const FeedMap = (props) => {
     // 검색된 장소 위치를 기준으로 지도 범위 재설정
     map.setBounds(bounds);
   }
-
-  function getListItem(index, places) {
-    var el = document.createElement("li"),
-      itemStr =
-        '<span class="markerbg marker_' +
-        (index + 1) +
-        '"></span>' +
-        '<div class="info">' +
-        "   <h5>" +
-        places.place_name +
-        "</h5>";
-
-    if (places.road_address_name) {
-      itemStr +=
-        "    <span>" +
-        places.road_address_name +
-        "</span>" +
-        '   <span class="jibun gray">' +
-        places.address_name +
-        "</span>";
-    } else {
-      itemStr += "    <span>" + places.address_name + "</span>";
-    }
-
-    itemStr += '  <span class="tel">' + places.phone + "</span>" + "</div>";
-
-    el.innerHTML = itemStr;
-    el.className = "item";
-
-    return el;
-  }
   // map에 마커를 찍는 함수
-  function addMarker(position, idx, title) {
+  function addMarker(position, idx) {
     let placePosition = new kakao.maps.LatLng(position.y, position.x);
 
     var imageSrc =
@@ -222,10 +161,10 @@ const FeedMap = (props) => {
           position.place_name +
           "</div>"
       );
+      setDetailPlaceInfo(position);
+      setIsList(false);
       infowindow.open(map, marker);
-
       map.setLevel(3);
-
       map.panTo(placePosition);
     });
 
@@ -271,16 +210,21 @@ const FeedMap = (props) => {
   }
   // 현재위치에 마커를 찍는 함수
   function displayMarkerNow(map, locPosition, message) {
+    var imageSrc = 'https://cdn.icon-icons.com/icons2/2073/PNG/128/location_map_twitter_icon_127126.png', // 마커이미지의 주소입니다    
+    imageSize = new kakao.maps.Size(50, 50), // 마커이미지의 크기입니다
+    imageOption = {offset: new kakao.maps.Point(27, 50)};
+
+    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+
     let marker = new kakao.maps.Marker({
       map: map,
       position: locPosition,
+      image : markerImage
     });
-    let iwContent = message, // 인포윈도우에 표시할 내용
-      iwRemoveable = true;
+    let iwContent = message; // 인포윈도우에 표시할 내용
 
     let infowindow = new kakao.maps.InfoWindow({
       content: iwContent,
-      removable: iwRemoveable,
     });
 
     setNowMarker(marker);
@@ -308,82 +252,56 @@ const FeedMap = (props) => {
   // 리뷰작성 페이지로 넘기고 장소 정보를 함께 담아서 보내는 함수.
   function sendPlaceInfo() {
     if (detailPlaceInfo) {
-      setTimeout(() => {
-        props.history.push({
-          pathname: "/feed/createfeed",
-          state: {
-            detailPlace: detailPlaceInfo,
-            formData: formData,
-          },
-        });
-      }, 200);
+        if (createFormData){
+            props.history.push({
+              pathname: "/feed/createfeed",
+              state: {
+                detailPlace: detailPlaceInfo,
+                formData: createFormData,
+              },
+            })
+        } else {
+          props.history.push({
+            pathname: "/feed/createfeed",
+            state: {
+              detailPlace: detailPlaceInfo,
+              formData: formData,
+            },
+          })
+        };
     } else {
-      alert("식당을 알려주세요!")
+      const detailPlace = {
+        address_name : "아늑한 우리집",
+        id : -1,
+        phone : "프라이버시입니다.",
+        place_name : "우리집",
+        x : -1,
+        y : -1
+      }
+      props.history.push({
+        pathname: "/feed/createfeed",
+        state: {
+          detailPlace: detailPlace,
+          formData: formData,
+        },
+      })
     }
-
   }
-
-  // 지도 확대, 축소 컨트롤에서 확대 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
-  function zoomIn() {
-    map.setLevel(map.getLevel() - 1);
-  }
-
-  // 지도 확대, 축소 컨트롤에서 축소 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
-  function zoomOut() {
-    map.setLevel(map.getLevel() + 1);
-  }
-
   return (
     <div className="feedmap">
-      <Paper component="form" className={classes.root}>
-        <Link to="/feed/camera">
-          <IconButton className={classes.iconButtonBefore} aria-label="menu">
-            <CameraAltIcon />
-          </IconButton>
-        </Link>
-        <InputBase
-          className={classes.input}
-          placeholder="음식점 이름은?"
-          inputProps={{ "aria-label": "search google maps" }}
-          onChange={searchContenthandeler}
-          size="15"
-          id="keyword"
-        />
-        <IconButton
-          type="submit"
-          className={classes.iconButton}
-          aria-label="search"
-          onClick={searchPlaces}
-        >
-          <SearchIcon />
-        </IconButton>
-      </Paper>
-      { isList || <ArrowForwardRoundedIcon className="arrowcircle" onClick={sendPlaceInfo} fontSize="large" />}
-    
+      { isList ? <></> :  detailPlaceInfo ? 
+        <ArrowForwardRoundedIcon className="arrowcircle" onClick={sendPlaceInfo} fontSize="large" /> : 
+        <div className="skip" onClick={sendPlaceInfo}> 집에서 먹었어요! </div>
+      }
       <div className="map_wrap">
         <div id="map" style={{ width: "100vw", height: "83.5vh" }}></div>
         {isList && (
           <div id="menu_wrap" className="bg_white">
             <div className="option"></div>
-            <hr />
             <ul id="placesList"></ul>
             <div id="pagination"></div>
           </div>
         )}
-        <div className="custom_zoomcontrol radius_border">
-          <span onClick={zoomIn}>
-            <img
-              src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png"
-              alt="확대"
-            />
-          </span>
-          <span onClick={zoomOut}>
-            <img
-              src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png"
-              alt="축소"
-            />
-          </span>
-        </div>
       </div>
     </div>
   );

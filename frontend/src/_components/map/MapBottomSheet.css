@@ -1,0 +1,56 @@
+.bottomsheet {
+  width: 85%;
+  margin-left: 3%;
+  height: 15%;
+  background-color: rgb(0, 0, 0, 0.3);
+  z-index: 1;
+  position: absolute;
+  bottom: 12%;
+  border-radius: 10px;
+  padding: 5%;
+}
+
+.bottomsheet .storename {
+  width: 80vw;
+  color: white;
+  text-shadow: 2px 2px 2px #ffeb3b;
+}
+
+.bottomsheet hr {
+  color: white;
+  margin: 0;
+}
+
+.bottomsheet h4 {
+  color: white;
+  /* margin: 0; */
+}
+
+.bottom_review_btn {
+  border: none;
+  outline: none;
+  width: 30%;
+  color: #8d6e63;
+  font-size: 16px;
+  font-family: 'GmarketSansMedium';
+  letter-spacing: 1px;
+  background: linear-gradient(
+    82deg,
+    #ffeb3b 0%,
+    #fff59d 86%
+  );
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.wrap_bottom_btn {
+  text-align: right;
+}
+
+.bottomsheet #storeIcon {
+  color: white;
+  float: left;
+  margin: 2px 10px 0 0;
+}

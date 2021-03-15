@@ -5,14 +5,10 @@
   padding: 15px 0;
   color: #8d6e63;
   font-size: 18px;
-  font-family: 'GmarketSansMedium';
+  font-family: "GmarketSansMedium";
   letter-spacing: 1px;
   background: rgb(60, 185, 252);
-  background: linear-gradient(
-    82deg,
-    #ffeb3b 0%,
-    #fff59d 86%
-  );
+  background: linear-gradient(82deg, #ffeb3b 0%, #fff59d 86%);
   cursor: pointer;
   font-weight: bold;
   border-radius: 5px;
@@ -31,14 +27,13 @@
 }
 
 .signUp {
-  height: 86vh;
-  padding: 0 30px;
+  min-height: 97vh;
   background-color: #212121;
   display: flex;
   background: linear-gradient(145deg, #ffeb3b 50%, #8d6e63 50%);
-  padding:0.75em 2.0em;
-  color:#ffffff;
-  font-weight:normal;
+  padding: 0.75em 2em;
+  color: black;
+  font-weight: normal;
   overflow: scroll;
 }
 
@@ -52,9 +47,7 @@
   overflow: scroll;
 }
 
-
 .signUp .signUpContainer .signUpTitle {
-  color: white;
   font-size: 14px;
   color: gray;
 }
@@ -83,7 +76,7 @@
 
 .signUp .signUpContainer .btnContainer {
   width: 100%;
-  padding: 24px 0 0 0 ;
+  padding: 8px 0 0 0;
 }
 
 .signUp .signUpContainer .btnContainer p {
@@ -173,59 +166,60 @@ h3 {
   transform: scale(1.05);
 }
 
+.errorMsgSignUp {
+  color: red;
+  text-align: center;
+}
+
 #icon-button-file {
   visibility: collapse;
 }
 
-.input_wrap {
+.signup_input_wrap {
   background-color: white;
   padding: 15px;
   border-radius: 7px;
 }
 
-.email_label{
+.email_label {
   font-weight: bold;
   font-size: 0.7em;
   font-family: "GmarketSansMedium";
   color: #8d6e63;
 }
 
-.password_label{
+.password_label {
   font-weight: bold;
   font-size: 0.7em;
   font-family: "GmarketSansMedium";
   color: #8d6e63;
 }
 
-.signUp_error{
+.signUp_error {
   color: red;
   text-align: center;
 }
 
-.signUp_hr{
+.signUp_hr {
   margin-top: 0px;
   margin-bottom: 10px;
   padding: 0;
   border-width: 1.5px;
 }
 
-.signUp .signUpContainer .signUpAppTitle{
+.signUp .signUpContainer .signUpAppTitle {
   color: black;
   font-size: 30px;
 }
 
-.signUp .signUpContainer img {
-  width: 150px;
-  height: 150px;
+.signUp .signUpContainer .userLogo {
+  width: 40%;
+  height: 40%;
 }
 
-.img_wrap {
+.signup_img_wrap {
   display: flex;
   align-items: center;
   width: 100%;
   height: 100%;
-}
-
-.signUpTitle {
-  color: black;
 }

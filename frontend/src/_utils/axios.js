@@ -1,29 +1,39 @@
 import axios from 'axios';
+import { setToken } from "../../src/_utils/setToken"
+import React from "react";
 
-const DOMAIN = 'http://i4b101.p.ssafy.io/yumyum'
-// const DOMAIN = 'http://localhost:8080'
+export const DOMAIN = 'https://i4b101.p.ssafy.io'
+const PORT = ':8800'
+// export const DOMAIN = 'http://localhost'
+// const PORT = ':8080'
 
-export const request = (method, url, data, config = {}) => {
-    console.log(url, 'axios요청 보냅니다아아아 이 데이터를!', data)
-    console.log(config)
+export const request = (method, url, data = {}, config, props) => {
+    axios.defaults.headers["Authorization"] = localStorage.getItem("jwt-token");
     return axios({
         method,
-        url: DOMAIN + url,
+        url: DOMAIN + PORT + url,
         data,
         config
     })
     .then((res) => {
-        console.log('axios응답', res.data)
+        // localStorage.setItem("jwt-token", JSON.parse(res.data.data).token);
         return res.data
     })
     .catch((error) => {
-      console.log(error)
-      console.log('axios 에러ㅜㅜ')
+      if (error.response.data) {
+        if(error.response.data.message === "jwt unauthorized"){
+          localStorage.removeItem("jwt-token");
+          localStorage.removeItem("loggedInfo");
+          window.location.reload();
+        } else {
+          return error.response.data
+        }
+      }
     });
 };
 
 // const Api = axios.create({
-//     url: DOMAIN,
+//     url: DOMAIN + PORT,
 // });
 // export default Api;
 

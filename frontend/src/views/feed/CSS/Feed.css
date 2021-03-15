@@ -1,33 +1,111 @@
 #videobox { 
-  width: 100%; 
-  height: calc(100%); 
   position: absolute; 
 }
 
-#textbox { 
-  float: left;
-  display: inline;
-  position: relative; 
-  width: 89%;
-  height: 35%;
-  border-radius: 10px;
-  top: -50%;
-  left: 5%;
-  background-color: black;
-  background-color: rgba(0, 0, 0, 0.30);
-  padding: 5px;
-  z-index: 2;
+#videobox video{ 
+  display: flex;
+  margin: 0 auto;
+  object-fit: fill;
+  display: inline-block;
+  position: absolute;
 }
 
-#textbox h1 { 
+
+#textbox { 
+  display: inline-block;
+  position: sticky; 
+  bottom: 83vh;
+  /* padding-bottom: 5px; */
+  left: 5vw;
+  /* top: 5vh; */
+  width: 89%;
+  margin: 0 auto;
+  height: 13vh;
+  min-height: 90px;
+  border-radius: 10px;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.30);
+  z-index: 100;
+}
+
+.MuiCard-root {
+  height: 100vh;
+}
+#acorn {
+  display: block;
+  right: 4vh;
+  bottom: 5vh;
+  text-align: right;
+  position: relative;
+  height: 15%;
+  z-index: 10;
+  size: 10px
+}
+
+#likeText {
+  display: inline;
+  float: right;
+  line-height: 15px;
+}
+
+#textbox .MuiCardContent-root {
+  padding: 10px ;
+  display: inline-block;
+  width: 50vw;
+}
+
+#threeDots {
+  position: relative;
+  display: inline-flex;
+  float: right;
+  margin: 1vw 1vw 0 0;
+  z-index: 3;
+}
+
+#threeDots *{
+  box-shadow: none;
+  color: white;
+  background: none;
+}
+
+#textbox button {
+  display: inline;
+  float: right;
+  color: white;
+}
+
+.ReactCollapse--collapse {
+  width: 89vw;
+}
+
+.inblock {
+  display: block;
+  width: 87vw;
+  height: 20%;
+  border-radius: 10px;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.30);
+  padding-top: 2%;
+  padding-bottom: 3%;
+  padding-left: 2% ;
+}
+
+#textbox #feedTitle { 
   display: inline-block;;
   font-weight: bold;
   color: white;
   margin: 5px 0 5px 10px;
+  height: 5vh;
+  width: 50vw;
 }
 
-#textbox a { 
-  color: #8d6e63;
+#writer { 
+  color: rgb(255, 215, 0);
+  float: right;
+  font-weight: bold;
+  margin: 5px;
+  position: relative;;
+  z-index: 2;
 }
 
 #foodIcon {
@@ -35,7 +113,6 @@
 }
 
 #second_line {
-  /* color: rgb(218, 218, 218); */
   size: 1px;
 }
 
@@ -45,18 +122,14 @@
 }
 
 #textbox h3 { 
-  border-radius: 10px;
-  height: 25%;
   color: white;
-  margin: 0px;
+  margin: 5px;
   padding: 0px;
-  line-height: 20px;
 }
 
 #textbox h4 { 
-  /* float: left; */
   color: white;
-  margin: 8px;
+  margin: 0 0 4px 0;
 }
 
 #nameIcon {
@@ -71,7 +144,7 @@
   left: 5px;
 }
 
-#storeIcon {
+.inblock #storeIcon {
   color: white;
   float: left;
   margin: 2px 5px;
@@ -80,10 +153,17 @@
 #textbox h6 { 
   float: right;
   font-weight: bold;
-  margin: 5px;
+  margin: 2%;
 }
 
 #textbox .stars { 
+  float: left;
+  margin-left: 3%;
+  margin-top: 1%;
+}
+
+#textbox .stars .react-stars-wrapper-08600322498934483{ 
+  float: left;
   margin-left: 3%;
 }
 
@@ -93,3 +173,64 @@
   color: white;
 }
 
+.ReactCollapse--collapse {
+  transition: height 500ms;
+}
+
+#textbox .MuiCardActions-root {
+  display: flex;
+  padding: 8px;
+  align-items: center;
+  color: #fff;
+}
+
+#editform h3{
+  padding: 10px;
+}
+
+#editform form {
+  padding: 10px;
+}
+#editform form textarea{
+  background-color:rgba(0, 0, 0, 0.0);
+  border-color:white;
+  width: 70vw;
+  color: white;
+  font-size: 3vw;
+  font-weight: bold;
+}
+
+#editform form textarea::placeholder {
+  color: white;
+  font-size: 3vw;
+  font-weight: bold;
+}
+
+#editform form button{
+  float: right;
+  background-color:rgba(0, 0, 0, 0.0);
+  border: none;
+}
+
+#acorn img:active {
+  animation: shake 1s;
+  animation-iteration-count: 1;
+}
+
+#contentText {
+  color: white;
+}
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}

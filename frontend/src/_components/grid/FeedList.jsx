@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
-import styled from "styled-components";
+import { withRouter } from "react-router-dom";
+import { DOMAIN } from "../../_utils/axios";
+import { ContactSupportOutlined } from "@material-ui/icons";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -12,6 +14,7 @@ const useStyles = makeStyles(() =>
       flexWrap: "wrap",
       justifyContent: "space-around",
       overflow: "hidden",
+      paddingBottom: "71.438px",
     },
     gridList: {
       width: 100 + "%",
@@ -27,6 +30,7 @@ const useStyles = makeStyles(() =>
     },
     feedVideo: {
       width: 100 + "%",
+      objectFit: "cover !important",
     },
     textBox: {
       position: "absolute",
@@ -42,12 +46,25 @@ const useStyles = makeStyles(() =>
   })
 );
 
-export default function FeedList(props) {
+function FeedList(props) {
   const classes = useStyles();
-  const { tileData } = props;
+  const { tileData, navheight } = props;
+  const calheight = navheight+3
+
+  const goDetail = (title) => {
+    const userEmail = JSON.parse(localStorage.getItem("loggedInfo")).email;
+    props.history.push({
+      pathname: "feed/flippagesUser",
+      state : {
+        title : title,
+        email : userEmail
+      },
+    });
+
+  };
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{ paddingTop : calheight }}>
       <GridList cellHeight={100} className={classes.gridList} cols={1}>
         {tileData &&
           tileData.map((tile) => (
@@ -55,18 +72,18 @@ export default function FeedList(props) {
               key={tile.id}
               cols={1}
               style={{ height: 5.8 + "rem" }}
+              onClick={() => goDetail(tile.title)}
             >
               <div className={classes.tileBox}>
                 <video
                   id="background-video"
-                  className={classes.feedVideo}
-                  src={`http://i4b101.p.ssafy.io:8080/single/${
-                    tile.filePath.split("/")[6]
-                  }`}
+                  style={{position:"absolute", left: 0, right: 0, top: 0, bottom: 0, margin: "auto"}}
+                  src={tile.videoPath}
                   type="video/mp4"
                   width="100%"
                   loop
                   muted
+                  playsinline
                   // onMouseOver={(event) => event.target.play()}
                   onTouchStart={(event) => event.target.play()}
                   // onMouseOut={(event) => event.target.pause()}
@@ -89,3 +106,5 @@ FeedList.propTypes = {
 FeedList.defaultProps = {
   tileData: {},
 };
+
+export default withRouter(FeedList);
