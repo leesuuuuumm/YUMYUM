@@ -674,7 +674,7 @@ See also: #456, #789
 
 ### 4) DB 스키마
 
-<img src="https://cdn.discordapp.com/attachments/792408179072958467/801311319214522378/unknown.png" height="400px"/>
+![DB_schema_20210216](README.assets\DB_schema_20210216.png)
 
 > 현재 기획된 서비스 내에서 필요한 스키마는 전부 구현되어있는 상황입니다.
 >
