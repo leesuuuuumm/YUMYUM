@@ -674,7 +674,7 @@ See also: #456, #789
 
 ### 4) DB 스키마
 
-![DB_schema_20210216](README.assets\DB_schema_20210216.png)
+![DB_schema_20210216](README.assets/DB_schema_20210216.png)
 
 > 현재 기획된 서비스 내에서 필요한 스키마는 전부 구현되어있는 상황입니다.
 >
